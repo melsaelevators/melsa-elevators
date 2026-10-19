@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="icon" type="image/png" href="assets/logo-mark.png"><link rel="apple-touch-icon" href="assets/logo-mark.png"><meta name="theme-color" content="#023584">
+<link rel="icon" type="image/png" href="assets/logo-mark.png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="manifest" href="manifest.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Melsa"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="theme-color" content="#023584">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
 <title>Melsa Elevators | Cabin Configurator</title>
 <style>
@@ -92,6 +92,9 @@ footer{background:var(--navy);border-top:4px solid var(--red);color:#c7d4ec;padd
 .header-right{display:flex;align-items:center;gap:10px}
 .lang-btn{border:0;background:var(--red);color:#fff;border-radius:999px;padding:8px 14px;font:700 13px 'Cairo',Inter,Arial,sans-serif;cursor:pointer}
 .lang-btn:hover{background:#b80216}
+.install-btn{border:1px solid var(--navy);background:#fff;color:var(--navy);border-radius:999px;padding:7px 13px;font-weight:700;font-size:12px;font-family:inherit;cursor:pointer}
+.install-btn:hover{background:var(--tint)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:90;background:var(--navy);color:#fff;padding:13px 18px;border-radius:12px;font-size:13px;max-width:min(420px,calc(100% - 32px));box-shadow:0 8px 24px #0a173055;text-align:center;border-bottom:3px solid var(--red)}
 [dir=rtl] body,[dir=rtl] button,[dir=rtl] input{font-family:'Cairo',Tahoma,Arial,sans-serif}
 [dir=rtl] *{letter-spacing:0!important}
 [dir=rtl] .lang-btn{font-family:Inter,Arial,sans-serif}
@@ -144,7 +147,8 @@ footer{background:var(--navy);border-top:4px solid var(--red);color:#c7d4ec;padd
  </div>
  <div class="welcome-bar bottom"></div>
 </div>
-<header><div class="brand"><img src="assets/logo.png" alt="Melsa Elevators" width="400" height="308"><small data-i18n="tagline">ENGINEERED FOR ELEGANCE</small></div><div class="header-right"><div class="tag" data-i18n="tag">CABIN CONFIGURATOR · CONCEPT DEMO</div><button type="button" class="lang-btn" id="langBtn" lang="ar">عربي</button></div></header>
+<header><div class="brand"><img src="assets/logo.png" alt="Melsa Elevators" width="400" height="308"><small data-i18n="tagline">ENGINEERED FOR ELEGANCE</small></div><div class="header-right"><div class="tag" data-i18n="tag">CABIN CONFIGURATOR · CONCEPT DEMO</div><button type="button" class="install-btn" id="installBtn" data-i18n="install" hidden>Install app</button><button type="button" class="lang-btn" id="langBtn" lang="ar">عربي</button></div></header>
+<div class="toast" id="toast" role="status" hidden></div>
 <main>
 <section class="intro"><div><div class="eyebrow" data-i18n="eyebrow">YOUR DESIGN, YOUR CHOICE</div><h1 data-i18n-html="h1">Design your <em>own cabin.</em></h1><p data-i18n="intro">Explore finishes and build a look that feels right for your project. Choose the cabin style, flooring, metal finish, ceiling, control panels and door type/design.</p></div><div class="step" data-i18n="step">REAL MELSA PRODUCTS</div></section>
 <div class="layout">
@@ -216,7 +220,7 @@ const T={
   h1:"Design your <em>own cabin.</em>",intro:"Explore finishes and build a look that feels right for your project. Choose the cabin style, flooring, metal finish, ceiling, control panels and door type/design.",
   step:"REAL MELSA PRODUCTS",preview:"LIVE 3D DESIGN PREVIEW",hint3d:"3D PREVIEW",customize:"Customize your cabin",sub:"Pick real Melsa products — the 3D preview updates instantly.",
   aiOnly:"Used for the AI image",spec:"Your design specification",note:"Concept preview only. Final finishes must be confirmed against available materials and real product samples.",
-  copy:"Copy design brief",copied:"Copied!",reset:"Reset",aiBtn:"Generate realistic image (AI)",aiNote:"Uses your selected Melsa products. Takes about 10–30 seconds.",
+  install:"Install app",iosHint:"To install: tap the Share button, then “Add to Home Screen”.",copy:"Copy design brief",copied:"Copied!",reset:"Reset",aiBtn:"Generate realistic image (AI)",aiNote:"Uses your selected Melsa products. Takes about 10–30 seconds.",
   aiTitle:"AI REALISTIC PREVIEW",aiRegen:"Generate another",aiDownload:"Download image",aiDisclaimer:"AI-generated concept image for inspiration only. Final finishes, dimensions and details must be confirmed with Melsa Elevators.",
   aiLoading:"Creating your elevator design…",aiError:"Could not create the image. Please try again.",aiConn:"Connection problem. Please try again.",aiLimit:"You've reached the hourly limit. Please try again later.",
   foot1:"MELSA ELEVATORS · DESIGN COLLECTION",foot2:"Concept configurator — not an engineering drawing",brief:"MELSA ELEVATORS — CABIN DESIGN BRIEF",
@@ -240,7 +244,7 @@ const T={
   h1:"صمّم <em>كابينتك بنفسك.</em>",intro:"استكشف الخامات واصنع الشكل المناسب لمشروعك. اختر طراز الكابينة والأرضية ولون المعدن والسقف ولوحة التحكم ونوع الباب وتصميمه.",
   step:"منتجات ميلسا الحقيقية",preview:"معاينة ثلاثية الأبعاد مباشرة",hint3d:"معاينة 3D",customize:"خصّص كابينتك",sub:"اختر من منتجات ميلسا الحقيقية — تتحدث المعاينة فورًا.",
   aiOnly:"يُستخدم لصورة الذكاء الاصطناعي",spec:"مواصفات تصميمك",note:"معاينة تصورية فقط. يجب تأكيد الخامات النهائية مع الخامات المتاحة وعينات المنتجات الحقيقية.",
-  copy:"نسخ ملخص التصميم",copied:"تم النسخ!",reset:"إعادة ضبط",aiBtn:"إنشاء صورة واقعية بالذكاء الاصطناعي",aiNote:"تستخدم منتجات ميلسا التي اخترتها. تستغرق حوالي ١٠–٣٠ ثانية.",
+  install:"ثبّت التطبيق",iosHint:"للتثبيت: اضغط زر المشاركة ثم «إضافة إلى الشاشة الرئيسية».",copy:"نسخ ملخص التصميم",copied:"تم النسخ!",reset:"إعادة ضبط",aiBtn:"إنشاء صورة واقعية بالذكاء الاصطناعي",aiNote:"تستخدم منتجات ميلسا التي اخترتها. تستغرق حوالي ١٠–٣٠ ثانية.",
   aiTitle:"معاينة واقعية بالذكاء الاصطناعي",aiRegen:"إنشاء صورة أخرى",aiDownload:"تحميل الصورة",aiDisclaimer:"صورة تصورية بالذكاء الاصطناعي للإلهام فقط. يجب تأكيد الخامات والمقاسات والتفاصيل النهائية مع ميلسا للمصاعد.",
   aiLoading:"جارٍ إنشاء تصميم مصعدك…",aiError:"تعذر إنشاء الصورة. حاول مرة أخرى.",aiConn:"مشكلة في الاتصال. حاول مرة أخرى.",aiLimit:"وصلت للحد المسموح في الساعة. حاول مرة أخرى لاحقًا.",
   foot1:"ميلسا للمصاعد · مجموعة التصميم",foot2:"أداة تصميم تصورية — ليست رسمًا هندسيًا",brief:"ميلسا للمصاعد — ملخص تصميم الكابينة",
@@ -281,6 +285,21 @@ function applyLang(L){
  window.dispatchEvent(new Event("melsa:lang"));
 }
 document.getElementById("langBtn").addEventListener("click",()=>applyLang(lang==="ar"?"en":"ar"));
+// Installable app (PWA)
+if("serviceWorker" in navigator) window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+(function(){
+ const btn=document.getElementById("installBtn"), toast=document.getElementById("toast"); let deferred=null, tm;
+ const standalone=matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;
+ const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+ if(standalone)return;
+ if(isIOS)btn.hidden=false;
+ window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferred=e;btn.hidden=false;});
+ window.addEventListener("appinstalled",()=>{btn.hidden=true;deferred=null;});
+ btn.addEventListener("click",async()=>{
+  if(deferred){deferred.prompt();try{await deferred.userChoice}catch(e){}deferred=null;btn.hidden=true;return;}
+  toast.textContent=t("iosHint");toast.hidden=false;clearTimeout(tm);tm=setTimeout(()=>toast.hidden=true,7000);
+ });
+})();
 // Welcome page: once per visit
 (function(){
  const w=document.getElementById("welcome"); let seen=false;
