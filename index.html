@@ -71,6 +71,22 @@ footer{background:var(--navy);border-top:4px solid var(--red);color:#c7d4ec;padd
 @media(min-width:761px) and (max-width:1023px){.layout{grid-template-columns:minmax(0,1fr) minmax(300px,1fr);gap:16px}main{padding-inline:20px}#cabin3d{height:clamp(340px,46vw,520px)}}
 @media(min-width:1400px){main{max-width:1380px}.layout{grid-template-columns:minmax(0,1.35fr) minmax(360px,.75fr)}.photo-grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
 @media(hover:none){.choice{min-height:50px}}
+.ai-btn{width:100%;margin-top:10px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;gap:8px;font-size:13px;padding:15px}
+.ai-btn:hover{background:var(--navy-dark)}.ai-btn svg{width:18px;height:18px}
+.ai-note{font-size:10.5px;color:var(--muted);text-align:center;margin:6px 0 0}
+.ai-modal{position:fixed;inset:0;z-index:50;background:#0a1730cc;display:none;align-items:center;justify-content:center;padding:16px}
+.ai-modal.open{display:flex}
+.ai-box{background:#fff;border-radius:18px;width:min(560px,100%);max-height:calc(100vh - 32px);overflow:auto;border-top:5px solid var(--red)}
+.ai-head{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:var(--navy);color:#fff}
+.ai-head strong{font-size:13px;letter-spacing:.06em}
+.ai-close{background:none;border:0;color:#fff;font-size:26px;line-height:1;cursor:pointer;padding:0 4px}
+.ai-stage{aspect-ratio:3/4;background:var(--tint);display:grid;place-items:center;position:relative;max-height:calc(100vh - 220px);margin:auto}
+.ai-stage img{width:100%;height:100%;object-fit:contain;display:block}
+.ai-loading{text-align:center;color:var(--navy);font-size:13px;padding:20px}
+.ai-spinner{width:42px;height:42px;border-radius:50%;border:4px solid #c9d6ee;border-top-color:var(--red);margin:0 auto 14px;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ai-actions{display:flex;gap:8px;padding:14px 18px}.ai-actions .btn{flex:1}
+.ai-disclaimer{font-size:10.5px;color:var(--muted);padding:0 18px 16px;margin:0}
 
 </style>
 </head>
@@ -128,6 +144,8 @@ footer{background:var(--navy);border-top:4px solid var(--red);color:#c7d4ec;padd
 </div></div>
 <div class="summary"><h3>Your design specification</h3><div class="chips" id="chips"></div><p class="note">Concept preview only. Final finishes must be confirmed against available materials and real product samples.</p></div>
 <div class="actions"><button class="btn primary" id="copyBtn">Copy design brief</button><button class="btn secondary" id="resetBtn">Reset</button></div>
+<button class="btn ai-btn" id="aiBtn" type="button"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8zM19 14l.9 2.6 2.6.9-2.6.9L19 21l-.9-2.6-2.6-.9 2.6-.9zM5 15l.7 1.8 1.8.7-1.8.7L5 20l-.7-1.8-1.8-.7 1.8-.7z"/></svg>Generate realistic image (AI)</button>
+<p class="ai-note">Uses your selections and chosen catalog photos. Takes about 10–30 seconds.</p>
 </aside>
 </div>
 <section class="catalog" id="photo-catalog"><div class="catalog-title"><div><div class="eyebrow">REAL PRODUCT REFERENCES</div><h2>Explore the Melsa collection</h2><p>Choose one reference photo per category to mark your preferred options. Names are descriptive labels and can be replaced with your official model codes.</p></div><span class="catalog-badge">PHOTO CATALOG</span></div>
@@ -179,6 +197,12 @@ footer{background:var(--navy);border-top:4px solid var(--red);color:#c7d4ec;padd
 </div></div>
 <div class="selected-photo-summary" id="selectedPhotoSummary">No photo option selected yet.</div></section>
 </main>
+<div class="ai-modal" id="aiModal" role="dialog" aria-modal="true" aria-labelledby="aiTitle">
+<div class="ai-box"><div class="ai-head"><strong id="aiTitle">AI REALISTIC PREVIEW</strong><button class="ai-close" id="aiClose" aria-label="Close">&times;</button></div>
+<div class="ai-stage" id="aiStage"></div>
+<div class="ai-actions"><button class="btn secondary" id="aiRegen" type="button">Generate another</button><button class="btn primary" id="aiDownload" type="button">Download image</button></div>
+<p class="ai-disclaimer">AI-generated concept image for inspiration only. Final finishes, dimensions and details must be confirmed with Melsa Elevators.</p>
+</div></div>
 <footer><span>MELSA ELEVATORS · DESIGN COLLECTION</span><span>Concept configurator — not an engineering drawing</span></footer>
 <script>
 const state={style:"Modern",metal:"Silver",floor:"White marble",ceiling:"Linear LED",panel:"Gold",doorType:"Semi-automatic",doorDesign:"Plain",outsidePanel:"Gold black glass",insidePanel:"Black glass with buttons",door:"Matching"};
@@ -214,6 +238,64 @@ document.querySelectorAll(".photo-card").forEach(card=>card.addEventListener("cl
   renderPicks();
 }));;
 
+/* ---------- AI realistic image (free Pollinations service for now) ---------- */
+const AI_DESC={
+ style:{Modern:"modern minimalist cabin with flat seamless wall panels",Classic:"classic cabin with raised decorative wall panels and trim mouldings",Mirror:"luxury cabin with mirror-polished reflective stainless steel walls",Glass:"cabin with panoramic glass wall panels"},
+ metal:{Silver:"brushed silver stainless steel",Gold:"champagne gold stainless steel",Bronze:"bronze-tone stainless steel",Black:"black titanium stainless steel"},
+ floor:{"White marble":"polished white marble floor","Black granite":"polished black granite floor","Beige stone":"beige natural stone floor","Wood finish":"warm wood-finish floor"},
+ ceiling:{"Linear LED":"ceiling with slim linear LED light strips","Geometric":"geometric patterned backlit ceiling","Spotlights":"ceiling with round recessed LED spotlights"},
+ panel:{Gold:"gold",Silver:"silver",Black:"black"},
+ doorDesign:{Plain:"plain flat finish","Horizontal stripes":"horizontal decorative stripes","Decorative insert":"a decorative ornamental insert panel","Slim vision panel":"a slim vertical glass vision panel"},
+ outsidePanel:{"Gold black glass":"gold and black glass hall call panel","Silver black glass":"silver and black glass hall call panel","Brushed silver":"brushed silver hall call panel","Curved stainless":"curved stainless steel hall call panel"},
+ insidePanel:{"Black glass with buttons":"black glass car operating panel with round buttons","Touch display":"car operating panel with a touch display","Round button panel":"car operating panel with round illuminated buttons"}
+};
+function buildAiPrompt(){
+ // Short, focused prompt: the free model follows short prompts much better
+ const s=state, metal={Silver:"brushed silver stainless steel",Gold:"champagne gold stainless steel",Bronze:"bronze stainless steel",Black:"black stainless steel"}[s.metal];
+ const walls={Modern:metal+" walls",Classic:metal+" walls with classic raised panels",Mirror:"mirror-polished "+metal+" walls",Glass:"glass walls with "+metal+" frames"}[s.style];
+ const floor={"White marble":"white marble floor","Black granite":"black granite floor","Beige stone":"beige stone floor","Wood finish":"wood floor"}[s.floor];
+ const ceiling={"Linear LED":"ceiling with linear LED strips","Geometric":"geometric backlit ceiling","Spotlights":"ceiling with recessed spotlights"}[s.ceiling];
+ const panel={"Black glass with buttons":"black glass control panel with "+s.panel.toLowerCase()+" buttons","Touch display":"touchscreen control panel","Round button panel":s.panel.toLowerCase()+" control panel with round buttons"}[s.insidePanel];
+ const doorDeco={Plain:"",["Horizontal stripes"]:" with horizontal stripes",["Decorative insert"]:" with decorative insert",["Slim vision panel"]:" with slim glass window"}[s.doorDesign];
+ const doors=(s.doorType==="Automatic"?"open automatic sliding doors":"open swing door")+doorDeco;
+ const floorPick=photoPicks["Flooring samples"];
+ return ["Photorealistic photo of a compact luxury elevator cabin seen through its "+doors,
+  walls, floorPick?floorPick.toLowerCase()+" floor":floor, ceiling, panel,
+  s.metal==="Gold"?"gold handrail":"stainless handrail","high-end interior photography"].join(", ");
+}
+const aiModal=document.getElementById("aiModal"), aiStage=document.getElementById("aiStage");
+let aiUrl=null, aiBusy=false;
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+function aiShowLoading(msg){aiStage.innerHTML='<div class="ai-loading"><div class="ai-spinner"></div><div>'+msg+'</div></div>'}
+async function aiGenerate(){
+ if(aiBusy)return; aiBusy=true;
+ aiModal.classList.add("open"); document.body.style.overflow="hidden";
+ aiShowLoading("Creating your elevator design…");
+ const seed=Math.floor(Math.random()*1e9);
+ const url="https://image.pollinations.ai/prompt/"+encodeURIComponent(buildAiPrompt())+"?width=768&height=1024&model=flux&nologo=true&enhance=false&seed="+seed;
+ try{
+  for(let attempt=1;attempt<=5;attempt++){
+   try{
+    const ctrl=new AbortController(); const t=setTimeout(()=>ctrl.abort(),90000);
+    const res=await fetch(url,{signal:ctrl.signal}); clearTimeout(t);
+    const type=res.headers.get("content-type")||"";
+    if(res.ok&&type.startsWith("image/")){
+     const blob=await res.blob(); if(aiUrl)URL.revokeObjectURL(aiUrl); aiUrl=URL.createObjectURL(blob);
+     aiStage.innerHTML=""; const img=new Image(); img.alt="AI-generated elevator design"; img.src=aiUrl; aiStage.append(img); return;
+    }
+   }catch(e){}
+   if(attempt<5){aiShowLoading("The free AI service is busy — retrying ("+attempt+"/4)…");await wait(11000);}
+  }
+  aiStage.innerHTML='<div class="ai-loading">The free AI service is busy right now.<br>Please try again in a minute.</div>';
+ } finally { aiBusy=false; }
+}
+function aiClose(){aiModal.classList.remove("open");document.body.style.overflow=""}
+document.getElementById("aiBtn").addEventListener("click",aiGenerate);
+document.getElementById("aiRegen").addEventListener("click",aiGenerate);
+document.getElementById("aiClose").addEventListener("click",aiClose);
+aiModal.addEventListener("click",e=>{if(e.target===aiModal)aiClose()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&aiModal.classList.contains("open"))aiClose()});
+document.getElementById("aiDownload").addEventListener("click",()=>{if(!aiUrl)return;const a=document.createElement("a");a.href=aiUrl;a.download="melsa-elevator-design.jpg";document.body.append(a);a.click();a.remove()});
 </script>
 
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"}}</script>
