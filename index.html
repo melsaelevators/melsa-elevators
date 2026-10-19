@@ -104,7 +104,7 @@ footer{background:var(--navy);border-top:4px solid var(--red);color:#c7d4ec;padd
 <body>
 <header><div class="brand"><img src="assets/logo.png" alt="Melsa Elevators" width="400" height="308"><small>ENGINEERED FOR ELEGANCE</small></div><div class="tag">CABIN CONFIGURATOR · CONCEPT DEMO</div></header>
 <main>
-<section class="intro"><div><div class="eyebrow">YOUR DESIGN, YOUR CHOICE</div><h1>Design your <em>own cabin.</em></h1><p>Explore finishes and build a look that feels right for your project. Choose the cabin style, flooring, metal finish, ceiling, control panels and door type/design.</p></div><div class="step">7 CHOICES &nbsp;·&nbsp; REAL MELSA PRODUCTS</div></section>
+<section class="intro"><div><div class="eyebrow">YOUR DESIGN, YOUR CHOICE</div><h1>Design your <em>own cabin.</em></h1><p>Explore finishes and build a look that feels right for your project. Choose the cabin style, flooring, metal finish, ceiling, control panels and door type/design.</p></div><div class="step">8 CHOICES &nbsp;·&nbsp; REAL MELSA PRODUCTS</div></section>
 <div class="layout">
 <section class="preview-card"><div class="preview-head"><strong>LIVE 3D DESIGN PREVIEW</strong><span id="previewStatus">Modern Minimal · Silver</span></div>
 <div class="scene three-scene" id="threeScene"><canvas id="cabin3d" aria-label="Interactive 3D elevator cabin preview"></canvas><div class="scene-caption">INTERACTIVE 3D CONCEPT · DRAG TO ROTATE</div><div class="three-hint">3D PREVIEW</div></div>
@@ -133,6 +133,12 @@ footer{background:var(--navy);border-top:4px solid var(--red);color:#c7d4ec;padd
 </div></div>
 <div class="field"><label>06 — Door design <span class="pick-name" id="pickName-door"></span></label><div class="photo-choices" data-photo-group="door"></div></div>
 <div class="field"><label>07 — Control panel <span class="pick-name" id="pickName-panel"></span></label><div class="photo-choices" data-photo-group="panel"></div></div>
+<div class="field"><label>08 — Panel buttons</label><div class="choices" data-group="buttons">
+<button class="choice" data-value="Round" aria-pressed="true"><span class="swatch btn-ico" style="--swatch:radial-gradient(circle,#e3e6e9 0 38%,#8e959c 42%,#1c1d21 46%)"></span>Round</button>
+<button class="choice" data-value="Square" aria-pressed="false"><span class="swatch btn-ico" style="--swatch:linear-gradient(#cfd3d7,#cfd3d7) center/46% 46% no-repeat,#1c1d21"></span>Square</button>
+<button class="choice" data-value="Ring" aria-pressed="false"><span class="swatch btn-ico" style="--swatch:radial-gradient(circle,#e3e6e9 0 30%,#1c1d21 32% 38%,#5fc8ff 40% 48%,#1c1d21 50%)"></span>Light ring</button>
+<button class="choice" data-value="Touch" aria-pressed="false"><span class="swatch btn-ico" style="--swatch:radial-gradient(circle at 30% 30%,#9fe3ff 0 10%,transparent 13%),radial-gradient(circle at 70% 30%,#9fe3ff 0 10%,transparent 13%),radial-gradient(circle at 30% 70%,#9fe3ff 0 10%,transparent 13%),radial-gradient(circle at 70% 70%,#9fe3ff 0 10%,transparent 13%),#101418"></span>Touch</button>
+</div></div>
 <div class="summary"><h3>Your design specification</h3><div class="chips" id="chips"></div><p class="note">Concept preview only. Final finishes must be confirmed against available materials and real product samples.</p></div>
 <div class="actions"><button class="btn primary" id="copyBtn">Copy design brief</button><button class="btn secondary" id="resetBtn">Reset</button></div>
 <button class="btn ai-btn" id="aiBtn" type="button"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8zM19 14l.9 2.6 2.6.9-2.6.9L19 21l-.9-2.6-2.6-.9 2.6-.9zM5 15l.7 1.8 1.8.7-1.8.7L5 20l-.7-1.8-1.8-.7 1.8-.7z"/></svg>Generate realistic image (AI)</button>
@@ -194,11 +200,11 @@ const PRODUCTS={
   {id:"control_panels_07",ext:"jpeg",label:"Black-glass call panel with round button",trim:"Silver"}]
 };
 const productById={};Object.values(PRODUCTS).flat().forEach(p=>{p.src="assets/"+p.id+"."+p.ext;p.thumb="assets/thumbs/"+p.id+".jpg";productById[p.id]=p});
-const state={style:"Modern",metal:"Silver",floor:"flooring_samples_02",ceiling:"Linear LED",doorType:"Semi-automatic",door:"semi_automatic_doors_01",panel:"control_panels_01"};
+const state={style:"Modern",metal:"Silver",floor:"flooring_samples_02",ceiling:"Linear LED",doorType:"Semi-automatic",door:"semi_automatic_doors_01",panel:"control_panels_01",buttons:"Round"};
 const defaults={...state};
-const LABELS={style:{Modern:"Modern Minimal",Classic:"Classic Panels",Mirror:"Mirror Luxury",Glass:"Glass Look"},metal:{Gold:"Champagne Gold"}};
+const LABELS={buttons:{Round:"Round push buttons",Square:"Square push buttons",Ring:"Round buttons with light ring",Touch:"Glass touch buttons"},style:{Modern:"Modern Minimal",Classic:"Classic Panels",Mirror:"Mirror Luxury",Glass:"Glass Look"},metal:{Gold:"Champagne Gold"}};
 function nice(k){const v=state[k];return productById[v]?productById[v].label:(LABELS[k]&&LABELS[k][v])||v}
-const NAMES={style:"Cabin style",metal:"Metal finish",floor:"Flooring",ceiling:"Ceiling",doorType:"Door type",door:"Door design",panel:"Control panel"};
+const NAMES={buttons:"Panel buttons",style:"Cabin style",metal:"Metal finish",floor:"Flooring",ceiling:"Ceiling",doorType:"Door type",door:"Door design",panel:"Control panel"};
 function buildPhotoGroups(){
  document.querySelectorAll("[data-photo-group]").forEach(box=>{
   const g=box.dataset.photoGroup; box.classList.add(g); box.replaceChildren();
@@ -240,8 +246,9 @@ function buildAiPrompt(){
  const d=productById[s.door], f=productById[s.floor], pn=productById[s.panel];
  return ["Photorealistic photo of a compact luxury elevator cabin seen through its open "+(s.doorType==="Automatic"?"automatic sliding doors":"swing landing door"),
   "door: "+d.label.toLowerCase(), walls, f.label.toLowerCase()+" floor", ceiling,
-  "control panel: "+pn.label.toLowerCase(), s.metal==="Gold"?"gold handrail":"stainless handrail","high-end interior photography"].join(", ");
+  "control panel: "+pn.label.toLowerCase()+" with "+BTN_AI[s.buttons], s.metal==="Gold"?"gold handrail":"stainless handrail","high-end interior photography"].join(", ");
 }
+const BTN_AI={Round:"round metal push buttons",Square:"square metal push buttons",Ring:"round metal push buttons with glowing blue halo rings",Touch:"flush black-glass touch buttons with softly backlit numbers"};
 function buildGeminiRequest(){
  const s=state, d=productById[s.door], f=productById[s.floor], pn=productById[s.panel];
  const base=new URL(".",location.href).href;
@@ -249,7 +256,7 @@ function buildGeminiRequest(){
 Use the attached product photos as exact references:
 - Image 1 is the landing door (${d.label}). Reproduce its colour, pattern and frame faithfully.
 - Image 2 is the floor material (${f.label}). Use it for the cabin floor.
-- Image 3 is the control/call panel (${pn.label}). Mount it on the wall beside the door.
+- Image 3 is the control/call panel (${pn.label}). Mount it on the wall beside the door. Keep its shape and finish, but its buttons must be ${BTN_AI[s.buttons]}.
 Cabin: ${nice("style")} style with ${nice("metal")} stainless steel walls, ${s.ceiling.toLowerCase()} ceiling lighting, matching handrail.
 Natural, realistic proportions for a compact passenger elevator. Soft warm lighting, sharp focus, no people, no text, no logos.`;
  return {prompt,images:[base+d.src,base+f.src,base+pn.src]};
@@ -360,11 +367,31 @@ const lightBars=[];
 for(let i=0;i<3;i++) lightBars.push(box(0.055,0.025,depth-0.25,mats.light,-0.72+i*0.72,height-0.095,0));
 const rail=box(width-0.42,0.055,0.055,mats.trim,0,1.05,-depth/2+0.16);
 const panelBase=box(0.24,1.15,0.07,mat('#c8aa70',0.72,0.22),width/2-0.22,1.75,-depth/2+0.13);
-const panelScreen=box(0.17,0.78,0.018,mat('#101114',0.35,0.22),width/2-0.22,1.84,-depth/2+0.085);
+const panelScreen=box(0.17,0.78,0.018,mat('#101114',0.35,0.22),width/2-0.22,1.84,-depth/2+0.174);
 const buttons=[];
-for(let i=0;i<5;i++){
- const b=new THREE.Mesh(new THREE.CylinderGeometry(0.035,0.035,0.025,24),mats.trim);
- b.rotation.x=Math.PI/2;b.position.set(width/2-0.22,2.12-i*0.14,-depth/2+0.065);cabin.add(b);buttons.push(b);
+// Hall call panel on the landing, beside the door (visible from the front)
+const hallBase=box(0.2,0.62,0.03,mat('#b8c0c7',0.72,0.22),width/2-0.2,1.35,depth/2+0.03);
+const hallGlass=box(0.15,0.2,0.01,mat('#101114',0.35,0.2),width/2-0.2,1.5,depth/2+0.05);
+const hallPlate=box(0.14,0.3,0.008,mat('#141519',0.4,0.25),width/2-0.2,1.23,depth/2+0.048);
+const buttonGroup=new THREE.Group(); cabin.add(buttonGroup);
+const glowBlue=new THREE.MeshBasicMaterial({color:'#5fc8ff'});
+const glowTouch=new THREE.MeshBasicMaterial({color:'#9fe3ff'});
+function addButton(style,x,y,z,dir,trimMat,scale=1){
+ // dir: +1 faces the front (+z), -1 faces the back
+ const g=new THREE.Group(); g.position.set(x,y,z); if(dir<0)g.rotation.y=Math.PI; g.scale.setScalar(scale); buttonGroup.add(g);
+ const r=0.032;
+ if(style==='Square'){const m=new THREE.Mesh(new THREE.BoxGeometry(0.055,0.055,0.02),trimMat);m.position.z=0.01;g.add(m);}
+ else if(style==='Touch'){const m=new THREE.Mesh(new THREE.BoxGeometry(0.05,0.05,0.004),glowTouch);m.position.z=0.002;g.add(m);}
+ else{const m=new THREE.Mesh(new THREE.CylinderGeometry(r,r,0.02,28),trimMat);m.rotation.x=Math.PI/2;m.position.z=0.01;g.add(m);
+  if(style==='Ring'){const t=new THREE.Mesh(new THREE.TorusGeometry(r+0.008,0.006,10,36),glowBlue);t.position.z=0.004;g.add(t);}}
+}
+function rebuildButtons(style){
+ while(buttonGroup.children.length){const g=buttonGroup.children.pop();g.traverse(o=>{if(o.geometry)o.geometry.dispose()});}
+ // inside car operating panel (faces into the cabin)
+ for(let i=0;i<5;i++)addButton(style,width/2-0.22,2.12-i*0.14,-depth/2+0.183,1,mats.trim);
+ // landing call panel: up / down
+ addButton(style,width/2-0.2,1.3,depth/2+0.052,1,mats.trim,1.5);
+ addButton(style,width/2-0.2,1.16,depth/2+0.052,1,mats.trim,1.5);
 }
 const frontFrame=[];
 frontFrame.push(box(0.08,height,0.09,mats.trim,-width/2+0.04,height/2,depth/2-0.04));
@@ -416,7 +443,8 @@ function update3D(s){
  sideInsets.forEach(x=>x.visible=s.style==='Classic'||s.style==='Mirror');
  setColor(panelBase.material,trim);
  setColor(panelScreen.material,'#101114');
- buttons.forEach(b=>setColor(b.material,trim));
+ setColor(hallBase.material,trim);
+ rebuildButtons(s.buttons||'Round');
  rebuildDoor(s);
 }
 window.addEventListener('melsa:update',e=>update3D(e.detail));
