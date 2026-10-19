@@ -3,12 +3,13 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="icon" type="image/png" href="assets/logo-mark.png"><link rel="apple-touch-icon" href="assets/logo-mark.png"><meta name="theme-color" content="#023584">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
 <title>Melsa Elevators | Cabin Configurator</title>
 <style>
 :root{--navy:#023584;--navy-dark:#01245c;--red:#d8031a;--paper:#f3f6fb;--ink:#0f1f3a;--muted:#5d6a80;--line:#d6deeb;--tint:#eaf0fa;--gold:#c8aa70}
 *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.45 Inter,Arial,sans-serif}
 header{background:#fff;color:var(--navy);padding:14px clamp(18px,4vw,54px);display:flex;justify-content:space-between;align-items:center;gap:20px;box-shadow:0 4px 0 var(--navy),0 8px 0 var(--red);margin-bottom:8px;position:relative;z-index:2}
-.brand{display:flex;align-items:center;gap:16px}.brand img{height:68px;width:auto;display:block}.brand small{font-size:10px;letter-spacing:.28em;color:var(--muted);font-weight:700;border-left:2px solid var(--red);padding-left:14px}
+.brand{display:flex;align-items:center;gap:16px}.brand img{height:68px;width:auto;display:block}.brand small{font-size:10px;letter-spacing:.28em;color:var(--muted);font-weight:700;border-inline-start:2px solid var(--red);padding-inline-start:14px}
 .tag{border:1px solid var(--navy);border-radius:999px;padding:7px 12px;font-size:11px;letter-spacing:.08em;color:var(--navy);font-weight:700}
 main{max-width:1240px;margin:auto;padding:28px clamp(14px,3vw,36px) 50px}
 .intro{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:24px}.eyebrow{font-size:11px;letter-spacing:.2em;color:var(--red);font-weight:800}.intro h1{font-size:clamp(27px,4vw,44px);line-height:1.05;letter-spacing:-.04em;margin:8px 0 10px;color:var(--navy)}.intro h1 em{font-style:normal;color:var(--red)}.intro p{max-width:560px;color:var(--muted);margin:0}.step{font-size:12px;color:var(--muted);white-space:nowrap}
@@ -41,7 +42,7 @@ main{max-width:1240px;margin:auto;padding:28px clamp(14px,3vw,36px) 50px}
 .summary{margin-top:16px;padding:14px;background:var(--tint);border-radius:12px;border:1px solid var(--line)}.summary h3{color:var(--navy);font-size:11px;letter-spacing:.13em;text-transform:uppercase;margin:0 0 10px}.chips{display:flex;gap:6px;flex-wrap:wrap}.chip{font-size:11px;padding:6px 8px;background:white;border:1px solid var(--line);border-radius:999px}
 .note{font-size:11px;color:var(--muted);margin:12px 0 0}
 footer{background:var(--navy);border-top:4px solid var(--red);color:#c7d4ec;padding:22px max(18px,calc((100% - 1240px)/2 + 28px));font-size:11px;display:flex;justify-content:space-between;gap:12px;letter-spacing:.06em}
-@media(max-width:760px){header{padding:10px 16px}.brand img{height:50px}.brand small{display:none}.tag{display:none}.intro{display:block}.step{display:block;margin-top:14px}.layout{grid-template-columns:1fr}.scene{min-height:350px}.cabin{height:330px}.controls{padding:16px}footer{padding:20px 18px;display:block}footer span{display:block;margin:3px 0}}
+@media(max-width:760px){header{padding:10px 16px}.lang-btn{padding:7px 12px}.brand img{height:50px}.brand small{display:none}.tag{display:none}.intro{display:block}.step{display:block;margin-top:14px}.layout{grid-template-columns:1fr}.scene{min-height:350px}.cabin{height:330px}.controls{padding:16px}footer{padding:20px 18px;display:block}footer span{display:block;margin:3px 0}}
 
 .catalog{margin-top:26px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:clamp(16px,3vw,26px)}
 .catalog-title{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:22px}
@@ -88,6 +89,28 @@ footer{background:var(--navy);border-top:4px solid var(--red);color:#c7d4ec;padd
 .view-btn.primary-view{background:var(--navy);color:#fff}
 .view-btn:disabled{opacity:.55;cursor:default}
 @media(max-width:760px){.view-ctrls{bottom:30px}.view-btn{padding:7px 13px;font-size:11px}}
+.header-right{display:flex;align-items:center;gap:10px}
+.lang-btn{border:0;background:var(--red);color:#fff;border-radius:999px;padding:8px 14px;font:700 13px 'Cairo',Inter,Arial,sans-serif;cursor:pointer}
+.lang-btn:hover{background:#b80216}
+[dir=rtl] body,[dir=rtl] button,[dir=rtl] input{font-family:'Cairo',Tahoma,Arial,sans-serif}
+[dir=rtl] *{letter-spacing:0!important}
+[dir=rtl] .lang-btn{font-family:Inter,Arial,sans-serif}
+.welcome{position:fixed;inset:0;z-index:100;background:#fff;display:flex;flex-direction:column;overflow:auto;transition:opacity .45s ease,visibility .45s}
+.welcome.hide{opacity:0;visibility:hidden}
+.welcome-bar{height:10px;background:var(--navy);box-shadow:0 5px 0 var(--red);flex:0 0 auto}
+.welcome-bar.bottom{box-shadow:0 -5px 0 var(--red);margin-top:auto}
+.welcome-inner{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px 20px;max-width:620px;margin:0 auto;animation:wIn .7s ease both}
+@keyframes wIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.welcome-logo{width:min(300px,64vw);height:auto;margin-bottom:10px}
+.welcome-tagline{font-size:11px;letter-spacing:.32em;color:var(--muted);font-weight:700;margin-bottom:26px}
+.welcome-title{font-size:clamp(24px,5vw,34px);color:var(--navy);margin:0;line-height:1.2;letter-spacing:-.02em;font-weight:800}
+.welcome-title.ar{font-family:'Cairo',Tahoma,sans-serif;color:var(--red);margin-top:6px;letter-spacing:0}
+.welcome-text{color:var(--muted);font-size:14.5px;margin:16px 0 0;max-width:520px}
+.welcome-text.ar{font-family:'Cairo',Tahoma,sans-serif;margin-top:8px;font-size:15px}
+.welcome-btns{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap;justify-content:center}
+.wbtn{border:0;border-radius:12px;padding:15px 26px;font:700 15px Inter,Arial,sans-serif;cursor:pointer;min-width:190px}
+.wbtn.en{background:var(--navy);color:#fff}.wbtn.ar{background:var(--red);color:#fff;font-family:'Cairo',Tahoma,sans-serif;font-size:16px}
+.wbtn:hover{filter:brightness(1.08)}
 .ai-btn{width:100%;margin-top:10px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;gap:8px;font-size:13px;padding:15px}
 .ai-btn:hover{background:var(--navy-dark)}.ai-btn svg{width:18px;height:18px}
 .ai-note{font-size:10.5px;color:var(--muted);text-align:center;margin:6px 0 0}
@@ -108,14 +131,27 @@ footer{background:var(--navy);border-top:4px solid var(--red);color:#c7d4ec;padd
 </style>
 </head>
 <body>
-<header><div class="brand"><img src="assets/logo.png" alt="Melsa Elevators" width="400" height="308"><small>ENGINEERED FOR ELEGANCE</small></div><div class="tag">CABIN CONFIGURATOR · CONCEPT DEMO</div></header>
+<div class="welcome" id="welcome" role="dialog" aria-modal="true" aria-label="Welcome">
+ <div class="welcome-bar"></div>
+ <div class="welcome-inner">
+  <img src="assets/logo.png" alt="Melsa Elevators" class="welcome-logo" width="400" height="308">
+  <div class="welcome-tagline">ENGINEERED FOR ELEGANCE</div>
+  <h1 class="welcome-title">Welcome to Melsa Elevators</h1>
+  <p class="welcome-title ar" dir="rtl" lang="ar">أهلاً بك في ميلسا للمصاعد</p>
+  <p class="welcome-text">Design your elevator cabin with real Melsa products, explore it in 3D and create a realistic AI image.</p>
+  <p class="welcome-text ar" dir="rtl" lang="ar">صمّم كابينة مصعدك بمنتجات ميلسا الحقيقية، واستكشفها بتقنية ثلاثية الأبعاد، واحصل على صورة واقعية بالذكاء الاصطناعي.</p>
+  <div class="welcome-btns"><button type="button" class="wbtn en" data-lang="en">Start in English</button><button type="button" class="wbtn ar" data-lang="ar" lang="ar">ابدأ بالعربية</button></div>
+ </div>
+ <div class="welcome-bar bottom"></div>
+</div>
+<header><div class="brand"><img src="assets/logo.png" alt="Melsa Elevators" width="400" height="308"><small data-i18n="tagline">ENGINEERED FOR ELEGANCE</small></div><div class="header-right"><div class="tag" data-i18n="tag">CABIN CONFIGURATOR · CONCEPT DEMO</div><button type="button" class="lang-btn" id="langBtn" lang="ar">عربي</button></div></header>
 <main>
-<section class="intro"><div><div class="eyebrow">YOUR DESIGN, YOUR CHOICE</div><h1>Design your <em>own cabin.</em></h1><p>Explore finishes and build a look that feels right for your project. Choose the cabin style, flooring, metal finish, ceiling, control panels and door type/design.</p></div><div class="step">REAL MELSA PRODUCTS</div></section>
+<section class="intro"><div><div class="eyebrow" data-i18n="eyebrow">YOUR DESIGN, YOUR CHOICE</div><h1 data-i18n-html="h1">Design your <em>own cabin.</em></h1><p data-i18n="intro">Explore finishes and build a look that feels right for your project. Choose the cabin style, flooring, metal finish, ceiling, control panels and door type/design.</p></div><div class="step" data-i18n="step">REAL MELSA PRODUCTS</div></section>
 <div class="layout">
-<section class="preview-card"><div class="preview-head"><strong>LIVE 3D DESIGN PREVIEW</strong><span id="previewStatus">Modern Minimal · Silver</span></div>
-<div class="scene three-scene" id="threeScene"><canvas id="cabin3d" aria-label="Interactive 3D elevator cabin preview"></canvas><div class="view-ctrls"><button type="button" class="view-btn" id="doorBtn">Open door</button><button type="button" class="view-btn primary-view" id="insideBtn">Step inside</button></div><div class="scene-caption" id="sceneCaption">INTERACTIVE 3D CONCEPT · DRAG TO ROTATE</div><div class="three-hint">3D PREVIEW</div></div>
+<section class="preview-card"><div class="preview-head"><strong data-i18n="preview">LIVE 3D DESIGN PREVIEW</strong><span id="previewStatus">Modern Minimal · Silver</span></div>
+<div class="scene three-scene" id="threeScene"><canvas id="cabin3d" aria-label="Interactive 3D elevator cabin preview"></canvas><div class="view-ctrls"><button type="button" class="view-btn" id="doorBtn">Open door</button><button type="button" class="view-btn primary-view" id="insideBtn">Step inside</button></div><div class="scene-caption" id="sceneCaption">INTERACTIVE 3D CONCEPT · DRAG TO ROTATE</div><div class="three-hint" data-i18n="hint3d">3D PREVIEW</div></div>
 </section>
-<aside class="controls"><h2>Customize your cabin</h2><p class="sub">Pick real Melsa products — the 3D preview updates instantly.</p>
+<aside class="controls"><h2 data-i18n="customize">Customize your cabin</h2><p class="sub" data-i18n="sub">Pick real Melsa products — the 3D preview updates instantly.</p>
 <div class="field"><label>01 — Cabin style</label><div class="choices" data-group="style">
 <button class="choice" data-value="Modern" aria-pressed="true"><span class="swatch" style="--swatch:linear-gradient(135deg,#dfe2e4,#6e7880)"></span>Modern Minimal</button>
 <button class="choice" data-value="Classic" aria-pressed="false"><span class="swatch" style="--swatch:linear-gradient(135deg,#ddd4c2,#8e7d65)"></span>Classic Panels</button>
@@ -140,10 +176,10 @@ footer{background:var(--navy);border-top:4px solid var(--red);color:#c7d4ec;padd
 <div class="field"><label>06 — Door design <span class="pick-name" id="pickName-door"></span></label><div class="photo-choices" data-photo-group="door"></div></div>
 <div class="field"><label>07 — Control panel <span class="pick-name" id="pickName-panel"></span></label><div class="photo-choices" data-photo-group="panel"></div></div>
 <div class="field"><label>08 — Panel buttons <span class="pick-name" id="pickName-buttons"></span></label><div class="photo-choices" data-photo-group="buttons"></div></div>
-<div class="field"><label>09 — Elevator location <span class="pick-name">Used for the AI image</span></label><div class="choices" data-group="location">
+<div class="field"><label>09 — Elevator location <span class="pick-name" data-i18n="aiOnly">Used for the AI image</span></label><div class="choices" data-group="location">
 <button class="choice" data-value="Inside" aria-pressed="true">Inside the building</button><button class="choice" data-value="Outside" aria-pressed="false">Outside the building</button>
 </div></div>
-<div class="field"><label>10 — Building type <span class="pick-name">Used for the AI image</span></label><div class="choices" data-group="building">
+<div class="field"><label>10 — Building type <span class="pick-name" data-i18n="aiOnly">Used for the AI image</span></label><div class="choices" data-group="building">
 <button class="choice" data-value="Residential" aria-pressed="true">Residential building</button><button class="choice" data-value="Villa" aria-pressed="false">Villa</button><button class="choice" data-value="Factory" aria-pressed="false">Factory</button><button class="choice" data-value="Hospital" aria-pressed="false">Hospital</button><button class="choice" data-value="Mall" aria-pressed="false">Mall</button><button class="choice" data-value="Office" aria-pressed="false">Office</button><button class="choice full" data-value="Hotel" aria-pressed="false">Hotel</button>
 </div></div>
 <div class="field"><label>11 — Drive system <span class="pick-name" id="hint-drive"></span></label><div class="choices" data-group="drive">
@@ -158,82 +194,165 @@ footer{background:var(--navy);border-top:4px solid var(--red);color:#c7d4ec;padd
 <div class="field" data-show="Hydraulic" hidden><label>12 — Power unit location <span class="pick-name" id="hint-hydUnit"></span></label><div class="choices" data-group="hydUnit">
 <button class="choice" data-value="Beside" aria-pressed="true">Machine room beside the shaft</button><button class="choice" data-value="Pit" aria-pressed="false">Inside the shaft</button>
 </div></div>
-<div class="summary"><h3>Your design specification</h3><div class="chips" id="chips"></div><p class="note">Concept preview only. Final finishes must be confirmed against available materials and real product samples.</p></div>
-<div class="actions"><button class="btn primary" id="copyBtn">Copy design brief</button><button class="btn secondary" id="resetBtn">Reset</button></div>
-<button class="btn ai-btn" id="aiBtn" type="button"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8zM19 14l.9 2.6 2.6.9-2.6.9L19 21l-.9-2.6-2.6-.9 2.6-.9zM5 15l.7 1.8 1.8.7-1.8.7L5 20l-.7-1.8-1.8-.7 1.8-.7z"/></svg>Generate realistic image (AI)</button>
-<p class="ai-note">Uses your selected Melsa products. Takes about 10–30 seconds.</p>
+<div class="summary"><h3 data-i18n="spec">Your design specification</h3><div class="chips" id="chips"></div><p class="note" data-i18n="note">Concept preview only. Final finishes must be confirmed against available materials and real product samples.</p></div>
+<div class="actions"><button class="btn primary" id="copyBtn" data-i18n="copy">Copy design brief</button><button class="btn secondary" id="resetBtn" data-i18n="reset">Reset</button></div>
+<button class="btn ai-btn" id="aiBtn" type="button"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8zM19 14l.9 2.6 2.6.9-2.6.9L19 21l-.9-2.6-2.6-.9 2.6-.9zM5 15l.7 1.8 1.8.7-1.8.7L5 20l-.7-1.8-1.8-.7 1.8-.7z"/></svg><span data-i18n="aiBtn">Generate realistic image (AI)</span></button>
+<p class="ai-note" data-i18n="aiNote">Uses your selected Melsa products. Takes about 10–30 seconds.</p>
 </aside>
 </div>
 
 </main>
 <div class="ai-modal" id="aiModal" role="dialog" aria-modal="true" aria-labelledby="aiTitle">
-<div class="ai-box"><div class="ai-head"><strong id="aiTitle">AI REALISTIC PREVIEW</strong><button class="ai-close" id="aiClose" aria-label="Close">&times;</button></div>
+<div class="ai-box"><div class="ai-head"><strong id="aiTitle" data-i18n="aiTitle">AI REALISTIC PREVIEW</strong><button class="ai-close" id="aiClose" aria-label="Close">&times;</button></div>
 <div class="ai-stage" id="aiStage"></div>
-<div class="ai-actions"><button class="btn secondary" id="aiRegen" type="button">Generate another</button><button class="btn primary" id="aiDownload" type="button">Download image</button></div>
-<p class="ai-disclaimer">AI-generated concept image for inspiration only. Final finishes, dimensions and details must be confirmed with Melsa Elevators.</p>
+<div class="ai-actions"><button class="btn secondary" id="aiRegen" type="button" data-i18n="aiRegen">Generate another</button><button class="btn primary" id="aiDownload" type="button" data-i18n="aiDownload">Download image</button></div>
+<p class="ai-disclaimer" data-i18n="aiDisclaimer">AI-generated concept image for inspiration only. Final finishes, dimensions and details must be confirmed with Melsa Elevators.</p>
 </div></div>
-<footer><span>MELSA ELEVATORS · DESIGN COLLECTION</span><span>Concept configurator — not an engineering drawing</span></footer>
+<footer><span data-i18n="foot1">MELSA ELEVATORS · DESIGN COLLECTION</span><span data-i18n="foot2">Concept configurator — not an engineering drawing</span></footer>
 <script>
+/* ---------- Language (English / Arabic) ---------- */
+const T={
+ en:{title:"Melsa Elevators | Cabin Configurator",tagline:"ENGINEERED FOR ELEGANCE",tag:"CABIN CONFIGURATOR · CONCEPT DEMO",eyebrow:"YOUR DESIGN, YOUR CHOICE",
+  h1:"Design your <em>own cabin.</em>",intro:"Explore finishes and build a look that feels right for your project. Choose the cabin style, flooring, metal finish, ceiling, control panels and door type/design.",
+  step:"REAL MELSA PRODUCTS",preview:"LIVE 3D DESIGN PREVIEW",hint3d:"3D PREVIEW",customize:"Customize your cabin",sub:"Pick real Melsa products — the 3D preview updates instantly.",
+  aiOnly:"Used for the AI image",spec:"Your design specification",note:"Concept preview only. Final finishes must be confirmed against available materials and real product samples.",
+  copy:"Copy design brief",copied:"Copied!",reset:"Reset",aiBtn:"Generate realistic image (AI)",aiNote:"Uses your selected Melsa products. Takes about 10–30 seconds.",
+  aiTitle:"AI REALISTIC PREVIEW",aiRegen:"Generate another",aiDownload:"Download image",aiDisclaimer:"AI-generated concept image for inspiration only. Final finishes, dimensions and details must be confirmed with Melsa Elevators.",
+  aiLoading:"Creating your elevator design…",aiError:"Could not create the image. Please try again.",aiConn:"Connection problem. Please try again.",aiLimit:"You've reached the hourly limit. Please try again later.",
+  foot1:"MELSA ELEVATORS · DESIGN COLLECTION",foot2:"Concept configurator — not an engineering drawing",brief:"MELSA ELEVATORS — CABIN DESIGN BRIEF",
+  open:"Open door",close:"Close door",inside:"Step inside",outside:"Step outside",capOut:"INTERACTIVE 3D CONCEPT · DRAG TO ROTATE",capIn:"INSIDE THE CABIN · DRAG TO LOOK AROUND",
+  mrlGeared:"Machine-room-less elevators use gearless machines",telescopic:"telescopic doors",
+  "f.style":"Cabin style","f.metal":"Metal finish","f.floor":"Flooring","f.ceiling":"Ceiling & lighting","f.doorType":"Door type","f.door":"Door design","f.panel":"Control panel","f.buttons":"Panel buttons",
+  "f.location":"Elevator location","f.building":"Building type","f.drive":"Drive system","f.machineRoom":"Machine location","f.machine":"Machine type","f.hydUnit":"Power unit location",
+  "o.style.Modern":"Modern Minimal","o.style.Classic":"Classic Panels","o.style.Mirror":"Mirror Luxury","o.style.Glass":"Glass Look",
+  "o.metal.Silver":"Silver","o.metal.Gold":"Champagne Gold","o.metal.Bronze":"Bronze","o.metal.Black":"Black",
+  "o.ceiling.Linear LED":"Linear LED","o.ceiling.Geometric":"Geometric","o.ceiling.Spotlights":"Spotlights",
+  "o.doorType.Semi-automatic":"Semi-Automatic","o.doorType.Automatic":"Automatic","o.doorType.Telescopic":"Automatic Telescopic",
+  "o.location.Inside":"Inside the building","o.location.Outside":"Outside the building",
+  "o.building.Residential":"Residential building","o.building.Villa":"Villa","o.building.Factory":"Factory","o.building.Hospital":"Hospital","o.building.Mall":"Mall","o.building.Office":"Office","o.building.Hotel":"Hotel",
+  "o.drive.Electric":"Electric (traction)","o.drive.Hydraulic":"Hydraulic","o.machineRoom.Top":"Machine room on top","o.machineRoom.MRL":"In the shaft (MRL)",
+  "o.machine.Geared":"Geared","o.machine.Gearless":"Gearless","o.hydUnit.Beside":"Machine room beside the shaft","o.hydUnit.Pit":"Inside the shaft",
+  "h.drive.Electric":"Motor and steel ropes move the car. Suits any building height.","h.drive.Hydraulic":"An oil-driven piston pushes the car. Ideal for low-rise buildings (up to about 5 floors).",
+  "h.machineRoom.Top":"Motor and controller in a room on the roof, above the shaft.","h.machineRoom.MRL":"Compact motor at the top of the shaft. No machine room needed.",
+  "h.machine.Geared":"Motor drives the ropes through a gearbox. Lower cost.","h.machine.Gearless":"Motor drives the ropes directly. Quieter, smoother and more energy-efficient.",
+  "h.hydUnit.Beside":"Pump and oil tank in a small room next to the shaft, at the lowest floor.","h.hydUnit.Pit":"Pump and oil tank inside the shaft. Saves space."},
+ ar:{title:"ميلسا للمصاعد | صمّم كابينتك",tagline:"هندسة الأناقة",tag:"مصمم الكابينة · نسخة تجريبية",eyebrow:"تصميمك، اختيارك",
+  h1:"صمّم <em>كابينتك بنفسك.</em>",intro:"استكشف الخامات واصنع الشكل المناسب لمشروعك. اختر طراز الكابينة والأرضية ولون المعدن والسقف ولوحة التحكم ونوع الباب وتصميمه.",
+  step:"منتجات ميلسا الحقيقية",preview:"معاينة ثلاثية الأبعاد مباشرة",hint3d:"معاينة 3D",customize:"خصّص كابينتك",sub:"اختر من منتجات ميلسا الحقيقية — تتحدث المعاينة فورًا.",
+  aiOnly:"يُستخدم لصورة الذكاء الاصطناعي",spec:"مواصفات تصميمك",note:"معاينة تصورية فقط. يجب تأكيد الخامات النهائية مع الخامات المتاحة وعينات المنتجات الحقيقية.",
+  copy:"نسخ ملخص التصميم",copied:"تم النسخ!",reset:"إعادة ضبط",aiBtn:"إنشاء صورة واقعية بالذكاء الاصطناعي",aiNote:"تستخدم منتجات ميلسا التي اخترتها. تستغرق حوالي ١٠–٣٠ ثانية.",
+  aiTitle:"معاينة واقعية بالذكاء الاصطناعي",aiRegen:"إنشاء صورة أخرى",aiDownload:"تحميل الصورة",aiDisclaimer:"صورة تصورية بالذكاء الاصطناعي للإلهام فقط. يجب تأكيد الخامات والمقاسات والتفاصيل النهائية مع ميلسا للمصاعد.",
+  aiLoading:"جارٍ إنشاء تصميم مصعدك…",aiError:"تعذر إنشاء الصورة. حاول مرة أخرى.",aiConn:"مشكلة في الاتصال. حاول مرة أخرى.",aiLimit:"وصلت للحد المسموح في الساعة. حاول مرة أخرى لاحقًا.",
+  foot1:"ميلسا للمصاعد · مجموعة التصميم",foot2:"أداة تصميم تصورية — ليست رسمًا هندسيًا",brief:"ميلسا للمصاعد — ملخص تصميم الكابينة",
+  open:"افتح الباب",close:"أغلق الباب",inside:"ادخل الكابينة",outside:"اخرج من الكابينة",capOut:"تصور تفاعلي ثلاثي الأبعاد · اسحب للتدوير",capIn:"داخل الكابينة · اسحب للنظر حولك",
+  mrlGeared:"مصاعد MRL تستخدم ماكينات بدون جيربوكس (Gearless)",telescopic:"تلسكوبي",
+  "f.style":"طراز الكابينة","f.metal":"لون المعدن","f.floor":"الأرضية","f.ceiling":"السقف والإضاءة","f.doorType":"نوع الباب","f.door":"تصميم الباب","f.panel":"لوحة التحكم","f.buttons":"أزرار اللوحة",
+  "f.location":"مكان المصعد","f.building":"نوع المبنى","f.drive":"نظام التشغيل","f.machineRoom":"مكان الماكينة","f.machine":"نوع الماكينة","f.hydUnit":"مكان وحدة الزيت",
+  "o.style.Modern":"عصري بسيط","o.style.Classic":"ألواح كلاسيكية","o.style.Mirror":"مرايا فاخرة","o.style.Glass":"مظهر زجاجي",
+  "o.metal.Silver":"فضي","o.metal.Gold":"ذهبي شامبين","o.metal.Bronze":"برونزي","o.metal.Black":"أسود",
+  "o.ceiling.Linear LED":"إضاءة LED طولية","o.ceiling.Geometric":"هندسي","o.ceiling.Spotlights":"سبوت لايت",
+  "o.doorType.Semi-automatic":"نصف أوتوماتيك","o.doorType.Automatic":"أوتوماتيك","o.doorType.Telescopic":"أوتوماتيك تلسكوبي",
+  "o.location.Inside":"داخل المبنى","o.location.Outside":"خارج المبنى",
+  "o.building.Residential":"عمارة سكنية","o.building.Villa":"فيلا","o.building.Factory":"مصنع","o.building.Hospital":"مستشفى","o.building.Mall":"مول تجاري","o.building.Office":"مبنى إداري","o.building.Hotel":"فندق",
+  "o.drive.Electric":"كهرباء (جر بالحبال)","o.drive.Hydraulic":"هيدروليك","o.machineRoom.Top":"غرفة ماكينة أعلى المبنى","o.machineRoom.MRL":"داخل البئر (MRL)",
+  "o.machine.Geared":"بجيربوكس (Geared)","o.machine.Gearless":"بدون جيربوكس (Gearless)","o.hydUnit.Beside":"غرفة بجوار البئر","o.hydUnit.Pit":"داخل البئر",
+  "h.drive.Electric":"ماكينة وحبال صلب تحرك الكابينة. مناسب لأي ارتفاع.","h.drive.Hydraulic":"مكبس يعمل بالزيت يرفع الكابينة. مثالي للمباني المنخفضة (حتى ٥ أدوار تقريبًا).",
+  "h.machineRoom.Top":"الماكينة ولوحة التحكم في غرفة على السطح فوق البئر.","h.machineRoom.MRL":"ماكينة صغيرة أعلى البئر. لا تحتاج غرفة ماكينة.",
+  "h.machine.Geared":"الماكينة تحرك الحبال عن طريق جيربوكس. تكلفة أقل.","h.machine.Gearless":"الماكينة تحرك الحبال مباشرة. أهدأ وأنعم وأوفر في الكهرباء.",
+  "h.hydUnit.Beside":"المضخة وخزان الزيت في غرفة صغيرة بجوار البئر في الدور الأرضي.","h.hydUnit.Pit":"المضخة وخزان الزيت داخل البئر. توفر المساحة."}
+};
+let lang="en";
+try{const saved=localStorage.getItem("melsaLang");if(saved==="ar"||saved==="en")lang=saved;}catch(e){}
+function t(k,L=lang){return (T[L]&&T[L][k])??T.en[k]??k;}
+function applyLang(L){
+ lang=L; try{localStorage.setItem("melsaLang",L)}catch(e){}
+ const h=document.documentElement; h.lang=L; h.dir=L==="ar"?"rtl":"ltr"; document.title=t("title");
+ document.querySelectorAll("[data-i18n]").forEach(el=>el.textContent=t(el.dataset.i18n));
+ document.querySelectorAll("[data-i18n-html]").forEach(el=>el.innerHTML=t(el.dataset.i18nHtml));
+ document.querySelectorAll(".controls .field").forEach(f=>{
+  const g=f.querySelector("[data-group],[data-photo-group]"); if(!g)return; const key=g.dataset.group||g.dataset.photoGroup;
+  const lab=f.querySelector("label"), first=lab.firstChild; const num=(first.textContent.match(/^\s*(\d+)/)||[,""])[1];
+  first.textContent=num+" — "+t("f."+key)+" ";
+  if(g.dataset.group) g.querySelectorAll("button[data-value]").forEach(b=>{const tn=[...b.childNodes].reverse().find(n=>n.nodeType===3);if(tn)tn.textContent=t("o."+key+"."+b.dataset.value);});
+ });
+ document.getElementById("langBtn").textContent=L==="ar"?"English":"عربي";
+ document.getElementById("langBtn").lang=L==="ar"?"en":"ar";
+ if(typeof render==="function"&&window.melsaReady)render();
+ window.dispatchEvent(new Event("melsa:lang"));
+}
+document.getElementById("langBtn").addEventListener("click",()=>applyLang(lang==="ar"?"en":"ar"));
+// Welcome page: once per visit
+(function(){
+ const w=document.getElementById("welcome"); let seen=false;
+ try{seen=sessionStorage.getItem("melsaWelcomed")==="1";}catch(e){}
+ if(seen){w.remove();return;}
+ document.body.style.overflow="hidden";
+ w.querySelectorAll("[data-lang]").forEach(b=>b.addEventListener("click",()=>{
+  applyLang(b.dataset.lang); try{sessionStorage.setItem("melsaWelcomed","1")}catch(e){}
+  w.classList.add("hide"); document.body.style.overflow=""; setTimeout(()=>w.remove(),500);
+ }));
+})();
+
 /* Real Melsa products. color/design/trim drive the 3D preview. */
 const PRODUCTS={
  floor:[
-  {id:"flooring_samples_02",ext:"webp",label:"White-grey marble"},
-  {id:"flooring_samples_01",ext:"jpeg",label:"Light grey granite"},
-  {id:"flooring_samples_11",ext:"webp",label:"Light grey stone"},
-  {id:"flooring_samples_03",ext:"webp",label:"Beige granite"},
-  {id:"flooring_samples_06",ext:"jpeg",label:"Grey speckled granite"},
-  {id:"flooring_samples_04",ext:"jpeg",label:"Brown patterned granite"},
-  {id:"flooring_samples_05",ext:"webp",label:"Warm red-brown granite"},
-  {id:"flooring_samples_07",ext:"jpeg",label:"Brown-green granite"},
-  {id:"flooring_samples_08",ext:"webp",label:"Dark grey granite"},
-  {id:"flooring_samples_12",ext:"jpeg",label:"Dark stone finish"},
-  {id:"flooring_samples_09",ext:"webp",label:"Black granite"},
-  {id:"automatic_doors_10",ext:"jpeg",label:"Black granite with gold fleck"},
-  {id:"flooring_samples_10",ext:"jpeg",label:"Black marble with gold veining"}],
+  {id:"flooring_samples_02",ar:"رخام أبيض رمادي",ext:"webp",label:"White-grey marble"},
+  {id:"flooring_samples_01",ar:"جرانيت رمادي فاتح",ext:"jpeg",label:"Light grey granite"},
+  {id:"flooring_samples_11",ar:"حجر رمادي فاتح",ext:"webp",label:"Light grey stone"},
+  {id:"flooring_samples_03",ar:"جرانيت بيج",ext:"webp",label:"Beige granite"},
+  {id:"flooring_samples_06",ar:"جرانيت رمادي منقط",ext:"jpeg",label:"Grey speckled granite"},
+  {id:"flooring_samples_04",ar:"جرانيت بني منقوش",ext:"jpeg",label:"Brown patterned granite"},
+  {id:"flooring_samples_05",ar:"جرانيت أحمر بني",ext:"webp",label:"Warm red-brown granite"},
+  {id:"flooring_samples_07",ar:"جرانيت بني مخضر",ext:"jpeg",label:"Brown-green granite"},
+  {id:"flooring_samples_08",ar:"جرانيت رمادي غامق",ext:"webp",label:"Dark grey granite"},
+  {id:"flooring_samples_12",ar:"حجر غامق",ext:"jpeg",label:"Dark stone finish"},
+  {id:"flooring_samples_09",ar:"جرانيت أسود",ext:"webp",label:"Black granite"},
+  {id:"automatic_doors_10",ar:"جرانيت أسود بنقاط ذهبية",ext:"jpeg",label:"Black granite with gold fleck"},
+  {id:"flooring_samples_10",ar:"رخام أسود بعروق ذهبية",ext:"jpeg",label:"Black marble with gold veining"}],
  door:[
-  {id:"semi_automatic_doors_01",ext:"jpeg",type:"Semi-automatic",label:"Two-tone burgundy frame with slim vision panel",color:"#ece8df",design:"vision"},
-  {id:"semi_automatic_doors_07",ext:"jpeg",type:"Semi-automatic",label:"Ivory door with slim silver-trimmed vision panel",color:"#f1efea",design:"vision"},
-  {id:"semi_automatic_doors_08",ext:"jpeg",type:"Semi-automatic",label:"Champagne-gold door with tall vision panel",color:"#c9b98d",design:"wide"},
-  {id:"control_panels_08",ext:"jpeg",type:"Semi-automatic",label:"Brushed stainless door with slim vision panel",color:"#b8bdc2",design:"vision"},
-  {id:"control_panels_09",ext:"jpeg",type:"Semi-automatic",label:"Black stainless door with slim vision panel",color:"#2b2c30",design:"vision"},
-  {id:"semi_automatic_doors_02",ext:"jpeg",type:"Semi-automatic",label:"Ivory door with geometric gold insert",color:"#ece6d6",design:"insert",insert:"#c9a35a"},
-  {id:"semi_automatic_doors_03",ext:"jpeg",type:"Semi-automatic",label:"Wood finish with gold geometric insert",color:"#7a4a2a",design:"insert",insert:"#c9a35a"},
-  {id:"semi_automatic_doors_04",ext:"jpeg",type:"Semi-automatic",label:"Grey wood finish with geometric insert",color:"#9b9a96",design:"insert",insert:"#d9dcdf"},
-  {id:"semi_automatic_doors_05",ext:"jpeg",type:"Semi-automatic",label:"Black door with gold decorative insert",color:"#1d1d22",design:"insert",insert:"#c9a35a"},
-  {id:"semi_automatic_doors_06",ext:"jpeg",type:"Semi-automatic",label:"Ivory door with ornamental black insert",color:"#ece6d6",design:"insert",insert:"#1b1b1e"},
-  {id:"automatic_doors_01",ext:"jpeg",type:"Automatic",label:"Gold horizontal-striped doors",color:"#c9a35a",design:"stripes"},
-  {id:"automatic_doors_02",ext:"jpeg",type:"Automatic",label:"Black horizontal-striped doors",color:"#2a2b2f",design:"stripes"},
-  {id:"automatic_doors_03",ext:"jpeg",type:"Automatic",label:"Silver horizontal-striped doors",color:"#c2c7cc",design:"stripes"},
-  {id:"automatic_doors_04",ext:"jpeg",type:"Automatic",label:"Bronze horizontal-striped doors",color:"#9a6b47",design:"stripes"},
-  {id:"automatic_doors_07",ext:"jpeg",type:"Automatic",label:"Gold plain automatic doors",color:"#c9a35a",design:"plain"},
-  {id:"automatic_doors_08",ext:"jpeg",type:"Automatic",label:"Silver automatic doors",color:"#c2c7cc",design:"plain"},
-  {id:"automatic_doors_05",ext:"jpeg",type:"Automatic",label:"Bronze plain automatic doors",color:"#9a6b47",design:"plain"},
-  {id:"automatic_doors_06",ext:"jpeg",type:"Automatic",label:"Black plain automatic doors",color:"#2a2b2f",design:"plain"}],
+  {id:"semi_automatic_doors_01",ar:"إطار نبيتي بلونين مع شباك رفيع",ext:"jpeg",type:"Semi-automatic",label:"Two-tone burgundy frame with slim vision panel",color:"#ece8df",design:"vision"},
+  {id:"semi_automatic_doors_07",ar:"باب عاجي مع شباك رفيع بإطار فضي",ext:"jpeg",type:"Semi-automatic",label:"Ivory door with slim silver-trimmed vision panel",color:"#f1efea",design:"vision"},
+  {id:"semi_automatic_doors_08",ar:"باب ذهبي شامبين مع شباك طويل",ext:"jpeg",type:"Semi-automatic",label:"Champagne-gold door with tall vision panel",color:"#c9b98d",design:"wide"},
+  {id:"control_panels_08",ar:"باب ستانلس مطفي مع شباك رفيع",ext:"jpeg",type:"Semi-automatic",label:"Brushed stainless door with slim vision panel",color:"#b8bdc2",design:"vision"},
+  {id:"control_panels_09",ar:"باب ستانلس أسود مع شباك رفيع",ext:"jpeg",type:"Semi-automatic",label:"Black stainless door with slim vision panel",color:"#2b2c30",design:"vision"},
+  {id:"semi_automatic_doors_02",ar:"باب عاجي بزخرفة هندسية ذهبية",ext:"jpeg",type:"Semi-automatic",label:"Ivory door with geometric gold insert",color:"#ece6d6",design:"insert",insert:"#c9a35a"},
+  {id:"semi_automatic_doors_03",ar:"باب خشبي بزخرفة هندسية ذهبية",ext:"jpeg",type:"Semi-automatic",label:"Wood finish with gold geometric insert",color:"#7a4a2a",design:"insert",insert:"#c9a35a"},
+  {id:"semi_automatic_doors_04",ar:"باب خشبي رمادي بزخرفة هندسية",ext:"jpeg",type:"Semi-automatic",label:"Grey wood finish with geometric insert",color:"#9b9a96",design:"insert",insert:"#d9dcdf"},
+  {id:"semi_automatic_doors_05",ar:"باب أسود بزخرفة ذهبية",ext:"jpeg",type:"Semi-automatic",label:"Black door with gold decorative insert",color:"#1d1d22",design:"insert",insert:"#c9a35a"},
+  {id:"semi_automatic_doors_06",ar:"باب عاجي بزخرفة سوداء",ext:"jpeg",type:"Semi-automatic",label:"Ivory door with ornamental black insert",color:"#ece6d6",design:"insert",insert:"#1b1b1e"},
+  {id:"automatic_doors_01",ar:"أبواب ذهبية مقلمة أفقيًا",ext:"jpeg",type:"Automatic",label:"Gold horizontal-striped doors",color:"#c9a35a",design:"stripes"},
+  {id:"automatic_doors_02",ar:"أبواب سوداء مقلمة أفقيًا",ext:"jpeg",type:"Automatic",label:"Black horizontal-striped doors",color:"#2a2b2f",design:"stripes"},
+  {id:"automatic_doors_03",ar:"أبواب فضية مقلمة أفقيًا",ext:"jpeg",type:"Automatic",label:"Silver horizontal-striped doors",color:"#c2c7cc",design:"stripes"},
+  {id:"automatic_doors_04",ar:"أبواب برونزية مقلمة أفقيًا",ext:"jpeg",type:"Automatic",label:"Bronze horizontal-striped doors",color:"#9a6b47",design:"stripes"},
+  {id:"automatic_doors_07",ar:"أبواب ذهبية سادة",ext:"jpeg",type:"Automatic",label:"Gold plain automatic doors",color:"#c9a35a",design:"plain"},
+  {id:"automatic_doors_08",ar:"أبواب فضية سادة",ext:"jpeg",type:"Automatic",label:"Silver automatic doors",color:"#c2c7cc",design:"plain"},
+  {id:"automatic_doors_05",ar:"أبواب برونزية سادة",ext:"jpeg",type:"Automatic",label:"Bronze plain automatic doors",color:"#9a6b47",design:"plain"},
+  {id:"automatic_doors_06",ar:"أبواب سوداء سادة",ext:"jpeg",type:"Automatic",label:"Black plain automatic doors",color:"#2a2b2f",design:"plain"}],
  panel:[
-  {id:"control_panels_01",ext:"jpeg",label:"Black glass panel with round buttons",trim:"Silver"},
-  {id:"control_panels_02",ext:"jpeg",label:"Gold-and-black access panel",trim:"Gold"},
-  {id:"control_panels_03",ext:"jpeg",label:"Slim black-and-silver call panel",trim:"Silver"},
-  {id:"control_panels_04",ext:"jpeg",label:"Curved gold-and-black call panel",trim:"Gold"},
-  {id:"control_panels_05",ext:"jpeg",label:"Curved silver call panel",trim:"Silver"},
-  {id:"control_panels_06",ext:"jpeg",label:"Gold-and-black compact call panel",trim:"Gold"},
-  {id:"control_panels_07",ext:"jpeg",label:"Black-glass call panel with round button",trim:"Silver"}],
+  {id:"control_panels_01",ar:"لوحة زجاج أسود بأزرار دائرية",ext:"jpeg",label:"Black glass panel with round buttons",trim:"Silver"},
+  {id:"control_panels_02",ar:"لوحة ذهبي وأسود",ext:"jpeg",label:"Gold-and-black access panel",trim:"Gold"},
+  {id:"control_panels_03",ar:"لوحة استدعاء رفيعة أسود وفضي",ext:"jpeg",label:"Slim black-and-silver call panel",trim:"Silver"},
+  {id:"control_panels_04",ar:"لوحة استدعاء منحنية ذهبي وأسود",ext:"jpeg",label:"Curved gold-and-black call panel",trim:"Gold"},
+  {id:"control_panels_05",ar:"لوحة استدعاء منحنية فضية",ext:"jpeg",label:"Curved silver call panel",trim:"Silver"},
+  {id:"control_panels_06",ar:"لوحة استدعاء صغيرة ذهبي وأسود",ext:"jpeg",label:"Gold-and-black compact call panel",trim:"Gold"},
+  {id:"control_panels_07",ar:"لوحة استدعاء زجاج أسود بزر دائري",ext:"jpeg",label:"Black-glass call panel with round button",trim:"Silver"}],
  buttons:[
-  {id:"panel_buttons_02",ext:"jpeg",label:"Silver round button with Braille",shape:"round",color:"#cdd1d5",ring:"#6d6f73",
+  {id:"panel_buttons_02",ar:"زر دائري فضي بطريقة برايل",ext:"jpeg",label:"Silver round button with Braille",shape:"round",color:"#cdd1d5",ring:"#6d6f73",
    ai:"round brushed silver stainless push buttons, each with a wide flat silver flange ring, a thin grey illuminated outline ring, raised grey characters and Braille dots"},
-  {id:"panel_buttons_01",ext:"jpeg",label:"Gold round button with Braille",shape:"round",color:"#d6b25c",ring:"#6d6f73",
+  {id:"panel_buttons_01",ar:"زر دائري ذهبي بطريقة برايل",ext:"jpeg",label:"Gold round button with Braille",shape:"round",color:"#d6b25c",ring:"#6d6f73",
    ai:"round brushed gold stainless push buttons, each with a wide flat gold flange ring, a thin grey illuminated outline ring, raised grey characters and Braille dots"},
-  {id:"panel_buttons_03",ext:"jpeg",label:"Silver square button with white light ring",shape:"square",color:"#c9cdd1",ring:"#f4f6f8",
+  {id:"panel_buttons_03",ar:"زر مربع فضي بحلقة إضاءة بيضاء",ext:"jpeg",label:"Silver square button with white light ring",shape:"square",color:"#c9cdd1",ring:"#f4f6f8",
    ai:"square brushed silver stainless push buttons with softly rounded corners, a polished chrome frame, a thin white illuminated outline ring and raised white numbers"},
-  {id:"panel_buttons_04",ext:"jpeg",label:"Gold square button with light ring",shape:"square",color:"#d6b25c",ring:"#f1e3bf",
+  {id:"panel_buttons_04",ar:"زر مربع ذهبي بحلقة إضاءة",ext:"jpeg",label:"Gold square button with light ring",shape:"square",color:"#d6b25c",ring:"#f1e3bf",
    ai:"square brushed gold push buttons with softly rounded corners, a polished gold frame, a thin cream illuminated outline ring and raised white numbers"}]
 };
 const doorPhotoType=t=>t==="Telescopic"?"Automatic":t;
 const productById={};Object.values(PRODUCTS).flat().forEach(p=>{p.src="assets/"+p.id+"."+p.ext;p.thumb="assets/thumbs/"+p.id+".jpg";productById[p.id]=p});
 const state={style:"Modern",metal:"Silver",floor:"flooring_samples_02",ceiling:"Linear LED",doorType:"Semi-automatic",door:"semi_automatic_doors_01",panel:"control_panels_01",buttons:"panel_buttons_02",location:"Inside",building:"Residential",drive:"Electric",machineRoom:"Top",machine:"Gearless",hydUnit:"Beside"};
 const defaults={...state};
-const LABELS={style:{Modern:"Modern Minimal",Classic:"Classic Panels",Mirror:"Mirror Luxury",Glass:"Glass Look"},metal:{Gold:"Champagne Gold"},doorType:{Telescopic:"Automatic telescopic"},location:{Inside:"Inside the building",Outside:"Outside the building"},drive:{Electric:"Electric (traction)"},machineRoom:{Top:"Machine room on top",MRL:"In the shaft (machine-room-less)"},hydUnit:{Beside:"Machine room beside the shaft",Pit:"Inside the shaft"},building:{Residential:"Residential building",Mall:"Shopping mall",Office:"Office building"}};
-function nice(k){const v=state[k];if(k==="door"&&state.doorType==="Telescopic")return productById[v].label.replace(/ automatic doors| doors/i,"")+" telescopic doors";return productById[v]?productById[v].label:(LABELS[k]&&LABELS[k][v])||v}
-const NAMES={drive:"Drive system",machineRoom:"Machine location",machine:"Machine type",hydUnit:"Power unit location",location:"Location",building:"Building type",buttons:"Panel buttons",style:"Cabin style",metal:"Metal finish",floor:"Flooring",ceiling:"Ceiling",doorType:"Door type",door:"Door design",panel:"Control panel"};
+function nice(k,L=lang){const v=state[k],p=productById[v];
+ if(p){let l=L==="ar"?p.ar:p.label; if(k==="door"&&state.doorType==="Telescopic") l=L==="ar"?l+" ("+t("telescopic",L)+")":l.replace(/ automatic doors| doors/i,"")+" "+t("telescopic",L); return l;}
+ return t("o."+k+"."+v,L);}
 function buildPhotoGroups(){
  document.querySelectorAll("[data-photo-group]").forEach(box=>{
   const g=box.dataset.photoGroup; box.classList.add(g); box.replaceChildren();
@@ -243,23 +362,18 @@ function buildPhotoGroups(){
   });
  });
 }
-const HINTS={
- drive:{Electric:"Motor and steel ropes move the car. Suits any building height.",Hydraulic:"An oil-driven piston pushes the car. Ideal for low-rise buildings (up to about 5 floors)."},
- machineRoom:{Top:"Motor and controller in a room on the roof, above the shaft.",MRL:"Compact motor at the top of the shaft. No machine room needed."},
- machine:{Geared:"Motor drives the ropes through a gearbox. Lower cost.",Gearless:"Motor drives the ropes directly. Quieter, smoother and more energy-efficient."},
- hydUnit:{Beside:"Pump and oil tank in a small room next to the shaft, at the lowest floor.",Pit:"Pump and oil tank inside the shaft. Saves space."}
-};
+const HINT_KEYS=["drive","machineRoom","machine","hydUnit"];
 function activeKeys(){return Object.keys(state).filter(k=>state.drive==="Hydraulic"?!(k==="machineRoom"||k==="machine"):k!=="hydUnit");}
 function render(){
  document.querySelectorAll("[data-group]").forEach(group=>group.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",String(state[group.dataset.group]===b.dataset.value))));
  document.querySelectorAll("[data-photo-group]").forEach(box=>box.querySelectorAll(".pchoice").forEach(b=>b.setAttribute("aria-pressed",String(state[box.dataset.photoGroup]===b.dataset.value))));
  ["floor","door","panel","buttons"].forEach(k=>document.getElementById("pickName-"+k).textContent=nice(k));
- Object.keys(HINTS).forEach(k=>document.getElementById("hint-"+k).textContent=HINTS[k][state[k]]);
+ HINT_KEYS.forEach(k=>document.getElementById("hint-"+k).textContent=t("h."+k+"."+state[k]));
  document.querySelectorAll("[data-show]").forEach(f=>f.hidden=f.dataset.show!==state.drive);
- const geared=document.querySelector('[data-group=machine] [data-value=Geared]'); geared.disabled=state.machineRoom==="MRL"; geared.title=geared.disabled?"Machine-room-less elevators use gearless machines":"";
+ const geared=document.querySelector('[data-group=machine] [data-value=Geared]'); geared.disabled=state.machineRoom==="MRL"; geared.title=geared.disabled?t("mrlGeared"):"";
  document.getElementById("previewStatus").textContent=nice("style")+" · "+nice("metal");
  const chips=document.getElementById("chips");chips.replaceChildren();
- activeKeys().forEach(k=>{const span=document.createElement("span");span.className="chip";span.textContent=NAMES[k]+": "+nice(k);chips.append(span)});
+ activeKeys().forEach(k=>{const span=document.createElement("span");span.className="chip";span.textContent=t("f."+k)+": "+nice(k);chips.append(span)});
  const d=productById[state.door], f=productById[state.floor], pn=productById[state.panel];
  window.dispatchEvent(new CustomEvent('melsa:update',{detail:{...state,doorInfo:d,floorInfo:f,panelInfo:pn,buttonInfo:productById[state.buttons]}}));
 }
@@ -271,10 +385,11 @@ document.querySelectorAll("[data-group]").forEach(group=>group.addEventListener(
  render()}));
 document.querySelectorAll("[data-photo-group]").forEach(box=>box.addEventListener("click",e=>{const b=e.target.closest(".pchoice");if(!b)return;state[box.dataset.photoGroup]=b.dataset.value;render()}));
 document.getElementById("resetBtn").addEventListener("click",()=>{Object.assign(state,defaults);buildPhotoGroups();render()});
-function designBrief(){return "MELSA ELEVATORS — CABIN DESIGN BRIEF\n"+activeKeys().map(k=>NAMES[k]+": "+nice(k)).join("\n")}
-document.getElementById("copyBtn").addEventListener("click",async()=>{const brief=designBrief();const btn=document.getElementById("copyBtn");try{await navigator.clipboard.writeText(brief);btn.textContent="Copied!";setTimeout(()=>btn.textContent="Copy design brief",1600)}catch(e){alert(brief)}});
+function designBrief(){return t("brief")+"\n"+activeKeys().map(k=>t("f."+k)+": "+nice(k)).join("\n")}
+document.getElementById("copyBtn").addEventListener("click",async()=>{const brief=designBrief();const btn=document.getElementById("copyBtn");try{await navigator.clipboard.writeText(brief);btn.textContent=t("copied");setTimeout(()=>btn.textContent=t("copy"),1600)}catch(e){alert(brief)}});
 buildPhotoGroups();
-render();
+window.melsaReady=true;
+applyLang(lang);
 
 /* ---------- AI realistic image (free Pollinations service for now) ---------- */
 /* Set this to the Cloudflare Worker URL to switch from the free service to Gemini */
@@ -316,7 +431,7 @@ Use the attached product photos as exact references:
 - Image 1 is the landing door (${d.label}). Reproduce its colour, pattern and frame faithfully.${s.doorType==="Telescopic"?" Keep that exact finish, but build it as a two-panel telescopic side-opening door: both panels slide to the same side and stack.":""}
 - Image 2 is the floor material (${f.label}). Use it for the cabin floor.
 - Image 3 is the control/call panel (${pn.label}). Mount it on the wall beside the door. Keep its shape and finish, but all its buttons must be ${btnAi()}.
-Cabin: ${nice("style")} style with ${nice("metal")} stainless steel walls, ${s.ceiling.toLowerCase()} ceiling lighting, matching handrail.
+Cabin: ${nice("style","en")} style with ${nice("metal","en")} stainless steel walls, ${s.ceiling.toLowerCase()} ceiling lighting, matching handrail.
 Natural, realistic proportions for a ${s.building==="Hospital"?"deep hospital bed elevator":s.building==="Factory"?"sturdy passenger/goods elevator":s.building==="Mall"?"spacious high-capacity passenger elevator":s.building==="Office"||s.building==="Hotel"?"spacious passenger elevator":"compact passenger elevator"}. ${lightAi()}, sharp focus, no people, no text, no logos.`;
  return {prompt,images:[base+d.src,base+f.src,base+pn.src]};
 }
@@ -327,7 +442,7 @@ function aiShowLoading(msg){aiStage.innerHTML='<div class="ai-loading"><div clas
 async function aiGenerate(){
  if(aiBusy)return; aiBusy=true;
  aiModal.classList.add("open"); document.body.style.overflow="hidden";
- aiShowLoading("Creating your elevator design…");
+ aiShowLoading(t("aiLoading"));
   if(AI_ENDPOINT){
    try{
     const res=await fetch(AI_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(buildGeminiRequest())});
@@ -337,8 +452,8 @@ async function aiGenerate(){
      if(aiUrl)URL.revokeObjectURL(aiUrl); aiUrl=URL.createObjectURL(blob);
      aiStage.innerHTML=""; const img=new Image(); img.alt="AI-generated elevator design"; img.src=aiUrl; aiStage.append(img); return;
     }
-    aiStage.innerHTML='<div class="ai-loading">'+(data.error||"Could not create the image. Please try again.")+'</div>'; return;
-   }catch(e){aiStage.innerHTML='<div class="ai-loading">Connection problem. Please try again.</div>'; return;}
+    aiStage.innerHTML='<div class="ai-loading">'+(res.status===429?t("aiLimit"):t("aiError"))+'</div>'; return;
+   }catch(e){aiStage.innerHTML='<div class="ai-loading">'+t("aiConn")+'</div>'; return;}
   }
   const seed=Math.floor(Math.random()*1e9);
  const url="https://image.pollinations.ai/prompt/"+encodeURIComponent(buildAiPrompt())+"?width=768&height=1024&model=flux&nologo=true&enhance=false&seed="+seed;
@@ -565,7 +680,10 @@ function resize(){
  camera.updateProjectionMatrix();
 }
 new ResizeObserver(resize).observe(host);resize();
-function setDoor(open){doorTarget=open?1:0; doorBtn.textContent=open?'Close door':'Open door';}
+function viewTexts(){doorBtn.textContent=doorTarget>0.5?t('close'):t('open'); insideBtn.textContent=inside?t('outside'):t('inside'); caption.textContent=inside?t('capIn'):t('capOut');}
+window.addEventListener('melsa:lang',()=>{if(!camPath)viewTexts();});
+viewTexts();
+function setDoor(open){doorTarget=open?1:0; viewTexts();}
 function flyTo(points,done){ // points: [{pos,target}], each step ~0.9s
  camPath={from:{pos:camera.position.clone(),target:controls.target.clone()},points,i:0,t:0,done};
  controls.enabled=false; doorBtn.disabled=insideBtn.disabled=true;
@@ -577,7 +695,7 @@ function goInside(){
   inside=true; resize();
   controls.minDistance=controls.maxDistance=0.08; controls.enableZoom=false; controls.enablePan=false;
   controls.minPolarAngle=Math.PI*0.12; controls.maxPolarAngle=Math.PI*0.88; controls.rotateSpeed=-0.4;
-  insideBtn.textContent='Step outside'; caption.textContent='INSIDE THE CABIN · DRAG TO LOOK AROUND';
+  viewTexts();
  });
 }
 function goOutside(){
@@ -585,7 +703,7 @@ function goOutside(){
  controls.minDistance=0; controls.maxDistance=100; controls.enableZoom=true; controls.rotateSpeed=1; controls.minPolarAngle=0;
  flyTo([{pos:new THREE.Vector3(0,1.6,3.4),target:new THREE.Vector3(0,1.5,0)},{pos:OUTSIDE.pos.clone(),target:OUTSIDE.target.clone()}],()=>{
   controls.minDistance=4.2; controls.maxDistance=10; controls.maxPolarAngle=Math.PI*0.83;
-  insideBtn.textContent='Step inside'; caption.textContent='INTERACTIVE 3D CONCEPT · DRAG TO ROTATE';
+  viewTexts();
  });
 }
 doorBtn.addEventListener('click',()=>setDoor(doorTarget<0.5));
