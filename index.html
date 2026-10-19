@@ -232,7 +232,7 @@ render();
 
 /* ---------- AI realistic image (free Pollinations service for now) ---------- */
 /* Set this to the Cloudflare Worker URL to switch from the free service to Gemini */
-const AI_ENDPOINT="";
+const AI_ENDPOINT="https://melsa-ai.joeadel755.workers.dev/";
 function buildAiPrompt(){
  const s=state, metal={Silver:"brushed silver stainless steel",Gold:"champagne gold stainless steel",Bronze:"bronze stainless steel",Black:"black stainless steel"}[s.metal];
  const walls={Modern:metal+" walls",Classic:metal+" walls with classic raised panels",Mirror:"mirror-polished "+metal+" walls",Glass:"glass walls with "+metal+" frames"}[s.style];
