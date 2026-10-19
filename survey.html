@@ -555,7 +555,7 @@ document.getElementById("lockLang").addEventListener("click",()=>applyLang(lang=
 /* ---------- Engineers' password ----------
    Only a salted PBKDF2 hash is stored here, never the password itself.
    To change the password, generate a new SALT/HASH pair. */
-const LOCK={salt:"3e89181f6ce596a1bbc9045712b98424",hash:"012144e3b0cb1b6f5a6bcb08c15eb89f20fe1c0f06292183f12b70be764d118f",iter:150000,key:"melsaSurveyKey"};
+const LOCK={salt:"186f61d54c8efec36171f41507c2dbd0",hash:"37bcf36379b662ce9b593233277aaad24976dc04214fbdb053e901893569cf61",iter:150000,key:"melsaSurveyKey"};
 async function derive(pw){
  const enc=new TextEncoder(), k=await crypto.subtle.importKey("raw",enc.encode(pw),"PBKDF2",false,["deriveBits"]);
  const salt=new Uint8Array(LOCK.salt.match(/../g).map(h=>parseInt(h,16)));
