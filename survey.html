@@ -86,6 +86,19 @@ footer{background:var(--navy);border-top:4px solid var(--red);color:#c7d4ec;padd
 footer a{color:#fff}
 .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:90;background:var(--navy);color:#fff;padding:12px 18px;border-radius:12px;font-size:13px;max-width:calc(100% - 32px);box-shadow:0 8px 24px #0a173055;border-bottom:3px solid var(--red)}
 .print-head{display:none}
+body.locked{background:#fff}
+body.locked>*:not(#lock):not(.toast){display:none!important}
+#lock{display:none}
+body.locked #lock{display:flex;min-height:100vh;flex-direction:column}
+.lock-bar{height:10px;background:var(--navy);box-shadow:0 5px 0 var(--red)}
+.lock-inner{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px 20px;max-width:420px;margin:0 auto;width:100%}
+.lock-inner img{width:min(220px,58vw);height:auto;margin-bottom:18px}
+.lock-inner h1{font-size:26px;margin:0 0 6px}
+.lock-inner p{color:var(--muted);font-size:13.5px;margin:0 0 18px}
+.lock-form{display:flex;flex-direction:column;gap:10px;width:100%}
+.lock-form input{border:2px solid var(--navy);border-radius:10px;padding:13px 14px;font:inherit;font-size:16px;text-align:center}
+.lock-err{color:var(--red);font-size:12.5px;min-height:18px}
+.lock-links{display:flex;gap:10px;justify-content:center;margin-top:14px;align-items:center}
 @media(max-width:860px){.plan-wrap{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.floors{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:560px){
  header{padding:10px 14px}.brand img{height:46px}.brand small{display:none}.navlink{padding:6px 10px;font-size:11px}
@@ -111,7 +124,21 @@ footer a{color:#fff}
 }
 </style>
 </head>
-<body>
+<body class="locked">
+<div id="lock" role="dialog" aria-modal="true" aria-labelledby="lockTitle">
+ <div class="lock-bar"></div>
+ <div class="lock-inner">
+  <img src="assets/logo.png" alt="Melsa Elevators" width="400" height="308">
+  <h1 id="lockTitle" data-i18n="lockTitle">Engineers only</h1>
+  <p data-i18n="lockText">Enter the engineers' password to open the site survey.</p>
+  <form class="lock-form" id="lockForm">
+   <input type="password" id="lockPw" autocomplete="current-password" required data-i18n-ph="lockPh" placeholder="Password">
+   <button type="submit" class="btn primary" style="padding:14px" data-i18n="unlock">Unlock</button>
+   <div class="lock-err" id="lockErr" role="alert"></div>
+  </form>
+  <div class="lock-links"><a class="navlink" href="./" data-i18n="navConfig">Cabin configurator</a><button type="button" class="lang-btn" id="lockLang" lang="ar">عربي</button></div>
+ </div>
+</div>
 <header>
  <a class="brand" href="./"><img src="assets/logo.png" alt="Melsa Elevators" width="400" height="308"><small data-i18n="tagline">ENGINEERED FOR ELEGANCE</small></a>
  <div class="header-right"><a class="navlink" href="./" data-i18n="navConfig">Cabin configurator</a><button type="button" class="lang-btn" id="langBtn" lang="ar">عربي</button></div>
@@ -126,6 +153,7 @@ footer a{color:#fff}
   <button type="button" class="btn ghost" id="printBtn" data-i18n="print">Print / Save PDF</button>
   <button type="button" class="btn ghost" id="shareBtn" data-i18n="share">Share (WhatsApp)</button>
   <a class="btn ghost" href="#savedCard" id="savedLink"></a>
+  <button type="button" class="btn ghost" id="lockBtn" data-i18n="lock">🔒 Lock</button>
   <span class="status" id="status"></span>
  </div>
 
@@ -240,7 +268,7 @@ footer a{color:#fff}
 <script>
 /* ---------- Text (English / Arabic) ---------- */
 const T={
- en:{docTitle:"Melsa Elevators | Site Survey",tagline:"ENGINEERED FOR ELEGANCE",navConfig:"Cabin configurator",eyebrow:"FOR ENGINEERS",title:"Site survey",printTitle:"SITE SURVEY REPORT",
+ en:{docTitle:"Melsa Elevators | Site Survey",lockTitle:"Engineers only",lockText:"Enter the engineers' password to open the site survey.",lockPh:"Password",unlock:"Unlock",lockWrong:"Wrong password. Try again.",lock:"🔒 Lock",tagline:"ENGINEERED FOR ELEGANCE",navConfig:"Cabin configurator",eyebrow:"FOR ENGINEERS",title:"Site survey",printTitle:"SITE SURVEY REPORT",
   lead:"Record the shaft measurements, heights and the components needed for the installation. Everything is saved on this device automatically.",
   newSurvey:"+ New survey",print:"Print / Save PDF",share:"Share (WhatsApp)",saved:"Saved surveys",savedAt:"Saved automatically · ",
   s1:"Project details",s1sub:"Who, where and what type of elevator.",s2:"Shaft plan (top view)",s2sub:"Write the inside measurement of each wall in millimetres. The drawing follows your numbers.",
@@ -266,7 +294,7 @@ const T={
   "k.plumb":"Shaft is plumb (checked top to bottom)","k.pit":"Pit is dry and clean","k.power":"3-phase power supply available","k.light":"Shaft lighting / temporary light","k.access":"Access for delivering materials","k.vent":"Ventilation for shaft / machine room","k.anchor":"Walls suitable for bracket anchoring","k.scaff":"Scaffolding / safe working platform",
   "x.car":"Car (cabin)","x.carDoor":"Car door","x.landing":"Landing doors","x.carRails":"Car guide rails","x.cwRails":"Counterweight guide rails","x.brackets":"Rail brackets","x.machine":"Machine","x.controller":"Controller","x.ropes":"Suspension ropes",
   "x.governor":"Speed governor","x.cw":"Counterweight & filler weights","x.buffers":"Buffers","x.cable":"Travelling cable","x.cop":"Car operating panel (COP)","x.lop":"Landing call panels","x.jack":"Hydraulic jack","x.pump":"Hydraulic power unit","x.hose":"Hydraulic hose / pipe"},
- ar:{docTitle:"ميلسا للمصاعد | معاينة الموقع",tagline:"هندسة الأناقة",navConfig:"مصمم الكابينة",eyebrow:"للمهندسين",title:"معاينة الموقع",printTitle:"تقرير معاينة الموقع",
+ ar:{docTitle:"ميلسا للمصاعد | معاينة الموقع",lockTitle:"للمهندسين فقط",lockText:"اكتب كلمة سر المهندسين لفتح صفحة المعاينة.",lockPh:"كلمة السر",unlock:"فتح",lockWrong:"كلمة السر غير صحيحة. حاول مرة أخرى.",lock:"🔒 قفل",tagline:"هندسة الأناقة",navConfig:"مصمم الكابينة",eyebrow:"للمهندسين",title:"معاينة الموقع",printTitle:"تقرير معاينة الموقع",
   lead:"سجّل مقاسات البئر والارتفاعات والمكونات المطلوبة للتركيب. يتم الحفظ تلقائيًا على هذا الجهاز.",
   newSurvey:"+ معاينة جديدة",print:"طباعة / حفظ PDF",share:"مشاركة (واتساب)",saved:"المعاينات المحفوظة",savedAt:"تم الحفظ تلقائيًا · ",
   s1:"بيانات المشروع",s1sub:"العميل والمكان ونوع المصعد.",s2:"رسمة البئر (من أعلى)",s2sub:"اكتب المقاس الداخلي لكل حائط بالمليمتر. الرسمة تتغير حسب أرقامك.",
@@ -511,10 +539,32 @@ function applyLang(L){
  lang=L; try{localStorage.setItem("melsaLang",L)}catch(e){}
  document.documentElement.lang=L; document.documentElement.dir=L==="ar"?"rtl":"ltr"; document.title=t("docTitle");
  document.querySelectorAll("[data-i18n]").forEach(el=>el.textContent=t(el.dataset.i18n));
- document.getElementById("langBtn").textContent=L==="ar"?"English":"عربي";
+ document.getElementById("langBtn").textContent=document.getElementById("lockLang").textContent=L==="ar"?"English":"عربي";
+ document.querySelectorAll("[data-i18n-ph]").forEach(el=>el.placeholder=t(el.dataset.i18nPh));
  renderAll(true);
 }
 document.getElementById("langBtn").addEventListener("click",()=>applyLang(lang==="ar"?"en":"ar"));
+document.getElementById("lockLang").addEventListener("click",()=>applyLang(lang==="ar"?"en":"ar"));
+
+/* ---------- Engineers' password ----------
+   Only a salted PBKDF2 hash is stored here, never the password itself.
+   To change the password, generate a new SALT/HASH pair. */
+const LOCK={salt:"08ae5b94a54f1626cc515d23ad42947c",hash:"ff71f16ba5103e3255510f7504911440788ebe3ea81d1c9d52c444c7f1012dc7",iter:150000,key:"melsaSurveyKey"};
+async function derive(pw){
+ const enc=new TextEncoder(), k=await crypto.subtle.importKey("raw",enc.encode(pw),"PBKDF2",false,["deriveBits"]);
+ const salt=new Uint8Array(LOCK.salt.match(/../g).map(h=>parseInt(h,16)));
+ const bits=await crypto.subtle.deriveBits({name:"PBKDF2",hash:"SHA-256",salt,iterations:LOCK.iter},k,256);
+ return [...new Uint8Array(bits)].map(b=>b.toString(16).padStart(2,"0")).join("");
+}
+function unlock(){document.body.classList.remove("locked");}
+try{if(localStorage.getItem(LOCK.key)===LOCK.hash)unlock();}catch(e){}
+document.getElementById("lockForm").addEventListener("submit",async e=>{
+ e.preventDefault(); const inp=document.getElementById("lockPw"), err=document.getElementById("lockErr"); err.textContent="";
+ const h=await derive(inp.value.trim());
+ if(h===LOCK.hash){try{localStorage.setItem(LOCK.key,h)}catch(e){} inp.value=""; unlock(); scrollTo(0,0);}
+ else{err.textContent=t("lockWrong"); inp.select();}
+});
+document.getElementById("lockBtn").addEventListener("click",()=>{try{localStorage.removeItem(LOCK.key)}catch(e){} document.body.classList.add("locked"); scrollTo(0,0);});
 function renderAll(keepScroll){loadInputs();renderFloors();renderMR();renderComps();renderChecks();renderPhotos();drawPlan();renderSaved();status();}
 applyLang(lang); persist();
 if("serviceWorker" in navigator) window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
