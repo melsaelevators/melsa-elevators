@@ -82,6 +82,11 @@ footer{background:var(--navy);border-top:4px solid var(--red);color:#c7d4ec;padd
 .photo-choices.floor .pchoice,.photo-choices.buttons .pchoice{aspect-ratio:1}
 @media(max-width:760px){.photo-choices{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}}
 @media(min-width:761px) and (max-width:1023px){.photo-choices{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.view-ctrls{position:absolute;left:0;right:0;bottom:34px;display:flex;justify-content:center;gap:8px;pointer-events:none}
+.view-btn{pointer-events:auto;border:1px solid var(--navy);background:#fff;color:var(--navy);border-radius:999px;padding:9px 16px;font:inherit;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 2px 8px #02358422}
+.view-btn.primary-view{background:var(--navy);color:#fff}
+.view-btn:disabled{opacity:.55;cursor:default}
+@media(max-width:760px){.view-ctrls{bottom:30px}.view-btn{padding:7px 13px;font-size:11px}}
 .ai-btn{width:100%;margin-top:10px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;gap:8px;font-size:13px;padding:15px}
 .ai-btn:hover{background:var(--navy-dark)}.ai-btn svg{width:18px;height:18px}
 .ai-note{font-size:10.5px;color:var(--muted);text-align:center;margin:6px 0 0}
@@ -107,7 +112,7 @@ footer{background:var(--navy);border-top:4px solid var(--red);color:#c7d4ec;padd
 <section class="intro"><div><div class="eyebrow">YOUR DESIGN, YOUR CHOICE</div><h1>Design your <em>own cabin.</em></h1><p>Explore finishes and build a look that feels right for your project. Choose the cabin style, flooring, metal finish, ceiling, control panels and door type/design.</p></div><div class="step">8 CHOICES &nbsp;·&nbsp; REAL MELSA PRODUCTS</div></section>
 <div class="layout">
 <section class="preview-card"><div class="preview-head"><strong>LIVE 3D DESIGN PREVIEW</strong><span id="previewStatus">Modern Minimal · Silver</span></div>
-<div class="scene three-scene" id="threeScene"><canvas id="cabin3d" aria-label="Interactive 3D elevator cabin preview"></canvas><div class="scene-caption">INTERACTIVE 3D CONCEPT · DRAG TO ROTATE</div><div class="three-hint">3D PREVIEW</div></div>
+<div class="scene three-scene" id="threeScene"><canvas id="cabin3d" aria-label="Interactive 3D elevator cabin preview"></canvas><div class="view-ctrls"><button type="button" class="view-btn" id="doorBtn">Open door</button><button type="button" class="view-btn primary-view" id="insideBtn">Step inside</button></div><div class="scene-caption" id="sceneCaption">INTERACTIVE 3D CONCEPT · DRAG TO ROTATE</div><div class="three-hint">3D PREVIEW</div></div>
 </section>
 <aside class="controls"><h2>Customize your cabin</h2><p class="sub">Pick real Melsa products — the 3D preview updates instantly.</p>
 <div class="field"><label>01 — Cabin style</label><div class="choices" data-group="style">
@@ -316,6 +321,7 @@ document.getElementById("aiDownload").addEventListener("click",()=>{if(!aiUrl)re
 <script type="module">
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
 const canvas = document.getElementById('cabin3d');
 const host = document.getElementById('threeScene');
@@ -330,7 +336,8 @@ renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.15;
 
-scene.add(new THREE.HemisphereLight(0xffffff, 0x8b929c, 2.1));
+scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture;
+scene.add(new THREE.HemisphereLight(0xffffff, 0x8b929c, 1.4));
 const key = new THREE.DirectionalLight(0xffffff, 3.0); key.position.set(4,7,5); scene.add(key);
 const fill = new THREE.DirectionalLight(0xffe3b1, 1.3); fill.position.set(-4,3,-3); scene.add(fill);
 
@@ -340,6 +347,9 @@ controls.target.set(0, 1.45, 0); controls.minDistance = 4.2; controls.maxDistanc
 controls.maxPolarAngle = Math.PI * 0.83;
 
 const cabin = new THREE.Group(); scene.add(cabin);
+// lobby floor around the elevator
+const lobby=new THREE.Mesh(new THREE.PlaneGeometry(40,40),new THREE.MeshStandardMaterial({color:'#e7e3dc',roughness:0.55,metalness:0.05}));
+lobby.rotation.x=-Math.PI/2; lobby.position.y=-0.001; scene.add(lobby);
 function mat(color, metalness=0.45, roughness=0.28){return new THREE.MeshStandardMaterial({color,metalness,roughness});}
 const mats = {
   shell: mat('#aeb7bf',0.72,0.25), back:mat('#c4cbd0',0.62,0.28),
@@ -368,7 +378,21 @@ const floorTiles=[];
 // floor seams removed: real floor texture is used
 if(false) floorTiles.push(box(0.008,0.003,depth-0.18,mat('#a7a39a',0.1,0.6),-width/2+0.3+i*0.58,0.125,0.03));
 const lightBars=[];
-for(let i=0;i<3;i++) lightBars.push(box(0.055,0.025,depth-0.25,mats.light,-0.72+i*0.72,height-0.095,0));
+const ceilingGroup=new THREE.Group(); cabin.add(ceilingGroup);
+const cabinLight=new THREE.PointLight(0xfff1d6,2.2,4,1.6); cabinLight.position.set(0,height-0.4,0); cabin.add(cabinLight);
+function rebuildCeiling(type){
+ while(ceilingGroup.children.length){const o=ceilingGroup.children.pop(); if(o.geometry)o.geometry.dispose();}
+ const y=height-0.095;
+ if(type==='Spotlights'){
+  for(const x of [-0.6,0,0.6])for(const z of [-0.4,0.4]){const c=new THREE.Mesh(new THREE.CylinderGeometry(0.07,0.07,0.02,28),mats.light);c.position.set(x,y,z);ceilingGroup.add(c);}
+ } else if(type==='Geometric'){
+  const bar=(w,d,x,z)=>box(w,0.02,d,mats.light,x,y,z,ceilingGroup);
+  bar(1.6,0.05,0,-0.55);bar(1.6,0.05,0,0.55);bar(0.05,1.15,-0.78,0);bar(0.05,1.15,0.78,0);
+  bar(1.6,0.035,0,0);bar(0.035,1.15,0,0);
+ } else {
+  for(let i=0;i<3;i++) box(0.055,0.025,depth-0.25,mats.light,-0.72+i*0.72,y,0,ceilingGroup);
+ }
+}
 const rail=box(width-0.42,0.055,0.055,mats.trim,0,1.05,-depth/2+0.16);
 const panelBase=box(0.24,1.15,0.07,mat('#c8aa70',0.72,0.22),width/2-0.22,1.75,-depth/2+0.13);
 const panelScreen=box(0.17,0.78,0.018,mat('#101114',0.35,0.22),width/2-0.22,1.84,-depth/2+0.174);
@@ -403,37 +427,55 @@ frontFrame.push(box(0.08,height,0.09,mats.trim,-width/2+0.04,height/2,depth/2-0.
 frontFrame.push(box(0.08,height,0.09,mats.trim,width/2-0.04,height/2,depth/2-0.04));
 frontFrame.push(box(width,0.08,0.09,mats.trim,0,height-0.04,depth/2-0.04));
 const doorGroup=new THREE.Group(); cabin.add(doorGroup);
-function clearGroup(group){while(group.children.length){const o=group.children.pop(); if(o.geometry)o.geometry.dispose(); if(o.material&&o.material.userData.own)o.material.dispose();}}
+function clearGroup(group){while(group.children.length){const o=group.children.pop(); o.traverse(c=>{if(c.geometry)c.geometry.dispose(); if(c.material&&c.material.userData.own)c.material.dispose();});}}
 function setColor(material,color){material.color.set(color);}
 const metalColors={Silver:'#bac2c9',Gold:'#d8b36a',Bronze:'#986b4b',Black:'#292b30'};
 const texLoader=new THREE.TextureLoader(); const texCache={};
-function floorTexture(src){if(!texCache[src]){const t=texLoader.load(src);t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=4;texCache[src]=t;}return texCache[src];}
+function floorTexture(src){if(!texCache[src]){const t=texLoader.load(src);t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=4;t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(1.6,1.3);texCache[src]=t;}return texCache[src];}
 const panelColors={Gold:'#c8a45e',Silver:'#b8c0c7',Black:'#202226'};
 let doorParts=[];
+// leaves: semi-automatic = one leaf on a left hinge; automatic = two sliding leaves
+let leaves=[], doorKind='Semi-automatic', doorT=0, doorTarget=0;
+const doorW=width*0.72, doorH=height*0.88;
 function rebuildDoor(s){
- clearGroup(doorGroup);doorParts=[];
+ leaves.forEach(l=>{clearGroup(l);doorGroup.remove(l)}); clearGroup(doorGroup); leaves=[]; doorParts=[];
  const info=s.doorInfo||{color:metalColors[s.metal],design:"plain"};
  const doorMat=mat(info.color,0.55,0.32); doorMat.userData.own=true;
  const accent=mat(info.insert||panelColors[s.panelInfo?.trim||"Silver"],0.75,0.22); accent.userData.own=true;
- const w=width*0.72, h=height*0.88, y=0.14+h/2, z=depth/2+0.015;
- if(s.doorType==='Automatic'){
-   doorParts.push(box(w/2,h,0.075,doorMat,-w/4,y,z,doorGroup));
-   doorParts.push(box(w/2,h,0.075,doorMat,w/4,y,z,doorGroup));
-   doorParts.push(box(0.018,h,0.08,mats.black,0,y,z+0.04,doorGroup));
+ const stripe=mat(new THREE.Color(info.color).multiplyScalar(0.7),0.6,0.3); stripe.userData.own=true;
+ const w=doorW, h=doorH, y=0.14+h/2, z=depth/2+0.015;
+ doorKind=s.doorType;
+ const leaf=(cx,lw)=>{ // leaf group positioned at its centre; children use local x
+  const g=new THREE.Group(); g.position.set(cx,0,0); doorGroup.add(g); leaves.push(g); g.userData.cx=cx;
+  box(lw,h,0.075,doorMat,0,y,z,g);
+  if(info.design==='stripes') for(let yy=0.4;yy<h;yy+=0.12) box(lw*0.96,0.022,0.018,stripe,0,yy+0.14,z+0.045,g);
+  return g;
+ };
+ if(doorKind==='Automatic'){
+  const L=leaf(-w/4,w/2), R=leaf(w/4,w/2);
+  box(0.009,h,0.08,mats.black,w/4-0.0045,y,z+0.04,L);
  } else {
-   doorParts.push(box(w,h,0.075,doorMat,0,y,z,doorGroup));
-   doorParts.push(box(0.045,0.42,0.055,accent,w*0.34,1.55,z+0.055,doorGroup));
- }
- if(info.design==='stripes'){
-   const stripe=mat(new THREE.Color(info.color).multiplyScalar(0.7),0.6,0.3); stripe.userData.own=true;
-   for(let yy=0.4;yy<h;yy+=0.12)doorParts.push(box(w*0.98,0.022,0.018,stripe,0,yy+0.14,z+0.045,doorGroup));
- } else if(info.design==='insert'){
-   doorParts.push(box(w*0.36,h*0.66,0.025,accent,0,y,z+0.06,doorGroup));
- } else if(info.design==='vision'||info.design==='wide'){
+  // hinge group on the left edge, leaf content offset to the right
+  const hinge=new THREE.Group(); hinge.position.set(-w/2,0,z+0.04); doorGroup.add(hinge); leaves.push(hinge); hinge.userData.hinge=true;
+  const g=new THREE.Group(); g.position.set(w/2,0,-(z+0.04)); hinge.add(g);
+  box(w,h,0.075,doorMat,0,y,z,g);
+  box(0.045,0.42,0.055,accent,w*0.34,1.55,z+0.055,g);
+  if(info.design==='insert') box(w*0.36,h*0.66,0.025,accent,0,y,z+0.06,g);
+  else if(info.design==='vision'||info.design==='wide'){
    const gw=info.design==='wide'?0.4:0.12;
-   doorParts.push(box(w*(gw+0.04),h*0.66,0.02,accent,0,y,z+0.055,doorGroup));
-   doorParts.push(box(w*gw,h*0.62,0.018,mats.glass,0,y,z+0.07,doorGroup));
+   box(w*(gw+0.04),h*0.66,0.02,accent,0,y,z+0.055,g);
+   box(w*gw,h*0.62,0.018,mats.glass,0,y,z+0.07,g);
+  }
+  hinge.traverse(o=>{if(o.isMesh&&o.material.userData.own)o.userData.disposeMat=true});
  }
+ applyDoor();
+}
+function applyDoor(){
+ const t=doorT*doorT*(3-2*doorT); // ease in-out
+ leaves.forEach(g=>{
+  if(g.userData.hinge) g.rotation.y=-1.45*t;
+  else g.position.x=g.userData.cx+Math.sign(g.userData.cx)*doorW*0.47*t;
+ });
 }
 function update3D(s){
  setColor(mats.shell, metalColors[s.metal]);
@@ -444,7 +486,7 @@ function update3D(s){
  mats.back.metalness=s.style==='Mirror'?0.92:s.style==='Glass'?0.18:0.62;
  mats.back.roughness=s.style==='Mirror'?0.08:s.style==='Glass'?0.12:0.28;
  mats.glass.opacity=s.style==='Glass'?0.48:0.72;
- lightBars.forEach(l=>setColor(l.material,s.ceiling==='Spotlights'?'#fff9e9':s.ceiling==='Geometric'?'#f1d9a0':'#fff0c4'));
+ setColor(mats.light,s.ceiling==='Spotlights'?'#fff9e9':s.ceiling==='Geometric'?'#f1d9a0':'#fff0c4'); rebuildCeiling(s.ceiling);
  sideInsets.forEach(x=>x.visible=s.style==='Classic'||s.style==='Mirror');
  setColor(panelBase.material,trim);
  setColor(panelScreen.material,'#101114');
@@ -455,16 +497,56 @@ function update3D(s){
 window.addEventListener('melsa:update',e=>update3D(e.detail));
 window.melsa3dReady=true;
 render(); // apply the current selections to the 3D model
+let inside=false, camPath=null;
+const OUTSIDE={pos:new THREE.Vector3(4.8,3.8,6.8),target:new THREE.Vector3(0,1.45,0)};
+const doorBtn=document.getElementById('doorBtn'), insideBtn=document.getElementById('insideBtn'), caption=document.getElementById('sceneCaption');
+function baseFov(){return inside?72:34}
 function resize(){
  const w=host.clientWidth, h=host.clientHeight;
  renderer.setSize(w,h,false);camera.aspect=w/h;
  // widen the view on tall/narrow screens so the whole cabin fits
- const a=camera.aspect, base=34*Math.PI/180;
- camera.fov=a<1?2*Math.atan(Math.tan(base/2)/a)*180/Math.PI:34;
+ const a=camera.aspect, base=baseFov()*Math.PI/180;
+ camera.fov=a<1?Math.min(100,2*Math.atan(Math.tan(base/2)/a)*180/Math.PI):baseFov();
  camera.updateProjectionMatrix();
 }
 new ResizeObserver(resize).observe(host);resize();
-function animate(){requestAnimationFrame(animate);controls.update();renderer.render(scene,camera);}
+function setDoor(open){doorTarget=open?1:0; doorBtn.textContent=open?'Close door':'Open door';}
+function flyTo(points,done){ // points: [{pos,target}], each step ~0.9s
+ camPath={from:{pos:camera.position.clone(),target:controls.target.clone()},points,i:0,t:0,done};
+ controls.enabled=false; doorBtn.disabled=insideBtn.disabled=true;
+}
+function goInside(){
+ setDoor(true); OUTSIDE.pos.copy(camera.position); OUTSIDE.target.copy(controls.target);
+ controls.minDistance=0; controls.maxDistance=100;
+ flyTo([{pos:new THREE.Vector3(0,1.6,3.4),target:new THREE.Vector3(0,1.55,0)},{pos:new THREE.Vector3(0,1.6,0.5),target:new THREE.Vector3(0,1.56,0.42)}],()=>{
+  inside=true; resize();
+  controls.minDistance=controls.maxDistance=0.08; controls.enableZoom=false; controls.enablePan=false;
+  controls.minPolarAngle=Math.PI*0.12; controls.maxPolarAngle=Math.PI*0.88; controls.rotateSpeed=-0.4;
+  insideBtn.textContent='Step outside'; caption.textContent='INSIDE THE CABIN · DRAG TO LOOK AROUND';
+ });
+}
+function goOutside(){
+ inside=false; resize();
+ controls.minDistance=0; controls.maxDistance=100; controls.enableZoom=true; controls.rotateSpeed=1; controls.minPolarAngle=0;
+ flyTo([{pos:new THREE.Vector3(0,1.6,3.4),target:new THREE.Vector3(0,1.5,0)},{pos:OUTSIDE.pos.clone(),target:OUTSIDE.target.clone()}],()=>{
+  controls.minDistance=4.2; controls.maxDistance=10; controls.maxPolarAngle=Math.PI*0.83;
+  insideBtn.textContent='Step inside'; caption.textContent='INTERACTIVE 3D CONCEPT · DRAG TO ROTATE';
+ });
+}
+doorBtn.addEventListener('click',()=>setDoor(doorTarget<0.5));
+insideBtn.addEventListener('click',()=>inside?goOutside():goInside());
+const clock=new THREE.Clock();
+function animate(){
+ requestAnimationFrame(animate);
+ const dt=Math.min(clock.getDelta(),0.05);
+ if(doorT!==doorTarget){doorT+=Math.sign(doorTarget-doorT)*dt/0.9; doorT=Math.max(0,Math.min(1,doorT)); if(Math.abs(doorT-doorTarget)<0.001)doorT=doorTarget; applyDoor();}
+ if(camPath){
+  const p=camPath, to=p.points[p.i]; p.t=Math.min(1,p.t+dt/0.9); const e=p.t*p.t*(3-2*p.t);
+  camera.position.lerpVectors(p.from.pos,to.pos,e); controls.target.lerpVectors(p.from.target,to.target,e); camera.lookAt(controls.target);
+  if(p.t>=1){ if(++p.i<p.points.length){p.from={pos:to.pos.clone(),target:to.target.clone()};p.t=0;} else {camPath=null;controls.enabled=true;doorBtn.disabled=insideBtn.disabled=false;controls.update();p.done&&p.done();} }
+ } else controls.update();
+ renderer.render(scene,camera);
+}
 animate();
 </script>
 
