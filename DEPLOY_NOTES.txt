@@ -1,0 +1,8 @@
+MELSA ELEVATORS — WEB 3D CONFIGURATOR
+
+This package is prepared for website hosting. Upload the contents of this folder to a static hosting service.
+The 3D viewer uses Three.js from a public CDN, so the website needs an internet connection to load the 3D engine.
+
+Deploy options: Netlify Drop, Cloudflare Pages, or your own hosting.
+Upload the folder contents (index.html and assets folder) so index.html is at the site root.
+The 3D cabin is a concept model and not an engineering/production drawing.
