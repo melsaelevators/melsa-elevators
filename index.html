@@ -84,7 +84,8 @@ footer{background:var(--navy);border-top:4px solid var(--red);color:#c7d4ec;padd
 .photo-choices.floor .pchoice,.photo-choices.buttons .pchoice{aspect-ratio:1}
 @media(max-width:760px){.photo-choices{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}}
 @media(min-width:761px) and (max-width:1023px){.photo-choices{grid-template-columns:repeat(3,minmax(0,1fr))}}
-.view-ctrls{position:absolute;left:0;right:0;bottom:34px;display:flex;justify-content:center;gap:8px;pointer-events:none}
+.view-ctrls{position:absolute;left:8px;right:8px;bottom:34px;display:flex;justify-content:center;flex-wrap:wrap;gap:8px;pointer-events:none}
+.view-btn.on{background:var(--red);border-color:var(--red);color:#fff}
 .view-btn{pointer-events:auto;border:1px solid var(--navy);background:#fff;color:var(--navy);border-radius:999px;padding:9px 16px;font:inherit;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 2px 8px #02358422}
 .view-btn.primary-view{background:var(--navy);color:#fff}
 .view-btn:disabled{opacity:.55;cursor:default}
@@ -153,7 +154,7 @@ footer{background:var(--navy);border-top:4px solid var(--red);color:#c7d4ec;padd
 <section class="intro"><div><div class="eyebrow" data-i18n="eyebrow">YOUR DESIGN, YOUR CHOICE</div><h1 data-i18n-html="h1">Design your <em>own cabin.</em></h1><p data-i18n="intro">Explore finishes and build a look that feels right for your project. Choose the cabin style, flooring, metal finish, ceiling, control panels and door type/design.</p></div><div class="step" data-i18n="step">REAL MELSA PRODUCTS</div></section>
 <div class="layout">
 <section class="preview-card"><div class="preview-head"><strong data-i18n="preview">LIVE 3D DESIGN PREVIEW</strong><span id="previewStatus">Modern Minimal · Silver</span></div>
-<div class="scene three-scene" id="threeScene"><canvas id="cabin3d" aria-label="Interactive 3D elevator cabin preview"></canvas><div class="view-ctrls"><button type="button" class="view-btn" id="doorBtn">Open door</button><button type="button" class="view-btn primary-view" id="insideBtn">Step inside</button></div><div class="scene-caption" id="sceneCaption">INTERACTIVE 3D CONCEPT · DRAG TO ROTATE</div><div class="three-hint" data-i18n="hint3d">3D PREVIEW</div></div>
+<div class="scene three-scene" id="threeScene"><canvas id="cabin3d" aria-label="Interactive 3D elevator cabin preview"></canvas><div class="view-ctrls"><button type="button" class="view-btn" id="doorBtn">Open door</button><button type="button" class="view-btn primary-view" id="insideBtn">Step inside</button><button type="button" class="view-btn" id="shaftBtn">Shaft &amp; machine</button></div><div class="scene-caption" id="sceneCaption">INTERACTIVE 3D CONCEPT · DRAG TO ROTATE</div><div class="three-hint" data-i18n="hint3d">3D PREVIEW</div></div>
 </section>
 <aside class="controls"><h2 data-i18n="customize">Customize your cabin</h2><p class="sub" data-i18n="sub">Pick real Melsa products — the 3D preview updates instantly.</p>
 <div class="field"><label>01 — Cabin style</label><div class="choices" data-group="style">
@@ -224,7 +225,7 @@ const T={
   aiTitle:"AI REALISTIC PREVIEW",aiRegen:"Generate another",aiDownload:"Download image",aiDisclaimer:"AI-generated concept image for inspiration only. Final finishes, dimensions and details must be confirmed with Melsa Elevators.",
   aiLoading:"Creating your elevator design…",aiError:"Could not create the image. Please try again.",aiConn:"Connection problem. Please try again.",aiLimit:"You've reached the hourly limit. Please try again later.",
   foot1:"MELSA ELEVATORS · DESIGN COLLECTION",foot2:"Concept configurator — not an engineering drawing",brief:"MELSA ELEVATORS — CABIN DESIGN BRIEF",
-  open:"Open door",close:"Close door",inside:"Step inside",outside:"Step outside",capOut:"INTERACTIVE 3D CONCEPT · DRAG TO ROTATE",capIn:"INSIDE THE CABIN · DRAG TO LOOK AROUND",
+  shaft:"Shaft & machine",shaftOff:"Back to cabin",capShaft:"SHAFT & MACHINE VIEW",open:"Open door",close:"Close door",inside:"Step inside",outside:"Step outside",capOut:"INTERACTIVE 3D CONCEPT · DRAG TO ROTATE",capIn:"INSIDE THE CABIN · DRAG TO LOOK AROUND",
   mrlGeared:"Machine-room-less elevators use gearless machines",telescopic:"telescopic doors",
   "f.style":"Cabin style","f.metal":"Metal finish","f.floor":"Flooring","f.ceiling":"Ceiling & lighting","f.doorType":"Door type","f.door":"Door design","f.panel":"Control panel","f.buttons":"Panel buttons",
   "f.location":"Elevator location","f.building":"Building type","f.drive":"Drive system","f.machineRoom":"Machine location","f.machine":"Machine type","f.hydUnit":"Power unit location",
@@ -248,7 +249,7 @@ const T={
   aiTitle:"معاينة واقعية بالذكاء الاصطناعي",aiRegen:"إنشاء صورة أخرى",aiDownload:"تحميل الصورة",aiDisclaimer:"صورة تصورية بالذكاء الاصطناعي للإلهام فقط. يجب تأكيد الخامات والمقاسات والتفاصيل النهائية مع ميلسا للمصاعد.",
   aiLoading:"جارٍ إنشاء تصميم مصعدك…",aiError:"تعذر إنشاء الصورة. حاول مرة أخرى.",aiConn:"مشكلة في الاتصال. حاول مرة أخرى.",aiLimit:"وصلت للحد المسموح في الساعة. حاول مرة أخرى لاحقًا.",
   foot1:"ميلسا للمصاعد · مجموعة التصميم",foot2:"أداة تصميم تصورية — ليست رسمًا هندسيًا",brief:"ميلسا للمصاعد — ملخص تصميم الكابينة",
-  open:"افتح الباب",close:"أغلق الباب",inside:"ادخل الكابينة",outside:"اخرج من الكابينة",capOut:"تصور تفاعلي ثلاثي الأبعاد · اسحب للتدوير",capIn:"داخل الكابينة · اسحب للنظر حولك",
+  shaft:"البئر والماكينة",shaftOff:"رجوع للكابينة",capShaft:"عرض البئر والماكينة",open:"افتح الباب",close:"أغلق الباب",inside:"ادخل الكابينة",outside:"اخرج من الكابينة",capOut:"تصور تفاعلي ثلاثي الأبعاد · اسحب للتدوير",capIn:"داخل الكابينة · اسحب للنظر حولك",
   mrlGeared:"مصاعد MRL تستخدم ماكينات بدون جيربوكس (Gearless)",telescopic:"تلسكوبي",
   "f.style":"طراز الكابينة","f.metal":"لون المعدن","f.floor":"الأرضية","f.ceiling":"السقف والإضاءة","f.doorType":"نوع الباب","f.door":"تصميم الباب","f.panel":"لوحة التحكم","f.buttons":"أزرار اللوحة",
   "f.location":"مكان المصعد","f.building":"نوع المبنى","f.drive":"نظام التشغيل","f.machineRoom":"مكان الماكينة","f.machine":"نوع الماكينة","f.hydUnit":"مكان وحدة الزيت",
@@ -511,7 +512,7 @@ const canvas = document.getElementById('cabin3d');
 const host = document.getElementById('threeScene');
 const scene = new THREE.Scene();
 scene.background = new THREE.Color('#eef2f9');
-scene.fog = new THREE.Fog('#eef2f9', 8, 18);
+scene.fog = new THREE.Fog('#eef2f9', 12, 30);
 const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100);
 camera.position.set(4.8, 3.8, 6.8);
 const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:false});
@@ -666,7 +667,150 @@ function applyDoor(){
   else g.position.x=g.userData.cx+g.userData.dx*t;
  });
 }
+
+/* ---------- Building backdrop, shaft and drive machinery ---------- */
+const envGroup=new THREE.Group(); scene.add(envGroup);       // building wall behind (always visible)
+const shaftGroup=new THREE.Group(); scene.add(shaftGroup);   // shaft + machine (shaft view only)
+shaftGroup.visible=false;
+let shaftView=false, lastEnvKey='', lastShaftKey='';
+const SKY='#d3e5f3', INDOOR='#eef2f9';
+const BUILD={ // wall, floor (inside), floor (outside), accent
+ Residential:{wall:'#e4dccf',outWall:'#d9c6a8',floor:'#ece7df',accent:'#b9a27c'},
+ Villa:{wall:'#f1ece3',outWall:'#f3efe7',floor:'#e3d4bd',accent:'#8a5a35'},
+ Factory:{wall:'#b7bcc1',outWall:'#97a1aa',floor:'#bdbcb7',accent:'#f2b705'},
+ Hospital:{wall:'#f2f6f7',outWall:'#eef3f5',floor:'#e5ecef',accent:'#2f8f9d'},
+ Mall:{wall:'#efebe4',outWall:'#86a9c0',floor:'#f1efea',accent:'#c9a35a'},
+ Office:{wall:'#dfe2e5',outWall:'#3f566b',floor:'#d6d9dc',accent:'#9aa7b3'},
+ Hotel:{wall:'#e7d9bf',outWall:'#e3d4b6',floor:'#d8c6a2',accent:'#c9a35a'}
+};
+function emptyGroup(g){while(g.children.length){const o=g.children.pop();o.traverse(c=>{if(c.geometry)c.geometry.dispose();if(c.material&&c.material.userData.own)c.material.dispose();});}}
+function own(m){m.userData.own=true;return m;}
+function rod(a,b,r,m,parent){ // cylinder between two points
+ const d=new THREE.Vector3().subVectors(b,a), len=d.length();
+ const c=new THREE.Mesh(new THREE.CylinderGeometry(r,r,len,10),m);
+ c.position.copy(a).addScaledVector(d,0.5); c.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),d.normalize()); parent.add(c); return c;
+}
+function rebuildEnv(s){
+ const key=s.location+'|'+s.building; if(key===lastEnvKey)return; lastEnvKey=key; emptyGroup(envGroup);
+ const B=BUILD[s.building]||BUILD.Residential, out=s.location==='Outside';
+ scene.background.set(out?SKY:INDOOR); scene.fog.color.set(out?SKY:INDOOR);
+ lobby.material.color.set(out?'#c8c5bf':B.floor);
+ const z=-2.7, W=16, H=10;
+ box(W,H,0.2,own(mat(out?B.outWall:B.wall,0.05,0.85)),0,H/2,z,envGroup);
+ if(out){
+  if(s.building==='Mall'||s.building==='Office'){ // glass curtain wall with mullions
+   const mull=own(mat('#2b3138',0.6,0.4));
+   for(let x=-W/2;x<=W/2;x+=1.4) box(0.05,H,0.06,mull,x,H/2,z+0.12,envGroup);
+   for(let y=0;y<=H;y+=1.6) box(W,0.05,0.06,mull,0,y,z+0.12,envGroup);
+  } else if(s.building==='Factory'){ // ribbed metal cladding
+   const rib=own(mat('#7f8a94',0.5,0.5));
+   for(let x=-W/2;x<=W/2;x+=0.35) box(0.06,H,0.05,rib,x,H/2,z+0.12,envGroup);
+   box(W,0.35,0.08,own(mat(B.accent,0.2,0.6)),0,3.6,z+0.16,envGroup);
+  } else { // windows on a plastered/stone facade
+   const glass=own(mat('#3e5566',0.6,0.2)), frame=own(mat(s.building==='Hotel'?'#c9a35a':'#f5f5f2',0.3,0.5));
+   for(const y of [1.6,4.6,7.6]) for(let x=-6.5;x<=6.5;x+=2.6){ if(Math.abs(x)<2.2&&y<4)continue;
+    box(1.25,1.6,0.06,frame,x,y,z+0.12,envGroup); box(1.05,1.4,0.07,glass,x,y,z+0.14,envGroup);}
+   if(s.building==='Hospital') box(W,0.4,0.06,own(mat(B.accent,0.2,0.6)),0,3.15,z+0.13,envGroup);
+   if(s.building==='Villa') box(W,0.3,0.08,own(mat(B.accent,0.1,0.7)),0,3.2,z+0.13,envGroup);
+  }
+ } else {
+  // interior wall: skirting + feature band
+  box(W,0.14,0.06,own(mat(B.accent,0.3,0.5)),0,0.07,z+0.12,envGroup);
+  if(s.building==='Hotel'||s.building==='Villa') box(W,2.6,0.05,own(mat(s.building==='Hotel'?'#5a3a24':'#a77b52',0.1,0.6)),0,1.3,z+0.11,envGroup);
+  if(s.building==='Hospital') box(W,0.25,0.05,own(mat(B.accent,0.2,0.6)),0,1.0,z+0.12,envGroup);
+  if(s.building==='Factory') box(W,0.25,0.05,own(mat(B.accent,0.2,0.6)),0,1.0,z+0.12,envGroup);
+  if(s.building==='Mall'||s.building==='Office') for(let x=-7;x<=7;x+=1.75) box(0.03,H,0.05,own(mat('#c4c8cc',0.5,0.4)),x,H/2,z+0.12,envGroup);
+ }
+}
+function machineModel(type,parent,x,y,z,rotY=0){
+ const g=new THREE.Group(); g.position.set(x,y,z); g.rotation.y=rotY; parent.add(g);
+ const steel=own(mat('#b5bcc4',0.8,0.3)), paint=own(mat('#1f3f7a',0.4,0.45)), grey=own(mat('#7d848c',0.5,0.5));
+ const cyl=(r,l,m,px,py,pz)=>{const c=new THREE.Mesh(new THREE.CylinderGeometry(r,r,l,28),m);c.rotation.z=Math.PI/2;c.position.set(px,py,pz);g.add(c);return c;};
+ if(type==='Geared'){
+  box(1.3,0.08,0.55,grey,0,0.04,0,g);
+  cyl(0.2,0.55,paint,-0.38,0.3,0);            // motor
+  box(0.36,0.42,0.42,grey,0.08,0.29,0,g);     // gearbox
+  cyl(0.3,0.13,steel,0.42,0.36,0);            // traction sheave
+  cyl(0.12,0.08,own(mat('#c0392b',0.3,0.5)),-0.7,0.3,0); // brake drum
+ } else {
+  box(0.7,0.08,0.55,grey,0,0.04,0,g);
+  cyl(0.38,0.22,paint,-0.08,0.44,0);          // flat permanent-magnet motor
+  cyl(0.26,0.12,steel,0.16,0.44,0);           // sheave
+ }
+ return g;
+}
+function rebuildShaft(s){
+ const key=[s.drive,s.machineRoom,s.machine,s.hydUnit,s.location].join('|'); if(key===lastShaftKey)return; lastShaftKey=key; emptyGroup(shaftGroup);
+ const hyd=s.drive==='Hydraulic', mrl=!hyd&&s.machineRoom==='MRL';
+ const X=1.48, Zb=-1.38, Zf=depth/2+0.09, pit=-1.1, Ht=hyd?4.6:mrl?6.1:5.6;
+ const glass=own(new THREE.MeshPhysicalMaterial({color:s.location==='Outside'?'#bfe0f0':'#d7dde3',transparent:true,opacity:s.location==='Outside'?0.2:0.28,roughness:0.08,metalness:0,depthWrite:false,side:THREE.DoubleSide}));
+ const post=own(mat('#59616b',0.6,0.4)), concrete=own(mat('#a6a39d',0.05,0.9)), rail=own(mat('#8c949c',0.7,0.35));
+ // shaft frame + translucent walls (front left open around the door)
+ for(const x of [-X,X]) for(const z of [Zb,Zf]) box(0.08,Ht-pit,0.08,post,x,(Ht+pit)/2,z,shaftGroup);
+ box(0.02,Ht-pit,Zf-Zb,glass,-X,(Ht+pit)/2,(Zf+Zb)/2,shaftGroup);
+ box(0.02,Ht-pit,Zf-Zb,glass,X,(Ht+pit)/2,(Zf+Zb)/2,shaftGroup);
+ box(2*X,Ht-pit,0.02,glass,0,(Ht+pit)/2,Zb,shaftGroup);
+ box(2*X,Ht-height-0.1,0.02,glass,0,(Ht+height+0.1)/2,Zf,shaftGroup);
+ for(const z of [Zb,Zf]) box(2*X+0.08,0.08,0.08,post,0,Ht,z,shaftGroup);
+ for(const x of [-X,X]) box(0.08,0.08,Zf-Zb,post,x,Ht,(Zf+Zb)/2,shaftGroup);
+ box(2*X,0.12,Zf-Zb,concrete,0,pit-0.06,(Zf+Zb)/2,shaftGroup);           // pit floor
+ for(const x of [-1.3,1.3]) box(0.06,Ht-pit-0.2,0.1,rail,x,(Ht+pit-0.2)/2,0,shaftGroup); // car guide rails
+ box(2.1,0.14,0.18,post,0,height+0.07,0,shaftGroup);                       // car crosshead
+ if(hyd){
+  // side-acting jack: cylinder + plunger lifting the car
+  const jx=1.33, jz=-0.55;
+  rod(new THREE.Vector3(jx,pit,jz),new THREE.Vector3(jx,1.6,jz),0.11,own(mat('#2c3e66',0.5,0.4)),shaftGroup);
+  rod(new THREE.Vector3(jx,1.6,jz),new THREE.Vector3(jx,height+0.15,jz),0.07,own(mat('#d9dee3',0.9,0.15)),shaftGroup);
+  box(0.3,0.12,0.25,post,jx-0.1,height+0.12,jz,shaftGroup);
+  const unitAt=s.hydUnit==='Pit'?new THREE.Vector3(0.55,pit+0.05,0.5):new THREE.Vector3(X+1.45,0.02,-0.2);
+  const u=new THREE.Group(); u.position.copy(unitAt); shaftGroup.add(u);
+  box(0.85,0.6,0.5,own(mat('#1f3f7a',0.4,0.45)),0,0.3,0,u);              // oil tank
+  const m=new THREE.Mesh(new THREE.CylinderGeometry(0.16,0.16,0.4,24),own(mat('#7d848c',0.5,0.5))); m.position.set(0.15,0.8,0); u.add(m); // motor/pump
+  box(0.3,0.5,0.2,own(mat('#c9ced4',0.3,0.5)),-0.35,0.85,0,u);          // valve block
+  const pipe=own(mat('#2b2b2b',0.4,0.5));
+  if(s.hydUnit==='Pit'){ rod(new THREE.Vector3(unitAt.x+0.4,pit+0.15,unitAt.z),new THREE.Vector3(jx,pit+0.15,unitAt.z),0.025,pipe,shaftGroup);
+   rod(new THREE.Vector3(jx,pit+0.15,unitAt.z),new THREE.Vector3(jx,pit+0.15,jz),0.025,pipe,shaftGroup); }
+  else{
+   // small machine room beside the shaft
+   const rx=X+1.45, rw=2.4;
+   const wallM=own(new THREE.MeshStandardMaterial({color:'#cdc8bf',transparent:true,opacity:0.32,depthWrite:false,side:THREE.DoubleSide}));
+   box(rw,2.6,0.03,wallM,rx,1.3,Zb,shaftGroup); box(0.03,2.6,Zf-Zb,wallM,rx+rw/2,1.3,(Zf+Zb)/2,shaftGroup);
+   box(rw,2.6,0.03,wallM,rx,1.3,Zf,shaftGroup); box(rw,0.03,Zf-Zb,wallM,rx,2.6,(Zf+Zb)/2,shaftGroup);
+   rod(new THREE.Vector3(rx-0.4,0.15,-0.2),new THREE.Vector3(jx,0.15,-0.2),0.025,pipe,shaftGroup);
+   rod(new THREE.Vector3(jx,0.15,-0.2),new THREE.Vector3(jx,0.15,jz),0.025,pipe,shaftGroup);
+  }
+ } else {
+  const ropeM=own(mat('#3a3a3a',0.6,0.5)), cwM=own(mat('#4a5058',0.5,0.5));
+  const cw=new THREE.Vector3(0.55,Ht-2.6,-1.17);
+  box(0.6,1.1,0.2,cwM,cw.x,cw.y,cw.z,shaftGroup);                          // counterweight
+  for(const x of [cw.x-0.38,cw.x+0.38]) box(0.04,Ht-pit-0.2,0.06,rail,x,(Ht+pit-0.2)/2,cw.z,shaftGroup);
+  let sheave;
+  if(mrl){
+   machineModel(s.machine==='Geared'?'Geared':'Gearless',shaftGroup,-0.45,Ht-1.05,-1.08);
+   box(1.6,0.1,0.35,post,-0.45,Ht-1.1,-1.15,shaftGroup);                   // machine bracket
+   sheave=new THREE.Vector3(-0.21,Ht-0.6,-1.08);
+   // controller cabinet beside the landing door
+   box(0.32,2.0,0.14,own(mat('#c9ced4',0.6,0.35)),-X-0.3,1.1,Zf,shaftGroup);
+  } else {
+   const rh=1.9, slab=own(mat('#b9b5ad',0.05,0.9));
+   box(2*X+0.6,0.16,Zf-Zb+0.5,slab,0,Ht+0.08,(Zf+Zb)/2,shaftGroup);
+   const wallM=own(new THREE.MeshStandardMaterial({color:'#d4cfc6',transparent:true,opacity:0.3,depthWrite:false,side:THREE.DoubleSide}));
+   const cz=(Zf+Zb)/2, d=Zf-Zb+0.5, w=2*X+0.6;
+   box(w,rh,0.03,wallM,0,Ht+rh/2,cz-d/2,shaftGroup); box(w,rh,0.03,wallM,0,Ht+rh/2,cz+d/2,shaftGroup);
+   box(0.03,rh,d,wallM,-w/2,Ht+rh/2,cz,shaftGroup); box(0.03,rh,d,wallM,w/2,Ht+rh/2,cz,shaftGroup);
+   box(w,0.04,d,wallM,0,Ht+rh,cz,shaftGroup);
+   machineModel(s.machine==='Geared'?'Geared':'Gearless',shaftGroup,-0.2,Ht+0.16,-0.35);
+   box(0.5,1.3,0.3,own(mat('#c9ced4',0.6,0.35)),1.25,Ht+0.81,cz+0.45,shaftGroup); // controller
+   sheave=new THREE.Vector3(s.machine==='Geared'?0.22:-0.04,Ht+0.5,-0.35);
+  }
+  for(const dz of [-0.06,0,0.06]){
+   rod(new THREE.Vector3(0+dz,height+0.14,0),new THREE.Vector3(sheave.x+dz,sheave.y,sheave.z+0.25),0.009,ropeM,shaftGroup);
+   rod(new THREE.Vector3(sheave.x+dz,sheave.y,sheave.z-0.25),new THREE.Vector3(cw.x+dz,cw.y+0.55,cw.z),0.009,ropeM,shaftGroup);
+  }
+ }
+}
 function update3D(s){
+ rebuildEnv(s); rebuildShaft(s); if(window.melsaViewReady)viewTexts();
  setColor(mats.shell, metalColors[s.metal]);
  setColor(mats.back, s.style==='Mirror'?'#aebfc7':s.style==='Glass'?'#a2c6cb':metalColors[s.metal]);
  if(s.floorInfo){mats.floor.map=floorTexture(s.floorInfo.src);mats.floor.color.set('#ffffff');mats.floor.needsUpdate=true;}
@@ -688,7 +832,7 @@ window.melsa3dReady=true;
 render(); // apply the current selections to the 3D model
 let inside=false, camPath=null;
 const OUTSIDE={pos:new THREE.Vector3(4.8,3.8,6.8),target:new THREE.Vector3(0,1.45,0)};
-const doorBtn=document.getElementById('doorBtn'), insideBtn=document.getElementById('insideBtn'), caption=document.getElementById('sceneCaption');
+const doorBtn=document.getElementById('doorBtn'), insideBtn=document.getElementById('insideBtn'), shaftBtn=document.getElementById('shaftBtn'), caption=document.getElementById('sceneCaption');
 function baseFov(){return inside?72:34}
 function resize(){
  const w=host.clientWidth, h=host.clientHeight;
@@ -699,15 +843,19 @@ function resize(){
  camera.updateProjectionMatrix();
 }
 new ResizeObserver(resize).observe(host);resize();
-function viewTexts(){doorBtn.textContent=doorTarget>0.5?t('close'):t('open'); insideBtn.textContent=inside?t('outside'):t('inside'); caption.textContent=inside?t('capIn'):t('capOut');}
+function driveSummary(){return state.drive==='Hydraulic'?nice('drive')+' · '+nice('hydUnit'):nice('drive')+' · '+nice('machineRoom')+' · '+nice('machine');}
+function viewTexts(){doorBtn.textContent=doorTarget>0.5?t('close'):t('open'); insideBtn.textContent=inside?t('outside'):t('inside');
+ shaftBtn.textContent=shaftView?t('shaftOff'):t('shaft'); shaftBtn.classList.toggle('on',shaftView);
+ caption.textContent=inside?t('capIn'):shaftView?(t('capShaft')+' · '+driveSummary()).toUpperCase():t('capOut');}
 window.addEventListener('melsa:lang',()=>{if(!camPath)viewTexts();});
-viewTexts();
+viewTexts(); window.melsaViewReady=true;
 function setDoor(open){doorTarget=open?1:0; viewTexts();}
 function flyTo(points,done){ // points: [{pos,target}], each step ~0.9s
  camPath={from:{pos:camera.position.clone(),target:controls.target.clone()},points,i:0,t:0,done};
- controls.enabled=false; doorBtn.disabled=insideBtn.disabled=true;
+ controls.enabled=false; doorBtn.disabled=insideBtn.disabled=shaftBtn.disabled=true;
 }
 function goInside(){
+ if(shaftView){shaftView=false;shaftGroup.visible=false;lobby.material.opacity=1;lobby.material.transparent=false;}
  setDoor(true); OUTSIDE.pos.copy(camera.position); OUTSIDE.target.copy(controls.target);
  controls.minDistance=0; controls.maxDistance=100;
  flyTo([{pos:new THREE.Vector3(0,1.6,3.4),target:new THREE.Vector3(0,1.55,0)},{pos:new THREE.Vector3(0,1.6,0.5),target:new THREE.Vector3(0,1.56,0.42)}],()=>{
@@ -727,6 +875,21 @@ function goOutside(){
 }
 doorBtn.addEventListener('click',()=>setDoor(doorTarget<0.5));
 insideBtn.addEventListener('click',()=>inside?goOutside():goInside());
+const SHAFT_CAM={pos:new THREE.Vector3(10,8,14.5),target:new THREE.Vector3(-0.5,3.5,-0.4)};
+shaftBtn.addEventListener('click',()=>{
+ if(inside)return;
+ shaftView=!shaftView; viewTexts();
+ controls.minDistance=0; controls.maxDistance=100;
+ if(shaftView){
+  OUTSIDE.pos.copy(camera.position); OUTSIDE.target.copy(controls.target);
+  shaftGroup.visible=true; lobby.material.transparent=true; lobby.material.opacity=0.3; lobby.material.depthWrite=false;
+  flyTo([{pos:SHAFT_CAM.pos.clone(),target:SHAFT_CAM.target.clone()}],()=>{controls.minDistance=5;controls.maxDistance=22;});
+ } else {
+  flyTo([{pos:OUTSIDE.pos.clone(),target:OUTSIDE.target.clone()}],()=>{
+   shaftGroup.visible=false; lobby.material.opacity=1; lobby.material.transparent=false; lobby.material.depthWrite=true;
+   controls.minDistance=4.2; controls.maxDistance=10;});
+ }
+});
 const clock=new THREE.Clock();
 function animate(){
  requestAnimationFrame(animate);
@@ -735,7 +898,7 @@ function animate(){
  if(camPath){
   const p=camPath, to=p.points[p.i]; p.t=Math.min(1,p.t+dt/0.9); const e=p.t*p.t*(3-2*p.t);
   camera.position.lerpVectors(p.from.pos,to.pos,e); controls.target.lerpVectors(p.from.target,to.target,e); camera.lookAt(controls.target);
-  if(p.t>=1){ if(++p.i<p.points.length){p.from={pos:to.pos.clone(),target:to.target.clone()};p.t=0;} else {camPath=null;controls.enabled=true;doorBtn.disabled=insideBtn.disabled=false;controls.update();p.done&&p.done();} }
+  if(p.t>=1){ if(++p.i<p.points.length){p.from={pos:to.pos.clone(),target:to.target.clone()};p.t=0;} else {camPath=null;controls.enabled=true;doorBtn.disabled=insideBtn.disabled=shaftBtn.disabled=false;controls.update();p.done&&p.done();} }
  } else controls.update();
  renderer.render(scene,camera);
 }
