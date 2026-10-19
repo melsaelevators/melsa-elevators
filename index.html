@@ -71,6 +71,17 @@ footer{background:var(--navy);border-top:4px solid var(--red);color:#c7d4ec;padd
 @media(min-width:761px) and (max-width:1023px){.layout{grid-template-columns:minmax(0,1fr) minmax(300px,1fr);gap:16px}main{padding-inline:20px}#cabin3d{height:clamp(340px,46vw,520px)}}
 @media(min-width:1400px){main{max-width:1380px}.layout{grid-template-columns:minmax(0,1.35fr) minmax(360px,.75fr)}.photo-grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
 @media(hover:none){.choice{min-height:50px}}
+.field label .pick-name{display:block;font-weight:500;color:var(--muted);font-size:11px;margin-top:2px}
+.photo-choices{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+.pchoice{position:relative;padding:0;border:2px solid var(--line);border-radius:10px;overflow:hidden;background:#f5f6f8;cursor:pointer;aspect-ratio:3/4}
+.pchoice img{width:100%;height:100%;object-fit:cover;display:block}
+.pchoice.contain img{object-fit:contain;background:#fff}
+.pchoice:hover{border-color:#9fb1d1}
+.pchoice[aria-pressed=true]{border-color:var(--red);box-shadow:0 0 0 2px #d8031a33}
+.pchoice[aria-pressed=true]::after{content:"✓";position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;background:var(--red);color:#fff;font-size:12px;font-weight:800;display:grid;place-items:center}
+.photo-choices.floor .pchoice{aspect-ratio:1}
+@media(max-width:760px){.photo-choices{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}}
+@media(min-width:761px) and (max-width:1023px){.photo-choices{grid-template-columns:repeat(3,minmax(0,1fr))}}
 .ai-btn{width:100%;margin-top:10px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;gap:8px;font-size:13px;padding:15px}
 .ai-btn:hover{background:var(--navy-dark)}.ai-btn svg{width:18px;height:18px}
 .ai-note{font-size:10.5px;color:var(--muted);text-align:center;margin:6px 0 0}
@@ -93,12 +104,12 @@ footer{background:var(--navy);border-top:4px solid var(--red);color:#c7d4ec;padd
 <body>
 <header><div class="brand"><img src="assets/logo.png" alt="Melsa Elevators" width="400" height="308"><small>ENGINEERED FOR ELEGANCE</small></div><div class="tag">CABIN CONFIGURATOR · CONCEPT DEMO</div></header>
 <main>
-<section class="intro"><div><div class="eyebrow">YOUR DESIGN, YOUR CHOICE</div><h1>Design your <em>own cabin.</em></h1><p>Explore finishes and build a look that feels right for your project. Choose the cabin style, flooring, metal finish, ceiling, control panels and door type/design.</p></div><div class="step">STEP 01 / 10 &nbsp; DESIGN</div></section>
+<section class="intro"><div><div class="eyebrow">YOUR DESIGN, YOUR CHOICE</div><h1>Design your <em>own cabin.</em></h1><p>Explore finishes and build a look that feels right for your project. Choose the cabin style, flooring, metal finish, ceiling, control panels and door type/design.</p></div><div class="step">7 CHOICES &nbsp;·&nbsp; REAL MELSA PRODUCTS</div></section>
 <div class="layout">
 <section class="preview-card"><div class="preview-head"><strong>LIVE 3D DESIGN PREVIEW</strong><span id="previewStatus">Modern Minimal · Silver</span></div>
 <div class="scene three-scene" id="threeScene"><canvas id="cabin3d" aria-label="Interactive 3D elevator cabin preview"></canvas><div class="scene-caption">INTERACTIVE 3D CONCEPT · DRAG TO ROTATE</div><div class="three-hint">3D PREVIEW</div></div>
 </section>
-<aside class="controls"><h2>Customize your cabin</h2><p class="sub">Selections update the preview instantly.</p>
+<aside class="controls"><h2>Customize your cabin</h2><p class="sub">Pick real Melsa products — the 3D preview updates instantly.</p>
 <div class="field"><label>01 — Cabin style</label><div class="choices" data-group="style">
 <button class="choice" data-value="Modern" aria-pressed="true"><span class="swatch" style="--swatch:linear-gradient(135deg,#dfe2e4,#6e7880)"></span>Modern Minimal</button>
 <button class="choice" data-value="Classic" aria-pressed="false"><span class="swatch" style="--swatch:linear-gradient(135deg,#ddd4c2,#8e7d65)"></span>Classic Panels</button>
@@ -111,91 +122,24 @@ footer{background:var(--navy);border-top:4px solid var(--red);color:#c7d4ec;padd
 <button class="choice" data-value="Bronze" aria-pressed="false"><span class="swatch" style="--swatch:linear-gradient(135deg,#d0a17a,#644733)"></span>Bronze</button>
 <button class="choice" data-value="Black" aria-pressed="false"><span class="swatch" style="--swatch:linear-gradient(135deg,#77797c,#17191e)"></span>Black</button>
 </div></div>
-<div class="field"><label>03 — Flooring</label><div class="choices" data-group="floor">
-<button class="choice" data-value="White marble" aria-pressed="true"><span class="swatch" style="--swatch:linear-gradient(135deg,#fff,#c6c5c1)"></span>White Marble</button>
-<button class="choice" data-value="Black granite" aria-pressed="false"><span class="swatch" style="--swatch:linear-gradient(135deg,#5b5c60,#191a1d)"></span>Black Granite</button>
-<button class="choice" data-value="Beige stone" aria-pressed="false"><span class="swatch" style="--swatch:linear-gradient(135deg,#e4d2b8,#a58c70)"></span>Beige Stone</button>
-<button class="choice" data-value="Wood finish" aria-pressed="false"><span class="swatch" style="--swatch:repeating-linear-gradient(90deg,#b68b61 0 5px,#76533b 6px 8px)"></span>Wood Finish</button>
-</div></div>
+<div class="field"><label>03 — Flooring <span class="pick-name" id="pickName-floor"></span></label><div class="photo-choices" data-photo-group="floor"></div></div>
 <div class="field"><label>04 — Ceiling & lighting</label><div class="choices" data-group="ceiling">
 <button class="choice" data-value="Linear LED" aria-pressed="true"><span class="swatch" style="--swatch:linear-gradient(#fff7d7,#e4c777)"></span>Linear LED</button>
 <button class="choice" data-value="Geometric" aria-pressed="false"><span class="swatch" style="--swatch:repeating-linear-gradient(45deg,#f8f2df 0 4px,#c9c2ae 5px 6px)"></span>Geometric</button>
 <button class="choice full" data-value="Spotlights" aria-pressed="false"><span class="swatch" style="--swatch:radial-gradient(circle,#fff7d7 0 20%,#d4c69d 25%,#e5e4df 50%)"></span>Spotlights</button>
 </div></div>
-<div class="field"><label>05 — Control panel</label><div class="choices" data-group="panel">
-<button class="choice" data-value="Gold" aria-pressed="true"><span class="swatch" style="--swatch:linear-gradient(135deg,#f8e2a8,#a98440)"></span>Gold</button>
-<button class="choice" data-value="Silver" aria-pressed="false"><span class="swatch" style="--swatch:linear-gradient(135deg,#f7f8f8,#77828b)"></span>Silver</button>
-<button class="choice full" data-value="Black" aria-pressed="false"><span class="swatch" style="--swatch:linear-gradient(135deg,#77797c,#17191e)"></span>Black</button>
-</div></div>
-<div class="field"><label>06 — Door type</label><div class="choices" data-group="doorType">
+<div class="field"><label>05 — Door type</label><div class="choices" data-group="doorType">
 <button class="choice" data-value="Semi-automatic" aria-pressed="true">Semi-Automatic</button><button class="choice" data-value="Automatic" aria-pressed="false">Automatic</button>
 </div></div>
-<div class="field"><label>07 — Door design</label><div class="choices" data-group="doorDesign">
-<button class="choice" data-value="Plain" aria-pressed="true">Plain Finish</button><button class="choice" data-value="Horizontal stripes" aria-pressed="false">Horizontal Stripes</button><button class="choice" data-value="Decorative insert" aria-pressed="false">Decorative Insert</button><button class="choice" data-value="Slim vision panel" aria-pressed="false">Slim Vision Panel</button>
-</div></div>
-<div class="field"><label>08 — Outside call panel</label><div class="choices" data-group="outsidePanel">
-<button class="choice" data-value="Gold black glass" aria-pressed="true">Gold + Black Glass</button><button class="choice" data-value="Silver black glass" aria-pressed="false">Silver + Black Glass</button><button class="choice" data-value="Brushed silver" aria-pressed="false">Brushed Silver</button><button class="choice" data-value="Curved stainless" aria-pressed="false">Curved Stainless</button>
-</div></div>
-<div class="field"><label>09 — Inside control panel</label><div class="choices" data-group="insidePanel">
-<button class="choice" data-value="Black glass with buttons" aria-pressed="true">Black Glass + Buttons</button><button class="choice" data-value="Touch display" aria-pressed="false">Touch Display</button><button class="choice" data-value="Round button panel" aria-pressed="false">Round Button Panel</button>
-</div></div>
-<div class="field"><label>10 — Door finish</label><div class="choices" data-group="door">
-<button class="choice" data-value="Matching" aria-pressed="true">Match cabin</button><button class="choice" data-value="Contrast" aria-pressed="false">Contrast finish</button>
-</div></div>
+<div class="field"><label>06 — Door design <span class="pick-name" id="pickName-door"></span></label><div class="photo-choices" data-photo-group="door"></div></div>
+<div class="field"><label>07 — Control panel <span class="pick-name" id="pickName-panel"></span></label><div class="photo-choices" data-photo-group="panel"></div></div>
 <div class="summary"><h3>Your design specification</h3><div class="chips" id="chips"></div><p class="note">Concept preview only. Final finishes must be confirmed against available materials and real product samples.</p></div>
 <div class="actions"><button class="btn primary" id="copyBtn">Copy design brief</button><button class="btn secondary" id="resetBtn">Reset</button></div>
 <button class="btn ai-btn" id="aiBtn" type="button"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8zM19 14l.9 2.6 2.6.9-2.6.9L19 21l-.9-2.6-2.6-.9 2.6-.9zM5 15l.7 1.8 1.8.7-1.8.7L5 20l-.7-1.8-1.8-.7 1.8-.7z"/></svg>Generate realistic image (AI)</button>
-<p class="ai-note">Uses your selections and chosen catalog photos. Takes about 10–30 seconds.</p>
+<p class="ai-note">Uses your selected Melsa products. Takes about 10–30 seconds.</p>
 </aside>
 </div>
-<section class="catalog" id="photo-catalog"><div class="catalog-title"><div><div class="eyebrow">REAL PRODUCT REFERENCES</div><h2>Explore the Melsa collection</h2><p>Choose one reference photo per category to mark your preferred options. Names are descriptive labels and can be replaced with your official model codes.</p></div><span class="catalog-badge">PHOTO CATALOG</span></div>
-<div class="catalog-group"><h3>Semi-automatic doors <span>10 options</span></h3><div class="photo-grid">
-<button class="photo-card" type="button" data-photo-category="Semi-automatic doors" data-photo-label="Two-tone burgundy frame with slim vision panel"><img src="assets/semi_automatic_doors_01.jpeg" alt="Two-tone burgundy frame with slim vision panel" loading="lazy"><span class="photo-label">Two-tone burgundy frame with slim vision panel</span><span class="photo-select">Select option</span></button>
-<button class="photo-card" type="button" data-photo-category="Semi-automatic doors" data-photo-label="Ivory door with geometric gold insert"><img src="assets/semi_automatic_doors_02.jpeg" alt="Ivory door with geometric gold insert" loading="lazy"><span class="photo-label">Ivory door with geometric gold insert</span><span class="photo-select">Select option</span></button>
-<button class="photo-card" type="button" data-photo-category="Semi-automatic doors" data-photo-label="Wood finish with gold geometric insert"><img src="assets/semi_automatic_doors_03.jpeg" alt="Wood finish with gold geometric insert" loading="lazy"><span class="photo-label">Wood finish with gold geometric insert</span><span class="photo-select">Select option</span></button>
-<button class="photo-card" type="button" data-photo-category="Semi-automatic doors" data-photo-label="Grey wood finish with geometric insert"><img src="assets/semi_automatic_doors_04.jpeg" alt="Grey wood finish with geometric insert" loading="lazy"><span class="photo-label">Grey wood finish with geometric insert</span><span class="photo-select">Select option</span></button>
-<button class="photo-card" type="button" data-photo-category="Semi-automatic doors" data-photo-label="Black door with gold decorative insert"><img src="assets/semi_automatic_doors_05.jpeg" alt="Black door with gold decorative insert" loading="lazy"><span class="photo-label">Black door with gold decorative insert</span><span class="photo-select">Select option</span></button>
-<button class="photo-card" type="button" data-photo-category="Semi-automatic doors" data-photo-label="Ivory door with ornamental black insert"><img src="assets/semi_automatic_doors_06.jpeg" alt="Ivory door with ornamental black insert" loading="lazy"><span class="photo-label">Ivory door with ornamental black insert</span><span class="photo-select">Select option</span></button>
-<button class="photo-card" type="button" data-photo-category="Semi-automatic doors" data-photo-label="Ivory door with slim silver-trimmed vision panel"><img src="assets/semi_automatic_doors_07.jpeg" alt="Ivory door with slim silver-trimmed vision panel" loading="lazy"><span class="photo-label">Ivory door with slim silver-trimmed vision panel</span><span class="photo-select">Select option</span></button>
-<button class="photo-card" type="button" data-photo-category="Semi-automatic doors" data-photo-label="Champagne-gold door with tall vision panel"><img src="assets/semi_automatic_doors_08.jpeg" alt="Champagne-gold door with tall vision panel" loading="lazy"><span class="photo-label">Champagne-gold door with tall vision panel</span><span class="photo-select">Select option</span></button>
-<button class="photo-card" type="button" data-photo-category="Semi-automatic doors" data-photo-label="Brushed stainless door with slim vision panel"><img src="assets/control_panels_08.jpeg" alt="Brushed stainless door with slim vision panel" loading="lazy"><span class="photo-label">Brushed stainless door with slim vision panel</span><span class="photo-select">Select option</span></button>
-<button class="photo-card" type="button" data-photo-category="Semi-automatic doors" data-photo-label="Black stainless door with slim vision panel"><img src="assets/control_panels_09.jpeg" alt="Black stainless door with slim vision panel" loading="lazy"><span class="photo-label">Black stainless door with slim vision panel</span><span class="photo-select">Select option</span></button>
-</div></div>
-<div class="catalog-group"><h3>Automatic doors <span>8 options</span></h3><div class="photo-grid">
-<button class="photo-card" type="button" data-photo-category="Automatic doors" data-photo-label="Gold horizontal-striped doors"><img src="assets/automatic_doors_01.jpeg" alt="Gold horizontal-striped doors" loading="lazy"><span class="photo-label">Gold horizontal-striped doors</span><span class="photo-select">Select option</span></button>
-<button class="photo-card" type="button" data-photo-category="Automatic doors" data-photo-label="Black horizontal-striped doors"><img src="assets/automatic_doors_02.jpeg" alt="Black horizontal-striped doors" loading="lazy"><span class="photo-label">Black horizontal-striped doors</span><span class="photo-select">Select option</span></button>
-<button class="photo-card" type="button" data-photo-category="Automatic doors" data-photo-label="Silver horizontal-striped doors"><img src="assets/automatic_doors_03.jpeg" alt="Silver horizontal-striped doors" loading="lazy"><span class="photo-label">Silver horizontal-striped doors</span><span class="photo-select">Select option</span></button>
-<button class="photo-card" type="button" data-photo-category="Automatic doors" data-photo-label="Bronze horizontal-striped doors"><img src="assets/automatic_doors_04.jpeg" alt="Bronze horizontal-striped doors" loading="lazy"><span class="photo-label">Bronze horizontal-striped doors</span><span class="photo-select">Select option</span></button>
-<button class="photo-card" type="button" data-photo-category="Automatic doors" data-photo-label="Bronze plain automatic doors"><img src="assets/automatic_doors_05.jpeg" alt="Bronze plain automatic doors" loading="lazy"><span class="photo-label">Bronze plain automatic doors</span><span class="photo-select">Select option</span></button>
-<button class="photo-card" type="button" data-photo-category="Automatic doors" data-photo-label="Black plain automatic doors"><img src="assets/automatic_doors_06.jpeg" alt="Black plain automatic doors" loading="lazy"><span class="photo-label">Black plain automatic doors</span><span class="photo-select">Select option</span></button>
-<button class="photo-card" type="button" data-photo-category="Automatic doors" data-photo-label="Gold plain automatic doors"><img src="assets/automatic_doors_07.jpeg" alt="Gold plain automatic doors" loading="lazy"><span class="photo-label">Gold plain automatic doors</span><span class="photo-select">Select option</span></button>
-<button class="photo-card" type="button" data-photo-category="Automatic doors" data-photo-label="Silver automatic doors"><img src="assets/automatic_doors_08.jpeg" alt="Silver automatic doors" loading="lazy"><span class="photo-label">Silver automatic doors</span><span class="photo-select">Select option</span></button>
-</div></div>
-<div class="catalog-group"><h3>Control panels <span>7 options</span></h3><div class="photo-grid">
-<button class="photo-card" type="button" data-photo-category="Control panels" data-photo-label="Black glass panel with round buttons"><img src="assets/control_panels_01.jpeg" alt="Black glass panel with round buttons" loading="lazy"><span class="photo-label">Black glass panel with round buttons</span><span class="photo-select">Select option</span></button>
-<button class="photo-card" type="button" data-photo-category="Control panels" data-photo-label="Gold-and-black access panel"><img src="assets/control_panels_02.jpeg" alt="Gold-and-black access panel" loading="lazy"><span class="photo-label">Gold-and-black access panel</span><span class="photo-select">Select option</span></button>
-<button class="photo-card" type="button" data-photo-category="Control panels" data-photo-label="Slim black-and-silver call panel"><img src="assets/control_panels_03.jpeg" alt="Slim black-and-silver call panel" loading="lazy"><span class="photo-label">Slim black-and-silver call panel</span><span class="photo-select">Select option</span></button>
-<button class="photo-card" type="button" data-photo-category="Control panels" data-photo-label="Curved gold-and-black call panel"><img src="assets/control_panels_04.jpeg" alt="Curved gold-and-black call panel" loading="lazy"><span class="photo-label">Curved gold-and-black call panel</span><span class="photo-select">Select option</span></button>
-<button class="photo-card" type="button" data-photo-category="Control panels" data-photo-label="Curved silver call panel"><img src="assets/control_panels_05.jpeg" alt="Curved silver call panel" loading="lazy"><span class="photo-label">Curved silver call panel</span><span class="photo-select">Select option</span></button>
-<button class="photo-card" type="button" data-photo-category="Control panels" data-photo-label="Gold-and-black compact call panel"><img src="assets/control_panels_06.jpeg" alt="Gold-and-black compact call panel" loading="lazy"><span class="photo-label">Gold-and-black compact call panel</span><span class="photo-select">Select option</span></button>
-<button class="photo-card" type="button" data-photo-category="Control panels" data-photo-label="Black-glass call panel with round button"><img src="assets/control_panels_07.jpeg" alt="Black-glass call panel with round button" loading="lazy"><span class="photo-label">Black-glass call panel with round button</span><span class="photo-select">Select option</span></button>
-</div></div>
-<div class="catalog-group"><h3>Flooring samples <span>13 options</span></h3><div class="photo-grid">
-<button class="photo-card" type="button" data-photo-category="Flooring samples" data-photo-label="Light grey granite"><img src="assets/flooring_samples_01.jpeg" alt="Light grey granite" loading="lazy"><span class="photo-label">Light grey granite</span><span class="photo-select">Select option</span></button>
-<button class="photo-card" type="button" data-photo-category="Flooring samples" data-photo-label="White-grey marble"><img src="assets/flooring_samples_02.webp" alt="White-grey marble" loading="lazy"><span class="photo-label">White-grey marble</span><span class="photo-select">Select option</span></button>
-<button class="photo-card" type="button" data-photo-category="Flooring samples" data-photo-label="Beige granite"><img src="assets/flooring_samples_03.webp" alt="Beige granite" loading="lazy"><span class="photo-label">Beige granite</span><span class="photo-select">Select option</span></button>
-<button class="photo-card" type="button" data-photo-category="Flooring samples" data-photo-label="Brown patterned granite"><img src="assets/flooring_samples_04.jpeg" alt="Brown patterned granite" loading="lazy"><span class="photo-label">Brown patterned granite</span><span class="photo-select">Select option</span></button>
-<button class="photo-card" type="button" data-photo-category="Flooring samples" data-photo-label="Warm red-brown granite"><img src="assets/flooring_samples_05.webp" alt="Warm red-brown granite" loading="lazy"><span class="photo-label">Warm red-brown granite</span><span class="photo-select">Select option</span></button>
-<button class="photo-card" type="button" data-photo-category="Flooring samples" data-photo-label="Grey speckled granite"><img src="assets/flooring_samples_06.jpeg" alt="Grey speckled granite" loading="lazy"><span class="photo-label">Grey speckled granite</span><span class="photo-select">Select option</span></button>
-<button class="photo-card" type="button" data-photo-category="Flooring samples" data-photo-label="Brown-green granite"><img src="assets/flooring_samples_07.jpeg" alt="Brown-green granite" loading="lazy"><span class="photo-label">Brown-green granite</span><span class="photo-select">Select option</span></button>
-<button class="photo-card" type="button" data-photo-category="Flooring samples" data-photo-label="Dark grey granite"><img src="assets/flooring_samples_08.webp" alt="Dark grey granite" loading="lazy"><span class="photo-label">Dark grey granite</span><span class="photo-select">Select option</span></button>
-<button class="photo-card" type="button" data-photo-category="Flooring samples" data-photo-label="Black granite"><img src="assets/flooring_samples_09.webp" alt="Black granite" loading="lazy"><span class="photo-label">Black granite</span><span class="photo-select">Select option</span></button>
-<button class="photo-card" type="button" data-photo-category="Flooring samples" data-photo-label="Black marble with gold veining"><img src="assets/flooring_samples_10.jpeg" alt="Black marble with gold veining" loading="lazy"><span class="photo-label">Black marble with gold veining</span><span class="photo-select">Select option</span></button>
-<button class="photo-card" type="button" data-photo-category="Flooring samples" data-photo-label="Light grey stone"><img src="assets/flooring_samples_11.webp" alt="Light grey stone" loading="lazy"><span class="photo-label">Light grey stone</span><span class="photo-select">Select option</span></button>
-<button class="photo-card" type="button" data-photo-category="Flooring samples" data-photo-label="Dark stone finish"><img src="assets/flooring_samples_12.jpeg" alt="Dark stone finish" loading="lazy"><span class="photo-label">Dark stone finish</span><span class="photo-select">Select option</span></button>
-<button class="photo-card" type="button" data-photo-category="Flooring samples" data-photo-label="Black granite with gold fleck"><img src="assets/automatic_doors_10.jpeg" alt="Black granite with gold fleck" loading="lazy"><span class="photo-label">Black granite with gold fleck</span><span class="photo-select">Select option</span></button>
-</div></div>
-<div class="selected-photo-summary" id="selectedPhotoSummary">No photo option selected yet.</div></section>
+
 </main>
 <div class="ai-modal" id="aiModal" role="dialog" aria-modal="true" aria-labelledby="aiTitle">
 <div class="ai-box"><div class="ai-head"><strong id="aiTitle">AI REALISTIC PREVIEW</strong><button class="ai-close" id="aiClose" aria-label="Close">&times;</button></div>
@@ -205,63 +149,110 @@ footer{background:var(--navy);border-top:4px solid var(--red);color:#c7d4ec;padd
 </div></div>
 <footer><span>MELSA ELEVATORS · DESIGN COLLECTION</span><span>Concept configurator — not an engineering drawing</span></footer>
 <script>
-const state={style:"Modern",metal:"Silver",floor:"White marble",ceiling:"Linear LED",panel:"Gold",doorType:"Semi-automatic",doorDesign:"Plain",outsidePanel:"Gold black glass",insidePanel:"Black glass with buttons",door:"Matching"};
+/* Real Melsa products. color/design/trim drive the 3D preview. */
+const PRODUCTS={
+ floor:[
+  {id:"flooring_samples_02",ext:"webp",label:"White-grey marble"},
+  {id:"flooring_samples_01",ext:"jpeg",label:"Light grey granite"},
+  {id:"flooring_samples_11",ext:"webp",label:"Light grey stone"},
+  {id:"flooring_samples_03",ext:"webp",label:"Beige granite"},
+  {id:"flooring_samples_06",ext:"jpeg",label:"Grey speckled granite"},
+  {id:"flooring_samples_04",ext:"jpeg",label:"Brown patterned granite"},
+  {id:"flooring_samples_05",ext:"webp",label:"Warm red-brown granite"},
+  {id:"flooring_samples_07",ext:"jpeg",label:"Brown-green granite"},
+  {id:"flooring_samples_08",ext:"webp",label:"Dark grey granite"},
+  {id:"flooring_samples_12",ext:"jpeg",label:"Dark stone finish"},
+  {id:"flooring_samples_09",ext:"webp",label:"Black granite"},
+  {id:"automatic_doors_10",ext:"jpeg",label:"Black granite with gold fleck"},
+  {id:"flooring_samples_10",ext:"jpeg",label:"Black marble with gold veining"}],
+ door:[
+  {id:"semi_automatic_doors_01",ext:"jpeg",type:"Semi-automatic",label:"Two-tone burgundy frame with slim vision panel",color:"#ece8df",design:"vision"},
+  {id:"semi_automatic_doors_07",ext:"jpeg",type:"Semi-automatic",label:"Ivory door with slim silver-trimmed vision panel",color:"#f1efea",design:"vision"},
+  {id:"semi_automatic_doors_08",ext:"jpeg",type:"Semi-automatic",label:"Champagne-gold door with tall vision panel",color:"#c9b98d",design:"wide"},
+  {id:"control_panels_08",ext:"jpeg",type:"Semi-automatic",label:"Brushed stainless door with slim vision panel",color:"#b8bdc2",design:"vision"},
+  {id:"control_panels_09",ext:"jpeg",type:"Semi-automatic",label:"Black stainless door with slim vision panel",color:"#2b2c30",design:"vision"},
+  {id:"semi_automatic_doors_02",ext:"jpeg",type:"Semi-automatic",label:"Ivory door with geometric gold insert",color:"#ece6d6",design:"insert",insert:"#c9a35a"},
+  {id:"semi_automatic_doors_03",ext:"jpeg",type:"Semi-automatic",label:"Wood finish with gold geometric insert",color:"#7a4a2a",design:"insert",insert:"#c9a35a"},
+  {id:"semi_automatic_doors_04",ext:"jpeg",type:"Semi-automatic",label:"Grey wood finish with geometric insert",color:"#9b9a96",design:"insert",insert:"#d9dcdf"},
+  {id:"semi_automatic_doors_05",ext:"jpeg",type:"Semi-automatic",label:"Black door with gold decorative insert",color:"#1d1d22",design:"insert",insert:"#c9a35a"},
+  {id:"semi_automatic_doors_06",ext:"jpeg",type:"Semi-automatic",label:"Ivory door with ornamental black insert",color:"#ece6d6",design:"insert",insert:"#1b1b1e"},
+  {id:"automatic_doors_01",ext:"jpeg",type:"Automatic",label:"Gold horizontal-striped doors",color:"#c9a35a",design:"stripes"},
+  {id:"automatic_doors_02",ext:"jpeg",type:"Automatic",label:"Black horizontal-striped doors",color:"#2a2b2f",design:"stripes"},
+  {id:"automatic_doors_03",ext:"jpeg",type:"Automatic",label:"Silver horizontal-striped doors",color:"#c2c7cc",design:"stripes"},
+  {id:"automatic_doors_04",ext:"jpeg",type:"Automatic",label:"Bronze horizontal-striped doors",color:"#9a6b47",design:"stripes"},
+  {id:"automatic_doors_07",ext:"jpeg",type:"Automatic",label:"Gold plain automatic doors",color:"#c9a35a",design:"plain"},
+  {id:"automatic_doors_08",ext:"jpeg",type:"Automatic",label:"Silver automatic doors",color:"#c2c7cc",design:"plain"},
+  {id:"automatic_doors_05",ext:"jpeg",type:"Automatic",label:"Bronze plain automatic doors",color:"#9a6b47",design:"plain"},
+  {id:"automatic_doors_06",ext:"jpeg",type:"Automatic",label:"Black plain automatic doors",color:"#2a2b2f",design:"plain"}],
+ panel:[
+  {id:"control_panels_01",ext:"jpeg",label:"Black glass panel with round buttons",trim:"Silver"},
+  {id:"control_panels_02",ext:"jpeg",label:"Gold-and-black access panel",trim:"Gold"},
+  {id:"control_panels_03",ext:"jpeg",label:"Slim black-and-silver call panel",trim:"Silver"},
+  {id:"control_panels_04",ext:"jpeg",label:"Curved gold-and-black call panel",trim:"Gold"},
+  {id:"control_panels_05",ext:"jpeg",label:"Curved silver call panel",trim:"Silver"},
+  {id:"control_panels_06",ext:"jpeg",label:"Gold-and-black compact call panel",trim:"Gold"},
+  {id:"control_panels_07",ext:"jpeg",label:"Black-glass call panel with round button",trim:"Silver"}]
+};
+const productById={};Object.values(PRODUCTS).flat().forEach(p=>{p.src="assets/"+p.id+"."+p.ext;p.thumb="assets/thumbs/"+p.id+".jpg";productById[p.id]=p});
+const state={style:"Modern",metal:"Silver",floor:"flooring_samples_02",ceiling:"Linear LED",doorType:"Semi-automatic",door:"semi_automatic_doors_01",panel:"control_panels_01"};
 const defaults={...state};
-const metalMap={
-Silver:"linear-gradient(90deg,#737d85,#e3e6e8 48%,#7e8790)",Gold:"linear-gradient(90deg,#a7864e,#f2d79a 48%,#a7864e)",Bronze:"linear-gradient(90deg,#694b39,#c29670 48%,#694b39)",Black:"linear-gradient(90deg,#17191e,#56585d 48%,#17191e)"};
-const floorMap={"White marble":"linear-gradient(135deg,#f0eee8,#bdbbb5)","Black granite":"linear-gradient(135deg,#292b30,#62636a)","Beige stone":"linear-gradient(135deg,#e4d2b8,#a58c70)","Wood finish":"repeating-linear-gradient(90deg,#b68b61 0 10px,#76533b 11px 14px)"};
-const panelMap={Gold:"#c8aa70",Silver:"#aeb8c1",Black:"#25272b"};
-const ceilingMap={"Linear LED":"#fff0c4",Geometric:"#f5e5b2",Spotlights:"#fff7d7"};
+const LABELS={style:{Modern:"Modern Minimal",Classic:"Classic Panels",Mirror:"Mirror Luxury",Glass:"Glass Look"},metal:{Gold:"Champagne Gold"}};
+function nice(k){const v=state[k];return productById[v]?productById[v].label:(LABELS[k]&&LABELS[k][v])||v}
+const NAMES={style:"Cabin style",metal:"Metal finish",floor:"Flooring",ceiling:"Ceiling",doorType:"Door type",door:"Door design",panel:"Control panel"};
+function buildPhotoGroups(){
+ document.querySelectorAll("[data-photo-group]").forEach(box=>{
+  const g=box.dataset.photoGroup; box.classList.add(g); box.replaceChildren();
+  PRODUCTS[g].filter(p=>g!=="door"||p.type===state.doorType).forEach(p=>{
+   const b=document.createElement("button"); b.type="button"; b.className="pchoice"+(g==="floor"?"":" contain"); b.dataset.value=p.id; b.title=p.label; b.setAttribute("aria-label",p.label);
+   const img=new Image(); img.src=p.thumb; img.alt=""; img.loading="lazy"; b.append(img); box.append(b);
+  });
+ });
+}
 function render(){
  document.querySelectorAll("[data-group]").forEach(group=>group.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",String(state[group.dataset.group]===b.dataset.value))));
- document.getElementById("previewStatus").textContent=state.style+" · "+state.metal;
+ document.querySelectorAll("[data-photo-group]").forEach(box=>box.querySelectorAll(".pchoice").forEach(b=>b.setAttribute("aria-pressed",String(state[box.dataset.photoGroup]===b.dataset.value))));
+ ["floor","door","panel"].forEach(k=>document.getElementById("pickName-"+k).textContent=nice(k));
+ document.getElementById("previewStatus").textContent=nice("style")+" · "+nice("metal");
  const chips=document.getElementById("chips");chips.replaceChildren();
- Object.entries(state).forEach(([k,v])=>{const span=document.createElement("span");span.className="chip";span.textContent=k[0].toUpperCase()+k.slice(1)+": "+v;chips.append(span)});
- window.dispatchEvent(new CustomEvent('melsa:update',{detail:{...state}}));
+ Object.keys(state).forEach(k=>{const span=document.createElement("span");span.className="chip";span.textContent=NAMES[k]+": "+nice(k);chips.append(span)});
+ const d=productById[state.door], f=productById[state.floor], pn=productById[state.panel];
+ window.dispatchEvent(new CustomEvent('melsa:update',{detail:{...state,doorInfo:d,floorInfo:f,panelInfo:pn}}));
 }
-document.querySelectorAll("[data-group]").forEach(group=>group.addEventListener("click",e=>{const b=e.target.closest("button[data-value]");if(!b)return;state[group.dataset.group]=b.dataset.value;render()}));
-document.getElementById("resetBtn").addEventListener("click",()=>{Object.assign(state,defaults);render()});
-document.getElementById("copyBtn").addEventListener("click",async()=>{const brief="MELSA ELEVATORS — CABIN DESIGN BRIEF\n"+Object.entries(state).map(([k,v])=>k+": "+v).join("\n")+(Object.keys(photoPicks).length?"\n\nREFERENCE PHOTOS\n"+Object.entries(photoPicks).map(([c,l])=>c+": "+l).join("\n"):"");const btn=document.getElementById("copyBtn");try{await navigator.clipboard.writeText(brief);btn.textContent="Copied!";setTimeout(()=>btn.textContent="Copy design brief",1600)}catch(e){const w=window.open("","_blank","width=500,height=400");if(w){w.document.write("<pre>"+brief.replaceAll("&","&amp;").replaceAll("<","&lt;")+"</pre>");w.document.close()}else alert(brief)}});
+document.querySelectorAll("[data-group]").forEach(group=>group.addEventListener("click",e=>{
+ const b=e.target.closest("button[data-value]");if(!b)return;const g=group.dataset.group;state[g]=b.dataset.value;
+ if(g==="doorType"&&productById[state.door].type!==state.doorType){state.door=PRODUCTS.door.find(p=>p.type===state.doorType).id;}
+ if(g==="doorType")buildPhotoGroups();
+ render()}));
+document.querySelectorAll("[data-photo-group]").forEach(box=>box.addEventListener("click",e=>{const b=e.target.closest(".pchoice");if(!b)return;state[box.dataset.photoGroup]=b.dataset.value;render()}));
+document.getElementById("resetBtn").addEventListener("click",()=>{Object.assign(state,defaults);buildPhotoGroups();render()});
+function designBrief(){return "MELSA ELEVATORS — CABIN DESIGN BRIEF\n"+Object.keys(state).map(k=>NAMES[k]+": "+nice(k)).join("\n")}
+document.getElementById("copyBtn").addEventListener("click",async()=>{const brief=designBrief();const btn=document.getElementById("copyBtn");try{await navigator.clipboard.writeText(brief);btn.textContent="Copied!";setTimeout(()=>btn.textContent="Copy design brief",1600)}catch(e){alert(brief)}});
+buildPhotoGroups();
 render();
 
-const photoPicks={};
-function renderPicks(){
-  const summary=document.getElementById("selectedPhotoSummary");
-  const entries=Object.entries(photoPicks);
-  summary.textContent=entries.length?"Selected references — "+entries.map(([c,l])=>c+": "+l).join(" · "):"No photo option selected yet.";
-}
-document.querySelectorAll(".photo-card").forEach(card=>card.addEventListener("click",()=>{
-  const cat=card.dataset.photoCategory;
-  const wasSelected=card.getAttribute("aria-pressed")==="true";
-  document.querySelectorAll('.photo-card[data-photo-category="'+cat+'"]').forEach(c=>c.setAttribute("aria-pressed","false"));
-  if(wasSelected)delete photoPicks[cat];else{card.setAttribute("aria-pressed","true");photoPicks[cat]=card.dataset.photoLabel;}
-  renderPicks();
-}));;
-
 /* ---------- AI realistic image (free Pollinations service for now) ---------- */
-const AI_DESC={
- style:{Modern:"modern minimalist cabin with flat seamless wall panels",Classic:"classic cabin with raised decorative wall panels and trim mouldings",Mirror:"luxury cabin with mirror-polished reflective stainless steel walls",Glass:"cabin with panoramic glass wall panels"},
- metal:{Silver:"brushed silver stainless steel",Gold:"champagne gold stainless steel",Bronze:"bronze-tone stainless steel",Black:"black titanium stainless steel"},
- floor:{"White marble":"polished white marble floor","Black granite":"polished black granite floor","Beige stone":"beige natural stone floor","Wood finish":"warm wood-finish floor"},
- ceiling:{"Linear LED":"ceiling with slim linear LED light strips","Geometric":"geometric patterned backlit ceiling","Spotlights":"ceiling with round recessed LED spotlights"},
- panel:{Gold:"gold",Silver:"silver",Black:"black"},
- doorDesign:{Plain:"plain flat finish","Horizontal stripes":"horizontal decorative stripes","Decorative insert":"a decorative ornamental insert panel","Slim vision panel":"a slim vertical glass vision panel"},
- outsidePanel:{"Gold black glass":"gold and black glass hall call panel","Silver black glass":"silver and black glass hall call panel","Brushed silver":"brushed silver hall call panel","Curved stainless":"curved stainless steel hall call panel"},
- insidePanel:{"Black glass with buttons":"black glass car operating panel with round buttons","Touch display":"car operating panel with a touch display","Round button panel":"car operating panel with round illuminated buttons"}
-};
+/* Set this to the Cloudflare Worker URL to switch from the free service to Gemini */
+const AI_ENDPOINT="";
 function buildAiPrompt(){
- // Short, focused prompt: the free model follows short prompts much better
  const s=state, metal={Silver:"brushed silver stainless steel",Gold:"champagne gold stainless steel",Bronze:"bronze stainless steel",Black:"black stainless steel"}[s.metal];
  const walls={Modern:metal+" walls",Classic:metal+" walls with classic raised panels",Mirror:"mirror-polished "+metal+" walls",Glass:"glass walls with "+metal+" frames"}[s.style];
- const floor={"White marble":"white marble floor","Black granite":"black granite floor","Beige stone":"beige stone floor","Wood finish":"wood floor"}[s.floor];
  const ceiling={"Linear LED":"ceiling with linear LED strips","Geometric":"geometric backlit ceiling","Spotlights":"ceiling with recessed spotlights"}[s.ceiling];
- const panel={"Black glass with buttons":"black glass control panel with "+s.panel.toLowerCase()+" buttons","Touch display":"touchscreen control panel","Round button panel":s.panel.toLowerCase()+" control panel with round buttons"}[s.insidePanel];
- const doorDeco={Plain:"",["Horizontal stripes"]:" with horizontal stripes",["Decorative insert"]:" with decorative insert",["Slim vision panel"]:" with slim glass window"}[s.doorDesign];
- const doors=(s.doorType==="Automatic"?"open automatic sliding doors":"open swing door")+doorDeco;
- const floorPick=photoPicks["Flooring samples"];
- return ["Photorealistic photo of a compact luxury elevator cabin seen through its "+doors,
-  walls, floorPick?floorPick.toLowerCase()+" floor":floor, ceiling, panel,
-  s.metal==="Gold"?"gold handrail":"stainless handrail","high-end interior photography"].join(", ");
+ const d=productById[s.door], f=productById[s.floor], pn=productById[s.panel];
+ return ["Photorealistic photo of a compact luxury elevator cabin seen through its open "+(s.doorType==="Automatic"?"automatic sliding doors":"swing landing door"),
+  "door: "+d.label.toLowerCase(), walls, f.label.toLowerCase()+" floor", ceiling,
+  "control panel: "+pn.label.toLowerCase(), s.metal==="Gold"?"gold handrail":"stainless handrail","high-end interior photography"].join(", ");
+}
+function buildGeminiRequest(){
+ const s=state, d=productById[s.door], f=productById[s.floor], pn=productById[s.panel];
+ const base=new URL(".",location.href).href;
+ const prompt=`Create a photorealistic, high-end interior photograph of a residential elevator, viewed from the landing with the ${s.doorType==="Automatic"?"automatic sliding doors":"semi-automatic swing door"} open so the cabin interior is visible.
+Use the attached product photos as exact references:
+- Image 1 is the landing door (${d.label}). Reproduce its colour, pattern and frame faithfully.
+- Image 2 is the floor material (${f.label}). Use it for the cabin floor.
+- Image 3 is the control/call panel (${pn.label}). Mount it on the wall beside the door.
+Cabin: ${nice("style")} style with ${nice("metal")} stainless steel walls, ${s.ceiling.toLowerCase()} ceiling lighting, matching handrail.
+Natural, realistic proportions for a compact passenger elevator. Soft warm lighting, sharp focus, no people, no text, no logos.`;
+ return {prompt,images:[base+d.src,base+f.src,base+pn.src]};
 }
 const aiModal=document.getElementById("aiModal"), aiStage=document.getElementById("aiStage");
 let aiUrl=null, aiBusy=false;
@@ -271,7 +262,19 @@ async function aiGenerate(){
  if(aiBusy)return; aiBusy=true;
  aiModal.classList.add("open"); document.body.style.overflow="hidden";
  aiShowLoading("Creating your elevator design…");
- const seed=Math.floor(Math.random()*1e9);
+  if(AI_ENDPOINT){
+   try{
+    const res=await fetch(AI_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(buildGeminiRequest())});
+    const data=await res.json().catch(()=>({}));
+    if(res.ok&&data.image){
+     const blob=await (await fetch("data:"+(data.mime||"image/png")+";base64,"+data.image)).blob();
+     if(aiUrl)URL.revokeObjectURL(aiUrl); aiUrl=URL.createObjectURL(blob);
+     aiStage.innerHTML=""; const img=new Image(); img.alt="AI-generated elevator design"; img.src=aiUrl; aiStage.append(img); return;
+    }
+    aiStage.innerHTML='<div class="ai-loading">'+(data.error||"Could not create the image. Please try again.")+'</div>'; return;
+   }catch(e){aiStage.innerHTML='<div class="ai-loading">Connection problem. Please try again.</div>'; return;}
+  }
+  const seed=Math.floor(Math.random()*1e9);
  const url="https://image.pollinations.ai/prompt/"+encodeURIComponent(buildAiPrompt())+"?width=768&height=1024&model=flux&nologo=true&enhance=false&seed="+seed;
  try{
   for(let attempt=1;attempt<=5;attempt++){
@@ -351,7 +354,8 @@ const sideInsets=[
  box(0.025,height-0.25,depth-0.24,mats.trim,width/2-thick-0.025,height/2,0)
 ];
 const floorTiles=[];
-for(let i=0;i<4;i++) floorTiles.push(box(0.008,0.003,depth-0.18,mat('#a7a39a',0.1,0.6),-width/2+0.3+i*0.58,0.125,0.03));
+// floor seams removed: real floor texture is used
+if(false) floorTiles.push(box(0.008,0.003,depth-0.18,mat('#a7a39a',0.1,0.6),-width/2+0.3+i*0.58,0.125,0.03));
 const lightBars=[];
 for(let i=0;i<3;i++) lightBars.push(box(0.055,0.025,depth-0.25,mats.light,-0.72+i*0.72,height-0.095,0));
 const rail=box(width-0.42,0.055,0.055,mats.trim,0,1.05,-depth/2+0.16);
@@ -370,14 +374,15 @@ const doorGroup=new THREE.Group(); cabin.add(doorGroup);
 function clearGroup(group){while(group.children.length){const o=group.children.pop(); if(o.geometry)o.geometry.dispose(); if(o.material&&o.material.userData.own)o.material.dispose();}}
 function setColor(material,color){material.color.set(color);}
 const metalColors={Silver:'#bac2c9',Gold:'#d8b36a',Bronze:'#986b4b',Black:'#292b30'};
-const floorColors={'White marble':'#e4e0d7','Black granite':'#292b30','Beige stone':'#cdb99b','Wood finish':'#9a6741'};
+const texLoader=new THREE.TextureLoader(); const texCache={};
+function floorTexture(src){if(!texCache[src]){const t=texLoader.load(src);t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=4;texCache[src]=t;}return texCache[src];}
 const panelColors={Gold:'#c8a45e',Silver:'#b8c0c7',Black:'#202226'};
 let doorParts=[];
 function rebuildDoor(s){
  clearGroup(doorGroup);doorParts=[];
- const color=s.door==='Contrast'?(s.metal==='Silver'?'#25272b':'#c5c9cc'):metalColors[s.metal];
- const doorMat=mat(color,0.65,0.28);
- doorMat.userData.own=true;
+ const info=s.doorInfo||{color:metalColors[s.metal],design:"plain"};
+ const doorMat=mat(info.color,0.55,0.32); doorMat.userData.own=true;
+ const accent=mat(info.insert||panelColors[s.panelInfo?.trim||"Silver"],0.75,0.22); accent.userData.own=true;
  const w=width*0.72, h=height*0.88, y=0.14+h/2, z=depth/2+0.015;
  if(s.doorType==='Automatic'){
    doorParts.push(box(w/2,h,0.075,doorMat,-w/4,y,z,doorGroup));
@@ -385,39 +390,38 @@ function rebuildDoor(s){
    doorParts.push(box(0.018,h,0.08,mats.black,0,y,z+0.04,doorGroup));
  } else {
    doorParts.push(box(w,h,0.075,doorMat,0,y,z,doorGroup));
-   const handle=box(0.045,0.42,0.055,mats.trim,w*0.34,1.55,z+0.055,doorGroup);
-   doorParts.push(handle);
+   doorParts.push(box(0.045,0.42,0.055,accent,w*0.34,1.55,z+0.055,doorGroup));
  }
- if(s.doorDesign==='Horizontal stripes'){
-   for(let yy=0.4;yy<h;yy+=0.15)doorParts.push(box(w*0.98,0.025,0.018,mats.trim,0,yy+0.14,z+0.052,doorGroup));
- } else if(s.doorDesign==='Decorative insert'){
-   doorParts.push(box(w*0.43,h*0.7,0.02,mats.trim,0,y,z+0.06,doorGroup));
-   doorParts.push(box(w*0.36,h*0.66,0.025,mats.black,0,y,z+0.075,doorGroup));
- } else if(s.doorDesign==='Slim vision panel'){
-   doorParts.push(box(w*0.14,h*0.63,0.025,mats.black,0,y,z+0.06,doorGroup));
-   doorParts.push(box(w*0.09,h*0.58,0.018,mats.glass,0,y,z+0.078,doorGroup));
+ if(info.design==='stripes'){
+   const stripe=mat(new THREE.Color(info.color).multiplyScalar(0.7),0.6,0.3); stripe.userData.own=true;
+   for(let yy=0.4;yy<h;yy+=0.12)doorParts.push(box(w*0.98,0.022,0.018,stripe,0,yy+0.14,z+0.045,doorGroup));
+ } else if(info.design==='insert'){
+   doorParts.push(box(w*0.36,h*0.66,0.025,accent,0,y,z+0.06,doorGroup));
+ } else if(info.design==='vision'||info.design==='wide'){
+   const gw=info.design==='wide'?0.4:0.12;
+   doorParts.push(box(w*(gw+0.04),h*0.66,0.02,accent,0,y,z+0.055,doorGroup));
+   doorParts.push(box(w*gw,h*0.62,0.018,mats.glass,0,y,z+0.07,doorGroup));
  }
 }
 function update3D(s){
  setColor(mats.shell, metalColors[s.metal]);
  setColor(mats.back, s.style==='Mirror'?'#aebfc7':s.style==='Glass'?'#a2c6cb':metalColors[s.metal]);
- setColor(mats.floor,floorColors[s.floor]);
- setColor(mats.trim,panelColors[s.panel]);
+ if(s.floorInfo){mats.floor.map=floorTexture(s.floorInfo.src);mats.floor.color.set('#ffffff');mats.floor.needsUpdate=true;}
+ const trim=panelColors[s.panelInfo?.trim||'Silver'];
+ setColor(mats.trim,trim);
  mats.back.metalness=s.style==='Mirror'?0.92:s.style==='Glass'?0.18:0.62;
  mats.back.roughness=s.style==='Mirror'?0.08:s.style==='Glass'?0.12:0.28;
  mats.glass.opacity=s.style==='Glass'?0.48:0.72;
  lightBars.forEach(l=>setColor(l.material,s.ceiling==='Spotlights'?'#fff9e9':s.ceiling==='Geometric'?'#f1d9a0':'#fff0c4'));
- if(s.style==='Classic'){sideInsets.forEach(x=>x.visible=true);setColor(mats.trim,panelColors[s.panel]);}
- else sideInsets.forEach(x=>x.visible=s.style==='Mirror');
- setColor(mats.trim,panelColors[s.panel]);
- setColor(panelBase.material,panelColors[s.outsidePanel.startsWith('Gold')?'Gold':'Silver']);
- setColor(panelScreen.material,s.insidePanel==='Touch display'?'#1c2737':'#101114');
- buttons.forEach(b=>setColor(b.material,panelColors[s.panel]));
+ sideInsets.forEach(x=>x.visible=s.style==='Classic'||s.style==='Mirror');
+ setColor(panelBase.material,trim);
+ setColor(panelScreen.material,'#101114');
+ buttons.forEach(b=>setColor(b.material,trim));
  rebuildDoor(s);
 }
 window.addEventListener('melsa:update',e=>update3D(e.detail));
-const initial={style:'Modern',metal:'Silver',floor:'White marble',ceiling:'Linear LED',panel:'Gold',doorType:'Semi-automatic',doorDesign:'Plain',outsidePanel:'Gold black glass',insidePanel:'Black glass with buttons',door:'Matching'};
-update3D(initial);
+window.melsa3dReady=true;
+render(); // apply the current selections to the 3D model
 function resize(){
  const w=host.clientWidth, h=host.clientHeight;
  renderer.setSize(w,h,false);camera.aspect=w/h;
