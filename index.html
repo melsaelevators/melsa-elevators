@@ -143,7 +143,7 @@ footer{background:var(--navy);border-top:4px solid var(--red);color:#c7d4ec;padd
 <button class="choice" data-value="Inside" aria-pressed="true">Inside the building</button><button class="choice" data-value="Outside" aria-pressed="false">Outside the building</button>
 </div></div>
 <div class="field"><label>10 — Building type <span class="pick-name">Used for the AI image</span></label><div class="choices" data-group="building">
-<button class="choice" data-value="Residential" aria-pressed="true">Residential building</button><button class="choice" data-value="Villa" aria-pressed="false">Villa</button><button class="choice" data-value="Factory" aria-pressed="false">Factory</button><button class="choice" data-value="Hospital" aria-pressed="false">Hospital</button>
+<button class="choice" data-value="Residential" aria-pressed="true">Residential building</button><button class="choice" data-value="Villa" aria-pressed="false">Villa</button><button class="choice" data-value="Factory" aria-pressed="false">Factory</button><button class="choice" data-value="Hospital" aria-pressed="false">Hospital</button><button class="choice" data-value="Mall" aria-pressed="false">Mall</button><button class="choice" data-value="Office" aria-pressed="false">Office</button><button class="choice full" data-value="Hotel" aria-pressed="false">Hotel</button>
 </div></div>
 <div class="summary"><h3>Your design specification</h3><div class="chips" id="chips"></div><p class="note">Concept preview only. Final finishes must be confirmed against available materials and real product samples.</p></div>
 <div class="actions"><button class="btn primary" id="copyBtn">Copy design brief</button><button class="btn secondary" id="resetBtn">Reset</button></div>
@@ -218,7 +218,7 @@ const doorPhotoType=t=>t==="Telescopic"?"Automatic":t;
 const productById={};Object.values(PRODUCTS).flat().forEach(p=>{p.src="assets/"+p.id+"."+p.ext;p.thumb="assets/thumbs/"+p.id+".jpg";productById[p.id]=p});
 const state={style:"Modern",metal:"Silver",floor:"flooring_samples_02",ceiling:"Linear LED",doorType:"Semi-automatic",door:"semi_automatic_doors_01",panel:"control_panels_01",buttons:"panel_buttons_02",location:"Inside",building:"Residential"};
 const defaults={...state};
-const LABELS={style:{Modern:"Modern Minimal",Classic:"Classic Panels",Mirror:"Mirror Luxury",Glass:"Glass Look"},metal:{Gold:"Champagne Gold"},doorType:{Telescopic:"Automatic telescopic"},location:{Inside:"Inside the building",Outside:"Outside the building"},building:{Residential:"Residential building"}};
+const LABELS={style:{Modern:"Modern Minimal",Classic:"Classic Panels",Mirror:"Mirror Luxury",Glass:"Glass Look"},metal:{Gold:"Champagne Gold"},doorType:{Telescopic:"Automatic telescopic"},location:{Inside:"Inside the building",Outside:"Outside the building"},building:{Residential:"Residential building",Mall:"Shopping mall",Office:"Office building"}};
 function nice(k){const v=state[k];if(k==="door"&&state.doorType==="Telescopic")return productById[v].label.replace(/ automatic doors| doors/i,"")+" telescopic doors";return productById[v]?productById[v].label:(LABELS[k]&&LABELS[k][v])||v}
 const NAMES={location:"Location",building:"Building type",buttons:"Panel buttons",style:"Cabin style",metal:"Metal finish",floor:"Flooring",ceiling:"Ceiling",doorType:"Door type",door:"Door design",panel:"Control panel"};
 function buildPhotoGroups(){
@@ -270,11 +270,17 @@ const SETTING_AI={
  Inside:{Residential:"inside a modern residential apartment building, on an elegant interior lobby landing with marble walls",
   Villa:"inside a luxury private villa, on a refined interior hallway with warm wood and stone finishes",
   Factory:"inside a clean modern industrial factory hall with polished concrete floor, steel structure and bright overhead lighting",
-  Hospital:"inside a modern hospital on a bright, clean corridor with hygienic light-coloured walls and floor"},
+  Hospital:"inside a modern hospital on a bright, clean corridor with hygienic light-coloured walls and floor",
+  Mall:"inside a modern shopping mall, on a spacious polished atrium landing with shop fronts and glass balustrades in the background",
+  Office:"inside a modern corporate office building, on a sleek lobby landing with stone cladding, glass and minimalist reception design",
+  Hotel:"inside a five-star luxury hotel, on an elegant lift lobby with rich marble, warm wood panelling, wall sconces and a plush carpet"},
  Outside:{Residential:"as an external elevator attached to the outside facade of a modern residential apartment building, with a glass-and-steel shaft and an outdoor entrance landing",
   Villa:"as an external elevator attached to the outside of a luxury private villa, with a glass-and-steel shaft beside the garden and terrace",
   Factory:"as an external elevator attached to the outside wall of an industrial factory building, with a steel-framed shaft and a concrete outdoor landing",
-  Hospital:"as an external elevator attached to the outside facade of a modern hospital building, with a glass-and-steel shaft and an accessible outdoor entrance"}
+  Hospital:"as an external elevator attached to the outside facade of a modern hospital building, with a glass-and-steel shaft and an accessible outdoor entrance",
+  Mall:"as an external panoramic glass elevator on the outside facade of a modern shopping mall, beside the main entrance plaza",
+  Office:"as an external panoramic glass elevator on the facade of a modern glass office tower, with a paved business-district plaza",
+  Hotel:"as an external panoramic glass elevator on the facade of a luxury five-star hotel, overlooking landscaped gardens and a pool terrace"}
 };
 function settingAi(){return SETTING_AI[state.location][state.building];}
 function lightAi(){return state.location==="Outside"?"Natural daylight, realistic outdoor architectural photography":"Soft warm interior lighting";}
@@ -287,7 +293,7 @@ Use the attached product photos as exact references:
 - Image 2 is the floor material (${f.label}). Use it for the cabin floor.
 - Image 3 is the control/call panel (${pn.label}). Mount it on the wall beside the door. Keep its shape and finish, but all its buttons must be ${btnAi()}.
 Cabin: ${nice("style")} style with ${nice("metal")} stainless steel walls, ${s.ceiling.toLowerCase()} ceiling lighting, matching handrail.
-Natural, realistic proportions for a ${s.building==="Hospital"?"deep hospital bed elevator":s.building==="Factory"?"sturdy passenger/goods elevator":"compact passenger elevator"}. ${lightAi()}, sharp focus, no people, no text, no logos.`;
+Natural, realistic proportions for a ${s.building==="Hospital"?"deep hospital bed elevator":s.building==="Factory"?"sturdy passenger/goods elevator":s.building==="Mall"?"spacious high-capacity passenger elevator":s.building==="Office"||s.building==="Hotel"?"spacious passenger elevator":"compact passenger elevator"}. ${lightAi()}, sharp focus, no people, no text, no logos.`;
  return {prompt,images:[base+d.src,base+f.src,base+pn.src]};
 }
 const aiModal=document.getElementById("aiModal"), aiStage=document.getElementById("aiStage");
