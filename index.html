@@ -66,6 +66,11 @@ footer{background:var(--navy);border-top:4px solid var(--red);color:#c7d4ec;padd
 .three-scene .scene-caption{position:absolute;bottom:12px;left:0;right:0;text-align:center;font-size:9px;letter-spacing:.13em;color:#647181;pointer-events:none}
 .three-hint{position:absolute;top:12px;right:12px;border:0;background:var(--red);border-radius:999px;padding:7px 10px;font-size:10px;color:#fff;font-weight:700;pointer-events:none}
 @media(max-width:760px){.three-scene{min-height:320px}#cabin3d{height:320px}}
+/* Desktop & tablet: keep the 3D preview in view while choosing options */
+@media(min-width:761px){.preview-card{position:sticky;top:16px}.three-scene{min-height:0}#cabin3d{height:clamp(380px,calc(100vh - 140px),640px)}}
+@media(min-width:761px) and (max-width:1023px){.layout{grid-template-columns:minmax(0,1fr) minmax(300px,1fr);gap:16px}main{padding-inline:20px}#cabin3d{height:clamp(340px,46vw,520px)}}
+@media(min-width:1400px){main{max-width:1380px}.layout{grid-template-columns:minmax(0,1.35fr) minmax(360px,.75fr)}.photo-grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
+@media(hover:none){.choice{min-height:50px}}
 
 </style>
 </head>
@@ -333,7 +338,11 @@ const initial={style:'Modern',metal:'Silver',floor:'White marble',ceiling:'Linea
 update3D(initial);
 function resize(){
  const w=host.clientWidth, h=host.clientHeight;
- renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();
+ renderer.setSize(w,h,false);camera.aspect=w/h;
+ // widen the view on tall/narrow screens so the whole cabin fits
+ const a=camera.aspect, base=34*Math.PI/180;
+ camera.fov=a<1?2*Math.atan(Math.tan(base/2)/a)*180/Math.PI:34;
+ camera.updateProjectionMatrix();
 }
 new ResizeObserver(resize).observe(host);resize();
 function animate(){requestAnimationFrame(animate);controls.update();renderer.render(scene,camera);}
