@@ -134,7 +134,7 @@ footer{background:var(--navy);border-top:4px solid var(--red);color:#c7d4ec;padd
 <button class="choice full" data-value="Spotlights" aria-pressed="false"><span class="swatch" style="--swatch:radial-gradient(circle,#fff7d7 0 20%,#d4c69d 25%,#e5e4df 50%)"></span>Spotlights</button>
 </div></div>
 <div class="field"><label>05 — Door type</label><div class="choices" data-group="doorType">
-<button class="choice" data-value="Semi-automatic" aria-pressed="true">Semi-Automatic</button><button class="choice" data-value="Automatic" aria-pressed="false">Automatic</button>
+<button class="choice" data-value="Semi-automatic" aria-pressed="true">Semi-Automatic</button><button class="choice" data-value="Automatic" aria-pressed="false">Automatic</button><button class="choice full" data-value="Telescopic" aria-pressed="false">Automatic Telescopic</button>
 </div></div>
 <div class="field"><label>06 — Door design <span class="pick-name" id="pickName-door"></span></label><div class="photo-choices" data-photo-group="door"></div></div>
 <div class="field"><label>07 — Control panel <span class="pick-name" id="pickName-panel"></span></label><div class="photo-choices" data-photo-group="panel"></div></div>
@@ -208,16 +208,17 @@ const PRODUCTS={
   {id:"panel_buttons_04",ext:"jpeg",label:"Gold square button with light ring",shape:"square",color:"#d6b25c",ring:"#f1e3bf",
    ai:"square brushed gold push buttons with softly rounded corners, a polished gold frame, a thin cream illuminated outline ring and raised white numbers"}]
 };
+const doorPhotoType=t=>t==="Telescopic"?"Automatic":t;
 const productById={};Object.values(PRODUCTS).flat().forEach(p=>{p.src="assets/"+p.id+"."+p.ext;p.thumb="assets/thumbs/"+p.id+".jpg";productById[p.id]=p});
 const state={style:"Modern",metal:"Silver",floor:"flooring_samples_02",ceiling:"Linear LED",doorType:"Semi-automatic",door:"semi_automatic_doors_01",panel:"control_panels_01",buttons:"panel_buttons_02"};
 const defaults={...state};
-const LABELS={style:{Modern:"Modern Minimal",Classic:"Classic Panels",Mirror:"Mirror Luxury",Glass:"Glass Look"},metal:{Gold:"Champagne Gold"}};
-function nice(k){const v=state[k];return productById[v]?productById[v].label:(LABELS[k]&&LABELS[k][v])||v}
+const LABELS={style:{Modern:"Modern Minimal",Classic:"Classic Panels",Mirror:"Mirror Luxury",Glass:"Glass Look"},metal:{Gold:"Champagne Gold"},doorType:{Telescopic:"Automatic telescopic"}};
+function nice(k){const v=state[k];if(k==="door"&&state.doorType==="Telescopic")return productById[v].label.replace(/ automatic doors| doors/i,"")+" telescopic doors";return productById[v]?productById[v].label:(LABELS[k]&&LABELS[k][v])||v}
 const NAMES={buttons:"Panel buttons",style:"Cabin style",metal:"Metal finish",floor:"Flooring",ceiling:"Ceiling",doorType:"Door type",door:"Door design",panel:"Control panel"};
 function buildPhotoGroups(){
  document.querySelectorAll("[data-photo-group]").forEach(box=>{
   const g=box.dataset.photoGroup; box.classList.add(g); box.replaceChildren();
-  PRODUCTS[g].filter(p=>g!=="door"||p.type===state.doorType).forEach(p=>{
+  PRODUCTS[g].filter(p=>g!=="door"||p.type===doorPhotoType(state.doorType)).forEach(p=>{
    const b=document.createElement("button"); b.type="button"; b.className="pchoice"+(g==="floor"||g==="buttons"?"":" contain"); b.dataset.value=p.id; b.title=p.label; b.setAttribute("aria-label",p.label);
    const img=new Image(); img.src=p.thumb; img.alt=""; img.loading="lazy"; b.append(img); box.append(b);
   });
@@ -235,7 +236,7 @@ function render(){
 }
 document.querySelectorAll("[data-group]").forEach(group=>group.addEventListener("click",e=>{
  const b=e.target.closest("button[data-value]");if(!b)return;const g=group.dataset.group;state[g]=b.dataset.value;
- if(g==="doorType"&&productById[state.door].type!==state.doorType){state.door=PRODUCTS.door.find(p=>p.type===state.doorType).id;}
+ if(g==="doorType"&&productById[state.door].type!==doorPhotoType(state.doorType)){state.door=PRODUCTS.door.find(p=>p.type===doorPhotoType(state.doorType)).id;}
  if(g==="doorType")buildPhotoGroups();
  render()}));
 document.querySelectorAll("[data-photo-group]").forEach(box=>box.addEventListener("click",e=>{const b=e.target.closest(".pchoice");if(!b)return;state[box.dataset.photoGroup]=b.dataset.value;render()}));
@@ -253,17 +254,18 @@ function buildAiPrompt(){
  const walls={Modern:metal+" walls",Classic:metal+" walls with classic raised panels",Mirror:"mirror-polished "+metal+" walls",Glass:"glass walls with "+metal+" frames"}[s.style];
  const ceiling={"Linear LED":"ceiling with linear LED strips","Geometric":"geometric backlit ceiling","Spotlights":"ceiling with recessed spotlights"}[s.ceiling];
  const d=productById[s.door], f=productById[s.floor], pn=productById[s.panel];
- return ["Photorealistic photo of a compact luxury elevator cabin seen through its open "+(s.doorType==="Automatic"?"automatic sliding doors":"swing landing door"),
+ return ["Photorealistic photo of a compact luxury elevator cabin seen through its open "+DOOR_AI[s.doorType],
   "door: "+d.label.toLowerCase(), walls, f.label.toLowerCase()+" floor", ceiling,
   "control panel: "+pn.label.toLowerCase()+" with "+btnAi(), s.metal==="Gold"?"gold handrail":"stainless handrail","high-end interior photography"].join(", ");
 }
 function btnAi(){return productById[state.buttons].ai;}
+const DOOR_AI={"Semi-automatic":"semi-automatic swing landing door",Automatic:"centre-opening automatic sliding doors",Telescopic:"two-panel telescopic side-opening automatic sliding doors (both panels stacked to one side)"};
 function buildGeminiRequest(){
  const s=state, d=productById[s.door], f=productById[s.floor], pn=productById[s.panel];
  const base=new URL(".",location.href).href;
- const prompt=`Create a photorealistic, high-end interior photograph of a residential elevator, viewed from the landing with the ${s.doorType==="Automatic"?"automatic sliding doors":"semi-automatic swing door"} open so the cabin interior is visible.
+ const prompt=`Create a photorealistic, high-end interior photograph of a residential elevator, viewed from the landing with the ${DOOR_AI[s.doorType]} open so the cabin interior is visible.
 Use the attached product photos as exact references:
-- Image 1 is the landing door (${d.label}). Reproduce its colour, pattern and frame faithfully.
+- Image 1 is the landing door (${d.label}). Reproduce its colour, pattern and frame faithfully.${s.doorType==="Telescopic"?" Keep that exact finish, but build it as a two-panel telescopic side-opening door: both panels slide to the same side and stack.":""}
 - Image 2 is the floor material (${f.label}). Use it for the cabin floor.
 - Image 3 is the control/call panel (${pn.label}). Mount it on the wall beside the door. Keep its shape and finish, but all its buttons must be ${btnAi()}.
 Cabin: ${nice("style")} style with ${nice("metal")} stainless steel walls, ${s.ceiling.toLowerCase()} ceiling lighting, matching handrail.
@@ -446,7 +448,7 @@ function rebuildDoor(s){
  const w=doorW, h=doorH, y=0.14+h/2, z=depth/2+0.015;
  doorKind=s.doorType;
  const leaf=(cx,lw)=>{ // leaf group positioned at its centre; children use local x
-  const g=new THREE.Group(); g.position.set(cx,0,0); doorGroup.add(g); leaves.push(g); g.userData.cx=cx;
+  const g=new THREE.Group(); g.position.set(cx,0,0); doorGroup.add(g); leaves.push(g); g.userData.cx=cx; g.userData.dx=Math.sign(cx)*w*0.47;
   box(lw,h,0.075,doorMat,0,y,z,g);
   if(info.design==='stripes') for(let yy=0.4;yy<h;yy+=0.12) box(lw*0.96,0.022,0.018,stripe,0,yy+0.14,z+0.045,g);
   return g;
@@ -454,6 +456,11 @@ function rebuildDoor(s){
  if(doorKind==='Automatic'){
   const L=leaf(-w/4,w/2), R=leaf(w/4,w/2);
   box(0.009,h,0.08,mats.black,w/4-0.0045,y,z+0.04,L);
+ } else if(doorKind==='Telescopic'){
+  // slow panel (behind) and fast panel (in front) both slide to the left and stack
+  const slow=leaf(-w/4,w/2), fast=leaf(w/4,w/2);
+  slow.userData.dx=-w*0.235; fast.userData.dx=-w*0.735; fast.position.z=0.08;
+  box(0.009,h,0.08,mats.black,-w/4+0.0045,y,z+0.04,fast);
  } else {
   // hinge group on the left edge, leaf content offset to the right
   const hinge=new THREE.Group(); hinge.position.set(-w/2,0,z+0.04); doorGroup.add(hinge); leaves.push(hinge); hinge.userData.hinge=true;
@@ -474,7 +481,7 @@ function applyDoor(){
  const t=doorT*doorT*(3-2*doorT); // ease in-out
  leaves.forEach(g=>{
   if(g.userData.hinge) g.rotation.y=-1.45*t;
-  else g.position.x=g.userData.cx+Math.sign(g.userData.cx)*doorW*0.47*t;
+  else g.position.x=g.userData.cx+g.userData.dx*t;
  });
 }
 function update3D(s){
