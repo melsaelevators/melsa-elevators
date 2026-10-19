@@ -68,6 +68,7 @@ footer{background:var(--navy);border-top:4px solid var(--red);color:#c7d4ec;padd
 .three-scene .scene-caption{position:absolute;bottom:12px;left:0;right:0;text-align:center;font-size:9px;letter-spacing:.13em;color:#647181;pointer-events:none}
 .three-hint{position:absolute;top:12px;right:12px;border:0;background:var(--red);border-radius:999px;padding:7px 10px;font-size:10px;color:#fff;font-weight:700;pointer-events:none}
 @media(max-width:760px){.three-scene{min-height:320px}#cabin3d{height:320px}}
+footer a{color:#fff;font-weight:700;text-decoration:none;border-bottom:1px solid #ffffff66}
 /* Desktop & tablet: keep the 3D preview in view while choosing options */
 @media(min-width:761px){.preview-card{position:sticky;top:16px}.three-scene{min-height:0}#cabin3d{height:clamp(380px,calc(100vh - 140px),640px)}}
 @media(min-width:761px) and (max-width:1023px){.layout{grid-template-columns:minmax(0,1fr) minmax(300px,1fr);gap:16px}main{padding-inline:20px}#cabin3d{height:clamp(340px,46vw,520px)}}
@@ -213,7 +214,7 @@ footer{background:var(--navy);border-top:4px solid var(--red);color:#c7d4ec;padd
 <div class="ai-actions"><button class="btn secondary" id="aiRegen" type="button" data-i18n="aiRegen">Generate another</button><button class="btn primary" id="aiDownload" type="button" data-i18n="aiDownload">Download image</button></div>
 <p class="ai-disclaimer" data-i18n="aiDisclaimer">AI-generated concept image for inspiration only. Final finishes, dimensions and details must be confirmed with Melsa Elevators.</p>
 </div></div>
-<footer><span data-i18n="foot1">MELSA ELEVATORS · DESIGN COLLECTION</span><span data-i18n="foot2">Concept configurator — not an engineering drawing</span></footer>
+<footer><span data-i18n="foot1">MELSA ELEVATORS · DESIGN COLLECTION</span><span data-i18n="foot2">Concept configurator — not an engineering drawing</span><a href="survey.html" data-i18n="surveyLink">For engineers: Site survey →</a></footer>
 <script>
 /* ---------- Language (English / Arabic) ---------- */
 const T={
@@ -224,7 +225,7 @@ const T={
   install:"Install app",iosHint:"To install: tap the Share button, then “Add to Home Screen”.",copy:"Copy design brief",copied:"Copied!",reset:"Reset",aiBtn:"Generate realistic image (AI)",aiNote:"Uses your selected Melsa products. Takes about 10–30 seconds.",
   aiTitle:"AI REALISTIC PREVIEW",aiRegen:"Generate another",aiDownload:"Download image",aiDisclaimer:"AI-generated concept image for inspiration only. Final finishes, dimensions and details must be confirmed with Melsa Elevators.",
   aiLoading:"Creating your elevator design…",aiError:"Could not create the image. Please try again.",aiConn:"Connection problem. Please try again.",aiLimit:"You've reached the hourly limit. Please try again later.",
-  foot1:"MELSA ELEVATORS · DESIGN COLLECTION",foot2:"Concept configurator — not an engineering drawing",brief:"MELSA ELEVATORS — CABIN DESIGN BRIEF",
+  surveyLink:"For engineers: Site survey →",foot1:"MELSA ELEVATORS · DESIGN COLLECTION",foot2:"Concept configurator — not an engineering drawing",brief:"MELSA ELEVATORS — CABIN DESIGN BRIEF",
   shaft:"Shaft & machine",shaftOff:"Back to cabin",capShaft:"SHAFT & MACHINE VIEW",open:"Open door",close:"Close door",inside:"Step inside",outside:"Step outside",capOut:"INTERACTIVE 3D CONCEPT · DRAG TO ROTATE",capIn:"INSIDE THE CABIN · DRAG TO LOOK AROUND",
   mrlGeared:"Machine-room-less elevators use gearless machines",telescopic:"telescopic doors",
   "f.style":"Cabin style","f.metal":"Metal finish","f.floor":"Flooring","f.ceiling":"Ceiling & lighting","f.doorType":"Door type","f.door":"Door design","f.panel":"Control panel","f.buttons":"Panel buttons",
@@ -248,7 +249,7 @@ const T={
   install:"ثبّت التطبيق",iosHint:"للتثبيت: اضغط زر المشاركة ثم «إضافة إلى الشاشة الرئيسية».",copy:"نسخ ملخص التصميم",copied:"تم النسخ!",reset:"إعادة ضبط",aiBtn:"إنشاء صورة واقعية بالذكاء الاصطناعي",aiNote:"تستخدم منتجات ميلسا التي اخترتها. تستغرق حوالي ١٠–٣٠ ثانية.",
   aiTitle:"معاينة واقعية بالذكاء الاصطناعي",aiRegen:"إنشاء صورة أخرى",aiDownload:"تحميل الصورة",aiDisclaimer:"صورة تصورية بالذكاء الاصطناعي للإلهام فقط. يجب تأكيد الخامات والمقاسات والتفاصيل النهائية مع ميلسا للمصاعد.",
   aiLoading:"جارٍ إنشاء تصميم مصعدك…",aiError:"تعذر إنشاء الصورة. حاول مرة أخرى.",aiConn:"مشكلة في الاتصال. حاول مرة أخرى.",aiLimit:"وصلت للحد المسموح في الساعة. حاول مرة أخرى لاحقًا.",
-  foot1:"ميلسا للمصاعد · مجموعة التصميم",foot2:"أداة تصميم تصورية — ليست رسمًا هندسيًا",brief:"ميلسا للمصاعد — ملخص تصميم الكابينة",
+  surveyLink:"للمهندسين: معاينة الموقع ←",foot1:"ميلسا للمصاعد · مجموعة التصميم",foot2:"أداة تصميم تصورية — ليست رسمًا هندسيًا",brief:"ميلسا للمصاعد — ملخص تصميم الكابينة",
   shaft:"البئر والماكينة",shaftOff:"رجوع للكابينة",capShaft:"عرض البئر والماكينة",open:"افتح الباب",close:"أغلق الباب",inside:"ادخل الكابينة",outside:"اخرج من الكابينة",capOut:"تصور تفاعلي ثلاثي الأبعاد · اسحب للتدوير",capIn:"داخل الكابينة · اسحب للنظر حولك",
   mrlGeared:"مصاعد MRL تستخدم ماكينات بدون جيربوكس (Gearless)",telescopic:"تلسكوبي",
   "f.style":"طراز الكابينة","f.metal":"لون المعدن","f.floor":"الأرضية","f.ceiling":"السقف والإضاءة","f.doorType":"نوع الباب","f.door":"تصميم الباب","f.panel":"لوحة التحكم","f.buttons":"أزرار اللوحة",

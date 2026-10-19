@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" type="image/png" href="assets/logo-mark.png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#023584"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Melsa">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<title>Melsa Elevators | Site Survey</title>
+<style>
+:root{--navy:#023584;--navy-dark:#01245c;--red:#d8031a;--paper:#f3f6fb;--ink:#0f1f3a;--muted:#5d6a80;--line:#d6deeb;--tint:#eaf0fa;--ok:#1d7a46;--warn:#b45309}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.45 Inter,Arial,sans-serif}
+[dir=rtl] body,[dir=rtl] button,[dir=rtl] input,[dir=rtl] select,[dir=rtl] textarea{font-family:'Cairo',Tahoma,Arial,sans-serif}
+[dir=rtl] *{letter-spacing:0!important}
+header{background:#fff;padding:12px clamp(16px,4vw,54px);display:flex;justify-content:space-between;align-items:center;gap:14px;box-shadow:0 4px 0 var(--navy),0 8px 0 var(--red);margin-bottom:8px}
+.brand{display:flex;align-items:center;gap:14px;text-decoration:none}.brand img{height:60px;width:auto;display:block}
+.brand small{font-size:10px;letter-spacing:.28em;color:var(--muted);font-weight:700;border-inline-start:2px solid var(--red);padding-inline-start:12px}
+.header-right{display:flex;align-items:center;gap:8px}
+.navlink{border:1px solid var(--navy);color:var(--navy);background:#fff;border-radius:999px;padding:7px 13px;font-size:12px;font-weight:700;text-decoration:none;white-space:nowrap}
+.navlink:hover{background:var(--tint)}
+.lang-btn{border:0;background:var(--red);color:#fff;border-radius:999px;padding:8px 14px;font:700 13px 'Cairo',Inter,Arial,sans-serif;cursor:pointer}
+[dir=rtl] .lang-btn{font-family:Inter,Arial,sans-serif}
+main{max-width:1100px;margin:auto;padding:26px clamp(14px,3vw,32px) 50px}
+.eyebrow{font-size:11px;letter-spacing:.2em;color:var(--red);font-weight:800}
+h1{font-size:clamp(26px,4vw,40px);line-height:1.1;letter-spacing:-.03em;margin:8px 0 8px;color:var(--navy)}
+.lead{color:var(--muted);margin:0 0 16px;max-width:640px}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:6px}
+.btn{border:0;border-radius:10px;padding:11px 14px;font-weight:700;cursor:pointer;font-size:12.5px;font-family:inherit}
+.btn.primary{background:var(--red);color:#fff}.btn.navy{background:var(--navy);color:#fff}
+.btn.ghost{background:#fff;border:1px solid var(--navy);color:var(--navy)}
+.btn.small{padding:7px 10px;font-size:11.5px}
+.status{font-size:11.5px;color:var(--muted);margin-inline-start:auto}
+.card{background:#fff;border:1px solid var(--line);border-top:4px solid var(--navy);border-radius:16px;padding:18px clamp(14px,3vw,22px);margin-top:16px}
+.card h2{font-size:17px;color:var(--navy);margin:0 0 4px;display:flex;align-items:center;gap:10px}
+.card h2 .num{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--red);color:#fff;font-size:13px}
+.card .sub{color:var(--muted);font-size:12px;margin:0 0 14px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.f label{display:block;font-size:11.5px;font-weight:700;color:var(--navy);margin-bottom:5px}
+.f input,.f select,.f textarea,.crow input{width:100%;border:1px solid var(--line);border-radius:9px;padding:9px 10px;font:inherit;font-size:13.5px;color:var(--ink);background:#fff}
+.f input:focus,.f select:focus,.f textarea:focus,.crow input:focus,.pin input:focus{outline:2px solid #9fb6e0;border-color:var(--navy)}
+.f .unit{font-weight:500;color:var(--muted)}
+.f.wide{grid-column:span 2}.f.full{grid-column:1/-1}
+.inline{display:flex;gap:6px}.inline input{flex:1}
+textarea{min-height:110px;resize:vertical}
+/* shaft plan */
+.plan-wrap{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:18px;align-items:start}
+.plan{position:relative;padding:62px 96px;background:var(--tint);border-radius:14px;border:1px dashed #b9c7e0}
+.plan svg{display:block;width:100%;height:auto}
+.pin{position:absolute;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10.5px;font-weight:700;color:var(--navy);text-align:center;line-height:1.15}
+.pin input{width:84px;border:2px solid var(--navy);border-radius:8px;padding:6px 4px;text-align:center;font:inherit;font-size:13.5px;background:#fff;color:var(--ink)}
+.pin.top{top:8px;left:50%;transform:translateX(-50%)}.pin.bottom{bottom:8px;left:50%;transform:translateX(-50%)}
+.pin.left{left:6px;top:50%;transform:translateY(-50%)}.pin.right{right:6px;top:50%;transform:translateY(-50%)}
+.pin.bottom input{border-color:var(--red)}
+.plan-note{font-size:11px;color:var(--muted);margin:8px 2px 0}
+.warns{margin-top:10px;display:grid;gap:6px}
+.warn{background:#fff7ed;border:1px solid #fdba74;color:var(--warn);border-radius:9px;padding:8px 10px;font-size:12px}
+.okmsg{background:#ecfdf3;border:1px solid #86efac;color:var(--ok);border-radius:9px;padding:8px 10px;font-size:12px}
+.floors{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:6px}
+.calc{font-size:12px;color:var(--navy);background:var(--tint);border-radius:9px;padding:8px 10px;margin-top:10px}
+/* components */
+.chead,.crow{display:grid;grid-template-columns:1.3fr 1.5fr .55fr 1.2fr 34px;gap:8px;align-items:center}
+.chead{font-size:11px;font-weight:800;color:var(--muted);padding:0 2px 6px;border-bottom:1px solid var(--line);text-transform:uppercase;letter-spacing:.06em}
+.crow{padding:8px 0;border-bottom:1px solid #edf1f7}
+.crow .cname{font-weight:700;font-size:13px;color:var(--ink)}
+.crow .qty{text-align:center;font-weight:700}
+.crow .del{border:0;background:#fdecee;color:var(--red);border-radius:8px;height:34px;cursor:pointer;font-size:18px;line-height:1}
+.crow.sug .qty{background:#fffbeb}
+.cfoot{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:center}
+.hint{font-size:11.5px;color:var(--muted)}
+/* checks */
+.checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.check{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13px;cursor:pointer;background:#fff}
+.check input{width:20px;height:20px;accent-color:var(--navy)}
+/* photos */
+.photos{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:10px}
+.ph{position:relative;aspect-ratio:1;border-radius:10px;overflow:hidden;border:1px solid var(--line);background:#f5f6f8}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.ph button{position:absolute;top:4px;inset-inline-end:4px;border:0;border-radius:50%;width:24px;height:24px;background:var(--red);color:#fff;cursor:pointer}
+.addph{display:grid;place-items:center;aspect-ratio:1;border:2px dashed #b9c7e0;border-radius:10px;color:var(--navy);font-weight:700;font-size:12px;cursor:pointer;text-align:center;padding:6px;background:var(--tint)}
+/* saved */
+.saved-list{display:grid;gap:8px}
+.sitem{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.sitem.cur{border-color:var(--navy);background:var(--tint)}
+.sitem .meta{flex:1;min-width:0}.sitem strong{display:block;font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.sitem span{font-size:11.5px;color:var(--muted)}
+footer{background:var(--navy);border-top:4px solid var(--red);color:#c7d4ec;padding:20px max(18px,calc((100% - 1100px)/2 + 28px));font-size:11px;display:flex;justify-content:space-between;gap:12px;letter-spacing:.06em;margin-top:30px}
+footer a{color:#fff}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:90;background:var(--navy);color:#fff;padding:12px 18px;border-radius:12px;font-size:13px;max-width:calc(100% - 32px);box-shadow:0 8px 24px #0a173055;border-bottom:3px solid var(--red)}
+.print-head{display:none}
+@media(max-width:860px){.plan-wrap{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.floors{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:560px){
+ header{padding:10px 14px}.brand img{height:46px}.brand small{display:none}.navlink{padding:6px 10px;font-size:11px}
+ .grid{grid-template-columns:1fr 1fr;gap:10px}.f.wide{grid-column:1/-1}
+ .plan{padding:56px 70px}.pin input{width:62px;font-size:13px}.pin{font-size:9.5px;max-width:66px}
+ .chead{display:none}
+ .crow{grid-template-columns:1fr 64px 34px;grid-template-areas:"name name name" "spec qty del" "note note note"}
+ .crow .cname,.crow .cname-in{grid-area:name}.crow .spec{grid-area:spec}.crow .qty{grid-area:qty}.crow .note{grid-area:note}.crow .del{grid-area:del}
+ .checks{grid-template-columns:1fr}.photos{grid-template-columns:repeat(3,minmax(0,1fr))}
+ footer{display:block}footer span{display:block;margin:3px 0}
+}
+@media print{
+ header,.toolbar,.no-print,footer,.del,.addph,.ph button,#savedCard,.toast{display:none!important}
+ body{background:#fff;font-size:12px}main{padding:0;max-width:none}
+ .print-head{display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid var(--navy);padding-bottom:8px;margin-bottom:6px}
+ .print-head img{height:52px}
+ .card{break-inside:avoid;border:1px solid #bbb;border-top:3px solid var(--navy);margin-top:10px;padding:10px 14px}
+ input,select,textarea{border:0!important;border-bottom:1px solid #999!important;border-radius:0!important;padding:3px 2px!important}
+ .pin input{border:1px solid #333!important}
+ .plan{background:#fff}
+ textarea{min-height:0}
+ .crow.sug .qty{background:none}
+}
+</style>
+</head>
+<body>
+<header>
+ <a class="brand" href="./"><img src="assets/logo.png" alt="Melsa Elevators" width="400" height="308"><small data-i18n="tagline">ENGINEERED FOR ELEGANCE</small></a>
+ <div class="header-right"><a class="navlink" href="./" data-i18n="navConfig">Cabin configurator</a><button type="button" class="lang-btn" id="langBtn" lang="ar">عربي</button></div>
+</header>
+<main>
+ <div class="print-head"><img src="assets/logo.png" alt="Melsa Elevators"><div><strong data-i18n="printTitle">SITE SURVEY REPORT</strong><br><span id="printDate"></span></div></div>
+ <div class="eyebrow" data-i18n="eyebrow">FOR ENGINEERS</div>
+ <h1 data-i18n="title">Site survey</h1>
+ <p class="lead" data-i18n="lead">Record the shaft measurements, heights and the components needed for the installation. Everything is saved on this device automatically.</p>
+ <div class="toolbar">
+  <button type="button" class="btn navy" id="newBtn" data-i18n="newSurvey">+ New survey</button>
+  <button type="button" class="btn ghost" id="printBtn" data-i18n="print">Print / Save PDF</button>
+  <button type="button" class="btn ghost" id="shareBtn" data-i18n="share">Share (WhatsApp)</button>
+  <a class="btn ghost" href="#savedCard" id="savedLink"></a>
+  <span class="status" id="status"></span>
+ </div>
+
+ <section class="card">
+  <h2><span class="num">1</span><span data-i18n="s1">Project details</span></h2>
+  <p class="sub" data-i18n="s1sub">Who, where and what type of elevator.</p>
+  <div class="grid">
+   <div class="f"><label data-i18n="p.name">Project name</label><input data-bind="project.name"></div>
+   <div class="f"><label data-i18n="p.client">Client name</label><input data-bind="project.client"></div>
+   <div class="f"><label data-i18n="p.phone">Client phone</label><input data-bind="project.phone" type="tel" inputmode="tel"></div>
+   <div class="f wide"><label data-i18n="p.address">Address</label><input data-bind="project.address"></div>
+   <div class="f"><label data-i18n="p.gps">GPS location</label><div class="inline"><input data-bind="project.gps" placeholder="lat, lng"><button type="button" class="btn ghost small no-print" id="gpsBtn">📍</button></div></div>
+   <div class="f"><label data-i18n="p.date">Survey date</label><input data-bind="project.date" type="date"></div>
+   <div class="f"><label data-i18n="p.engineer">Engineer</label><input data-bind="project.engineer"></div>
+   <div class="f"><label data-i18n="p.building">Building type</label><select data-bind="project.building" data-opts="building"></select></div>
+   <div class="f"><label data-i18n="p.use">Elevator type</label><select data-bind="project.use" data-opts="use"></select></div>
+   <div class="f"><label data-i18n="p.drive">Drive system</label><select data-bind="project.drive" data-opts="drive"></select></div>
+   <div class="f"><label data-i18n="p.machine">Machine / power unit location</label><select data-bind="project.machineRoom" data-opts="machineRoom"></select></div>
+   <div class="f"><label data-i18n="p.stops">Number of stops (floors served)</label><input data-bind="project.stops" type="number" inputmode="numeric" min="2"></div>
+   <div class="f"><label data-i18n="p.entrances">Car entrances</label><select data-bind="project.entrances" data-opts="entrances"></select></div>
+   <div class="f"><label><span data-i18n="p.capacity">Capacity</span> <span class="unit">(kg)</span></label><input data-bind="project.capacity" type="number" inputmode="numeric"></div>
+   <div class="f"><label><span data-i18n="p.speed">Speed</span> <span class="unit">(m/s)</span></label><input data-bind="project.speed" type="number" inputmode="decimal" step="0.1"></div>
+  </div>
+ </section>
+
+ <section class="card">
+  <h2><span class="num">2</span><span data-i18n="s2">Shaft plan (top view)</span></h2>
+  <p class="sub" data-i18n="s2sub">Write the inside measurement of each wall in millimetres. The drawing follows your numbers.</p>
+  <div class="plan-wrap">
+   <div>
+    <div class="plan">
+     <svg id="planSvg" viewBox="0 0 300 250" role="img" aria-label="Shaft plan"></svg>
+     <label class="pin top"><span data-i18n="w.back">Back wall</span><input data-bind="shaft.back" type="number" inputmode="numeric" placeholder="mm"></label>
+     <label class="pin bottom"><input data-bind="shaft.front" type="number" inputmode="numeric" placeholder="mm"><span data-i18n="w.front">Front wall (landing)</span></label>
+     <label class="pin left"><span data-i18n="w.left">Left wall</span><input data-bind="shaft.left" type="number" inputmode="numeric" placeholder="mm"></label>
+     <label class="pin right"><span data-i18n="w.right">Right wall</span><input data-bind="shaft.right" type="number" inputmode="numeric" placeholder="mm"></label>
+    </div>
+    <p class="plan-note" data-i18n="planNote">Left and right are as seen from the landing, facing the shaft.</p>
+   </div>
+   <div>
+    <div class="grid" style="grid-template-columns:1fr 1fr">
+     <div class="f"><label><span data-i18n="sh.doorW">Door opening width</span> <span class="unit">(mm)</span></label><input data-bind="shaft.doorW" type="number" inputmode="numeric"></div>
+     <div class="f"><label><span data-i18n="sh.doorH">Door opening height</span> <span class="unit">(mm)</span></label><input data-bind="shaft.doorH" type="number" inputmode="numeric"></div>
+     <div class="f"><label><span data-i18n="sh.doorLeft">Door distance from left wall</span> <span class="unit">(mm)</span></label><input data-bind="shaft.doorLeft" type="number" inputmode="numeric"></div>
+     <div class="f"><label><span data-i18n="sh.wall">Wall thickness</span> <span class="unit">(mm)</span></label><input data-bind="shaft.wall" type="number" inputmode="numeric"></div>
+     <div class="f"><label><span data-i18n="sh.diag1">Diagonal 1</span> <span class="unit">(mm)</span></label><input data-bind="shaft.diag1" type="number" inputmode="numeric"></div>
+     <div class="f"><label><span data-i18n="sh.diag2">Diagonal 2</span> <span class="unit">(mm)</span></label><input data-bind="shaft.diag2" type="number" inputmode="numeric"></div>
+     <div class="f"><label><span data-i18n="sh.carW">Car width</span> <span class="unit">(mm)</span></label><input data-bind="car.w" type="number" inputmode="numeric"></div>
+     <div class="f"><label><span data-i18n="sh.carD">Car depth</span> <span class="unit">(mm)</span></label><input data-bind="car.d" type="number" inputmode="numeric"></div>
+     <div class="f"><label><span data-i18n="sh.carH">Car height</span> <span class="unit">(mm)</span></label><input data-bind="car.h" type="number" inputmode="numeric"></div>
+    </div>
+    <div class="warns" id="warns"></div>
+   </div>
+  </div>
+ </section>
+
+ <section class="card">
+  <h2><span class="num">3</span><span data-i18n="s3">Heights &amp; levels</span></h2>
+  <p class="sub" data-i18n="s3sub">All heights in millimetres.</p>
+  <div class="grid">
+   <div class="f"><label><span data-i18n="v.pit">Pit depth</span> <span class="unit">(mm)</span></label><input data-bind="vertical.pit" type="number" inputmode="numeric"></div>
+   <div class="f"><label><span data-i18n="v.overhead">Overhead (top floor to shaft ceiling)</span> <span class="unit">(mm)</span></label><input data-bind="vertical.overhead" type="number" inputmode="numeric"></div>
+   <div class="f"><label><span data-i18n="v.travel">Travel (lowest to top floor)</span> <span class="unit">(mm)</span></label><input data-bind="vertical.travel" type="number" inputmode="numeric"></div>
+  </div>
+  <div class="f" style="margin-top:12px"><label data-i18n="v.floors">Floor-to-floor heights</label></div>
+  <div class="floors" id="floors"></div>
+  <div class="calc" id="travelCalc"></div>
+  <div id="mrBlock">
+   <div class="f" style="margin-top:14px"><label data-i18n="v.mr">Machine room</label></div>
+   <div class="grid">
+    <div class="f"><label><span data-i18n="v.mrW">Width</span> <span class="unit">(mm)</span></label><input data-bind="vertical.mrW" type="number" inputmode="numeric"></div>
+    <div class="f"><label><span data-i18n="v.mrD">Depth</span> <span class="unit">(mm)</span></label><input data-bind="vertical.mrD" type="number" inputmode="numeric"></div>
+    <div class="f"><label><span data-i18n="v.mrH">Height</span> <span class="unit">(mm)</span></label><input data-bind="vertical.mrH" type="number" inputmode="numeric"></div>
+   </div>
+  </div>
+ </section>
+
+ <section class="card">
+  <h2><span class="num">4</span><span data-i18n="s4">Components &amp; quantities</span></h2>
+  <p class="sub" data-i18n="s4sub">Size / specification and the quantity needed for each part.</p>
+  <div class="chead"><span data-i18n="c.part">Component</span><span data-i18n="c.spec">Size / specification</span><span data-i18n="c.qty">Qty</span><span data-i18n="c.note">Note</span><span></span></div>
+  <div id="comps"></div>
+  <div class="cfoot no-print">
+   <button type="button" class="btn navy small" id="suggestBtn" data-i18n="suggest">Suggest quantities from measurements</button>
+   <button type="button" class="btn ghost small" id="addRowBtn" data-i18n="addRow">+ Add component</button>
+   <span class="hint" data-i18n="sugHint">Suggested values are estimates — always check them.</span>
+  </div>
+ </section>
+
+ <section class="card">
+  <h2><span class="num">5</span><span data-i18n="s5">Site checks</span></h2>
+  <p class="sub" data-i18n="s5sub">Tick what you confirmed on site.</p>
+  <div class="checks" id="checks"></div>
+ </section>
+
+ <section class="card">
+  <h2><span class="num">6</span><span data-i18n="s6">Notes &amp; photos</span></h2>
+  <div class="f"><label data-i18n="notes">Notes</label><textarea data-bind="notes"></textarea></div>
+  <div class="photos" id="photos"></div>
+  <input type="file" id="photoInput" accept="image/*" multiple hidden>
+ </section>
+
+ <section class="card" id="savedCard">
+  <h2 data-i18n="savedTitle">Saved surveys</h2>
+  <p class="sub" data-i18n="savedSub">Stored on this device only. Print or share a survey to keep a copy.</p>
+  <div class="saved-list" id="savedList"></div>
+ </section>
+</main>
+<footer><span data-i18n="foot1">MELSA ELEVATORS · SITE SURVEY</span><a href="./" data-i18n="navConfig">Cabin configurator</a></footer>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+/* ---------- Text (English / Arabic) ---------- */
+const T={
+ en:{docTitle:"Melsa Elevators | Site Survey",tagline:"ENGINEERED FOR ELEGANCE",navConfig:"Cabin configurator",eyebrow:"FOR ENGINEERS",title:"Site survey",printTitle:"SITE SURVEY REPORT",
+  lead:"Record the shaft measurements, heights and the components needed for the installation. Everything is saved on this device automatically.",
+  newSurvey:"+ New survey",print:"Print / Save PDF",share:"Share (WhatsApp)",saved:"Saved surveys",savedAt:"Saved automatically · ",
+  s1:"Project details",s1sub:"Who, where and what type of elevator.",s2:"Shaft plan (top view)",s2sub:"Write the inside measurement of each wall in millimetres. The drawing follows your numbers.",
+  s3:"Heights & levels",s3sub:"All heights in millimetres.",s4:"Components & quantities",s4sub:"Size / specification and the quantity needed for each part.",
+  s5:"Site checks",s5sub:"Tick what you confirmed on site.",s6:"Notes & photos",notes:"Notes",savedTitle:"Saved surveys",savedSub:"Stored on this device only. Print or share a survey to keep a copy.",
+  foot1:"MELSA ELEVATORS · SITE SURVEY",
+  "p.name":"Project name","p.client":"Client name","p.phone":"Client phone","p.address":"Address","p.gps":"GPS location","p.date":"Survey date","p.engineer":"Engineer",
+  "p.building":"Building type","p.use":"Elevator type","p.drive":"Drive system","p.machine":"Machine / power unit location","p.stops":"Number of stops (floors served)","p.entrances":"Car entrances","p.capacity":"Capacity","p.speed":"Speed",
+  "w.back":"Back wall","w.front":"Front wall (landing)","w.left":"Left wall","w.right":"Right wall",planNote:"Left and right are as seen from the landing, facing the shaft.",
+  "sh.doorW":"Door opening width","sh.doorH":"Door opening height","sh.doorLeft":"Door distance from left wall","sh.wall":"Wall thickness","sh.diag1":"Diagonal 1","sh.diag2":"Diagonal 2","sh.carW":"Car width","sh.carD":"Car depth","sh.carH":"Car height",
+  "v.pit":"Pit depth","v.overhead":"Overhead (top floor to shaft ceiling)","v.travel":"Travel (lowest to top floor)","v.floors":"Floor-to-floor heights","v.mr":"Machine room","v.mrW":"Width","v.mrD":"Depth","v.mrH":"Height",
+  floorLbl:"Floor {a} → {b}",travelSum:"Sum of floor heights: {s} mm",travelDiff:" — differs from entered travel by {d} mm",railTotal:"Total rail height (pit + travel + overhead): {t} m",
+  "c.part":"Component","c.spec":"Size / specification","c.qty":"Qty","c.note":"Note",suggest:"Suggest quantities from measurements",addRow:"+ Add component",sugHint:"Suggested values are estimates — always check them.",customPart:"Component name",
+  "w.ok":"Shaft walls and diagonals look consistent.","w.fb":"Front and back walls differ by {d} mm — check the shaft width.","w.lr":"Left and right walls differ by {d} mm — check the shaft depth.","w.diag":"Diagonals differ by {d} mm — the shaft is not square.","w.door":"Door opening goes past the right wall — check the door position.","w.car":"Car is larger than the shaft — check the car size.",
+  untitled:"Untitled survey",open:"Open",del:"Delete",current:"Open now",confirmDel:"Delete this survey?",confirmNew:"Start a new survey? The current one stays saved.",
+  gpsOk:"Location added.",gpsFail:"Could not get the location.",full:"Storage is full. Delete old surveys or photos.",addPhoto:"+ Add photo",photoMax:"Up to 8 photos per survey.",
+  shareHead:"MELSA ELEVATORS — SITE SURVEY",copied:"Survey copied — paste it in WhatsApp.",mm:"mm",
+  "o.building.Residential":"Residential building","o.building.Villa":"Villa","o.building.Factory":"Factory","o.building.Hospital":"Hospital","o.building.Mall":"Mall","o.building.Office":"Office","o.building.Hotel":"Hotel",
+  "o.use.Passenger":"Passenger","o.use.Home":"Home lift (villa)","o.use.Goods":"Goods / freight","o.use.Hospital":"Hospital bed","o.use.Panoramic":"Panoramic","o.use.Car":"Car lift",
+  "o.drive.Electric":"Electric (traction)","o.drive.Hydraulic":"Hydraulic",
+  "o.machineRoom.Top":"Machine room on top","o.machineRoom.MRL":"In the shaft (MRL)","o.machineRoom.Beside":"Machine room beside the shaft","o.machineRoom.Pit":"Inside the shaft (pit)",
+  "o.entrances.Single":"Single entrance","o.entrances.Opposite":"Two, opposite","o.entrances.Adjacent":"Two, adjacent (90°)",
+  "k.plumb":"Shaft is plumb (checked top to bottom)","k.pit":"Pit is dry and clean","k.power":"3-phase power supply available","k.light":"Shaft lighting / temporary light","k.access":"Access for delivering materials","k.vent":"Ventilation for shaft / machine room","k.anchor":"Walls suitable for bracket anchoring","k.scaff":"Scaffolding / safe working platform",
+  "x.car":"Car (cabin)","x.carDoor":"Car door","x.landing":"Landing doors","x.carRails":"Car guide rails","x.cwRails":"Counterweight guide rails","x.brackets":"Rail brackets","x.machine":"Machine","x.controller":"Controller","x.ropes":"Suspension ropes",
+  "x.governor":"Speed governor","x.cw":"Counterweight & filler weights","x.buffers":"Buffers","x.cable":"Travelling cable","x.cop":"Car operating panel (COP)","x.lop":"Landing call panels","x.jack":"Hydraulic jack","x.pump":"Hydraulic power unit","x.hose":"Hydraulic hose / pipe"},
+ ar:{docTitle:"ميلسا للمصاعد | معاينة الموقع",tagline:"هندسة الأناقة",navConfig:"مصمم الكابينة",eyebrow:"للمهندسين",title:"معاينة الموقع",printTitle:"تقرير معاينة الموقع",
+  lead:"سجّل مقاسات البئر والارتفاعات والمكونات المطلوبة للتركيب. يتم الحفظ تلقائيًا على هذا الجهاز.",
+  newSurvey:"+ معاينة جديدة",print:"طباعة / حفظ PDF",share:"مشاركة (واتساب)",saved:"المعاينات المحفوظة",savedAt:"تم الحفظ تلقائيًا · ",
+  s1:"بيانات المشروع",s1sub:"العميل والمكان ونوع المصعد.",s2:"رسمة البئر (من أعلى)",s2sub:"اكتب المقاس الداخلي لكل حائط بالمليمتر. الرسمة تتغير حسب أرقامك.",
+  s3:"الارتفاعات والأدوار",s3sub:"كل الارتفاعات بالمليمتر.",s4:"المكونات والكميات",s4sub:"المقاس / المواصفات والعدد المطلوب لكل جزء.",
+  s5:"فحوصات الموقع",s5sub:"علّم على ما تم التأكد منه في الموقع.",s6:"ملاحظات وصور",notes:"ملاحظات",savedTitle:"المعاينات المحفوظة",savedSub:"محفوظة على هذا الجهاز فقط. اطبع أو شارك المعاينة للاحتفاظ بنسخة.",
+  foot1:"ميلسا للمصاعد · معاينة الموقع",
+  "p.name":"اسم المشروع","p.client":"اسم العميل","p.phone":"تليفون العميل","p.address":"العنوان","p.gps":"الموقع (GPS)","p.date":"تاريخ المعاينة","p.engineer":"المهندس",
+  "p.building":"نوع المبنى","p.use":"نوع المصعد","p.drive":"نظام التشغيل","p.machine":"مكان الماكينة / وحدة الزيت","p.stops":"عدد الوقفات (الأدوار)","p.entrances":"مداخل الكابينة","p.capacity":"الحمولة","p.speed":"السرعة",
+  "w.back":"الحائط الخلفي","w.front":"الحائط الأمامي (جهة الباب)","w.left":"الحائط الأيسر","w.right":"الحائط الأيمن",planNote:"اليمين والشمال كما تراهم وأنت واقف أمام باب البئر.",
+  "sh.doorW":"عرض فتحة الباب","sh.doorH":"ارتفاع فتحة الباب","sh.doorLeft":"بعد الباب عن الحائط الأيسر","sh.wall":"سُمك الحائط","sh.diag1":"القطر ١","sh.diag2":"القطر ٢","sh.carW":"عرض الكابينة","sh.carD":"عمق الكابينة","sh.carH":"ارتفاع الكابينة",
+  "v.pit":"عمق الحفرة (البيت)","v.overhead":"الارتفاع العلوي (من آخر دور لسقف البئر)","v.travel":"مسافة المشوار (من أول لآخر دور)","v.floors":"ارتفاع كل دور","v.mr":"غرفة الماكينة","v.mrW":"العرض","v.mrD":"العمق","v.mrH":"الارتفاع",
+  floorLbl:"دور {a} ← {b}",travelSum:"مجموع ارتفاعات الأدوار: {s} مم",travelDiff:" — يختلف عن المشوار المكتوب بـ {d} مم",railTotal:"إجمالي ارتفاع السكك (الحفرة + المشوار + العلوي): {t} م",
+  "c.part":"المكون","c.spec":"المقاس / المواصفات","c.qty":"العدد","c.note":"ملاحظة",suggest:"احسب الكميات من المقاسات",addRow:"+ إضافة مكون",sugHint:"القيم المقترحة تقديرية — راجعها دائمًا.",customPart:"اسم المكون",
+  "w.ok":"مقاسات الحيطان والأقطار متناسقة.","w.fb":"الحائط الأمامي والخلفي مختلفين بـ {d} مم — راجع عرض البئر.","w.lr":"الحائط الأيمن والأيسر مختلفين بـ {d} مم — راجع عمق البئر.","w.diag":"الأقطار مختلفة بـ {d} مم — البئر غير قائم الزوايا.","w.door":"فتحة الباب تتعدى الحائط الأيمن — راجع مكان الباب.","w.car":"الكابينة أكبر من البئر — راجع مقاس الكابينة.",
+  untitled:"معاينة بدون اسم",open:"فتح",del:"حذف",current:"مفتوحة الآن",confirmDel:"حذف هذه المعاينة؟",confirmNew:"بدء معاينة جديدة؟ الحالية ستظل محفوظة.",
+  gpsOk:"تمت إضافة الموقع.",gpsFail:"تعذر تحديد الموقع.",full:"مساحة التخزين ممتلئة. احذف معاينات أو صور قديمة.",addPhoto:"+ إضافة صورة",photoMax:"حتى ٨ صور لكل معاينة.",
+  shareHead:"ميلسا للمصاعد — معاينة الموقع",copied:"تم نسخ المعاينة — الصقها في واتساب.",mm:"مم",
+  "o.building.Residential":"عمارة سكنية","o.building.Villa":"فيلا","o.building.Factory":"مصنع","o.building.Hospital":"مستشفى","o.building.Mall":"مول تجاري","o.building.Office":"مبنى إداري","o.building.Hotel":"فندق",
+  "o.use.Passenger":"ركاب","o.use.Home":"مصعد منزلي (فيلا)","o.use.Goods":"بضائع","o.use.Hospital":"مستشفى (سرير)","o.use.Panoramic":"بانوراما","o.use.Car":"مصعد سيارات",
+  "o.drive.Electric":"كهرباء (جر بالحبال)","o.drive.Hydraulic":"هيدروليك",
+  "o.machineRoom.Top":"غرفة ماكينة أعلى المبنى","o.machineRoom.MRL":"داخل البئر (MRL)","o.machineRoom.Beside":"غرفة بجوار البئر","o.machineRoom.Pit":"داخل البئر (الحفرة)",
+  "o.entrances.Single":"مدخل واحد","o.entrances.Opposite":"مدخلين متقابلين","o.entrances.Adjacent":"مدخلين متجاورين (٩٠°)",
+  "k.plumb":"البئر رأسي (تم الفحص من أعلى لأسفل)","k.pit":"الحفرة جافة ونظيفة","k.power":"كهرباء ٣ فاز متوفرة","k.light":"إضاءة البئر / إضاءة مؤقتة","k.access":"مدخل لتوريد الخامات","k.vent":"تهوية للبئر / غرفة الماكينة","k.anchor":"الحيطان مناسبة لتثبيت الكانات","k.scaff":"سقالة / منصة عمل آمنة",
+  "x.car":"الكابينة","x.carDoor":"باب الكابينة","x.landing":"أبواب الأدوار","x.carRails":"سكك الكابينة","x.cwRails":"سكك الثقل","x.brackets":"كانات السكك","x.machine":"الماكينة","x.controller":"لوحة الكنترول","x.ropes":"حبال الجر",
+  "x.governor":"منظم السرعة (جفرنر)","x.cw":"الثقل وأوزانه","x.buffers":"المخمدات (بفر)","x.cable":"الكابل المرن","x.cop":"لوحة الكابينة (COP)","x.lop":"لوحات الاستدعاء بالأدوار","x.jack":"المكبس الهيدروليكي","x.pump":"وحدة الزيت (الباور يونت)","x.hose":"خرطوم / ماسورة الزيت"}
+};
+const OPTS={building:["Residential","Villa","Factory","Hospital","Mall","Office","Hotel"],use:["Passenger","Home","Goods","Hospital","Panoramic","Car"],drive:["Electric","Hydraulic"],
+ machineRoom:{Electric:["Top","MRL"],Hydraulic:["Beside","Pit"]},entrances:["Single","Opposite","Adjacent"]};
+const CHECKS=["plumb","pit","power","light","access","vent","anchor","scaff"];
+const COMP_KEYS={Electric:["car","carDoor","landing","carRails","cwRails","brackets","machine","controller","ropes","governor","cw","buffers","cable","cop","lop"],
+ Hydraulic:["car","carDoor","landing","carRails","brackets","jack","pump","hose","controller","buffers","cable","cop","lop"]};
+
+let lang="en"; try{const s=localStorage.getItem("melsaLang");if(s==="ar"||s==="en")lang=s;}catch(e){}
+function t(k,vars){let s=(T[lang]&&T[lang][k])??T.en[k]??k; if(vars)for(const v in vars)s=s.replace("{"+v+"}",vars[v]); return s;}
+
+/* ---------- Storage ---------- */
+const STORE="melsaSurveys", CUR="melsaSurveyCurrent";
+function loadAll(){try{return JSON.parse(localStorage.getItem(STORE)||"{}")}catch(e){return {}}}
+function saveAll(all){try{localStorage.setItem(STORE,JSON.stringify(all));return true}catch(e){toast(t("full"));return false}}
+function today(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function blank(){
+ const id="s"+Date.now().toString(36);
+ return {id,created:Date.now(),updated:Date.now(),
+  project:{name:"",client:"",phone:"",address:"",gps:"",date:today(),engineer:"",building:"Residential",use:"Passenger",drive:"Electric",machineRoom:"Top",stops:"",entrances:"Single",capacity:"",speed:""},
+  shaft:{front:"",back:"",left:"",right:"",doorW:"",doorH:"",doorLeft:"",wall:"",diag1:"",diag2:""},car:{w:"",d:"",h:""},
+  vertical:{pit:"",overhead:"",travel:"",floors:[],mrW:"",mrD:"",mrH:""},checks:{},components:COMP_KEYS.Electric.map(k=>({key:k,name:"",spec:"",qty:"",note:""})),notes:"",photos:[]};
+}
+let all=loadAll(), S=null;
+(function init(){let cur=null;try{cur=localStorage.getItem(CUR)}catch(e){} S=all[cur]||Object.values(all).sort((a,b)=>b.updated-a.updated)[0]||blank(); all[S.id]=S;})();
+function get(path){return path.split(".").reduce((o,k)=>o?.[k],S)}
+function set(path,v){const ks=path.split(".");let o=S;for(let i=0;i<ks.length-1;i++)o=o[ks[i]];o[ks[ks.length-1]]=v;}
+let saveTimer; function touch(){S.updated=Date.now(); clearTimeout(saveTimer); saveTimer=setTimeout(persist,350);}
+function persist(){all[S.id]=S; if(saveAll(all)){try{localStorage.setItem(CUR,S.id)}catch(e){} status();} renderSaved();}
+function status(){const d=new Date(S.updated);document.getElementById("status").textContent=t("savedAt")+d.toLocaleTimeString(lang==="ar"?"ar-EG":"en-GB",{hour:"2-digit",minute:"2-digit"});}
+const num=v=>{const n=parseFloat(v);return isFinite(n)?n:null};
+
+/* ---------- Binding ---------- */
+function fillSelects(){
+ document.querySelectorAll("select[data-opts]").forEach(sel=>{
+  const o=sel.dataset.opts, list=o==="machineRoom"?OPTS.machineRoom[S.project.drive]:OPTS[o];
+  sel.replaceChildren(...list.map(v=>{const op=document.createElement("option");op.value=v;op.textContent=t("o."+o+"."+v);return op;}));
+  sel.value=get(sel.dataset.bind);
+ });
+}
+function loadInputs(){document.querySelectorAll("[data-bind]").forEach(el=>{const v=get(el.dataset.bind);if(el.tagName!=="SELECT")el.value=v??"";});fillSelects();}
+document.addEventListener("input",e=>{
+ const el=e.target; if(!el.dataset)return;
+ if(el.dataset.bind){
+  set(el.dataset.bind,el.value);
+  if(el.dataset.bind==="project.drive"){S.project.machineRoom=OPTS.machineRoom[el.value][0]; syncComponentsToDrive(); fillSelects(); renderComps();}
+  if(el.dataset.bind==="project.stops")renderFloors();
+  if(el.dataset.bind==="project.machineRoom"||el.dataset.bind==="project.drive")renderMR();
+  drawPlan(); calcTravel(); touch();
+ } else if(el.dataset.floor!==undefined){S.vertical.floors[+el.dataset.floor]=el.value; calcTravel(); touch();}
+ else if(el.dataset.comp!==undefined){const r=S.components[+el.dataset.comp]; r[el.dataset.field]=el.value; if(el.dataset.field==="qty")r.sug=false; el.closest(".crow")?.classList.toggle("sug",!!r.sug); touch();}
+ else if(el.dataset.check){S.checks[el.dataset.check]=el.checked; touch();}
+});
+
+/* ---------- Shaft plan drawing ---------- */
+function drawPlan(){
+ const sh=S.shaft, W=num(sh.front)??num(sh.back)??1800, W2=num(sh.back)??W, D=num(sh.left)??num(sh.right)??1700, D2=num(sh.right)??D;
+ const maxW=Math.max(W,W2), maxD=Math.max(D,D2), sc=Math.min(262/maxW,212/maxD), cx=150, cy=125;
+ const w=W*sc, wb=W2*sc, dl=D*sc, dr=D2*sc, x0=cx-maxW*sc/2, y0=cy-maxD*sc/2;
+ // corners: front-left, front-right, back-right, back-left (front is at the bottom)
+ const FL=[x0,y0+dl], FR=[x0+w,y0+dr], BR=[x0+wb,y0], BL=[x0,y0];
+ const dW=num(sh.doorW)??Math.min(900,W*0.5), dLeft=num(sh.doorLeft)??(W-dW)/2;
+ const ds=x0+dLeft*sc, de=ds+dW*sc, fy=(x)=>FL[1]+(FR[1]-FL[1])*((x-FL[0])/(FR[0]-FL[0]||1));
+ const cw=num(S.car.w), cd=num(S.car.d);
+ const P=a=>a.join(",");
+ let svg=`<defs><pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#9fb1d1" stroke-width="2"/></pattern></defs>`;
+ svg+=`<polygon points="${P(FL)} ${P(FR)} ${P(BR)} ${P(BL)}" fill="#fff"/>`;
+ if(num(sh.diag1)||num(sh.diag2)) svg+=`<line x1="${FL[0]}" y1="${FL[1]}" x2="${BR[0]}" y2="${BR[1]}" stroke="#9aa6b8" stroke-dasharray="4 4"/><line x1="${FR[0]}" y1="${FR[1]}" x2="${BL[0]}" y2="${BL[1]}" stroke="#9aa6b8" stroke-dasharray="4 4"/>`;
+ if(cw&&cd){const cwS=cw*sc, cdS=cd*sc; svg+=`<rect x="${cx-cwS/2}" y="${y0+(Math.min(dl,dr)-cdS)/2+4}" width="${cwS}" height="${cdS}" fill="#eaf0fa" stroke="#023584" stroke-dasharray="5 3" rx="3"/>`;}
+ const wallStroke=`stroke="#023584" stroke-width="7" stroke-linecap="square"`;
+ svg+=`<line x1="${BL[0]}" y1="${BL[1]}" x2="${BR[0]}" y2="${BR[1]}" ${wallStroke}/>`;
+ svg+=`<line x1="${BL[0]}" y1="${BL[1]}" x2="${FL[0]}" y2="${FL[1]}" ${wallStroke}/>`;
+ svg+=`<line x1="${BR[0]}" y1="${BR[1]}" x2="${FR[0]}" y2="${FR[1]}" ${wallStroke}/>`;
+ svg+=`<line x1="${FL[0]}" y1="${FL[1]}" x2="${ds}" y2="${fy(ds)}" ${wallStroke}/>`;
+ svg+=`<line x1="${de}" y1="${fy(de)}" x2="${FR[0]}" y2="${FR[1]}" ${wallStroke}/>`;
+ svg+=`<line x1="${ds}" y1="${fy(ds)+7}" x2="${de}" y2="${fy(de)+7}" stroke="#d8031a" stroke-width="3"/>`;
+ svg+=`<text x="${(ds+de)/2}" y="${Math.min(246,fy((ds+de)/2)+24)}" text-anchor="middle" font-size="12" fill="#d8031a" font-weight="700">${num(sh.doorW)?num(sh.doorW)+" "+t("mm"):"DOOR"}</text>`;
+ svg+=`<text x="${cx}" y="${y0+Math.min(dl,dr)/2+4}" text-anchor="middle" font-size="13" fill="#5d6a80" font-weight="700">${cw&&cd?cw+" × "+cd:(lang==="ar"?"البئر":"SHAFT")}</text>`;
+ document.getElementById("planSvg").innerHTML=svg;
+ // warnings
+ const warns=[], tol=20;
+ if(num(sh.front)&&num(sh.back)&&Math.abs(num(sh.front)-num(sh.back))>tol) warns.push(t("w.fb",{d:Math.abs(num(sh.front)-num(sh.back))}));
+ if(num(sh.left)&&num(sh.right)&&Math.abs(num(sh.left)-num(sh.right))>tol) warns.push(t("w.lr",{d:Math.abs(num(sh.left)-num(sh.right))}));
+ if(num(sh.diag1)&&num(sh.diag2)&&Math.abs(num(sh.diag1)-num(sh.diag2))>tol) warns.push(t("w.diag",{d:Math.abs(num(sh.diag1)-num(sh.diag2))}));
+ if(num(sh.doorW)&&num(sh.doorLeft)!==null&&num(sh.front)&&num(sh.doorLeft)+num(sh.doorW)>num(sh.front)) warns.push(t("w.door"));
+ if(cw&&cd&&((num(sh.front)&&cw>=num(sh.front))||(num(sh.left)&&cd>=num(sh.left)))) warns.push(t("w.car"));
+ const box=document.getElementById("warns"); const filled=["front","back","left","right"].every(k=>num(sh[k]));
+ box.innerHTML=warns.map(w=>`<div class="warn">⚠ ${w}</div>`).join("")+(!warns.length&&filled?`<div class="okmsg">✓ ${t("w.ok")}</div>`:"");
+}
+
+/* ---------- Heights ---------- */
+function renderFloors(){
+ const n=Math.max(0,Math.min(60,(parseInt(S.project.stops)||0)-1)); const box=document.getElementById("floors"); box.replaceChildren();
+ S.vertical.floors.length=Math.max(S.vertical.floors.length,n);
+ for(let i=0;i<n;i++){const d=document.createElement("div");d.className="f";
+  d.innerHTML=`<label>${t("floorLbl",{a:i+1,b:i+2})}</label><input type="number" inputmode="numeric" data-floor="${i}" placeholder="${t("mm")}">`;
+  d.querySelector("input").value=S.vertical.floors[i]??""; box.append(d);}
+ calcTravel();
+}
+function calcTravel(){
+ const n=Math.max(0,(parseInt(S.project.stops)||0)-1), fl=S.vertical.floors.slice(0,n).map(num).filter(v=>v!==null);
+ let txt="";
+ if(fl.length){const s=fl.reduce((a,b)=>a+b,0); txt=t("travelSum",{s}); const tr=num(S.vertical.travel); if(tr&&Math.abs(tr-s)>20)txt+=t("travelDiff",{d:Math.abs(tr-s)});}
+ const tot=railHeight(); if(tot)txt+=(txt?" · ":"")+t("railTotal",{t:(tot/1000).toFixed(2)});
+ const el=document.getElementById("travelCalc"); el.textContent=txt; el.hidden=!txt;
+}
+function travel(){const tr=num(S.vertical.travel); if(tr)return tr; const n=Math.max(0,(parseInt(S.project.stops)||0)-1); const fl=S.vertical.floors.slice(0,n).map(num); return fl.length&&fl.every(v=>v!==null)?fl.reduce((a,b)=>a+b,0):null;}
+function railHeight(){const tr=travel(), p=num(S.vertical.pit), o=num(S.vertical.overhead); return tr&&p!==null&&o?tr+p+o:null;}
+function renderMR(){document.getElementById("mrBlock").hidden=!(S.project.drive==="Electric"&&S.project.machineRoom==="Top");}
+
+/* ---------- Components ---------- */
+function syncComponentsToDrive(){
+ const keys=COMP_KEYS[S.project.drive]; const custom=S.components.filter(r=>!r.key);
+ const byKey={}; S.components.forEach(r=>{if(r.key)byKey[r.key]=r});
+ S.components=[...keys.map(k=>byKey[k]||{key:k,name:"",spec:"",qty:"",note:""}),...custom];
+}
+function renderComps(){
+ const box=document.getElementById("comps"); box.replaceChildren();
+ S.components.forEach((r,i)=>{
+  const row=document.createElement("div"); row.className="crow"+(r.sug?" sug":"");
+  const name=r.key?`<span class="cname">${t("x."+r.key)}</span>`:`<input class="cname-in" data-comp="${i}" data-field="name" placeholder="${t("customPart")}">`;
+  row.innerHTML=`${name}<input class="spec" data-comp="${i}" data-field="spec" placeholder="${t("c.spec")}"><input class="qty" data-comp="${i}" data-field="qty" type="number" inputmode="numeric" min="0" placeholder="${t("c.qty")}"><input class="note" data-comp="${i}" data-field="note" placeholder="${t("c.note")}"><button type="button" class="del" aria-label="${t("del")}" data-delcomp="${i}">×</button>`;
+  row.querySelectorAll("input").forEach(inp=>inp.value=r[inp.dataset.field]??"");
+  box.append(row);
+ });
+}
+document.getElementById("comps").addEventListener("click",e=>{const b=e.target.closest("[data-delcomp]");if(!b)return;S.components.splice(+b.dataset.delcomp,1);renderComps();touch();});
+document.getElementById("addRowBtn").addEventListener("click",()=>{S.components.push({key:null,name:"",spec:"",qty:"",note:""});renderComps();touch();const ins=document.querySelectorAll(".cname-in");ins[ins.length-1]?.focus();});
+document.getElementById("suggestBtn").addEventListener("click",()=>{
+ const stops=parseInt(S.project.stops)||null, rail=railHeight(), tr=travel(), oh=num(S.vertical.overhead), el=S.project.drive==="Electric";
+ const sug={cable:1,car:1,carDoor:S.project.entrances==="Single"?1:2,controller:1,cop:1,machine:el?1:null,governor:el?1:null,cw:el?1:null,jack:el?null:1,pump:el?null:1,hose:el?null:1,buffers:el?2:1};
+ if(stops){sug.landing=stops*(S.project.entrances==="Single"?1:2); sug.lop=stops;}
+ if(rail){const sections=Math.ceil(rail/5000); sug.carRails=sections*2; if(el)sug.cwRails=sections*2; sug.brackets=Math.ceil(rail/2500)*(el?4:2)+ (el?4:2);}
+ if(el&&tr&&oh)sug.ropes=5;
+ const spec={};
+ const cw=num(S.car.w),cd=num(S.car.d),ch=num(S.car.h); if(cw&&cd)spec.car=`${cw} × ${cd}${ch?" × "+ch:""} ${t("mm")}`;
+ const dw=num(S.shaft.doorW),dh=num(S.shaft.doorH); if(dw)spec.landing=spec.carDoor=`${dw}${dh?" × "+dh:""} ${t("mm")}`;
+ if(rail)spec.carRails=spec.cwRails=`${(rail/1000).toFixed(2)} m · 5 m`;
+ if(el&&tr&&oh)spec.ropes=`Ø8 mm · ~${Math.round((tr+oh+4000)/1000)} m`;
+ if(tr)spec.cable=`~${Math.round(tr/2000+6)} m`;
+ S.components.forEach(r=>{ if(!r.key)return;
+  if(sug[r.key]!=null&&(r.qty===""||r.sug)){r.qty=String(sug[r.key]);r.sug=true;}
+  if(spec[r.key]&&!r.spec)r.spec=spec[r.key];
+ });
+ renderComps(); touch();
+});
+
+/* ---------- Checks ---------- */
+function renderChecks(){const box=document.getElementById("checks");box.replaceChildren();
+ CHECKS.forEach(k=>{const l=document.createElement("label");l.className="check";l.innerHTML=`<input type="checkbox" data-check="${k}"><span>${t("k."+k)}</span>`;l.querySelector("input").checked=!!S.checks[k];box.append(l);});}
+
+/* ---------- Photos ---------- */
+function renderPhotos(){
+ const box=document.getElementById("photos"); box.replaceChildren();
+ S.photos.forEach((src,i)=>{const d=document.createElement("div");d.className="ph";d.innerHTML=`<img alt=""><button type="button" aria-label="${t("del")}" data-delph="${i}">×</button>`;d.querySelector("img").src=src;box.append(d);});
+ if(S.photos.length<8){const a=document.createElement("div");a.className="addph no-print";a.textContent=t("addPhoto");a.onclick=()=>document.getElementById("photoInput").click();box.append(a);}
+}
+document.getElementById("photos").addEventListener("click",e=>{const b=e.target.closest("[data-delph]");if(!b)return;S.photos.splice(+b.dataset.delph,1);renderPhotos();touch();});
+document.getElementById("photoInput").addEventListener("change",async e=>{
+ for(const f of [...e.target.files]){ if(S.photos.length>=8){toast(t("photoMax"));break;}
+  try{S.photos.push(await shrink(f));}catch(err){} }
+ e.target.value=""; renderPhotos(); touch();
+});
+function shrink(file){return new Promise((res,rej)=>{const img=new Image();img.onload=()=>{const m=1000,s=Math.min(1,m/Math.max(img.width,img.height));const c=document.createElement("canvas");c.width=Math.round(img.width*s);c.height=Math.round(img.height*s);c.getContext("2d").drawImage(img,0,0,c.width,c.height);URL.revokeObjectURL(img.src);res(c.toDataURL("image/jpeg",0.7));};img.onerror=rej;img.src=URL.createObjectURL(file);});}
+
+/* ---------- Saved surveys ---------- */
+function renderSaved(){
+ const list=Object.values(all).sort((a,b)=>b.updated-a.updated), box=document.getElementById("savedList"); box.replaceChildren();
+ document.getElementById("savedLink").textContent=t("saved")+" ("+list.length+")";
+ list.forEach(sv=>{const d=document.createElement("div");d.className="sitem"+(sv.id===S.id?" cur":"");
+  const name=sv.project.name||sv.project.client||t("untitled"), date=new Date(sv.updated).toLocaleString(lang==="ar"?"ar-EG":"en-GB",{dateStyle:"medium",timeStyle:"short"});
+  d.innerHTML=`<div class="meta"><strong></strong><span>${date}${sv.project.address?" · ":""}</span><span class="addr"></span></div>`+(sv.id===S.id?`<span class="hint">${t("current")}</span>`:`<button type="button" class="btn ghost small" data-open="${sv.id}">${t("open")}</button>`)+`<button type="button" class="btn small" style="background:#fdecee;color:var(--red)" data-del="${sv.id}">${t("del")}</button>`;
+  d.querySelector("strong").textContent=name; d.querySelector(".addr").textContent=sv.project.address||""; box.append(d);});
+}
+document.getElementById("savedList").addEventListener("click",e=>{
+ const o=e.target.closest("[data-open]"), d=e.target.closest("[data-del]");
+ if(o){S=all[o.dataset.open];try{localStorage.setItem(CUR,S.id)}catch(e){}renderAll();scrollTo({top:0,behavior:"smooth"});}
+ if(d&&confirm(t("confirmDel"))){delete all[d.dataset.del]; if(d.dataset.del===S.id){S=Object.values(all).sort((a,b)=>b.updated-a.updated)[0]||blank();all[S.id]=S;renderAll();} saveAll(all); renderSaved();}
+});
+document.getElementById("newBtn").addEventListener("click",()=>{if(!confirm(t("confirmNew")))return;persist();S=blank();all[S.id]=S;persist();renderAll();scrollTo({top:0,behavior:"smooth"});});
+
+/* ---------- GPS, print, share ---------- */
+document.getElementById("gpsBtn").addEventListener("click",()=>{
+ if(!navigator.geolocation){toast(t("gpsFail"));return;}
+ navigator.geolocation.getCurrentPosition(p=>{S.project.gps=p.coords.latitude.toFixed(6)+", "+p.coords.longitude.toFixed(6);loadInputs();touch();toast(t("gpsOk"));},()=>toast(t("gpsFail")),{enableHighAccuracy:true,timeout:15000});
+});
+document.getElementById("printBtn").addEventListener("click",()=>{document.getElementById("printDate").textContent=(S.project.name||"")+" · "+(S.project.date||today());persist();window.print();});
+function summary(){
+ const p=S.project, sh=S.shaft, v=S.vertical, L=[];
+ const line=(k,val,unit="")=>{if(val!==""&&val!=null)L.push(t(k)+": "+val+(unit?" "+unit:""));};
+ L.push(t("shareHead"),"");
+ line("p.name",p.name);line("p.client",p.client);line("p.phone",p.phone);line("p.address",p.address);
+ if(p.gps)L.push(t("p.gps")+": https://maps.google.com/?q="+encodeURIComponent(p.gps));
+ line("p.date",p.date);line("p.engineer",p.engineer);line("p.building",t("o.building."+p.building));line("p.use",t("o.use."+p.use));
+ line("p.drive",t("o.drive."+p.drive));line("p.machine",t("o.machineRoom."+p.machineRoom));line("p.stops",p.stops);line("p.entrances",t("o.entrances."+p.entrances));line("p.capacity",p.capacity,"kg");line("p.speed",p.speed,"m/s");
+ L.push("","— "+t("s2")+" ("+t("mm")+") —");
+ line("w.front",sh.front);line("w.back",sh.back);line("w.left",sh.left);line("w.right",sh.right);line("sh.diag1",sh.diag1);line("sh.diag2",sh.diag2);
+ line("sh.doorW",sh.doorW);line("sh.doorH",sh.doorH);line("sh.doorLeft",sh.doorLeft);line("sh.wall",sh.wall);line("sh.carW",S.car.w);line("sh.carD",S.car.d);line("sh.carH",S.car.h);
+ L.push("","— "+t("s3")+" ("+t("mm")+") —");
+ line("v.pit",v.pit);line("v.overhead",v.overhead);line("v.travel",v.travel);
+ v.floors.slice(0,Math.max(0,(parseInt(p.stops)||0)-1)).forEach((h,i)=>{if(h)L.push(t("floorLbl",{a:i+1,b:i+2})+": "+h);});
+ if(p.drive==="Electric"&&p.machineRoom==="Top"&&(v.mrW||v.mrD||v.mrH))L.push(t("v.mr")+": "+[v.mrW,v.mrD,v.mrH].filter(Boolean).join(" × "));
+ L.push("","— "+t("s4")+" —");
+ S.components.forEach(r=>{const n=r.key?t("x."+r.key):r.name; if(!n||(!r.spec&&!r.qty&&!r.note))return; L.push("• "+n+(r.qty?" × "+r.qty:"")+(r.spec?" — "+r.spec:"")+(r.note?" ("+r.note+")":""));});
+ const ok=CHECKS.filter(k=>S.checks[k]); if(ok.length){L.push("","— "+t("s5")+" —");ok.forEach(k=>L.push("✓ "+t("k."+k)));}
+ if(S.notes)L.push("","— "+t("notes")+" —",S.notes);
+ return L.join("\n");
+}
+document.getElementById("shareBtn").addEventListener("click",async()=>{
+ const text=summary();
+ if(navigator.share){try{await navigator.share({title:t("shareHead"),text});return;}catch(e){if(e.name==="AbortError")return;}}
+ window.open("https://wa.me/?text="+encodeURIComponent(text),"_blank");
+});
+
+/* ---------- UI helpers ---------- */
+let tm; function toast(msg){const el=document.getElementById("toast");el.textContent=msg;el.hidden=false;clearTimeout(tm);tm=setTimeout(()=>el.hidden=true,4000);}
+function applyLang(L){
+ lang=L; try{localStorage.setItem("melsaLang",L)}catch(e){}
+ document.documentElement.lang=L; document.documentElement.dir=L==="ar"?"rtl":"ltr"; document.title=t("docTitle");
+ document.querySelectorAll("[data-i18n]").forEach(el=>el.textContent=t(el.dataset.i18n));
+ document.getElementById("langBtn").textContent=L==="ar"?"English":"عربي";
+ renderAll(true);
+}
+document.getElementById("langBtn").addEventListener("click",()=>applyLang(lang==="ar"?"en":"ar"));
+function renderAll(keepScroll){loadInputs();renderFloors();renderMR();renderComps();renderChecks();renderPhotos();drawPlan();renderSaved();status();}
+applyLang(lang); persist();
+if("serviceWorker" in navigator) window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+</script>
+</body>
+</html>

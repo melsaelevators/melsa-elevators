@@ -1,7 +1,7 @@
 // Melsa Elevators — offline support for the installed app.
 // Bump VERSION when you want every installed copy to refresh its cache.
-const VERSION = "melsa-v1";
-const SHELL = ["./", "./index.html", "./manifest.webmanifest", "./assets/logo.png", "./assets/logo-mark.png", "./icons/icon-192.png"];
+const VERSION = "melsa-v2";
+const SHELL = ["./", "./index.html", "./survey.html", "./manifest.webmanifest", "./assets/logo.png", "./assets/logo-mark.png", "./icons/icon-192.png"];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(VERSION).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting()));
@@ -23,8 +23,8 @@ self.addEventListener("fetch", (e) => {
   // The page itself: try the network first so updates show up, fall back to cache offline.
   if (req.mode === "navigate") {
     e.respondWith(
-      fetch(req).then((res) => { caches.open(VERSION).then((c) => c.put("./index.html", res.clone())); return res; })
-        .catch(() => caches.match("./index.html"))
+      fetch(req).then((res) => { const copy = res.clone(); caches.open(VERSION).then((c) => c.put(req, copy)); return res; })
+        .catch(() => caches.match(req, { ignoreSearch: true }).then((hit) => hit || caches.match("./index.html")))
     );
     return;
   }
