@@ -181,29 +181,29 @@ body.locked #lock{display:flex;min-height:100vh;flex-direction:column}
 
  <section class="card">
   <h2><span class="num">2</span><span data-i18n="s2">Shaft plan (top view)</span></h2>
-  <p class="sub" data-i18n="s2sub">Write the inside measurement of each wall in millimetres. The drawing follows your numbers.</p>
+  <p class="sub" data-i18n="s2sub">Write the inside measurement of each wall in centimetres. The drawing follows your numbers.</p>
   <div class="plan-wrap">
    <div>
     <div class="plan">
      <svg id="planSvg" viewBox="0 0 300 250" role="img" aria-label="Shaft plan"></svg>
-     <label class="pin top"><span data-i18n="w.back">Back wall</span><input data-bind="shaft.back" type="number" inputmode="numeric" placeholder="mm"></label>
-     <label class="pin bottom"><input data-bind="shaft.front" type="number" inputmode="numeric" placeholder="mm"><span data-i18n="w.front">Front wall (landing)</span></label>
-     <label class="pin left"><span data-i18n="w.left">Left wall</span><input data-bind="shaft.left" type="number" inputmode="numeric" placeholder="mm"></label>
-     <label class="pin right"><span data-i18n="w.right">Right wall</span><input data-bind="shaft.right" type="number" inputmode="numeric" placeholder="mm"></label>
+     <label class="pin top"><span data-i18n="w.back">Back wall</span><input data-bind="shaft.back" type="number" inputmode="decimal" step="any" placeholder="cm"></label>
+     <label class="pin bottom"><input data-bind="shaft.front" type="number" inputmode="decimal" step="any" placeholder="cm"><span data-i18n="w.front">Front wall (landing)</span></label>
+     <label class="pin left"><span data-i18n="w.left">Left wall</span><input data-bind="shaft.left" type="number" inputmode="decimal" step="any" placeholder="cm"></label>
+     <label class="pin right"><span data-i18n="w.right">Right wall</span><input data-bind="shaft.right" type="number" inputmode="decimal" step="any" placeholder="cm"></label>
     </div>
     <p class="plan-note" data-i18n="planNote">Left and right are as seen from the landing, facing the shaft.</p>
    </div>
    <div>
     <div class="grid" style="grid-template-columns:1fr 1fr">
-     <div class="f"><label><span data-i18n="sh.doorW">Door opening width</span> <span class="unit">(mm)</span></label><input data-bind="shaft.doorW" type="number" inputmode="numeric"></div>
-     <div class="f"><label><span data-i18n="sh.doorH">Door opening height</span> <span class="unit">(mm)</span></label><input data-bind="shaft.doorH" type="number" inputmode="numeric"></div>
-     <div class="f"><label><span data-i18n="sh.doorLeft">Door distance from left wall</span> <span class="unit">(mm)</span></label><input data-bind="shaft.doorLeft" type="number" inputmode="numeric"></div>
-     <div class="f"><label><span data-i18n="sh.wall">Wall thickness</span> <span class="unit">(mm)</span></label><input data-bind="shaft.wall" type="number" inputmode="numeric"></div>
-     <div class="f"><label><span data-i18n="sh.diag1">Diagonal 1</span> <span class="unit">(mm)</span></label><input data-bind="shaft.diag1" type="number" inputmode="numeric"></div>
-     <div class="f"><label><span data-i18n="sh.diag2">Diagonal 2</span> <span class="unit">(mm)</span></label><input data-bind="shaft.diag2" type="number" inputmode="numeric"></div>
-     <div class="f"><label><span data-i18n="sh.carW">Car width</span> <span class="unit">(mm)</span></label><input data-bind="car.w" type="number" inputmode="numeric"></div>
-     <div class="f"><label><span data-i18n="sh.carD">Car depth</span> <span class="unit">(mm)</span></label><input data-bind="car.d" type="number" inputmode="numeric"></div>
-     <div class="f"><label><span data-i18n="sh.carH">Car height</span> <span class="unit">(mm)</span></label><input data-bind="car.h" type="number" inputmode="numeric"></div>
+     <div class="f"><label><span data-i18n="sh.doorW">Door opening width</span> <span class="unit">(cm)</span></label><input data-bind="shaft.doorW" type="number" inputmode="decimal" step="any"></div>
+     <div class="f"><label><span data-i18n="sh.doorH">Door opening height</span> <span class="unit">(cm)</span></label><input data-bind="shaft.doorH" type="number" inputmode="decimal" step="any"></div>
+     <div class="f"><label><span data-i18n="sh.doorLeft">Door distance from left wall</span> <span class="unit">(cm)</span></label><input data-bind="shaft.doorLeft" type="number" inputmode="decimal" step="any"></div>
+     <div class="f"><label><span data-i18n="sh.wall">Wall thickness</span> <span class="unit">(cm)</span></label><input data-bind="shaft.wall" type="number" inputmode="decimal" step="any"></div>
+     <div class="f"><label><span data-i18n="sh.diag1">Diagonal 1</span> <span class="unit">(cm)</span></label><input data-bind="shaft.diag1" type="number" inputmode="decimal" step="any"></div>
+     <div class="f"><label><span data-i18n="sh.diag2">Diagonal 2</span> <span class="unit">(cm)</span></label><input data-bind="shaft.diag2" type="number" inputmode="decimal" step="any"></div>
+     <div class="f"><label><span data-i18n="sh.carW">Car width</span> <span class="unit">(cm)</span></label><input data-bind="car.w" type="number" inputmode="decimal" step="any"></div>
+     <div class="f"><label><span data-i18n="sh.carD">Car depth</span> <span class="unit">(cm)</span></label><input data-bind="car.d" type="number" inputmode="decimal" step="any"></div>
+     <div class="f"><label><span data-i18n="sh.carH">Car height</span> <span class="unit">(cm)</span></label><input data-bind="car.h" type="number" inputmode="decimal" step="any"></div>
     </div>
     <div class="warns" id="warns"></div>
    </div>
@@ -212,11 +212,11 @@ body.locked #lock{display:flex;min-height:100vh;flex-direction:column}
 
  <section class="card">
   <h2><span class="num">3</span><span data-i18n="s3">Heights &amp; levels</span></h2>
-  <p class="sub" data-i18n="s3sub">All heights in millimetres.</p>
+  <p class="sub" data-i18n="s3sub">All heights in centimetres.</p>
   <div class="grid">
-   <div class="f"><label><span data-i18n="v.pit">Pit depth</span> <span class="unit">(mm)</span></label><input data-bind="vertical.pit" type="number" inputmode="numeric"></div>
-   <div class="f"><label><span data-i18n="v.overhead">Overhead (top floor to shaft ceiling)</span> <span class="unit">(mm)</span></label><input data-bind="vertical.overhead" type="number" inputmode="numeric"></div>
-   <div class="f"><label><span data-i18n="v.travel">Travel (lowest to top floor)</span> <span class="unit">(mm)</span></label><input data-bind="vertical.travel" type="number" inputmode="numeric"></div>
+   <div class="f"><label><span data-i18n="v.pit">Pit depth</span> <span class="unit">(cm)</span></label><input data-bind="vertical.pit" type="number" inputmode="decimal" step="any"></div>
+   <div class="f"><label><span data-i18n="v.overhead">Overhead (top floor to shaft ceiling)</span> <span class="unit">(cm)</span></label><input data-bind="vertical.overhead" type="number" inputmode="decimal" step="any"></div>
+   <div class="f"><label><span data-i18n="v.travel">Travel (lowest to top floor)</span> <span class="unit">(cm)</span></label><input data-bind="vertical.travel" type="number" inputmode="decimal" step="any"></div>
   </div>
   <div class="f" style="margin-top:12px"><label data-i18n="v.floors">Floor-to-floor heights</label></div>
   <div class="floors" id="floors"></div>
@@ -224,9 +224,9 @@ body.locked #lock{display:flex;min-height:100vh;flex-direction:column}
   <div id="mrBlock">
    <div class="f" style="margin-top:14px"><label data-i18n="v.mr">Machine room</label></div>
    <div class="grid">
-    <div class="f"><label><span data-i18n="v.mrW">Width</span> <span class="unit">(mm)</span></label><input data-bind="vertical.mrW" type="number" inputmode="numeric"></div>
-    <div class="f"><label><span data-i18n="v.mrD">Depth</span> <span class="unit">(mm)</span></label><input data-bind="vertical.mrD" type="number" inputmode="numeric"></div>
-    <div class="f"><label><span data-i18n="v.mrH">Height</span> <span class="unit">(mm)</span></label><input data-bind="vertical.mrH" type="number" inputmode="numeric"></div>
+    <div class="f"><label><span data-i18n="v.mrW">Width</span> <span class="unit">(cm)</span></label><input data-bind="vertical.mrW" type="number" inputmode="decimal" step="any"></div>
+    <div class="f"><label><span data-i18n="v.mrD">Depth</span> <span class="unit">(cm)</span></label><input data-bind="vertical.mrD" type="number" inputmode="decimal" step="any"></div>
+    <div class="f"><label><span data-i18n="v.mrH">Height</span> <span class="unit">(cm)</span></label><input data-bind="vertical.mrH" type="number" inputmode="decimal" step="any"></div>
    </div>
   </div>
  </section>
@@ -271,8 +271,8 @@ const T={
  en:{docTitle:"Melsa Elevators | Site Survey",lockTitle:"Engineers only",lockText:"Enter the engineers' password to open the site survey.",lockPh:"Password",unlock:"Unlock",lockWrong:"Wrong password. Try again.",lock:"🔒 Lock",tagline:"ENGINEERED FOR ELEGANCE",navConfig:"Cabin configurator",eyebrow:"FOR ENGINEERS",title:"Site survey",printTitle:"SITE SURVEY REPORT",
   lead:"Record the shaft measurements, heights and the components needed for the installation. Everything is saved on this device automatically.",
   newSurvey:"+ New survey",print:"Print / Save PDF",share:"Share (WhatsApp)",saved:"Saved surveys",savedAt:"Saved automatically · ",
-  s1:"Project details",s1sub:"Who, where and what type of elevator.",s2:"Shaft plan (top view)",s2sub:"Write the inside measurement of each wall in millimetres. The drawing follows your numbers.",
-  s3:"Heights & levels",s3sub:"All heights in millimetres.",s4:"Components & quantities",s4sub:"Size / specification and the quantity needed for each part.",
+  s1:"Project details",s1sub:"Who, where and what type of elevator.",s2:"Shaft plan (top view)",s2sub:"Write the inside measurement of each wall in centimetres. The drawing follows your numbers.",
+  s3:"Heights & levels",s3sub:"All heights in centimetres.",s4:"Components & quantities",s4sub:"Size / specification and the quantity needed for each part.",
   s5:"Site checks",s5sub:"Tick what you confirmed on site.",s6:"Notes & photos",notes:"Notes",savedTitle:"Saved surveys",savedSub:"Stored on this device only. Print or share a survey to keep a copy.",
   foot1:"MELSA ELEVATORS · SITE SURVEY",
   "p.name":"Project name","p.client":"Client name","p.phone":"Client phone","p.address":"Address","p.gps":"GPS location","p.date":"Survey date","p.engineer":"Engineer",
@@ -280,12 +280,12 @@ const T={
   "w.back":"Back wall","w.front":"Front wall (landing)","w.left":"Left wall","w.right":"Right wall",planNote:"Left and right are as seen from the landing, facing the shaft.",
   "sh.doorW":"Door opening width","sh.doorH":"Door opening height","sh.doorLeft":"Door distance from left wall","sh.wall":"Wall thickness","sh.diag1":"Diagonal 1","sh.diag2":"Diagonal 2","sh.carW":"Car width","sh.carD":"Car depth","sh.carH":"Car height",
   "v.pit":"Pit depth","v.overhead":"Overhead (top floor to shaft ceiling)","v.travel":"Travel (lowest to top floor)","v.floors":"Floor-to-floor heights","v.mr":"Machine room","v.mrW":"Width","v.mrD":"Depth","v.mrH":"Height",
-  floorLbl:"Floor {a} → {b}",travelSum:"Sum of floor heights: {s} mm",travelDiff:" — differs from entered travel by {d} mm",railTotal:"Total rail height (pit + travel + overhead): {t} m",
+  floorLbl:"Floor {a} → {b}",travelSum:"Sum of floor heights: {s} cm",travelDiff:" — differs from entered travel by {d} cm",railTotal:"Total rail height (pit + travel + overhead): {t} m",
   "c.part":"Component","c.spec":"Size / specification","c.qty":"Qty","c.note":"Note",suggest:"Suggest quantities from measurements",addRow:"+ Add component",sugHint:"Suggested values are estimates — always check them.",customPart:"Component name",
-  "w.ok":"Shaft walls and diagonals look consistent.","w.fb":"Front and back walls differ by {d} mm — check the shaft width.","w.lr":"Left and right walls differ by {d} mm — check the shaft depth.","w.diag":"Diagonals differ by {d} mm — the shaft is not square.","w.door":"Door opening goes past the right wall — check the door position.","w.car":"Car is larger than the shaft — check the car size.",
+  "w.ok":"Shaft walls and diagonals look consistent.","w.fb":"Front and back walls differ by {d} cm — check the shaft width.","w.lr":"Left and right walls differ by {d} cm — check the shaft depth.","w.diag":"Diagonals differ by {d} cm — the shaft is not square.","w.door":"Door opening goes past the right wall — check the door position.","w.car":"Car is larger than the shaft — check the car size.",
   untitled:"Untitled survey",open:"Open",del:"Delete",current:"Open now",confirmDel:"Delete this survey?",confirmNew:"Start a new survey? The current one stays saved.",
   gpsOk:"Location added.",gpsFail:"Could not get the location.",full:"Storage is full. Delete old surveys or photos.",addPhoto:"+ Add photo",photoMax:"Up to 8 photos per survey.",
-  shareHead:"MELSA ELEVATORS — SITE SURVEY",copied:"Survey copied — paste it in WhatsApp.",mm:"mm",
+  shareHead:"MELSA ELEVATORS — SITE SURVEY",copied:"Survey copied — paste it in WhatsApp.",mm:"cm",
   "o.building.Residential":"Residential building","o.building.Villa":"Villa","o.building.Factory":"Factory","o.building.Hospital":"Hospital","o.building.Mall":"Mall","o.building.Office":"Office","o.building.Hotel":"Hotel",
   "o.use.Passenger":"Passenger","o.use.Home":"Home lift (villa)","o.use.Goods":"Goods / freight","o.use.Hospital":"Hospital bed","o.use.Panoramic":"Panoramic","o.use.Car":"Car lift",
   "o.drive.Electric":"Electric (traction)","o.drive.Hydraulic":"Hydraulic",
@@ -297,8 +297,8 @@ const T={
  ar:{docTitle:"ميلسا للمصاعد | معاينة الموقع",lockTitle:"للمهندسين فقط",lockText:"اكتب كلمة سر المهندسين لفتح صفحة المعاينة.",lockPh:"كلمة السر",unlock:"فتح",lockWrong:"كلمة السر غير صحيحة. حاول مرة أخرى.",lock:"🔒 قفل",tagline:"هندسة الأناقة",navConfig:"مصمم الكابينة",eyebrow:"للمهندسين",title:"معاينة الموقع",printTitle:"تقرير معاينة الموقع",
   lead:"سجّل مقاسات البئر والارتفاعات والمكونات المطلوبة للتركيب. يتم الحفظ تلقائيًا على هذا الجهاز.",
   newSurvey:"+ معاينة جديدة",print:"طباعة / حفظ PDF",share:"مشاركة (واتساب)",saved:"المعاينات المحفوظة",savedAt:"تم الحفظ تلقائيًا · ",
-  s1:"بيانات المشروع",s1sub:"العميل والمكان ونوع المصعد.",s2:"رسمة البئر (من أعلى)",s2sub:"اكتب المقاس الداخلي لكل حائط بالمليمتر. الرسمة تتغير حسب أرقامك.",
-  s3:"الارتفاعات والأدوار",s3sub:"كل الارتفاعات بالمليمتر.",s4:"المكونات والكميات",s4sub:"المقاس / المواصفات والعدد المطلوب لكل جزء.",
+  s1:"بيانات المشروع",s1sub:"العميل والمكان ونوع المصعد.",s2:"رسمة البئر (من أعلى)",s2sub:"اكتب المقاس الداخلي لكل حائط بالسنتيمتر. الرسمة تتغير حسب أرقامك.",
+  s3:"الارتفاعات والأدوار",s3sub:"كل الارتفاعات بالسنتيمتر.",s4:"المكونات والكميات",s4sub:"المقاس / المواصفات والعدد المطلوب لكل جزء.",
   s5:"فحوصات الموقع",s5sub:"علّم على ما تم التأكد منه في الموقع.",s6:"ملاحظات وصور",notes:"ملاحظات",savedTitle:"المعاينات المحفوظة",savedSub:"محفوظة على هذا الجهاز فقط. اطبع أو شارك المعاينة للاحتفاظ بنسخة.",
   foot1:"ميلسا للمصاعد · معاينة الموقع",
   "p.name":"اسم المشروع","p.client":"اسم العميل","p.phone":"تليفون العميل","p.address":"العنوان","p.gps":"الموقع (GPS)","p.date":"تاريخ المعاينة","p.engineer":"المهندس",
@@ -306,12 +306,12 @@ const T={
   "w.back":"الحائط الخلفي","w.front":"الحائط الأمامي (جهة الباب)","w.left":"الحائط الأيسر","w.right":"الحائط الأيمن",planNote:"اليمين والشمال كما تراهم وأنت واقف أمام باب البئر.",
   "sh.doorW":"عرض فتحة الباب","sh.doorH":"ارتفاع فتحة الباب","sh.doorLeft":"بعد الباب عن الحائط الأيسر","sh.wall":"سُمك الحائط","sh.diag1":"القطر ١","sh.diag2":"القطر ٢","sh.carW":"عرض الكابينة","sh.carD":"عمق الكابينة","sh.carH":"ارتفاع الكابينة",
   "v.pit":"عمق الحفرة (البيت)","v.overhead":"الارتفاع العلوي (من آخر دور لسقف البئر)","v.travel":"مسافة المشوار (من أول لآخر دور)","v.floors":"ارتفاع كل دور","v.mr":"غرفة الماكينة","v.mrW":"العرض","v.mrD":"العمق","v.mrH":"الارتفاع",
-  floorLbl:"دور {a} ← {b}",travelSum:"مجموع ارتفاعات الأدوار: {s} مم",travelDiff:" — يختلف عن المشوار المكتوب بـ {d} مم",railTotal:"إجمالي ارتفاع السكك (الحفرة + المشوار + العلوي): {t} م",
+  floorLbl:"دور {a} ← {b}",travelSum:"مجموع ارتفاعات الأدوار: {s} سم",travelDiff:" — يختلف عن المشوار المكتوب بـ {d} سم",railTotal:"إجمالي ارتفاع السكك (الحفرة + المشوار + العلوي): {t} م",
   "c.part":"المكون","c.spec":"المقاس / المواصفات","c.qty":"العدد","c.note":"ملاحظة",suggest:"احسب الكميات من المقاسات",addRow:"+ إضافة مكون",sugHint:"القيم المقترحة تقديرية — راجعها دائمًا.",customPart:"اسم المكون",
-  "w.ok":"مقاسات الحيطان والأقطار متناسقة.","w.fb":"الحائط الأمامي والخلفي مختلفين بـ {d} مم — راجع عرض البئر.","w.lr":"الحائط الأيمن والأيسر مختلفين بـ {d} مم — راجع عمق البئر.","w.diag":"الأقطار مختلفة بـ {d} مم — البئر غير قائم الزوايا.","w.door":"فتحة الباب تتعدى الحائط الأيمن — راجع مكان الباب.","w.car":"الكابينة أكبر من البئر — راجع مقاس الكابينة.",
+  "w.ok":"مقاسات الحيطان والأقطار متناسقة.","w.fb":"الحائط الأمامي والخلفي مختلفين بـ {d} سم — راجع عرض البئر.","w.lr":"الحائط الأيمن والأيسر مختلفين بـ {d} سم — راجع عمق البئر.","w.diag":"الأقطار مختلفة بـ {d} سم — البئر غير قائم الزوايا.","w.door":"فتحة الباب تتعدى الحائط الأيمن — راجع مكان الباب.","w.car":"الكابينة أكبر من البئر — راجع مقاس الكابينة.",
   untitled:"معاينة بدون اسم",open:"فتح",del:"حذف",current:"مفتوحة الآن",confirmDel:"حذف هذه المعاينة؟",confirmNew:"بدء معاينة جديدة؟ الحالية ستظل محفوظة.",
   gpsOk:"تمت إضافة الموقع.",gpsFail:"تعذر تحديد الموقع.",full:"مساحة التخزين ممتلئة. احذف معاينات أو صور قديمة.",addPhoto:"+ إضافة صورة",photoMax:"حتى ٨ صور لكل معاينة.",
-  shareHead:"ميلسا للمصاعد — معاينة الموقع",copied:"تم نسخ المعاينة — الصقها في واتساب.",mm:"مم",
+  shareHead:"ميلسا للمصاعد — معاينة الموقع",copied:"تم نسخ المعاينة — الصقها في واتساب.",mm:"سم",
   "o.building.Residential":"عمارة سكنية","o.building.Villa":"فيلا","o.building.Factory":"مصنع","o.building.Hospital":"مستشفى","o.building.Mall":"مول تجاري","o.building.Office":"مبنى إداري","o.building.Hotel":"فندق",
   "o.use.Passenger":"ركاب","o.use.Home":"مصعد منزلي (فيلا)","o.use.Goods":"بضائع","o.use.Hospital":"مستشفى (سرير)","o.use.Panoramic":"بانوراما","o.use.Car":"مصعد سيارات",
   "o.drive.Electric":"كهرباء (جر بالحبال)","o.drive.Hydraulic":"هيدروليك",
@@ -337,12 +337,18 @@ function saveAll(all){try{localStorage.setItem(STORE,JSON.stringify(all));return
 function today(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
 function blank(){
  const id="s"+Date.now().toString(36);
- return {id,created:Date.now(),updated:Date.now(),
+ return {id,unit:"cm",created:Date.now(),updated:Date.now(),
   project:{name:"",client:"",phone:"",address:"",gps:"",date:today(),engineer:"",building:"Residential",use:"Passenger",drive:"Electric",machineRoom:"Top",stops:"",entrances:"Single",capacity:"",speed:""},
   shaft:{front:"",back:"",left:"",right:"",doorW:"",doorH:"",doorLeft:"",wall:"",diag1:"",diag2:""},car:{w:"",d:"",h:""},
   vertical:{pit:"",overhead:"",travel:"",floors:[],mrW:"",mrD:"",mrH:""},checks:{},components:COMP_KEYS.Electric.map(k=>({key:k,name:"",spec:"",qty:"",note:""})),notes:"",photos:[]};
 }
 let all=loadAll(), S=null;
+function toCm(sv){ // surveys saved before the switch to centimetres were in millimetres
+ if(sv.unit==="cm")return sv; const c=v=>{const n=parseFloat(v);return isFinite(n)?String(Math.round(n)/10):v;};
+ for(const k in sv.shaft)if(k!=="unit")sv.shaft[k]=c(sv.shaft[k]); for(const k in sv.car)sv.car[k]=c(sv.car[k]);
+ for(const k of ["pit","overhead","travel","mrW","mrD","mrH"])sv.vertical[k]=c(sv.vertical[k]); sv.vertical.floors=(sv.vertical.floors||[]).map(c);
+ sv.unit="cm"; return sv;}
+Object.values(all).forEach(toCm);
 (function init(){let cur=null;try{cur=localStorage.getItem(CUR)}catch(e){} S=all[cur]||Object.values(all).sort((a,b)=>b.updated-a.updated)[0]||blank(); all[S.id]=S;})();
 function get(path){return path.split(".").reduce((o,k)=>o?.[k],S)}
 function set(path,v){const ks=path.split(".");let o=S;for(let i=0;i<ks.length-1;i++)o=o[ks[i]];o[ks[ks.length-1]]=v;}
@@ -375,12 +381,12 @@ document.addEventListener("input",e=>{
 
 /* ---------- Shaft plan drawing ---------- */
 function drawPlan(){
- const sh=S.shaft, W=num(sh.front)??num(sh.back)??1800, W2=num(sh.back)??W, D=num(sh.left)??num(sh.right)??1700, D2=num(sh.right)??D;
+ const sh=S.shaft, W=num(sh.front)??num(sh.back)??180, W2=num(sh.back)??W, D=num(sh.left)??num(sh.right)??170, D2=num(sh.right)??D;
  const maxW=Math.max(W,W2), maxD=Math.max(D,D2), sc=Math.min(262/maxW,212/maxD), cx=150, cy=125;
  const w=W*sc, wb=W2*sc, dl=D*sc, dr=D2*sc, x0=cx-maxW*sc/2, y0=cy-maxD*sc/2;
  // corners: front-left, front-right, back-right, back-left (front is at the bottom)
  const FL=[x0,y0+dl], FR=[x0+w,y0+dr], BR=[x0+wb,y0], BL=[x0,y0];
- const dW=num(sh.doorW)??Math.min(900,W*0.5), dLeft=num(sh.doorLeft)??(W-dW)/2;
+ const dW=num(sh.doorW)??Math.min(90,W*0.5), dLeft=num(sh.doorLeft)??(W-dW)/2;
  const ds=x0+dLeft*sc, de=ds+dW*sc, fy=(x)=>FL[1]+(FR[1]-FL[1])*((x-FL[0])/(FR[0]-FL[0]||1));
  const cw=num(S.car.w), cd=num(S.car.d);
  const P=a=>a.join(",");
@@ -399,10 +405,10 @@ function drawPlan(){
  svg+=`<text x="${cx}" y="${y0+Math.min(dl,dr)/2+4}" text-anchor="middle" font-size="13" fill="#5d6a80" font-weight="700">${cw&&cd?cw+" × "+cd:(lang==="ar"?"البئر":"SHAFT")}</text>`;
  document.getElementById("planSvg").innerHTML=svg;
  // warnings
- const warns=[], tol=20;
- if(num(sh.front)&&num(sh.back)&&Math.abs(num(sh.front)-num(sh.back))>tol) warns.push(t("w.fb",{d:Math.abs(num(sh.front)-num(sh.back))}));
- if(num(sh.left)&&num(sh.right)&&Math.abs(num(sh.left)-num(sh.right))>tol) warns.push(t("w.lr",{d:Math.abs(num(sh.left)-num(sh.right))}));
- if(num(sh.diag1)&&num(sh.diag2)&&Math.abs(num(sh.diag1)-num(sh.diag2))>tol) warns.push(t("w.diag",{d:Math.abs(num(sh.diag1)-num(sh.diag2))}));
+ const warns=[], tol=2; const r1=x=>Math.round(x*10)/10;
+ if(num(sh.front)&&num(sh.back)&&Math.abs(num(sh.front)-num(sh.back))>tol) warns.push(t("w.fb",{d:r1(Math.abs(num(sh.front)-num(sh.back)))}));
+ if(num(sh.left)&&num(sh.right)&&Math.abs(num(sh.left)-num(sh.right))>tol) warns.push(t("w.lr",{d:r1(Math.abs(num(sh.left)-num(sh.right)))}));
+ if(num(sh.diag1)&&num(sh.diag2)&&Math.abs(num(sh.diag1)-num(sh.diag2))>tol) warns.push(t("w.diag",{d:r1(Math.abs(num(sh.diag1)-num(sh.diag2)))}));
  if(num(sh.doorW)&&num(sh.doorLeft)!==null&&num(sh.front)&&num(sh.doorLeft)+num(sh.doorW)>num(sh.front)) warns.push(t("w.door"));
  if(cw&&cd&&((num(sh.front)&&cw>=num(sh.front))||(num(sh.left)&&cd>=num(sh.left)))) warns.push(t("w.car"));
  const box=document.getElementById("warns"); const filled=["front","back","left","right"].every(k=>num(sh[k]));
@@ -414,15 +420,15 @@ function renderFloors(){
  const n=Math.max(0,Math.min(60,(parseInt(S.project.stops)||0)-1)); const box=document.getElementById("floors"); box.replaceChildren();
  S.vertical.floors.length=Math.max(S.vertical.floors.length,n);
  for(let i=0;i<n;i++){const d=document.createElement("div");d.className="f";
-  d.innerHTML=`<label>${t("floorLbl",{a:i+1,b:i+2})}</label><input type="number" inputmode="numeric" data-floor="${i}" placeholder="${t("mm")}">`;
+  d.innerHTML=`<label>${t("floorLbl",{a:i+1,b:i+2})}</label><input type="number" inputmode="decimal" step="any" data-floor="${i}" placeholder="${t("mm")}">`;
   d.querySelector("input").value=S.vertical.floors[i]??""; box.append(d);}
  calcTravel();
 }
 function calcTravel(){
  const n=Math.max(0,(parseInt(S.project.stops)||0)-1), fl=S.vertical.floors.slice(0,n).map(num).filter(v=>v!==null);
  let txt="";
- if(fl.length){const s=fl.reduce((a,b)=>a+b,0); txt=t("travelSum",{s}); const tr=num(S.vertical.travel); if(tr&&Math.abs(tr-s)>20)txt+=t("travelDiff",{d:Math.abs(tr-s)});}
- const tot=railHeight(); if(tot)txt+=(txt?" · ":"")+t("railTotal",{t:(tot/1000).toFixed(2)});
+ if(fl.length){const s=fl.reduce((a,b)=>a+b,0); txt=t("travelSum",{s:Math.round(s*10)/10}); const tr=num(S.vertical.travel); if(tr&&Math.abs(tr-s)>2)txt+=t("travelDiff",{d:Math.round(Math.abs(tr-s)*10)/10});}
+ const tot=railHeight(); if(tot)txt+=(txt?" · ":"")+t("railTotal",{t:(tot/100).toFixed(2)});
  const el=document.getElementById("travelCalc"); el.textContent=txt; el.hidden=!txt;
 }
 function travel(){const tr=num(S.vertical.travel); if(tr)return tr; const n=Math.max(0,(parseInt(S.project.stops)||0)-1); const fl=S.vertical.floors.slice(0,n).map(num); return fl.length&&fl.every(v=>v!==null)?fl.reduce((a,b)=>a+b,0):null;}
@@ -440,7 +446,7 @@ function renderComps(){
  S.components.forEach((r,i)=>{
   const row=document.createElement("div"); row.className="crow"+(r.sug?" sug":"");
   const name=r.key?`<span class="cname">${t("x."+r.key)}</span>`:`<input class="cname-in" data-comp="${i}" data-field="name" placeholder="${t("customPart")}">`;
-  row.innerHTML=`${name}<input class="spec" data-comp="${i}" data-field="spec" placeholder="${t("c.spec")}"><input class="qty" data-comp="${i}" data-field="qty" type="number" inputmode="numeric" min="0" placeholder="${t("c.qty")}"><input class="note" data-comp="${i}" data-field="note" placeholder="${t("c.note")}"><button type="button" class="del" aria-label="${t("del")}" data-delcomp="${i}">×</button>`;
+  row.innerHTML=`${name}<input class="spec" data-comp="${i}" data-field="spec" placeholder="${t("c.spec")}"><input class="qty" data-comp="${i}" data-field="qty" type="number" inputmode="decimal" step="any" min="0" placeholder="${t("c.qty")}"><input class="note" data-comp="${i}" data-field="note" placeholder="${t("c.note")}"><button type="button" class="del" aria-label="${t("del")}" data-delcomp="${i}">×</button>`;
   row.querySelectorAll("input").forEach(inp=>inp.value=r[inp.dataset.field]??"");
   box.append(row);
  });
@@ -451,14 +457,14 @@ document.getElementById("suggestBtn").addEventListener("click",()=>{
  const stops=parseInt(S.project.stops)||null, rail=railHeight(), tr=travel(), oh=num(S.vertical.overhead), el=S.project.drive==="Electric";
  const sug={cable:1,car:1,carDoor:S.project.entrances==="Single"?1:2,controller:1,cop:1,machine:el?1:null,governor:el?1:null,cw:el?1:null,jack:el?null:1,pump:el?null:1,hose:el?null:1,buffers:el?2:1};
  if(stops){sug.landing=stops*(S.project.entrances==="Single"?1:2); sug.lop=stops;}
- if(rail){const sections=Math.ceil(rail/5000); sug.carRails=sections*2; if(el)sug.cwRails=sections*2; sug.brackets=Math.ceil(rail/2500)*(el?4:2)+ (el?4:2);}
+ if(rail){const sections=Math.ceil(rail/500); sug.carRails=sections*2; if(el)sug.cwRails=sections*2; sug.brackets=Math.ceil(rail/250)*(el?4:2)+ (el?4:2);}
  if(el&&tr&&oh)sug.ropes=5;
  const spec={};
  const cw=num(S.car.w),cd=num(S.car.d),ch=num(S.car.h); if(cw&&cd)spec.car=`${cw} × ${cd}${ch?" × "+ch:""} ${t("mm")}`;
  const dw=num(S.shaft.doorW),dh=num(S.shaft.doorH); if(dw)spec.landing=spec.carDoor=`${dw}${dh?" × "+dh:""} ${t("mm")}`;
- if(rail)spec.carRails=spec.cwRails=`${(rail/1000).toFixed(2)} m · 5 m`;
- if(el&&tr&&oh)spec.ropes=`Ø8 mm · ~${Math.round((tr+oh+4000)/1000)} m`;
- if(tr)spec.cable=`~${Math.round(tr/2000+6)} m`;
+ if(rail)spec.carRails=spec.cwRails=`${(rail/100).toFixed(2)} m · 5 m`;
+ if(el&&tr&&oh)spec.ropes=`Ø8 mm · ~${Math.round((tr+oh+400)/100)} m`;
+ if(tr)spec.cable=`~${Math.round(tr/200+6)} m`;
  S.components.forEach(r=>{ if(!r.key)return;
   if(sug[r.key]!=null&&(r.qty===""||r.sug)){r.qty=String(sug[r.key]);r.sug=true;}
   if(spec[r.key]&&!r.spec)r.spec=spec[r.key];
@@ -549,7 +555,7 @@ document.getElementById("lockLang").addEventListener("click",()=>applyLang(lang=
 /* ---------- Engineers' password ----------
    Only a salted PBKDF2 hash is stored here, never the password itself.
    To change the password, generate a new SALT/HASH pair. */
-const LOCK={salt:"08ae5b94a54f1626cc515d23ad42947c",hash:"ff71f16ba5103e3255510f7504911440788ebe3ea81d1c9d52c444c7f1012dc7",iter:150000,key:"melsaSurveyKey"};
+const LOCK={salt:"3e89181f6ce596a1bbc9045712b98424",hash:"012144e3b0cb1b6f5a6bcb08c15eb89f20fe1c0f06292183f12b70be764d118f",iter:150000,key:"melsaSurveyKey"};
 async function derive(pw){
  const enc=new TextEncoder(), k=await crypto.subtle.importKey("raw",enc.encode(pw),"PBKDF2",false,["deriveBits"]);
  const salt=new Uint8Array(LOCK.salt.match(/../g).map(h=>parseInt(h,16)));
