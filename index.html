@@ -79,7 +79,7 @@ footer{background:var(--navy);border-top:4px solid var(--red);color:#c7d4ec;padd
 .pchoice:hover{border-color:#9fb1d1}
 .pchoice[aria-pressed=true]{border-color:var(--red);box-shadow:0 0 0 2px #d8031a33}
 .pchoice[aria-pressed=true]::after{content:"✓";position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;background:var(--red);color:#fff;font-size:12px;font-weight:800;display:grid;place-items:center}
-.photo-choices.floor .pchoice{aspect-ratio:1}
+.photo-choices.floor .pchoice,.photo-choices.buttons .pchoice{aspect-ratio:1}
 @media(max-width:760px){.photo-choices{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}}
 @media(min-width:761px) and (max-width:1023px){.photo-choices{grid-template-columns:repeat(3,minmax(0,1fr))}}
 .ai-btn{width:100%;margin-top:10px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;gap:8px;font-size:13px;padding:15px}
@@ -133,12 +133,7 @@ footer{background:var(--navy);border-top:4px solid var(--red);color:#c7d4ec;padd
 </div></div>
 <div class="field"><label>06 — Door design <span class="pick-name" id="pickName-door"></span></label><div class="photo-choices" data-photo-group="door"></div></div>
 <div class="field"><label>07 — Control panel <span class="pick-name" id="pickName-panel"></span></label><div class="photo-choices" data-photo-group="panel"></div></div>
-<div class="field"><label>08 — Panel buttons</label><div class="choices" data-group="buttons">
-<button class="choice" data-value="Round" aria-pressed="true"><span class="swatch btn-ico" style="--swatch:radial-gradient(circle,#e3e6e9 0 38%,#8e959c 42%,#1c1d21 46%)"></span>Round</button>
-<button class="choice" data-value="Square" aria-pressed="false"><span class="swatch btn-ico" style="--swatch:linear-gradient(#cfd3d7,#cfd3d7) center/46% 46% no-repeat,#1c1d21"></span>Square</button>
-<button class="choice" data-value="Ring" aria-pressed="false"><span class="swatch btn-ico" style="--swatch:radial-gradient(circle,#e3e6e9 0 30%,#1c1d21 32% 38%,#5fc8ff 40% 48%,#1c1d21 50%)"></span>Light ring</button>
-<button class="choice" data-value="Touch" aria-pressed="false"><span class="swatch btn-ico" style="--swatch:radial-gradient(circle at 30% 30%,#9fe3ff 0 10%,transparent 13%),radial-gradient(circle at 70% 30%,#9fe3ff 0 10%,transparent 13%),radial-gradient(circle at 30% 70%,#9fe3ff 0 10%,transparent 13%),radial-gradient(circle at 70% 70%,#9fe3ff 0 10%,transparent 13%),#101418"></span>Touch</button>
-</div></div>
+<div class="field"><label>08 — Panel buttons <span class="pick-name" id="pickName-buttons"></span></label><div class="photo-choices" data-photo-group="buttons"></div></div>
 <div class="summary"><h3>Your design specification</h3><div class="chips" id="chips"></div><p class="note">Concept preview only. Final finishes must be confirmed against available materials and real product samples.</p></div>
 <div class="actions"><button class="btn primary" id="copyBtn">Copy design brief</button><button class="btn secondary" id="resetBtn">Reset</button></div>
 <button class="btn ai-btn" id="aiBtn" type="button"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8zM19 14l.9 2.6 2.6.9-2.6.9L19 21l-.9-2.6-2.6-.9 2.6-.9zM5 15l.7 1.8 1.8.7-1.8.7L5 20l-.7-1.8-1.8-.7 1.8-.7z"/></svg>Generate realistic image (AI)</button>
@@ -197,19 +192,22 @@ const PRODUCTS={
   {id:"control_panels_04",ext:"jpeg",label:"Curved gold-and-black call panel",trim:"Gold"},
   {id:"control_panels_05",ext:"jpeg",label:"Curved silver call panel",trim:"Silver"},
   {id:"control_panels_06",ext:"jpeg",label:"Gold-and-black compact call panel",trim:"Gold"},
-  {id:"control_panels_07",ext:"jpeg",label:"Black-glass call panel with round button",trim:"Silver"}]
+  {id:"control_panels_07",ext:"jpeg",label:"Black-glass call panel with round button",trim:"Silver"}],
+ buttons:[
+  {id:"panel_buttons_02",ext:"jpeg",label:"Silver round button with Braille",metal:"silver",color:"#cdd1d5"},
+  {id:"panel_buttons_01",ext:"jpeg",label:"Gold round button with Braille",metal:"gold",color:"#d6b25c"}]
 };
 const productById={};Object.values(PRODUCTS).flat().forEach(p=>{p.src="assets/"+p.id+"."+p.ext;p.thumb="assets/thumbs/"+p.id+".jpg";productById[p.id]=p});
-const state={style:"Modern",metal:"Silver",floor:"flooring_samples_02",ceiling:"Linear LED",doorType:"Semi-automatic",door:"semi_automatic_doors_01",panel:"control_panels_01",buttons:"Round"};
+const state={style:"Modern",metal:"Silver",floor:"flooring_samples_02",ceiling:"Linear LED",doorType:"Semi-automatic",door:"semi_automatic_doors_01",panel:"control_panels_01",buttons:"panel_buttons_02"};
 const defaults={...state};
-const LABELS={buttons:{Round:"Round push buttons",Square:"Square push buttons",Ring:"Round buttons with light ring",Touch:"Glass touch buttons"},style:{Modern:"Modern Minimal",Classic:"Classic Panels",Mirror:"Mirror Luxury",Glass:"Glass Look"},metal:{Gold:"Champagne Gold"}};
+const LABELS={style:{Modern:"Modern Minimal",Classic:"Classic Panels",Mirror:"Mirror Luxury",Glass:"Glass Look"},metal:{Gold:"Champagne Gold"}};
 function nice(k){const v=state[k];return productById[v]?productById[v].label:(LABELS[k]&&LABELS[k][v])||v}
 const NAMES={buttons:"Panel buttons",style:"Cabin style",metal:"Metal finish",floor:"Flooring",ceiling:"Ceiling",doorType:"Door type",door:"Door design",panel:"Control panel"};
 function buildPhotoGroups(){
  document.querySelectorAll("[data-photo-group]").forEach(box=>{
   const g=box.dataset.photoGroup; box.classList.add(g); box.replaceChildren();
   PRODUCTS[g].filter(p=>g!=="door"||p.type===state.doorType).forEach(p=>{
-   const b=document.createElement("button"); b.type="button"; b.className="pchoice"+(g==="floor"?"":" contain"); b.dataset.value=p.id; b.title=p.label; b.setAttribute("aria-label",p.label);
+   const b=document.createElement("button"); b.type="button"; b.className="pchoice"+(g==="floor"||g==="buttons"?"":" contain"); b.dataset.value=p.id; b.title=p.label; b.setAttribute("aria-label",p.label);
    const img=new Image(); img.src=p.thumb; img.alt=""; img.loading="lazy"; b.append(img); box.append(b);
   });
  });
@@ -217,12 +215,12 @@ function buildPhotoGroups(){
 function render(){
  document.querySelectorAll("[data-group]").forEach(group=>group.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",String(state[group.dataset.group]===b.dataset.value))));
  document.querySelectorAll("[data-photo-group]").forEach(box=>box.querySelectorAll(".pchoice").forEach(b=>b.setAttribute("aria-pressed",String(state[box.dataset.photoGroup]===b.dataset.value))));
- ["floor","door","panel"].forEach(k=>document.getElementById("pickName-"+k).textContent=nice(k));
+ ["floor","door","panel","buttons"].forEach(k=>document.getElementById("pickName-"+k).textContent=nice(k));
  document.getElementById("previewStatus").textContent=nice("style")+" · "+nice("metal");
  const chips=document.getElementById("chips");chips.replaceChildren();
  Object.keys(state).forEach(k=>{const span=document.createElement("span");span.className="chip";span.textContent=NAMES[k]+": "+nice(k);chips.append(span)});
  const d=productById[state.door], f=productById[state.floor], pn=productById[state.panel];
- window.dispatchEvent(new CustomEvent('melsa:update',{detail:{...state,doorInfo:d,floorInfo:f,panelInfo:pn}}));
+ window.dispatchEvent(new CustomEvent('melsa:update',{detail:{...state,doorInfo:d,floorInfo:f,panelInfo:pn,buttonInfo:productById[state.buttons]}}));
 }
 document.querySelectorAll("[data-group]").forEach(group=>group.addEventListener("click",e=>{
  const b=e.target.closest("button[data-value]");if(!b)return;const g=group.dataset.group;state[g]=b.dataset.value;
@@ -246,9 +244,9 @@ function buildAiPrompt(){
  const d=productById[s.door], f=productById[s.floor], pn=productById[s.panel];
  return ["Photorealistic photo of a compact luxury elevator cabin seen through its open "+(s.doorType==="Automatic"?"automatic sliding doors":"swing landing door"),
   "door: "+d.label.toLowerCase(), walls, f.label.toLowerCase()+" floor", ceiling,
-  "control panel: "+pn.label.toLowerCase()+" with "+BTN_AI[s.buttons], s.metal==="Gold"?"gold handrail":"stainless handrail","high-end interior photography"].join(", ");
+  "control panel: "+pn.label.toLowerCase()+" with "+btnAi(), s.metal==="Gold"?"gold handrail":"stainless handrail","high-end interior photography"].join(", ");
 }
-const BTN_AI={Round:"round metal push buttons",Square:"square metal push buttons",Ring:"round metal push buttons with glowing blue halo rings",Touch:"flush black-glass touch buttons with softly backlit numbers"};
+function btnAi(){const m=productById[state.buttons].metal;return `round brushed ${m} stainless push buttons, each with a wide flat ${m} flange ring, a thin grey illuminated outline ring, raised grey characters and Braille dots`;}
 function buildGeminiRequest(){
  const s=state, d=productById[s.door], f=productById[s.floor], pn=productById[s.panel];
  const base=new URL(".",location.href).href;
@@ -256,7 +254,7 @@ function buildGeminiRequest(){
 Use the attached product photos as exact references:
 - Image 1 is the landing door (${d.label}). Reproduce its colour, pattern and frame faithfully.
 - Image 2 is the floor material (${f.label}). Use it for the cabin floor.
-- Image 3 is the control/call panel (${pn.label}). Mount it on the wall beside the door. Keep its shape and finish, but its buttons must be ${BTN_AI[s.buttons]}.
+- Image 3 is the control/call panel (${pn.label}). Mount it on the wall beside the door. Keep its shape and finish, but all its buttons must be ${btnAi()}.
 Cabin: ${nice("style")} style with ${nice("metal")} stainless steel walls, ${s.ceiling.toLowerCase()} ceiling lighting, matching handrail.
 Natural, realistic proportions for a compact passenger elevator. Soft warm lighting, sharp focus, no people, no text, no logos.`;
  return {prompt,images:[base+d.src,base+f.src,base+pn.src]};
@@ -374,24 +372,22 @@ const hallBase=box(0.2,0.62,0.03,mat('#b8c0c7',0.72,0.22),width/2-0.2,1.35,depth
 const hallGlass=box(0.15,0.2,0.01,mat('#101114',0.35,0.2),width/2-0.2,1.5,depth/2+0.05);
 const hallPlate=box(0.14,0.3,0.008,mat('#141519',0.4,0.25),width/2-0.2,1.23,depth/2+0.048);
 const buttonGroup=new THREE.Group(); cabin.add(buttonGroup);
-const glowBlue=new THREE.MeshBasicMaterial({color:'#5fc8ff'});
-const glowTouch=new THREE.MeshBasicMaterial({color:'#9fe3ff'});
-function addButton(style,x,y,z,dir,trimMat,scale=1){
- // dir: +1 faces the front (+z), -1 faces the back
- const g=new THREE.Group(); g.position.set(x,y,z); if(dir<0)g.rotation.y=Math.PI; g.scale.setScalar(scale); buttonGroup.add(g);
- const r=0.032;
- if(style==='Square'){const m=new THREE.Mesh(new THREE.BoxGeometry(0.055,0.055,0.02),trimMat);m.position.z=0.01;g.add(m);}
- else if(style==='Touch'){const m=new THREE.Mesh(new THREE.BoxGeometry(0.05,0.05,0.004),glowTouch);m.position.z=0.002;g.add(m);}
- else{const m=new THREE.Mesh(new THREE.CylinderGeometry(r,r,0.02,28),trimMat);m.rotation.x=Math.PI/2;m.position.z=0.01;g.add(m);
-  if(style==='Ring'){const t=new THREE.Mesh(new THREE.TorusGeometry(r+0.008,0.006,10,36),glowBlue);t.position.z=0.004;g.add(t);}}
+const btnMat=mat('#cdd1d5',0.85,0.28), btnGap=mat('#6d6f73',0.2,0.6), btnMark=mat('#7a7c80',0.2,0.6);
+function addButton(x,y,z,scale=1){
+ // Melsa round button: wide flange, grey outline ring, raised face with character
+ const g=new THREE.Group(); g.position.set(x,y,z); g.scale.setScalar(scale); buttonGroup.add(g);
+ const cyl=(r,d,m,zz)=>{const c=new THREE.Mesh(new THREE.CylinderGeometry(r,r,d,32),m);c.rotation.x=Math.PI/2;c.position.z=zz;g.add(c);};
+ cyl(0.036,0.006,btnMat,0.003);
+ cyl(0.027,0.008,btnGap,0.005);
+ cyl(0.024,0.012,btnMat,0.007);
+ const mark=new THREE.Mesh(new THREE.BoxGeometry(0.006,0.018,0.002),btnMark); mark.position.z=0.0135; g.add(mark);
 }
-function rebuildButtons(style){
+function rebuildButtons(info){
  while(buttonGroup.children.length){const g=buttonGroup.children.pop();g.traverse(o=>{if(o.geometry)o.geometry.dispose()});}
- // inside car operating panel (faces into the cabin)
- for(let i=0;i<5;i++)addButton(style,width/2-0.22,2.12-i*0.14,-depth/2+0.183,1,mats.trim);
- // landing call panel: up / down
- addButton(style,width/2-0.2,1.3,depth/2+0.052,1,mats.trim,1.5);
- addButton(style,width/2-0.2,1.16,depth/2+0.052,1,mats.trim,1.5);
+ btnMat.color.set(info?info.color:'#cdd1d5');
+ for(let i=0;i<5;i++)addButton(width/2-0.22,2.12-i*0.14,-depth/2+0.183,1.1);
+ addButton(width/2-0.2,1.3,depth/2+0.052,1.6);
+ addButton(width/2-0.2,1.16,depth/2+0.052,1.6);
 }
 const frontFrame=[];
 frontFrame.push(box(0.08,height,0.09,mats.trim,-width/2+0.04,height/2,depth/2-0.04));
@@ -444,7 +440,7 @@ function update3D(s){
  setColor(panelBase.material,trim);
  setColor(panelScreen.material,'#101114');
  setColor(hallBase.material,trim);
- rebuildButtons(s.buttons||'Round');
+ rebuildButtons(s.buttonInfo);
  rebuildDoor(s);
 }
 window.addEventListener('melsa:update',e=>update3D(e.detail));
