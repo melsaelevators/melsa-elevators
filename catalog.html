@@ -24,11 +24,11 @@
 </style>
 <script>
 window.PAGE_T={
- en:{title:"Catalog | Melsa Elevators",eyebrow:"Catalog",h1:"Our product collection",lead:"Real Melsa doors, control panels, push buttons and floor finishes. Tap a photo to see it larger.",
-  all:"All",semi:"Semi-automatic doors",auto:"Automatic doors",panel:"Control panels",buttons:"Push buttons",floor:"Flooring",ask:"Ask about this product",items:"{n} products",code:"Code {c}",
+ en:{title:"Catalog | Melsa Elevators",eyebrow:"Catalog",h1:"Our product collection",lead:"Real Melsa doors, LOP call panels and floor finishes. Every product has a code — just tell us the code. Tap a photo to see it larger.",
+  all:"All",semi:"Semi-automatic doors",auto:"Automatic doors",panel:"LOP",floor:"Flooring",ask:"Ask about this product",items:"{n} products",code:"Code {c}",
   askMsg:"Hello, I'd like to ask about this product from your catalog: {p}"},
- ar:{title:"الكتالوج | ميلسا للمصاعد",eyebrow:"الكتالوج",h1:"مجموعة منتجاتنا",lead:"أبواب ولوحات تحكم وأزرار وأرضيات ميلسا الحقيقية. اضغط على أي صورة لتكبيرها.",
-  all:"الكل",semi:"أبواب نصف أوتوماتيك",auto:"أبواب أوتوماتيك",panel:"لوحات التحكم",buttons:"الأزرار",floor:"الأرضيات",ask:"استفسر عن المنتج",items:"{n} منتج",code:"كود {c}",
+ ar:{title:"الكتالوج | ميلسا للمصاعد",eyebrow:"الكتالوج",h1:"مجموعة منتجاتنا",lead:"أبواب ولوحات LOP وأرضيات ميلسا الحقيقية. كل منتج ليه كود، قولنا الكود بس. اضغط على أي صورة لتكبيرها.",
+  all:"الكل",semi:"أبواب نصف أوتوماتيك",auto:"أبواب أوتوماتيك",panel:"LOP",floor:"الأرضيات",ask:"استفسر عن المنتج",items:"{n} منتج",code:"كود {c}",
   askMsg:"مرحبًا، عايز أستفسر عن المنتج ده من الكتالوج: {p}"}
 };
 </script>
@@ -51,12 +51,12 @@ window.PAGE_T={
  const items=[
   ...P.door.filter(p=>p.type==="Semi-automatic").map(p=>({...p,cat:"semi"})),
   ...P.door.filter(p=>p.type==="Automatic").map(p=>({...p,cat:"auto"})),
-  ...P.panel.map(p=>({...p,cat:"panel"})), ...P.buttons.map(p=>({...p,cat:"buttons"})), ...P.floor.map(p=>({...p,cat:"floor"}))];
+  ...P.panel.map(p=>({...p,cat:"panel"})), ...P.floor.map(p=>({...p,cat:"floor"}))];
  let cur=new URLSearchParams(location.search).get("cat")||"all";
  const name=p=>p.code?t("code",{c:p.code}):(lang()==="ar"?p.ar:p.label);
  const askName=p=>p.code?t("code",{c:p.code})+" — "+t(p.cat):name(p);
  function render(){
-  document.getElementById("tabs").innerHTML=["all","semi","auto","panel","buttons","floor"].map(k=>`<button type="button" class="tab" data-k="${k}" aria-pressed="${k===cur}">${esc(t(k))}</button>`).join("");
+  document.getElementById("tabs").innerHTML=["all","semi","auto","panel","floor"].map(k=>`<button type="button" class="tab" data-k="${k}" aria-pressed="${k===cur}">${esc(t(k))}</button>`).join("");
   const list=items.filter(p=>cur==="all"||p.cat===cur);
   document.getElementById("count").textContent=t("items",{n:list.length});
   document.getElementById("grid").innerHTML=list.map((p,i)=>`<div class="pc ${p.cat==="floor"?"floor":""}"><button type="button" class="img" data-i="${items.indexOf(p)}" aria-label="${esc(name(p))}"><img src="assets/thumbs/${p.id}.jpg" alt="${esc(name(p))}" loading="lazy"></button>

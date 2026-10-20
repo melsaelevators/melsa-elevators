@@ -38,10 +38,10 @@ window.PAGE_T={
   lead:"From villas to hospitals and malls, Melsa Elevators designs, installs and maintains elevators with the finishes you choose.",
   cta1:"Request a quote",cta2:"Book maintenance",cta3:"View catalog",svcEyebrow:"What we do",svcTitle:"Complete elevator solutions",
   s1:"Installation",s1t:"New passenger, home, hospital and goods elevators — electric or hydraulic.",
-  s2:"Custom cabins",s2t:"Choose doors, control panels, buttons, floors and finishes from our collection.",
+  s2:"Custom cabins",s2t:"Choose doors, LOP call panels, floors and finishes from our collection.",
   s3:"Maintenance",s3t:"Scheduled maintenance and repairs to keep your elevator safe and reliable.",
   s4:"Modernization",s4t:"Upgrade older elevators with new machines, controllers, doors and cabins.",
-  typesTitle:"Elevators for every building",prodEyebrow:"From our collection",prodTitle:"Real Melsa products",seeAll:"See the full catalog →",
+  typesTitle:"Elevators for every building",prodEyebrow:"From our collection",prodTitle:"Real Melsa products",code:"Code {c}",seeAll:"See the full catalog →",
   projEyebrow:"Our work",projTitle:"Recent projects",projAll:"All projects →",
   trustEyebrow:"Our clients",trustTitle:"Trusted by",trustAll:"All clients →",
   ctaTitle:"Need a new elevator or a repair?",ctaText:"Tell us about your building and we will get back to you.",ctaBtn:"Contact us",
@@ -50,10 +50,10 @@ window.PAGE_T={
   lead:"من الفلل إلى المستشفيات والمولات، ميلسا للمصاعد تصمم وتركّب وتصون المصاعد بالتشطيبات التي تختارها.",
   cta1:"اطلب عرض سعر",cta2:"احجز صيانة",cta3:"تصفح الكتالوج",svcEyebrow:"خدماتنا",svcTitle:"حلول متكاملة للمصاعد",
   s1:"التركيب",s1t:"مصاعد جديدة للركاب والمنازل والمستشفيات والبضائع — كهرباء أو هيدروليك.",
-  s2:"كبائن حسب الطلب",s2t:"اختر الأبواب ولوحات التحكم والأزرار والأرضيات والتشطيبات من مجموعتنا.",
+  s2:"كبائن حسب الطلب",s2t:"اختر الأبواب ولوحات LOP والأرضيات والتشطيبات من مجموعتنا.",
   s3:"الصيانة",s3t:"صيانة دورية وإصلاحات للحفاظ على مصعدك آمنًا وموثوقًا.",
   s4:"التحديث",s4t:"تطوير المصاعد القديمة بماكينات ولوحات تحكم وأبواب وكبائن جديدة.",
-  typesTitle:"مصاعد لكل أنواع المباني",prodEyebrow:"من مجموعتنا",prodTitle:"منتجات ميلسا الحقيقية",seeAll:"شاهد الكتالوج كاملًا ←",
+  typesTitle:"مصاعد لكل أنواع المباني",prodEyebrow:"من مجموعتنا",prodTitle:"منتجات ميلسا الحقيقية",code:"كود {c}",seeAll:"شاهد الكتالوج كاملًا ←",
   projEyebrow:"أعمالنا",projTitle:"أحدث المشاريع",projAll:"كل المشاريع ←",
   trustEyebrow:"عملاؤنا",trustTitle:"بيثقوا فينا",trustAll:"كل العملاء ←",
   ctaTitle:"محتاج مصعد جديد أو صيانة؟",ctaText:"قولنا عن مبناك وهنتواصل معاك.",ctaBtn:"تواصل معنا",
@@ -103,14 +103,14 @@ window.PAGE_T={
 <script>
 (function(){
  const {t,esc,lang,site}=Melsa, P=window.MELSA_PRODUCTS;
- const pick=["semi_automatic_doors_02","automatic_doors_01","control_panels_04","semi_automatic_doors_05","automatic_doors_08","panel_buttons_01"];
+ const pick=["semi_automatic_doors_02","automatic_doors_01","control_panels_04","semi_automatic_doors_05","automatic_doors_08","control_panels_02"];
  const all=Object.values(P).flat(), byId=Object.fromEntries(all.map(p=>[p.id,p]));
  document.getElementById("collage").innerHTML=pick.map(id=>`<img src="assets/thumbs/${id}.jpg" alt="" loading="lazy">`).join("");
  function render(){
   const L=lang();
   document.getElementById("types").innerHTML=["Residential","Villa","Hospital","Mall","Office","Hotel","Factory"].map(k=>`<span>${esc(t("b."+k))}</span>`).join("");
-  const show=["semi_automatic_doors_03","automatic_doors_04","control_panels_02","flooring_samples_10","semi_automatic_doors_06","automatic_doors_07","control_panels_05","panel_buttons_04"];
-  document.getElementById("prods").innerHTML=show.map(id=>{const p=byId[id];return `<a class="prod" href="catalog.html"><img src="assets/thumbs/${p.id}.jpg" alt="" loading="lazy"><span>${esc(L==="ar"?p.ar:p.label)}</span></a>`}).join("");
+  const show=["semi_automatic_doors_03","automatic_doors_04","control_panels_01","flooring_samples_10","semi_automatic_doors_06","automatic_doors_07","control_panels_05","flooring_samples_03"];
+  document.getElementById("prods").innerHTML=show.map(id=>{const p=byId[id];return `<a class="prod" href="catalog.html"><img src="assets/thumbs/${p.id}.jpg" alt="" loading="lazy"><span>${esc(p.code?t("code",{c:p.code}):(L==="ar"?p.ar:p.label))}</span></a>`}).join("");
  const cl=(site.clients||[]).filter(c=>c.logo); document.getElementById("trust").hidden=!cl.length;
   document.getElementById("logos").innerHTML=cl.slice(0,12).map(c=>`<a href="clients.html" title="${esc(L==="ar"?c.name_ar:c.name_en)}"><img src="${esc(c.logo)}" alt="${esc(L==="ar"?c.name_ar:c.name_en)}" loading="lazy"></a>`).join("");
  }
