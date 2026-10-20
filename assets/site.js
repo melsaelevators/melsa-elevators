@@ -2,13 +2,13 @@
 (function(){
 const SITE=window.MELSA_SITE||{company:{},clients:[],projects:[]}, C=SITE.company||{};
 const T={
- en:{"nav.home":"Home","nav.projects":"Projects","nav.catalog":"Catalog","nav.clients":"Clients","nav.maint":"Maintenance","nav.contact":"Contact us","nav.eng":"🔒 Engineers",
+ en:{"nav.home":"Home","nav.about":"About us","nav.projects":"Projects","nav.catalog":"Catalog","nav.clients":"Clients","nav.maint":"Maintenance","nav.contact":"Contact us","nav.eng":"🔒 Engineers",
   "f.about":"Melsa Elevators designs, supplies, installs and maintains elevators for homes, buildings and businesses.","f.links":"Pages","f.contact":"Contact",
   "f.rights":"© {y} Melsa Elevators. All rights reserved.","f.soon":"Contact details coming soon.","f.engineers":"Engineers' area",
   notSet:"Our contact details are being added. Please check back soon.",sent:"Opening WhatsApp…",required:"Please fill in your name and phone number.",
   "ci.phone":"Phone","ci.mobile":"Mobile","ci.whatsapp":"WhatsApp","ci.email":"Email","ci.address":"Address","ci.hours":"Working hours","ci.facebook":"Facebook","ci.instagram":"Instagram",close:"Close",
   "t.Residential":"Residential","t.Villa":"Villa","t.Factory":"Factory","t.Hospital":"Hospital","t.Mall":"Mall","t.Office":"Office","t.Hotel":"Hotel"},
- ar:{"nav.home":"الرئيسية","nav.projects":"مشاريعنا","nav.catalog":"الكتالوج","nav.clients":"عملاؤنا","nav.maint":"الصيانة","nav.contact":"تواصل معنا","nav.eng":"🔒 المهندسين",
+ ar:{"nav.home":"الرئيسية","nav.about":"من نحن","nav.projects":"مشاريعنا","nav.catalog":"الكتالوج","nav.clients":"عملاؤنا","nav.maint":"الصيانة","nav.contact":"تواصل معنا","nav.eng":"🔒 المهندسين",
   "f.about":"ميلسا للمصاعد تصمم وتورّد وتركّب وتصاين المصاعد للمنازل والمباني والشركات.","f.links":"الصفحات","f.contact":"تواصل",
   "f.rights":"© {y} ميلسا للمصاعد. جميع الحقوق محفوظة.","f.soon":"بيانات التواصل قريبًا.","f.engineers":"منطقة المهندسين",
   notSet:"بيانات التواصل قيد الإضافة. برجاء المحاولة لاحقًا.",sent:"جارٍ فتح واتساب…",required:"برجاء كتابة الاسم ورقم التليفون.",
@@ -23,7 +23,7 @@ const page=document.body.dataset.page;
 const WA_ICON='<svg viewBox="0 0 24 24" width="1.25em" height="1.25em" style="vertical-align:-.25em;fill:#25d366" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.3z"/></svg>';
 
 /* header & footer */
-const NAV=[["home","./"],["catalog","catalog.html"],["clients","clients.html"],["maint","maintenance.html"],["contact","contact.html"]];
+const NAV=[["home","./"],["about","about.html"],["catalog","catalog.html"],["clients","clients.html"],["maint","maintenance.html"],["contact","contact.html"]];
 const header=document.createElement("header"); header.className="site-header";
 header.innerHTML=`<div class="hwrap"><a class="logo" href="./"><img src="assets/logo.png" alt="Melsa Elevators" width="400" height="308"></a>
  <button class="menu-btn" type="button" aria-label="Menu" aria-expanded="false">☰</button>
