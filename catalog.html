@@ -17,6 +17,7 @@
 .pc .body{padding:12px;display:flex;flex-direction:column;gap:8px;flex:1}
 .pc .cat{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.08em;text-transform:uppercase}
 .pc .name{font-weight:700;font-size:14px;flex:1}
+.pc .name.code{font-size:20px;color:var(--navy);letter-spacing:.02em}
 .pc a.ask{font-size:12.5px;font-weight:700;text-decoration:none;color:var(--navy);border:1px solid var(--navy);border-radius:9px;padding:7px 10px;text-align:center}
 .pc a.ask:hover{background:var(--tint)}
 .count{color:var(--muted);font-size:13px;margin:-8px 0 14px}
@@ -24,10 +25,10 @@
 <script>
 window.PAGE_T={
  en:{title:"Catalog | Melsa Elevators",eyebrow:"Catalog",h1:"Our product collection",lead:"Real Melsa doors, control panels, push buttons and floor finishes. Tap a photo to see it larger.",
-  all:"All",semi:"Semi-automatic doors",auto:"Automatic doors",panel:"Control panels",buttons:"Push buttons",floor:"Flooring",ask:"Ask about this product",items:"{n} products",
+  all:"All",semi:"Semi-automatic doors",auto:"Automatic doors",panel:"Control panels",buttons:"Push buttons",floor:"Flooring",ask:"Ask about this product",items:"{n} products",code:"Code {c}",
   askMsg:"Hello, I'd like to ask about this product from your catalog: {p}"},
  ar:{title:"الكتالوج | ميلسا للمصاعد",eyebrow:"الكتالوج",h1:"مجموعة منتجاتنا",lead:"أبواب ولوحات تحكم وأزرار وأرضيات ميلسا الحقيقية. اضغط على أي صورة لتكبيرها.",
-  all:"الكل",semi:"أبواب نصف أوتوماتيك",auto:"أبواب أوتوماتيك",panel:"لوحات التحكم",buttons:"الأزرار",floor:"الأرضيات",ask:"استفسر عن المنتج",items:"{n} منتج",
+  all:"الكل",semi:"أبواب نصف أوتوماتيك",auto:"أبواب أوتوماتيك",panel:"لوحات التحكم",buttons:"الأزرار",floor:"الأرضيات",ask:"استفسر عن المنتج",items:"{n} منتج",code:"كود {c}",
   askMsg:"مرحبًا، عايز أستفسر عن المنتج ده من الكتالوج: {p}"}
 };
 </script>
@@ -52,13 +53,14 @@ window.PAGE_T={
   ...P.door.filter(p=>p.type==="Automatic").map(p=>({...p,cat:"auto"})),
   ...P.panel.map(p=>({...p,cat:"panel"})), ...P.buttons.map(p=>({...p,cat:"buttons"})), ...P.floor.map(p=>({...p,cat:"floor"}))];
  let cur=new URLSearchParams(location.search).get("cat")||"all";
- const name=p=>lang()==="ar"?p.ar:p.label;
+ const name=p=>p.code?t("code",{c:p.code}):(lang()==="ar"?p.ar:p.label);
+ const askName=p=>p.code?t("code",{c:p.code})+" — "+t(p.cat):name(p);
  function render(){
   document.getElementById("tabs").innerHTML=["all","semi","auto","panel","buttons","floor"].map(k=>`<button type="button" class="tab" data-k="${k}" aria-pressed="${k===cur}">${esc(t(k))}</button>`).join("");
   const list=items.filter(p=>cur==="all"||p.cat===cur);
   document.getElementById("count").textContent=t("items",{n:list.length});
   document.getElementById("grid").innerHTML=list.map((p,i)=>`<div class="pc ${p.cat==="floor"?"floor":""}"><button type="button" class="img" data-i="${items.indexOf(p)}" aria-label="${esc(name(p))}"><img src="assets/thumbs/${p.id}.jpg" alt="${esc(name(p))}" loading="lazy"></button>
-   <div class="body"><span class="cat">${esc(t(p.cat))}</span><span class="name">${esc(name(p))}</span><a class="ask" href="contact.html?subject=Quote&product=${encodeURIComponent(t("askMsg",{p:name(p)}))}">${esc(t("ask"))}</a></div></div>`).join("");
+   <div class="body"><span class="cat">${esc(t(p.cat))}</span><span class="name ${p.code?"code":""}"><bdi>${esc(name(p))}</bdi></span><a class="ask" href="contact.html?subject=Quote&product=${encodeURIComponent(t("askMsg",{p:askName(p)}))}">${esc(t("ask"))}</a></div></div>`).join("");
  }
  document.getElementById("tabs").addEventListener("click",e=>{const b=e.target.closest(".tab");if(!b)return;cur=b.dataset.k;history.replaceState(null,"","?cat="+cur);render();});
  document.getElementById("grid").addEventListener("click",e=>{const b=e.target.closest("button.img");if(!b)return;const p=items[+b.dataset.i];lightbox([p.src||("assets/"+p.id+"."+p.ext)],0,name(p));});
