@@ -723,7 +723,7 @@ function applyDoor(){
 const envGroup=new THREE.Group(); scene.add(envGroup);       // building wall behind (always visible)
 const shaftGroup=new THREE.Group(); scene.add(shaftGroup);   // shaft + machine (shaft view only)
 shaftGroup.visible=false;
-let shaftView=false, lastEnvKey='', lastShaftKey='';
+let shaftView=false, lastEnvKey='', lastShaftKey='', fogSave=null;
 const SKY='#d3e5f3', INDOOR='#eef2f9';
 const BUILD={ // wall, floor (inside), floor (outside), accent
  Residential:{wall:'#e4dccf',outWall:'#d9c6a8',floor:'#ece7df',accent:'#b9a27c'},
@@ -746,7 +746,7 @@ function rebuildEnv(s){
  const B=BUILD[s.building]||BUILD.Residential, out=s.location==='Outside';
  scene.background.set(out?SKY:INDOOR); scene.fog.color.set(out?SKY:INDOOR);
  lobby.material.color.set(out?'#d3cfc6':B.floor);
- scene.fog.near=out?45:12; scene.fog.far=out?140:30;
+ if(fogSave){fogSave=[out?45:12,out?140:30];} else {scene.fog.near=out?45:12; scene.fog.far=out?140:30;}
  frontLimit=1.45; maxOut=out?18:10;
  if(!window.melsaInsideMode&&!window.melsaShaftMode){controls.minAzimuthAngle=-frontLimit;controls.maxAzimuthAngle=frontLimit;controls.maxDistance=maxOut;}
  const z=-2.7, W=16, H=10;
@@ -908,13 +908,13 @@ function dynRod(r,m,a,b){ // rope/plunger that follows moving points
 }
 function setRod(R){const A=R.a(),B=R.b(),d=new THREE.Vector3().subVectors(B,A),len=Math.max(0.001,d.length());
  R.mesh.position.copy(A).addScaledVector(d,0.5); R.mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),d.normalize()); R.mesh.scale.set(1,len,1);}
-function buildTower(s){
+function buildTower(s,indoor=false){
  const hyd=s.drive==='Hydraulic', mrl=!hyd&&s.machineRoom==='MRL', spec=BLD[s.building]||BLD.Residential;
  let stops=Math.max(2,Math.min(5,spec.floors)); if(hyd)stops=Math.min(stops,3);
  const fh=4.0, travel=(stops-1)*fh, pit=-1.1, Ht=travel+height+(hyd?0.9:1.6);
  const X=1.55, Zb=-1.42, Zf=depth/2+0.12, cz=(Zf+Zb)/2, dz=Zf-Zb, g=shaftGroup;
  Object.assign(lift,{tower:true,travel,fh,stops,towerH:Ht,y:0,floor:0,target:0,dir:1,wait:1.2,from:0,p:1});
- const glass=own(new THREE.MeshPhysicalMaterial({color:'#cfe8f5',transparent:true,opacity:0.17,roughness:0.05,metalness:0.1,depthWrite:false,side:THREE.DoubleSide}));
+ const glass=own(new THREE.MeshPhysicalMaterial({color:indoor?'#cfd4da':'#cfe8f5',transparent:true,opacity:indoor?0.24:0.17,roughness:indoor?0.6:0.05,metalness:0.1,depthWrite:false,side:THREE.DoubleSide}));
  const steel=own(mat('#3d454f',0.7,0.35)), rail=own(mat('#8c949c',0.7,0.35)), slab=own(mat('#c9c5bd',0.05,0.85)), trim=own(mat('#9aa3ab',0.7,0.3));
  // frame: corner posts and a ring beam at every floor + the roof
  for(const x of [-X,X]) for(const z of [Zb,Zf]) box(0.14,Ht-pit,0.14,steel,x,(Ht+pit)/2,z,g);
@@ -927,13 +927,19 @@ function buildTower(s){
  for(const sx of [-1,1]) box(sideW,Ht-pit,0.02,glass,sx*(dw/2+sideW/2),(Ht+pit)/2,Zf,g);
  for(let f=0;f<stops;f++){ const top=f===stops-1?Ht:(f+1)*fh, y0=f*fh+3.1; if(top>y0) box(dw,top-y0,0.02,glass,0,(top+y0)/2,Zf,g);
   box(0.08,3.05,0.08,trim,-dw/2-0.04,f*fh+1.52,Zf+0.03,g); box(0.08,3.05,0.08,trim,dw/2+0.04,f*fh+1.52,Zf+0.03,g); box(dw+0.16,0.1,0.08,trim,0,f*fh+3.08,Zf+0.03,g);
-  if(f>0){ // landing platform + bridge back to the building, with railings
+  if(f>0&&indoor){ // building floor slab around the shaft at every level (opening left for the shaft)
+   const fm=own(new THREE.MeshStandardMaterial({color:'#d9d4cb',transparent:true,opacity:0.55,depthWrite:false,side:THREE.DoubleSide})), y=f*fh-0.12, ez=Zf+2.4;
+   box(5.5,0.24,ez+2.7,fm,-X-0.05-2.75,y,(ez-2.7)/2,g); box(5.5,0.24,ez+2.7,fm,X+0.05+2.75,y,(ez-2.7)/2,g);
+   box(2*X+0.1,0.24,ez-Zf,fm,0,y,(ez+Zf)/2,g); box(2*X+0.1,0.24,Zb+2.7,fm,0,y,(Zb-2.7)/2,g);
+  }
+  if(f>0&&!indoor){ // landing platform + bridge back to the building, with railings
    const lw=2*X+1.3; box(lw,0.2,1.5,slab,0,f*fh-0.1,Zf+0.75,g); box(lw,1.0,0.04,glass,0,f*fh+0.5,Zf+1.5,g); box(lw,0.05,0.06,steel,0,f*fh+1.0,Zf+1.5,g);
    const bl=(Zf+1.5)-(-2.7), bx=X+0.65+0.6; box(1.2,0.2,bl,slab,bx,f*fh-0.1,(Zf+1.5-2.7)/2,g);
    box(0.04,1.0,bl,glass,bx+0.6,f*fh+0.5,(Zf+1.5-2.7)/2,g); box(0.06,0.05,bl,steel,bx+0.6,f*fh+1.0,(Zf+1.5-2.7)/2,g);
   }
  }
  box(2*X,0.12,dz,own(mat('#a6a39d',0.05,0.9)),0,pit-0.06,cz,g);                       // pit floor
+ if(indoor) box(16,Ht+3.5,0.2,own(mat((BUILD[s.building]||BUILD.Residential).wall,0.05,0.85)),0,(Ht+3.5)/2-0.5,-2.8,g); // tall back wall of the building
  for(const x of [-1.32,1.32]) box(0.07,Ht-pit-0.2,0.1,rail,x,(Ht+pit-0.2)/2,0,g);   // car guide rails
  const cross=box(2.1,0.14,0.18,steel,0,height+0.07,0,cabin); cross.userData.towerOnly=true; g.userData.cross=cross;
  const carTop=()=>new THREE.Vector3(0,height+0.14+lift.y,0);
@@ -1009,7 +1015,7 @@ function rebuildShaft(s){
  const key=[s.drive,s.machineRoom,s.machine,s.hydUnit,s.location,s.building].join('|'); if(key===lastShaftKey)return; lastShaftKey=key; emptyGroup(shaftGroup);
  lift.tower=false; lift.ropes=[]; lift.cw=null; lift.y=0; cabin.position.y=0;
  cabin.children.filter(c=>c.userData.towerOnly).forEach(c=>{cabin.remove(c);c.geometry.dispose();});
- if(s.location==='Outside'){buildTower(s);return;}
+ buildTower(s,s.location!=='Outside'); return;
  const hyd=s.drive==='Hydraulic', mrl=!hyd&&s.machineRoom==='MRL';
  const X=1.48, Zb=-1.38, Zf=depth/2+0.09, pit=-1.1, Ht=hyd?4.6:mrl?6.1:5.6;
  const glass=own(new THREE.MeshPhysicalMaterial({color:s.location==='Outside'?'#bfe0f0':'#d7dde3',transparent:true,opacity:s.location==='Outside'?0.2:0.28,roughness:0.08,metalness:0,depthWrite:false,side:THREE.DoubleSide}));
@@ -1125,7 +1131,7 @@ function flyTo(points,done){ // points: [{pos,target}], each step ~0.9s
 }
 function goInside(){
  window.melsaInsideMode=true; controls.minAzimuthAngle=-Infinity; controls.maxAzimuthAngle=Infinity;
- if(shaftView){shaftView=false;shaftGroup.visible=false;lobby.material.opacity=1;lobby.material.transparent=false;window.melsaShaftMode=false;}
+ if(shaftView){shaftView=false;shaftGroup.visible=false;lobby.material.opacity=1;lobby.material.transparent=false;window.melsaShaftMode=false;restoreFog();}
  lift.y=0; cabin.position.y=0; for(const R of lift.ropes)setRod(R);
  setDoor(true); OUTSIDE.pos.copy(camera.position); OUTSIDE.target.copy(controls.target);
  controls.minDistance=0; controls.maxDistance=100;
@@ -1148,13 +1154,14 @@ function goOutside(){
 }
 doorBtn.addEventListener('click',()=>setDoor(doorTarget<0.5));
 insideBtn.addEventListener('click',()=>inside?goOutside():goInside());
+function restoreFog(){if(fogSave){scene.fog.near=fogSave[0];scene.fog.far=fogSave[1];fogSave=null;}}
 const SHAFT_CAM={pos:new THREE.Vector3(10,8,14.5),target:new THREE.Vector3(-0.5,3.5,-0.4)};
 shaftBtn.addEventListener('click',()=>{
  if(inside)return;
  shaftView=!shaftView; viewTexts();
  controls.minDistance=0; controls.maxDistance=100;
  if(shaftView){
-  window.melsaShaftMode=true;
+  window.melsaShaftMode=true; fogSave=[scene.fog.near,scene.fog.far]; scene.fog.near=60; scene.fog.far=180;
   OUTSIDE.pos.copy(camera.position); OUTSIDE.target.copy(controls.target);
   shaftGroup.visible=true; lobby.material.transparent=true; lobby.material.opacity=0.3; lobby.material.depthWrite=false;
   if(lift.tower){ setDoor(false); const H=lift.towerH;
@@ -1164,7 +1171,7 @@ shaftBtn.addEventListener('click',()=>{
  } else {
   flyTo([{pos:OUTSIDE.pos.clone(),target:OUTSIDE.target.clone()}],()=>{
    shaftGroup.visible=false; lobby.material.opacity=1; lobby.material.transparent=false; lobby.material.depthWrite=true;
-   controls.minDistance=4.2; controls.maxDistance=maxOut; window.melsaShaftMode=false;});
+   controls.minDistance=4.2; controls.maxDistance=maxOut; window.melsaShaftMode=false; restoreFog();});
  }
 });
 window.melsaSetView=(p,t)=>{camera.position.set(...p);controls.target.set(...t);controls.update();}; // used by automated screenshots
