@@ -31,7 +31,7 @@ window.MELSA_SITE = {
     { name_en: "Middle East Glass (MEG)", name_ar: "ميدل إيست للزجاج", logo: "assets/clients/meg.png", cat: "industry" },
     { name_en: "United Glass Company", name_ar: "الشركة المتحدة للزجاج", logo: "assets/clients/united-glass.png", cat: "industry" },
     { name_en: "PIL", name_ar: "PIL", logo: "assets/clients/pil.png", cat: "business" },
-    { name_en: "The GEEK Campus", name_ar: "ذا جيك كامبس", logo: "assets/clients/geek-campus.png", cat: "education" },
+    { name_en: "The Greek Campus", name_ar: "ذا جريك كامبس", logo: "assets/clients/geek-campus.png", cat: "education" },
     { name_en: "Al Seddik Community Development Association", name_ar: "جمعية الصديق لتنمية المجتمع", logo: "assets/clients/al-seddik.png", cat: "gov" },
     { name_en: "Italian Hospital Umberto I, Cairo", name_ar: "المستشفى الإيطالي أومبرتو الأول بالقاهرة", logo: "assets/clients/italian-hospital.png", cat: "hospitals" },
     { name_en: "Ain Shams University", name_ar: "جامعة عين شمس", logo: "assets/clients/ain-shams-university.png", cat: "education" },
