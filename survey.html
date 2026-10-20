@@ -51,6 +51,10 @@ textarea{min-height:110px;resize:vertical}
 .pin.top{top:8px;left:50%;transform:translateX(-50%)}.pin.bottom{bottom:8px;left:50%;transform:translateX(-50%)}
 .pin.left{left:6px;top:50%;transform:translateY(-50%)}.pin.right{right:6px;top:50%;transform:translateY(-50%)}
 .pin.bottom input{border-color:var(--red)}
+.elev-wrap{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:18px;align-items:start}
+.elev-in .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.elev{background:var(--tint);border:1px dashed #b9c7e0;border-radius:14px;padding:12px}
+.elev svg{display:block;width:100%;height:auto;max-height:640px}
 .plan-note{font-size:11px;color:var(--muted);margin:8px 2px 0}
 .warns{margin-top:10px;display:grid;gap:6px}
 .warn{background:#fff7ed;border:1px solid #fdba74;color:var(--warn);border-radius:9px;padding:8px 10px;font-size:12px}
@@ -99,7 +103,7 @@ body.locked #lock{display:flex;min-height:100vh;flex-direction:column}
 .lock-form input{border:2px solid var(--navy);border-radius:10px;padding:13px 14px;font:inherit;font-size:16px;text-align:center}
 .lock-err{color:var(--red);font-size:12.5px;min-height:18px}
 .lock-links{display:flex;gap:10px;justify-content:center;margin-top:14px;align-items:center}
-@media(max-width:860px){.plan-wrap{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.floors{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:860px){.plan-wrap,.elev-wrap{grid-template-columns:1fr}.elev svg{max-height:none}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.floors{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:560px){
  header{padding:10px 14px}.brand img{height:46px}.brand small{display:none}.navlink{padding:6px 10px;font-size:11px}
  .grid{grid-template-columns:1fr 1fr;gap:10px}.f.wide{grid-column:1/-1}
@@ -214,6 +218,7 @@ body.locked #lock{display:flex;min-height:100vh;flex-direction:column}
  <section class="card">
   <h2><span class="num">3</span><span data-i18n="s3">Heights &amp; levels</span></h2>
   <p class="sub" data-i18n="s3sub">All heights in centimetres.</p>
+  <div class="elev-wrap"><div class="elev-in">
   <div class="grid">
    <div class="f"><label><span data-i18n="v.pit">Pit depth</span> <span class="unit">(cm)</span></label><input data-bind="vertical.pit" type="number" inputmode="decimal" step="any"></div>
    <div class="f"><label><span data-i18n="v.overhead">Overhead (top floor to shaft ceiling)</span> <span class="unit">(cm)</span></label><input data-bind="vertical.overhead" type="number" inputmode="decimal" step="any"></div>
@@ -229,6 +234,9 @@ body.locked #lock{display:flex;min-height:100vh;flex-direction:column}
     <div class="f"><label><span data-i18n="v.mrD">Depth</span> <span class="unit">(cm)</span></label><input data-bind="vertical.mrD" type="number" inputmode="decimal" step="any"></div>
     <div class="f"><label><span data-i18n="v.mrH">Height</span> <span class="unit">(cm)</span></label><input data-bind="vertical.mrH" type="number" inputmode="decimal" step="any"></div>
    </div>
+  </div>
+  </div>
+  <div class="elev"><svg id="elevSvg" viewBox="0 0 300 400" role="img" aria-label="Shaft section"></svg><p class="plan-note" data-i18n="el.note">Side view of the shaft. Updates as you type.</p></div>
   </div>
  </section>
 
@@ -283,7 +291,7 @@ const T={
   "v.pit":"Pit depth","v.overhead":"Overhead (top floor to shaft ceiling)","v.travel":"Travel (lowest to top floor)","v.floors":"Floor-to-floor heights","v.mr":"Machine room","v.mrW":"Width","v.mrD":"Depth","v.mrH":"Height",
   floorLbl:"Floor {a} → {b}",travelSum:"Sum of floor heights: {s} cm",travelDiff:" — differs from entered travel by {d} cm",railTotal:"Total rail height (pit + travel + overhead): {t} m",
   "c.part":"Component","c.spec":"Size / specification","c.qty":"Qty","c.note":"Note",suggest:"Suggest quantities from measurements",addRow:"+ Add component",sugHint:"Suggested values are estimates — always check them.",customPart:"Component name",
-  "w.ok":"Shaft walls and diagonals look consistent.","w.fb":"Front and back walls differ by {d} cm — check the shaft width.","w.lr":"Left and right walls differ by {d} cm — check the shaft depth.","w.diag":"Diagonals differ by {d} cm — the shaft is not square.","w.door":"Door opening goes past the right wall — check the door position.","w.car":"Car is larger than the shaft — check the car size.",
+  "el.note":"Side view of the shaft. Updates as you type.","el.mr":"Machine room","el.oh":"Overhead","el.pit":"Pit","el.stop":"Stop {n}","el.door":"Door side","w.ok":"Shaft walls and diagonals look consistent.","w.fb":"Front and back walls differ by {d} cm — check the shaft width.","w.lr":"Left and right walls differ by {d} cm — check the shaft depth.","w.diag":"Diagonals differ by {d} cm — the shaft is not square.","w.door":"Door opening goes past the right wall — check the door position.","w.car":"Car is larger than the shaft — check the car size.",
   untitled:"Untitled survey",open:"Open",del:"Delete",current:"Open now",confirmDel:"Delete this survey?",confirmNew:"Start a new survey? The current one stays saved.",
   gpsOk:"Location added.",gpsFail:"Could not get the location.",full:"Storage is full. Delete old surveys or photos.",addPhoto:"+ Add photo",photoMax:"Up to 8 photos per survey.",
   shareHead:"MELSA ELEVATORS — SITE SURVEY",copied:"Survey copied — paste it in WhatsApp.",mm:"cm",
@@ -309,7 +317,7 @@ const T={
   "v.pit":"عمق الحفرة (البيت)","v.overhead":"الارتفاع العلوي (من آخر دور لسقف البئر)","v.travel":"مسافة المشوار (من أول لآخر دور)","v.floors":"ارتفاع كل دور","v.mr":"غرفة الماكينة","v.mrW":"العرض","v.mrD":"العمق","v.mrH":"الارتفاع",
   floorLbl:"دور {a} ← {b}",travelSum:"مجموع ارتفاعات الأدوار: {s} سم",travelDiff:" — يختلف عن المشوار المكتوب بـ {d} سم",railTotal:"إجمالي ارتفاع السكك (الحفرة + المشوار + العلوي): {t} م",
   "c.part":"المكون","c.spec":"المقاس / المواصفات","c.qty":"العدد","c.note":"ملاحظة",suggest:"احسب الكميات من المقاسات",addRow:"+ إضافة مكون",sugHint:"القيم المقترحة تقديرية — راجعها دائمًا.",customPart:"اسم المكون",
-  "w.ok":"مقاسات الحيطان والأقطار متناسقة.","w.fb":"الحائط الأمامي والخلفي مختلفين بـ {d} سم — راجع عرض البئر.","w.lr":"الحائط الأيمن والأيسر مختلفين بـ {d} سم — راجع عمق البئر.","w.diag":"الأقطار مختلفة بـ {d} سم — البئر غير قائم الزوايا.","w.door":"فتحة الباب تتعدى الحائط الأيمن — راجع مكان الباب.","w.car":"الكابينة أكبر من البئر — راجع مقاس الكابينة.",
+  "el.note":"رسمة جانبية للبئر، بتتحدث وإنت بتكتب.","el.mr":"غرفة الماكينة","el.oh":"الارتفاع العلوي","el.pit":"الحفرة","el.stop":"وقفة {n}","el.door":"واجهة الباب","w.ok":"مقاسات الحيطان والأقطار متناسقة.","w.fb":"الحائط الأمامي والخلفي مختلفين بـ {d} سم — راجع عرض البئر.","w.lr":"الحائط الأيمن والأيسر مختلفين بـ {d} سم — راجع عمق البئر.","w.diag":"الأقطار مختلفة بـ {d} سم — البئر غير قائم الزوايا.","w.door":"فتحة الباب تتعدى الحائط الأيمن — راجع مكان الباب.","w.car":"الكابينة أكبر من البئر — راجع مقاس الكابينة.",
   untitled:"معاينة بدون اسم",open:"فتح",del:"حذف",current:"مفتوحة الآن",confirmDel:"حذف هذه المعاينة؟",confirmNew:"بدء معاينة جديدة؟ الحالية ستظل محفوظة.",
   gpsOk:"تمت إضافة الموقع.",gpsFail:"تعذر تحديد الموقع.",full:"مساحة التخزين ممتلئة. احذف معاينات أو صور قديمة.",addPhoto:"+ إضافة صورة",photoMax:"حتى ٨ صور لكل معاينة.",
   shareHead:"ميلسا للمصاعد — معاينة الموقع",copied:"تم نسخ المعاينة — الصقها في واتساب.",mm:"سم",
@@ -375,6 +383,7 @@ document.addEventListener("input",e=>{
   if(el.dataset.bind==="project.drive"){S.project.machineRoom=OPTS.machineRoom[el.value][0]; syncComponentsToDrive(); fillSelects(); renderComps();}
   if(el.dataset.bind==="project.stops")renderFloors();
   if(el.dataset.bind==="project.machineRoom"||el.dataset.bind==="project.drive")renderMR();
+  drawElev();
   drawPlan(); calcTravel(); touch();
  } else if(el.dataset.floor!==undefined){S.vertical.floors[+el.dataset.floor]=el.value; calcTravel(); touch();}
  else if(el.dataset.comp!==undefined){const r=S.components[+el.dataset.comp]; r[el.dataset.field]=el.value; if(el.dataset.field==="qty")r.sug=false; el.closest(".crow")?.classList.toggle("sug",!!r.sug); touch();}
@@ -404,6 +413,7 @@ function drawPlan(){
  svg+=`<line x1="${de}" y1="${fy(de)}" x2="${FR[0]}" y2="${FR[1]}" ${wallStroke}/>`;
  svg+=`<line x1="${ds}" y1="${fy(ds)+7}" x2="${de}" y2="${fy(de)+7}" stroke="#d8031a" stroke-width="3"/>`;
  svg+=`<text x="${(ds+de)/2}" y="${Math.min(246,fy((ds+de)/2)+24)}" text-anchor="middle" font-size="12" fill="#d8031a" font-weight="700">${num(sh.doorW)?num(sh.doorW)+" "+t("mm"):"DOOR"}</text>`;
+ {const ax=(ds+de)/2, ay=fy(ax)-6; svg+=`<g fill="#d8031a" stroke="#d8031a"><line x1="${ax}" y1="${ay}" x2="${ax}" y2="${ay-30}" stroke-width="3"/><polygon points="${ax-7},${ay-26} ${ax+7},${ay-26} ${ax},${ay-38}" stroke="none"/></g><text x="${ax}" y="${ay-44}" text-anchor="middle" font-size="10.5" fill="#d8031a" font-weight="800">${t("el.door")}</text>`;}
  svg+=`<text x="${cx}" y="${y0+Math.min(dl,dr)/2+4}" text-anchor="middle" font-size="13" fill="#5d6a80" font-weight="700">${cw&&cd?cw+" × "+cd:(lang==="ar"?"البئر":"SHAFT")}</text>`;
  document.getElementById("planSvg").innerHTML=svg;
  // warnings
@@ -418,6 +428,47 @@ function drawPlan(){
 }
 
 /* ---------- Heights ---------- */
+function drawElev(){
+ const svgEl=document.getElementById("elevSvg"); if(!svgEl)return;
+ const V=S.vertical, n=Math.max(2,Math.min(30,parseInt(S.project.stops)||4)), hasMR=S.project.drive==="Electric"&&S.project.machineRoom==="Top";
+ const gap=n>12?26:36, sx=92, sw=62, top=hasMR?84:24, ohH=46, pitH=40;
+ const yTop=top+ohH, yBot=yTop+(n-1)*gap, H=yBot+pitH+34;
+ const navy="#023584", red="#d8031a", mut="#5d6a80", f=v=>{const x=num(v);return x===null?"—":x+" "+t("mm");};
+ const esc=v=>v.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+ const txt=(x,y,s,o={})=>`<text x="${x}" y="${y}" font-size="${o.fs||11}" fill="${o.c||mut}" font-weight="${o.w||700}" direction="${lang==="ar"?"rtl":"ltr"}" text-anchor="${o.a==="start"?(lang==="ar"?"end":"start"):(o.a||"middle")}">${esc(String(s))}</text>`;
+ let g=`<defs><pattern id="eh" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#9fb1d1" stroke-width="2"/></pattern></defs>`;
+ // machine room
+ if(hasMR){const mw=sw+70, mx=sx+sw/2-mw/2, d=[V.mrW,V.mrD,V.mrH].map(num);
+  g+=`<rect x="${mx}" y="${top-60}" width="${mw}" height="56" fill="#fff" stroke="${navy}" stroke-width="4"/>`;
+  g+=`<rect x="${sx+sw/2-14}" y="${top-24}" width="28" height="14" rx="3" fill="${navy}"/><circle cx="${sx+sw/2+5}" cy="${top-17}" r="4.5" fill="#fff"/>`;
+  g+=txt(sx+sw/2,top-44,t("el.mr"),{c:navy,fs:10.5});
+  if(d.some(v=>v!==null))g+=txt(sx+sw/2,top-30,d.map(v=>v??"—").join(" × ")+" "+t("mm"),{fs:9.5});
+ }
+ // shaft
+ g+=`<rect x="${sx}" y="${top}" width="${sw}" height="${yBot+pitH-top}" fill="#fff"/>`;
+ g+=`<rect x="${sx}" y="${yBot}" width="${sw}" height="${pitH}" fill="url(#eh)"/>`;
+ g+=`<line x1="${sx-4}" y1="${top}" x2="${sx+sw+4}" y2="${top}" stroke="${navy}" stroke-width="5"/>`;
+ g+=`<line x1="${sx+sw}" y1="${top}" x2="${sx+sw}" y2="${yBot+pitH}" stroke="${navy}" stroke-width="5"/>`;
+ g+=`<line x1="${sx-4}" y1="${yBot+pitH}" x2="${sx+sw+4}" y2="${yBot+pitH}" stroke="${navy}" stroke-width="5"/>`;
+ // left wall with landing door openings
+ const doorH=Math.min(22,gap-8); let y=top;
+ for(let i=n-1;i>=0;i--){const fy=yTop+(n-1-i)*gap; g+=`<line x1="${sx}" y1="${y}" x2="${sx}" y2="${fy-doorH}" stroke="${navy}" stroke-width="5"/>`; y=fy;
+  g+=`<line x1="${sx-3}" y1="${fy-doorH}" x2="${sx-3}" y2="${fy}" stroke="${red}" stroke-width="2.5"/>`;
+  g+=`<line x1="${sx-58}" y1="${fy}" x2="${sx}" y2="${fy}" stroke="${navy}" stroke-width="3"/>`;
+  g+=txt(sx-30,fy-6,t("el.stop",{n:i+1}),{fs:10,c:navy});}
+ g+=`<line x1="${sx}" y1="${yBot}" x2="${sx}" y2="${yBot+pitH}" stroke="${navy}" stroke-width="5"/>`;
+ // car at lowest stop
+ g+=`<rect x="${sx+12}" y="${yBot-doorH-2}" width="${sw-24}" height="${doorH+2}" rx="2" fill="#eaf0fa" stroke="${navy}" stroke-width="1.5"/>`;
+ // dimensions on the right
+ const dx=sx+sw+16, dim=(y1,y2,label,c)=>`<line x1="${dx}" y1="${y1}" x2="${dx}" y2="${y2}" stroke="${c||mut}" stroke-width="1.2"/><line x1="${dx-4}" y1="${y1}" x2="${dx+4}" y2="${y1}" stroke="${c||mut}"/><line x1="${dx-4}" y1="${y2}" x2="${dx+4}" y2="${y2}" stroke="${c||mut}"/>`+txt(dx+8,(y1+y2)/2+4,label,{a:"start",fs:10.5,c:c||mut});
+ g+=dim(top,yTop,t("el.oh")+": "+f(V.overhead),navy);
+ for(let i=0;i<n-1;i++){const y1=yTop+(n-2-i)*gap, y2=y1+gap; g+=dim(y1,y2,f(V.floors[i]));}
+ g+=dim(yBot,yBot+pitH,t("el.pit")+": "+f(V.pit),red);
+ const tr=travel();
+ g+=`<line x1="${sx-62}" y1="${yBot+pitH+14}" x2="${sx+sw+150}" y2="${yBot+pitH+14}" stroke="#c4d0e4" stroke-width="1"/>`;
+ if(tr)g+=txt(165,yBot+pitH+28,t("v.travel").split("(")[0].trim()+": "+tr+" "+t("mm"),{fs:10.5,c:navy});
+ svgEl.setAttribute("viewBox",`0 0 330 ${H}`); svgEl.innerHTML=g;
+}
 function renderFloors(){
  const n=Math.max(0,Math.min(60,(parseInt(S.project.stops)||0)-1)); const box=document.getElementById("floors"); box.replaceChildren();
  S.vertical.floors.length=Math.max(S.vertical.floors.length,n);
@@ -431,7 +482,7 @@ function calcTravel(){
  let txt="";
  if(fl.length){const s=fl.reduce((a,b)=>a+b,0); txt=t("travelSum",{s:Math.round(s*10)/10}); const tr=num(S.vertical.travel); if(tr&&Math.abs(tr-s)>2)txt+=t("travelDiff",{d:Math.round(Math.abs(tr-s)*10)/10});}
  const tot=railHeight(); if(tot)txt+=(txt?" · ":"")+t("railTotal",{t:(tot/100).toFixed(2)});
- const el=document.getElementById("travelCalc"); el.textContent=txt; el.hidden=!txt;
+ const el=document.getElementById("travelCalc"); el.textContent=txt; el.hidden=!txt; drawElev();
 }
 function travel(){const tr=num(S.vertical.travel); if(tr)return tr; const n=Math.max(0,(parseInt(S.project.stops)||0)-1); const fl=S.vertical.floors.slice(0,n).map(num); return fl.length&&fl.every(v=>v!==null)?fl.reduce((a,b)=>a+b,0):null;}
 function railHeight(){const tr=travel(), p=num(S.vertical.pit), o=num(S.vertical.overhead); return tr&&p!==null&&o?tr+p+o:null;}
@@ -573,7 +624,7 @@ document.getElementById("lockForm").addEventListener("submit",async e=>{
  else{err.textContent=t("lockWrong"); inp.select();}
 });
 document.getElementById("lockBtn").addEventListener("click",()=>{try{localStorage.removeItem(LOCK.key)}catch(e){} document.body.classList.add("locked"); scrollTo(0,0);});
-function renderAll(keepScroll){loadInputs();renderFloors();renderMR();renderComps();renderChecks();renderPhotos();drawPlan();renderSaved();status();}
+function renderAll(keepScroll){loadInputs();renderFloors();renderMR();renderComps();renderChecks();renderPhotos();drawPlan();drawElev();renderSaved();status();}
 applyLang(lang); persist();
 if("serviceWorker" in navigator) window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 </script>
