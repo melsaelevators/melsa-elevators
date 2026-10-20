@@ -20,6 +20,7 @@ const PAGE_T=window.PAGE_T||{en:{},ar:{}};
 function t(k,v){let s=(PAGE_T[lang]&&PAGE_T[lang][k])??(T[lang]&&T[lang][k])??PAGE_T.en?.[k]??T.en[k]??k; if(v)for(const x in v)s=s.split("{"+x+"}").join(v[x]); return s;}
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const page=document.body.dataset.page;
+const WA_ICON='<svg viewBox="0 0 24 24" width="1.25em" height="1.25em" style="vertical-align:-.25em;fill:#25d366" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.3z"/></svg>';
 
 /* header & footer */
 const NAV=[["home","./"],["catalog","catalog.html"],["clients","clients.html"],["maint","maintenance.html"],["contact","contact.html"]];
@@ -45,7 +46,7 @@ function contactItems(){
  const tel=n=>"tel:+20"+n.replace(/\D/g,"").replace(/^0/,"");
  if(C.phone)L.push({k:"phone",icon:"☎️",text:C.phone,href:tel(C.phone),ltr:1});
  if(C.mobile)L.push({k:"mobile",icon:"📱",text:C.mobile,href:tel(C.mobile),ltr:1});
- if(C.whatsapp)L.push({k:"whatsapp",icon:"💬",text:C.whatsapp.replace(/^20/,"0"),href:"https://wa.me/"+C.whatsapp,ext:1,ltr:1});
+ if(C.whatsapp)L.push({k:"whatsapp",icon:WA_ICON,text:C.whatsapp.replace(/^20/,"0"),href:"https://wa.me/"+C.whatsapp,ext:1,ltr:1});
  if(C.email)L.push({k:"email",icon:"✉️",text:C.email,href:"mailto:"+C.email,ltr:1});
  const addr=lang==="ar"?(C.address_ar||C.address_en):(C.address_en||C.address_ar); if(addr)L.push({k:"address",icon:"📍",text:addr,href:C.mapsQuery?"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(C.mapsQuery):"",ext:1});
  const hrs=lang==="ar"?(C.hours_ar||C.hours_en):(C.hours_en||C.hours_ar); if(hrs)L.push({k:"hours",icon:"🕘",text:hrs});
