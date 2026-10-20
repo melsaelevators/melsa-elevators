@@ -1,7 +1,7 @@
 // Melsa Elevators — offline support for the installed app.
 // Bump VERSION when you want every installed copy to refresh its cache.
-const VERSION = "melsa-v2";
-const SHELL = ["./", "./index.html", "./survey.html", "./manifest.webmanifest", "./assets/logo.png", "./assets/logo-mark.png", "./icons/icon-192.png"];
+const VERSION = "melsa-v3";
+const SHELL = ["./", "./index.html", "./configurator.html", "./survey.html", "./contact.html", "./maintenance.html", "./catalog.html", "./clients.html", "./projects.html", "./assets/site.css", "./assets/site.js", "./assets/site-data.js", "./assets/products.js", "./manifest.webmanifest", "./assets/logo.png", "./assets/logo-mark.png", "./icons/icon-192.png"];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(VERSION).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting()));

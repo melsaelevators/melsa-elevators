@@ -1,0 +1,78 @@
+/* Melsa Elevators — shared styles for the public pages */
+:root{--navy:#023584;--navy-dark:#01245c;--red:#d8031a;--paper:#f3f6fb;--ink:#0f1f3a;--muted:#5d6a80;--line:#d6deeb;--tint:#eaf0fa;--gold:#c9a35a}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:15.5px/1.6 Inter,Arial,sans-serif}
+[dir=rtl] body,[dir=rtl] button,[dir=rtl] input,[dir=rtl] select,[dir=rtl] textarea{font-family:'Cairo',Tahoma,Arial,sans-serif}
+[dir=rtl] *{letter-spacing:0!important}
+a{color:var(--navy)}
+img{max-width:100%}
+
+/* header */
+.site-header{position:sticky;top:0;z-index:40;background:#fff;box-shadow:0 4px 0 var(--navy),0 8px 0 var(--red);margin-bottom:8px}
+.hwrap{max-width:1200px;margin:auto;padding:10px clamp(16px,3vw,32px);display:flex;align-items:center;gap:16px}
+.logo img{height:56px;width:auto;display:block}
+.nav{display:flex;gap:2px;margin-inline-start:auto;align-items:center}
+.nav a{color:var(--ink);text-decoration:none;font-weight:700;font-size:13.5px;padding:8px 11px;border-radius:999px;white-space:nowrap}
+.nav a:hover{background:var(--tint);color:var(--navy)}
+.nav a.on{color:var(--navy);background:var(--tint)}
+.nav .eng{border:1px solid var(--navy);color:var(--navy);margin-inline-start:6px;font-size:12px}
+.lang-btn{border:0;background:var(--red);color:#fff;border-radius:999px;padding:8px 14px;font:700 13px 'Cairo',Inter,Arial,sans-serif;cursor:pointer;margin-inline-start:6px}
+[dir=rtl] .lang-btn{font-family:Inter,Arial,sans-serif}
+.menu-btn{display:none;border:1px solid var(--line);background:#fff;border-radius:10px;width:42px;height:40px;font-size:20px;cursor:pointer;margin-inline-start:auto;color:var(--navy)}
+@media(max-width:980px){
+ .menu-btn{display:block}
+ .nav{display:none;position:absolute;top:100%;left:0;right:0;background:#fff;flex-direction:column;align-items:stretch;padding:10px 16px 16px;margin:8px 0 0;box-shadow:0 12px 24px #0a173022;border-top:1px solid var(--line)}
+ .nav.open{display:flex}.nav a{padding:12px 14px;font-size:15px}.nav .eng{margin:6px 0 0;text-align:center}
+ .lang-btn{margin-inline-start:0}
+ .logo img{height:46px}
+}
+
+/* layout */
+.wrap{max-width:1200px;margin:auto;padding:0 clamp(16px,3vw,32px)}
+section{padding:46px 0}
+.eyebrow{font-size:11.5px;letter-spacing:.2em;color:var(--red);font-weight:800;text-transform:uppercase}
+h1,h2,h3{color:var(--navy);line-height:1.15;letter-spacing:-.02em}
+h1{font-size:clamp(30px,5vw,52px);margin:10px 0 14px}
+h2{font-size:clamp(24px,3.4vw,36px);margin:8px 0 12px}
+h3{font-size:18px;margin:0 0 6px}
+.lead{color:var(--muted);font-size:clamp(15px,1.6vw,18px);max-width:680px;margin:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;padding:13px 20px;font-weight:700;font-size:14px;cursor:pointer;text-decoration:none;font-family:inherit}
+.btn.red{background:var(--red);color:#fff}.btn.red:hover{background:#b80216}
+.btn.navy{background:var(--navy);color:#fff}.btn.navy:hover{background:var(--navy-dark)}
+.btn.ghost{background:#fff;color:var(--navy);border:1px solid var(--navy)}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.page-head{background:#fff;border-bottom:1px solid var(--line);padding:38px 0 30px}
+.page-head .lead{margin-top:4px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+@media(max-width:900px){.grid3{grid-template-columns:repeat(2,minmax(0,1fr))}.grid4{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:600px){.grid3{grid-template-columns:1fr}.grid4{grid-template-columns:repeat(2,minmax(0,1fr))}section{padding:34px 0}}
+.empty{background:#fff;border:2px dashed #c4d0e4;border-radius:16px;padding:34px 20px;text-align:center;color:var(--muted)}
+.empty strong{display:block;color:var(--navy);font-size:17px;margin-bottom:4px}
+
+/* forms */
+.form{display:grid;gap:12px}
+.form .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:600px){.form .row{grid-template-columns:1fr}}
+.form label{display:block;font-size:12.5px;font-weight:700;color:var(--navy);margin-bottom:5px}
+.form input,.form select,.form textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:11px 12px;font:inherit;font-size:14.5px;background:#fff;color:var(--ink)}
+.form textarea{min-height:120px;resize:vertical}
+.form input:focus,.form select:focus,.form textarea:focus{outline:2px solid #9fb6e0;border-color:var(--navy)}
+.form .note{font-size:12px;color:var(--muted)}
+
+/* footer */
+.site-footer{background:var(--navy);border-top:4px solid var(--red);color:#c7d4ec;margin-top:30px}
+.fwrap{max-width:1200px;margin:auto;padding:30px clamp(16px,3vw,32px);display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:24px;font-size:13.5px}
+.site-footer h4{color:#fff;margin:0 0 10px;font-size:14px}
+.site-footer a{color:#fff;text-decoration:none}.site-footer a:hover{text-decoration:underline}
+.site-footer ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.flogo{background:#fff;border-radius:12px;padding:8px 10px;display:inline-block}.flogo img{height:56px;display:block}
+.fbottom{border-top:1px solid #ffffff22;text-align:center;padding:14px;font-size:12px}
+@media(max-width:760px){.fwrap{grid-template-columns:1fr}}
+
+/* floating WhatsApp */
+.wa-float{position:fixed;bottom:18px;inset-inline-end:18px;z-index:45;width:56px;height:56px;border-radius:50%;background:#25d366;display:grid;place-items:center;box-shadow:0 8px 20px #0003}
+.wa-float svg{width:30px;height:30px;fill:#fff}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:90;background:var(--navy);color:#fff;padding:12px 18px;border-radius:12px;font-size:13.5px;max-width:calc(100% - 32px);box-shadow:0 8px 24px #0a173055;border-bottom:3px solid var(--red)}

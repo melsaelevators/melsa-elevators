@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Maintenance | Melsa Elevators</title>
+<link rel="icon" type="image/png" href="assets/logo-mark.png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#023584">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+.mgrid{display:grid;grid-template-columns:1fr 1.25fr;gap:22px;align-items:start}
+.svc{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.svc .ic{width:40px;height:40px;border-radius:10px;background:var(--tint);display:grid;place-items:center;font-size:19px;flex:0 0 40px}
+.svc h3{font-size:16px;margin:0 0 2px}.svc p{margin:0;color:var(--muted);font-size:13.5px}
+.alert{background:#fdecee;border:1px solid #f5a3ab;color:#9b0213;border-radius:12px;padding:12px 14px;font-weight:700;font-size:14px}
+@media(max-width:860px){.mgrid{grid-template-columns:1fr}}
+</style>
+<script>
+window.PAGE_T={
+ en:{title:"Maintenance | Melsa Elevators",eyebrow:"Maintenance",h1:"Keep your elevator safe and running",lead:"Book a maintenance visit or report a problem. Our team will contact you to arrange the visit.",
+  servTitle:"Maintenance services",m1:"Preventive maintenance contracts",m1t:"Regular visits to inspect, clean, lubricate and adjust your elevator.",
+  m2:"Breakdown repairs",m2t:"Fast response when your elevator stops or behaves abnormally.",m3:"Safety inspections",m3t:"Checks of brakes, ropes, doors, safety gear and emergency systems.",
+  m4:"Spare parts",m4t:"Doors, panels, buttons, controllers and machine parts.",m5:"Modernization",m5t:"Upgrade older elevators for better safety, comfort and efficiency.",
+  formTitle:"Request a maintenance visit",name:"Your name",phone:"Phone number",area:"Address / area",building:"Building type",drive:"Elevator type",brand:"Elevator brand (if known)",
+  issue:"What is the problem?",urgency:"How urgent?",details:"Details",send:"Send request on WhatsApp",
+  trapped:"If someone is trapped inside the elevator, call us right away",trappedNoPhone:"If someone is trapped inside the elevator, do not try to open the doors yourself. Send the request now and also call your building's emergency contact.",
+  "b.Residential":"Residential building","b.Villa":"Villa","b.Hospital":"Hospital","b.Mall":"Mall","b.Office":"Office","b.Hotel":"Hotel","b.Factory":"Factory",
+  "d.Electric":"Electric (traction)","d.Hydraulic":"Hydraulic","d.Unknown":"Not sure",
+  "i.Stopped":"Elevator stopped","i.Trapped":"Person trapped","i.Door":"Door problem","i.Noise":"Noise or vibration","i.Buttons":"Buttons or display","i.Periodic":"Periodic maintenance","i.Other":"Other",
+  "u.Urgent":"Urgent — today","u.Week":"This week","u.Schedule":"Schedule a visit",msgHead:"Maintenance request from the Melsa website"},
+ ar:{title:"الصيانة | ميلسا للمصاعد",eyebrow:"الصيانة",h1:"حافظ على مصعدك آمن وشغال",lead:"احجز زيارة صيانة أو بلّغ عن مشكلة، وفريقنا هيتواصل معاك لتحديد الزيارة.",
+  servTitle:"خدمات الصيانة",m1:"عقود الصيانة الدورية",m1t:"زيارات منتظمة للفحص والتنظيف والتشحيم وضبط المصعد.",
+  m2:"إصلاح الأعطال",m2t:"استجابة سريعة لما المصعد يقف أو يشتغل بشكل غير طبيعي.",m3:"فحوصات الأمان",m3t:"فحص الفرامل والحبال والأبواب وأجهزة الأمان وأنظمة الطوارئ.",
+  m4:"قطع الغيار",m4t:"أبواب ولوحات وأزرار ولوحات كنترول وقطع ماكينات.",m5:"التحديث",m5t:"تطوير المصاعد القديمة لأمان وراحة وكفاءة أعلى.",
+  formTitle:"اطلب زيارة صيانة",name:"الاسم",phone:"رقم التليفون",area:"العنوان / المنطقة",building:"نوع المبنى",drive:"نوع المصعد",brand:"ماركة المصعد (لو معروفة)",
+  issue:"إيه المشكلة؟",urgency:"قد إيه مستعجل؟",details:"تفاصيل",send:"إرسال الطلب على واتساب",
+  trapped:"لو في حد محبوس جوه المصعد، كلمنا فورًا",trappedNoPhone:"لو في حد محبوس جوه المصعد، ماتحاولش تفتح الأبواب بنفسك. ابعت الطلب دلوقتي وكلم مسؤول الطوارئ في المبنى.",
+  "b.Residential":"عمارة سكنية","b.Villa":"فيلا","b.Hospital":"مستشفى","b.Mall":"مول","b.Office":"مبنى إداري","b.Hotel":"فندق","b.Factory":"مصنع",
+  "d.Electric":"كهرباء (جر)","d.Hydraulic":"هيدروليك","d.Unknown":"مش متأكد",
+  "i.Stopped":"المصعد واقف","i.Trapped":"حد محبوس","i.Door":"مشكلة في الباب","i.Noise":"صوت أو اهتزاز","i.Buttons":"الأزرار أو الشاشة","i.Periodic":"صيانة دورية","i.Other":"أخرى",
+  "u.Urgent":"مستعجل — النهارده","u.Week":"خلال الأسبوع","u.Schedule":"تحديد ميعاد زيارة",msgHead:"طلب صيانة من موقع ميلسا"}
+};
+</script>
+</head>
+<body data-page="maint">
+<main>
+ <div class="page-head"><div class="wrap"><div class="eyebrow" data-i18n="eyebrow"></div><h1 data-i18n="h1"></h1><p class="lead" data-i18n="lead"></p></div></div>
+ <section><div class="wrap mgrid">
+  <div style="display:grid;gap:10px">
+   <h2 style="margin:0 0 4px;font-size:22px" data-i18n="servTitle"></h2>
+   <div class="svc"><span class="ic">🗓️</span><div><h3 data-i18n="m1"></h3><p data-i18n="m1t"></p></div></div>
+   <div class="svc"><span class="ic">🚨</span><div><h3 data-i18n="m2"></h3><p data-i18n="m2t"></p></div></div>
+   <div class="svc"><span class="ic">🛡️</span><div><h3 data-i18n="m3"></h3><p data-i18n="m3t"></p></div></div>
+   <div class="svc"><span class="ic">🔩</span><div><h3 data-i18n="m4"></h3><p data-i18n="m4t"></p></div></div>
+   <div class="svc"><span class="ic">⚙️</span><div><h3 data-i18n="m5"></h3><p data-i18n="m5t"></p></div></div>
+  </div>
+  <div class="card">
+   <h2 style="margin-top:0;font-size:22px" data-i18n="formTitle"></h2>
+   <form class="form" id="form">
+    <div class="row"><div><label for="n" data-i18n="name"></label><input id="n" required autocomplete="name"></div><div><label for="ph" data-i18n="phone"></label><input id="ph" type="tel" inputmode="tel" required autocomplete="tel"></div></div>
+    <div><label for="ar" data-i18n="area"></label><input id="ar" autocomplete="street-address"></div>
+    <div class="row">
+     <div><label for="bt" data-i18n="building"></label><select id="bt" data-opts="b"><option value="Residential"></option><option value="Villa"></option><option value="Hospital"></option><option value="Mall"></option><option value="Office"></option><option value="Hotel"></option><option value="Factory"></option></select></div>
+     <div><label for="dr" data-i18n="drive"></label><select id="dr" data-opts="d"><option value="Electric"></option><option value="Hydraulic"></option><option value="Unknown"></option></select></div>
+    </div>
+    <div class="row">
+     <div><label for="is" data-i18n="issue"></label><select id="is" data-opts="i"><option value="Stopped"></option><option value="Trapped"></option><option value="Door"></option><option value="Noise"></option><option value="Buttons"></option><option value="Periodic"></option><option value="Other"></option></select></div>
+     <div><label for="ur" data-i18n="urgency"></label><select id="ur" data-opts="u"><option value="Urgent"></option><option value="Week"></option><option value="Schedule"></option></select></div>
+    </div>
+    <div class="alert" id="alert" hidden></div>
+    <div><label for="br" data-i18n="brand"></label><input id="br"></div>
+    <div><label for="de" data-i18n="details"></label><textarea id="de"></textarea></div>
+    <button class="btn red" type="submit" data-i18n="send"></button>
+   </form>
+  </div>
+ </div></section>
+</main>
+<script src="assets/site-data.js"></script>
+<script src="assets/site.js"></script>
+<script>
+(function(){
+ const {t,esc,site,send,toast}=Melsa, C=site.company||{};
+ const issue=document.getElementById("is"), alertBox=document.getElementById("alert");
+ function upd(){const tr=issue.value==="Trapped"; alertBox.hidden=!tr; if(tr){document.getElementById("ur").value="Urgent";
+  alertBox.innerHTML=C.phone?`${esc(t("trapped"))}: <a href="tel:${esc(C.phone.replace(/[^\d+]/g,""))}">${esc(C.phone)}</a>`:esc(t("trappedNoPhone"));}}
+ issue.addEventListener("change",upd); window.addEventListener("melsa:lang",upd); upd();
+ document.getElementById("form").addEventListener("submit",e=>{
+  e.preventDefault(); const v=id=>document.getElementById(id).value.trim(), o=id=>{const s=document.getElementById(id);return s.options[s.selectedIndex].textContent;};
+  if(!v("n")||!v("ph")){toast(t("required"));return;}
+  const text=[t("msgHead"),"",t("name")+": "+v("n"),t("phone")+": "+v("ph"),v("ar")?t("area")+": "+v("ar"):"",t("building")+": "+o("bt"),t("drive")+": "+o("dr"),
+   v("br")?t("brand")+": "+v("br"):"",t("issue")+": "+o("is"),t("urgency")+": "+o("ur"),v("de")?"\n"+v("de"):""].filter(Boolean).join("\n");
+  send(t("msgHead"),text);
+ });
+})();
+</script>
+</body>
+</html>

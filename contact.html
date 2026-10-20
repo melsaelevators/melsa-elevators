@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Contact us | Melsa Elevators</title>
+<link rel="icon" type="image/png" href="assets/logo-mark.png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#023584">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+.cgrid{display:grid;grid-template-columns:1fr 1.2fr;gap:22px;align-items:start}
+.info{display:grid;gap:10px}
+.item{display:flex;gap:12px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;text-decoration:none;color:var(--ink)}
+.item .ic{width:40px;height:40px;border-radius:10px;background:var(--tint);display:grid;place-items:center;font-size:19px;flex:0 0 40px}
+.item small{display:block;color:var(--muted);font-size:12px}.item b{font-size:15px;word-break:break-word}
+.map{width:100%;height:260px;border:0;border-radius:14px;margin-top:4px}
+@media(max-width:860px){.cgrid{grid-template-columns:1fr}}
+</style>
+<script>
+window.PAGE_T={
+ en:{title:"Contact us | Melsa Elevators",eyebrow:"Contact us",h1:"Let's talk about your elevator",lead:"Send us a message for a quotation, maintenance or any question. We usually reply on WhatsApp.",
+  formTitle:"Send a message",name:"Your name",phone:"Phone number",email:"Email (optional)",subject:"Subject",message:"Message",send:"Send on WhatsApp",
+  "subj.Quote":"Quotation for a new elevator","subj.Maintenance":"Maintenance or repair","subj.Modernization":"Modernizing an old elevator","subj.Other":"Other",
+  msgHead:"New message from the Melsa website",soonTitle:"Contact details coming soon",soonText:"We are adding our phone, WhatsApp and address."},
+ ar:{title:"تواصل معنا | ميلسا للمصاعد",eyebrow:"تواصل معنا",h1:"خلينا نتكلم عن مصعدك",lead:"ابعتلنا رسالة لعرض سعر أو صيانة أو أي استفسار. غالبًا بنرد على واتساب.",
+  formTitle:"ابعت رسالة",name:"الاسم",phone:"رقم التليفون",email:"البريد الإلكتروني (اختياري)",subject:"الموضوع",message:"الرسالة",send:"إرسال على واتساب",
+  "subj.Quote":"عرض سعر لمصعد جديد","subj.Maintenance":"صيانة أو إصلاح","subj.Modernization":"تحديث مصعد قديم","subj.Other":"أخرى",
+  msgHead:"رسالة جديدة من موقع ميلسا",soonTitle:"بيانات التواصل قريبًا",soonText:"بنضيف التليفون والواتساب والعنوان."}
+};
+</script>
+</head>
+<body data-page="contact">
+<main>
+ <div class="page-head"><div class="wrap"><div class="eyebrow" data-i18n="eyebrow"></div><h1 data-i18n="h1"></h1><p class="lead" data-i18n="lead"></p></div></div>
+ <section><div class="wrap cgrid">
+  <div class="info" id="info"></div>
+  <div class="card">
+   <h2 style="margin-top:0;font-size:22px" data-i18n="formTitle"></h2>
+   <form class="form" id="form">
+    <div class="row"><div><label for="n" data-i18n="name"></label><input id="n" required autocomplete="name"></div><div><label for="ph" data-i18n="phone"></label><input id="ph" type="tel" inputmode="tel" required autocomplete="tel"></div></div>
+    <div class="row"><div><label for="em" data-i18n="email"></label><input id="em" type="email" autocomplete="email"></div>
+     <div><label for="sj" data-i18n="subject"></label><select id="sj" data-opts="subj"><option value="Quote"></option><option value="Maintenance"></option><option value="Modernization"></option><option value="Other"></option></select></div></div>
+    <div><label for="msg" data-i18n="message"></label><textarea id="msg"></textarea></div>
+    <button class="btn red" type="submit" data-i18n="send"></button>
+   </form>
+  </div>
+ </div></section>
+</main>
+<script src="assets/site-data.js"></script>
+<script src="assets/site.js"></script>
+<script>
+(function(){
+ const {t,esc,lang,site,send,toast,contactItems}=Melsa, C=site.company||{};
+ const sel=document.getElementById("sj"); const params=new URLSearchParams(location.search); if(params.get("subject"))sel.value=params.get("subject");
+ if(params.get("product")) document.getElementById("msg").value=params.get("product");
+ function render(){
+  const items=contactItems(); const box=document.getElementById("info");
+  if(!items.length){box.innerHTML=`<div class="empty"><strong>${esc(t("soonTitle"))}</strong>${esc(t("soonText"))}</div>`;return;}
+  box.innerHTML=items.map(i=>`<${i.href?"a":"div"} class="item" ${i.href?`href="${esc(i.href)}"`:""} ${i.ext?'target="_blank" rel="noopener"':""}><span class="ic">${i.icon}</span><span><small>${esc(t(i.k)||i.k)}</small><b>${esc(i.text)}</b></span></${i.href?"a":"div"}>`).join("")
+   +(C.mapsQuery?`<iframe class="map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=${encodeURIComponent(C.mapsQuery)}&output=embed" title="Map"></iframe>`:"");
+ }
+ render(); window.addEventListener("melsa:lang",render);
+ document.getElementById("form").addEventListener("submit",e=>{
+  e.preventDefault(); const v=id=>document.getElementById(id).value.trim();
+  if(!v("n")||!v("ph")){toast(t("required"));return;}
+  const text=[t("msgHead"),"",t("name")+": "+v("n"),t("phone")+": "+v("ph"),v("em")?t("email")+": "+v("em"):"",t("subject")+": "+t("subj."+sel.value),"",v("msg")].filter(x=>x!=="").join("\n");
+  send(t("subj."+sel.value),text);
+ });
+})();
+</script>
+</body>
+</html>
