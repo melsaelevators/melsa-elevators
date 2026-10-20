@@ -6,13 +6,13 @@ const T={
   "f.about":"Melsa Elevators designs, supplies, installs and maintains elevators for homes, buildings and businesses.","f.links":"Pages","f.contact":"Contact",
   "f.rights":"© {y} Melsa Elevators. All rights reserved.","f.soon":"Contact details coming soon.","f.engineers":"Engineers' area",
   notSet:"Our contact details are being added. Please check back soon.",sent:"Opening WhatsApp…",required:"Please fill in your name and phone number.",
-  phone:"Phone",whatsapp:"WhatsApp",email:"Email",address:"Address",hours:"Working hours",close:"Close",
+  "ci.phone":"Phone","ci.mobile":"Mobile","ci.whatsapp":"WhatsApp","ci.email":"Email","ci.address":"Address","ci.hours":"Working hours","ci.facebook":"Facebook","ci.instagram":"Instagram",close:"Close",
   "t.Residential":"Residential","t.Villa":"Villa","t.Factory":"Factory","t.Hospital":"Hospital","t.Mall":"Mall","t.Office":"Office","t.Hotel":"Hotel"},
  ar:{"nav.home":"الرئيسية","nav.projects":"مشاريعنا","nav.catalog":"الكتالوج","nav.clients":"عملاؤنا","nav.maint":"الصيانة","nav.contact":"تواصل معنا","nav.eng":"🔒 المهندسين",
   "f.about":"ميلسا للمصاعد تصمم وتورّد وتركّب وتصون المصاعد للمنازل والمباني والشركات.","f.links":"الصفحات","f.contact":"تواصل",
   "f.rights":"© {y} ميلسا للمصاعد. جميع الحقوق محفوظة.","f.soon":"بيانات التواصل قريبًا.","f.engineers":"منطقة المهندسين",
   notSet:"بيانات التواصل قيد الإضافة. برجاء المحاولة لاحقًا.",sent:"جارٍ فتح واتساب…",required:"برجاء كتابة الاسم ورقم التليفون.",
-  phone:"التليفون",whatsapp:"واتساب",email:"البريد الإلكتروني",address:"العنوان",hours:"مواعيد العمل",close:"إغلاق",
+  "ci.phone":"التليفون الأرضي","ci.mobile":"الموبايل","ci.whatsapp":"واتساب","ci.email":"البريد الإلكتروني","ci.address":"العنوان","ci.hours":"مواعيد العمل","ci.facebook":"فيسبوك","ci.instagram":"إنستجرام",close:"إغلاق",
   "t.Residential":"سكني","t.Villa":"فيلا","t.Factory":"مصنع","t.Hospital":"مستشفى","t.Mall":"مول","t.Office":"إداري","t.Hotel":"فندق"}
 };
 let lang="en"; try{const s=localStorage.getItem("melsaLang");if(s==="ar"||s==="en")lang=s;}catch(e){}
@@ -37,14 +37,16 @@ function renderFooter(){
  const items=contactItems();
  footer.innerHTML=`<div class="fwrap"><div><span class="flogo"><img src="assets/logo.png" alt="Melsa Elevators"></span><p style="margin:12px 0 0">${esc(t("f.about"))}</p></div>
  <div><h4>${esc(t("f.links"))}</h4><ul>${NAV.map(([k,h])=>`<li><a href="${h}">${esc(t("nav."+k))}</a></li>`).join("")}<li><a href="configurator.html">${esc(t("f.engineers"))}</a></li></ul></div>
- <div><h4>${esc(t("f.contact"))}</h4>${items.length?`<ul>${items.map(i=>`<li>${i.icon} ${i.href?`<a href="${esc(i.href)}" ${i.ext?'target="_blank" rel="noopener"':""}>${esc(i.text)}</a>`:esc(i.text)}</li>`).join("")}</ul>`:`<p style="margin:0">${esc(t("f.soon"))}</p>`}</div></div>
+ <div><h4>${esc(t("f.contact"))}</h4>${items.length?`<ul>${items.map(i=>`<li>${i.icon} ${i.href?`<a href="${esc(i.href)}" ${i.ext?'target="_blank" rel="noopener"':""}><bdi ${i.ltr?'dir="ltr"':""}>${esc(i.text)}</bdi></a>`:esc(i.text)}</li>`).join("")}</ul>`:`<p style="margin:0">${esc(t("f.soon"))}</p>`}</div></div>
  <div class="fbottom">${esc(t("f.rights",{y:new Date().getFullYear()}))}</div>`;
 }
 function contactItems(){
  const L=[];
- if(C.phone)L.push({k:"phone",icon:"📞",text:C.phone,href:"tel:"+C.phone.replace(/[^\d+]/g,"")});
- if(C.whatsapp)L.push({k:"whatsapp",icon:"💬",text:"+"+C.whatsapp,href:"https://wa.me/"+C.whatsapp,ext:1});
- if(C.email)L.push({k:"email",icon:"✉️",text:C.email,href:"mailto:"+C.email});
+ const tel=n=>"tel:+20"+n.replace(/\D/g,"").replace(/^0/,"");
+ if(C.phone)L.push({k:"phone",icon:"☎️",text:C.phone,href:tel(C.phone),ltr:1});
+ if(C.mobile)L.push({k:"mobile",icon:"📱",text:C.mobile,href:tel(C.mobile),ltr:1});
+ if(C.whatsapp)L.push({k:"whatsapp",icon:"💬",text:C.whatsapp.replace(/^20/,"0"),href:"https://wa.me/"+C.whatsapp,ext:1,ltr:1});
+ if(C.email)L.push({k:"email",icon:"✉️",text:C.email,href:"mailto:"+C.email,ltr:1});
  const addr=lang==="ar"?(C.address_ar||C.address_en):(C.address_en||C.address_ar); if(addr)L.push({k:"address",icon:"📍",text:addr,href:C.mapsQuery?"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(C.mapsQuery):"",ext:1});
  const hrs=lang==="ar"?(C.hours_ar||C.hours_en):(C.hours_en||C.hours_ar); if(hrs)L.push({k:"hours",icon:"🕘",text:hrs});
  if(C.facebook)L.push({k:"facebook",icon:"ⓕ",text:"Facebook",href:C.facebook,ext:1});

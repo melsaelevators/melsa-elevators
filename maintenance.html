@@ -81,7 +81,7 @@ window.PAGE_T={
  const {t,esc,site,send,toast}=Melsa, C=site.company||{};
  const issue=document.getElementById("is"), alertBox=document.getElementById("alert");
  function upd(){const tr=issue.value==="Trapped"; alertBox.hidden=!tr; if(tr){document.getElementById("ur").value="Urgent";
-  alertBox.innerHTML=C.phone?`${esc(t("trapped"))}: <a href="tel:${esc(C.phone.replace(/[^\d+]/g,""))}">${esc(C.phone)}</a>`:esc(t("trappedNoPhone"));}}
+  const n=C.mobile||C.phone; alertBox.innerHTML=n?`${esc(t("trapped"))}: <a href="tel:+20${esc(n.replace(/\D/g,"").replace(/^0/,""))}" style="color:inherit"><bdi dir="ltr">${esc(n)}</bdi></a>`:esc(t("trappedNoPhone"));}}
  issue.addEventListener("change",upd); window.addEventListener("melsa:lang",upd); upd();
  document.getElementById("form").addEventListener("submit",e=>{
   e.preventDefault(); const v=id=>document.getElementById(id).value.trim(), o=id=>{const s=document.getElementById(id);return s.options[s.selectedIndex].textContent;};
