@@ -637,10 +637,12 @@ const buttons=[];
 const hallBase=box(0.2,0.62,0.03,mat('#b8c0c7',0.72,0.22),width/2-0.2,1.35,depth/2+0.03);
 const hallGlass=box(0.15,0.2,0.01,mat('#101114',0.35,0.2),width/2-0.2,1.5,depth/2+0.05);
 const hallPlate=box(0.14,0.3,0.008,mat('#141519',0.4,0.25),width/2-0.2,1.23,depth/2+0.048);
+scene.attach(hallBase); scene.attach(hallGlass); scene.attach(hallPlate);
 const buttonGroup=new THREE.Group(); cabin.add(buttonGroup);
+const hallBtnGroup=new THREE.Group(); scene.add(hallBtnGroup);
 const btnMat=mat('#cdd1d5',0.85,0.28), btnGap=mat('#6d6f73',0.2,0.6), btnMark=mat('#7a7c80',0.2,0.6);
-function addButton(x,y,z,scale=1,shape='round'){
- const g=new THREE.Group(); g.position.set(x,y,z); g.scale.setScalar(scale); buttonGroup.add(g);
+function addButton(x,y,z,scale=1,shape='round',parent=buttonGroup){
+ const g=new THREE.Group(); g.position.set(x,y,z); g.scale.setScalar(scale); parent.add(g);
  if(shape==='square'){
   const sq=(w,d,m,zz)=>{const c=new THREE.Mesh(new THREE.BoxGeometry(w,w,d),m);c.position.z=zz;g.add(c);};
   sq(0.064,0.006,btnMat,0.003); sq(0.054,0.008,btnGap,0.005); sq(0.048,0.012,btnMat,0.007);
@@ -651,12 +653,12 @@ function addButton(x,y,z,scale=1,shape='round'){
  const mark=new THREE.Mesh(new THREE.BoxGeometry(0.006,0.018,0.002),btnMark); mark.position.z=0.0135; g.add(mark);
 }
 function rebuildButtons(info){
- while(buttonGroup.children.length){const g=buttonGroup.children.pop();g.traverse(o=>{if(o.geometry)o.geometry.dispose()});}
+ for(const grp of [buttonGroup,hallBtnGroup]) while(grp.children.length){const g=grp.children.pop();g.traverse(o=>{if(o.geometry)o.geometry.dispose()});}
  btnMat.color.set(info?info.color:'#cdd1d5'); btnGap.color.set(info?info.ring:'#6d6f73'); btnMark.color.set(info&&info.shape==='square'?'#f4f6f8':'#7a7c80');
  const sh=info?info.shape:'round';
  for(let i=0;i<5;i++)addButton(width/2-0.22,2.12-i*0.14,-depth/2+0.183,1.1,sh);
- addButton(width/2-0.2,1.3,depth/2+0.052,1.6,sh);
- addButton(width/2-0.2,1.16,depth/2+0.052,1.6,sh);
+ addButton(width/2-0.2,1.3,depth/2+0.052,1.6,sh,hallBtnGroup);
+ addButton(width/2-0.2,1.16,depth/2+0.052,1.6,sh,hallBtnGroup);
 }
 const frontFrame=[];
 frontFrame.push(box(0.08,height,0.09,mats.trim,-width/2+0.04,height/2,depth/2-0.04));
@@ -746,7 +748,7 @@ function rebuildEnv(s){
  const B=BUILD[s.building]||BUILD.Residential, out=s.location==='Outside';
  scene.background.set(out?SKY:INDOOR); scene.fog.color.set(out?SKY:INDOOR);
  lobby.material.color.set(out?'#d3cfc6':B.floor);
- scene.fog.near=out?22:12; scene.fog.far=out?70:30;
+ scene.fog.near=out?45:12; scene.fog.far=out?140:30;
  frontLimit=1.45; maxOut=out?18:10;
  if(!window.melsaInsideMode&&!window.melsaShaftMode){controls.minAzimuthAngle=-frontLimit;controls.maxAzimuthAngle=frontLimit;controls.maxDistance=maxOut;}
  const z=-2.7, W=16, H=10;
@@ -899,8 +901,107 @@ function machineModel(type,parent,x,y,z,rotY=0){
  }
  return g;
 }
+
+/* ---------- Outside: transparent glass tower with a moving car ---------- */
+const lift={tower:false,ropes:[],y:0,floor:0,target:0,dir:1,wait:0,from:0,p:1};
+function dynRod(r,m,a,b){ // rope/plunger that follows moving points
+ const c=new THREE.Mesh(new THREE.CylinderGeometry(r,r,1,8),m); shaftGroup.add(c);
+ const R={mesh:c,a,b}; lift.ropes.push(R); setRod(R); return R;
+}
+function setRod(R){const A=R.a(),B=R.b(),d=new THREE.Vector3().subVectors(B,A),len=Math.max(0.001,d.length());
+ R.mesh.position.copy(A).addScaledVector(d,0.5); R.mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),d.normalize()); R.mesh.scale.set(1,len,1);}
+function buildTower(s){
+ const hyd=s.drive==='Hydraulic', mrl=!hyd&&s.machineRoom==='MRL', spec=BLD[s.building]||BLD.Residential;
+ let stops=Math.max(2,Math.min(5,spec.floors)); if(hyd)stops=Math.min(stops,3);
+ const fh=4.0, travel=(stops-1)*fh, pit=-1.1, Ht=travel+height+(hyd?0.9:1.6);
+ const X=1.55, Zb=-1.42, Zf=depth/2+0.12, cz=(Zf+Zb)/2, dz=Zf-Zb, g=shaftGroup;
+ Object.assign(lift,{tower:true,travel,fh,stops,towerH:Ht,y:0,floor:0,target:0,dir:1,wait:1.2,from:0,p:1});
+ const glass=own(new THREE.MeshPhysicalMaterial({color:'#cfe8f5',transparent:true,opacity:0.17,roughness:0.05,metalness:0.1,depthWrite:false,side:THREE.DoubleSide}));
+ const steel=own(mat('#3d454f',0.7,0.35)), rail=own(mat('#8c949c',0.7,0.35)), slab=own(mat('#c9c5bd',0.05,0.85)), trim=own(mat('#9aa3ab',0.7,0.3));
+ // frame: corner posts and a ring beam at every floor + the roof
+ for(const x of [-X,X]) for(const z of [Zb,Zf]) box(0.14,Ht-pit,0.14,steel,x,(Ht+pit)/2,z,g);
+ const rings=[]; for(let f=0;f<stops;f++)rings.push(f*fh); rings.push(Ht);
+ for(const y of rings){ box(2*X+0.14,0.12,0.12,steel,0,y,Zb,g); box(2*X+0.14,0.12,0.12,steel,0,y,Zf,g); box(0.12,0.12,dz,steel,-X,y,cz,g); box(0.12,0.12,dz,steel,X,y,cz,g); }
+ box(2*X+0.4,0.16,dz+0.4,steel,0,Ht+0.08,cz,g);                                    // roof cap
+ // glass on all sides (front leaves an opening for each landing door)
+ box(0.02,Ht-pit,dz,glass,-X,(Ht+pit)/2,cz,g); box(0.02,Ht-pit,dz,glass,X,(Ht+pit)/2,cz,g); box(2*X,Ht-pit,0.02,glass,0,(Ht+pit)/2,Zb,g);
+ const dw=width*0.72, sideW=X-dw/2;
+ for(const sx of [-1,1]) box(sideW,Ht-pit,0.02,glass,sx*(dw/2+sideW/2),(Ht+pit)/2,Zf,g);
+ for(let f=0;f<stops;f++){ const top=f===stops-1?Ht:(f+1)*fh, y0=f*fh+3.1; if(top>y0) box(dw,top-y0,0.02,glass,0,(top+y0)/2,Zf,g);
+  box(0.08,3.05,0.08,trim,-dw/2-0.04,f*fh+1.52,Zf+0.03,g); box(0.08,3.05,0.08,trim,dw/2+0.04,f*fh+1.52,Zf+0.03,g); box(dw+0.16,0.1,0.08,trim,0,f*fh+3.08,Zf+0.03,g);
+  if(f>0){ // landing platform + bridge back to the building, with railings
+   const lw=2*X+1.3; box(lw,0.2,1.5,slab,0,f*fh-0.1,Zf+0.75,g); box(lw,1.0,0.04,glass,0,f*fh+0.5,Zf+1.5,g); box(lw,0.05,0.06,steel,0,f*fh+1.0,Zf+1.5,g);
+   const bl=(Zf+1.5)-(-2.7), bx=X+0.65+0.6; box(1.2,0.2,bl,slab,bx,f*fh-0.1,(Zf+1.5-2.7)/2,g);
+   box(0.04,1.0,bl,glass,bx+0.6,f*fh+0.5,(Zf+1.5-2.7)/2,g); box(0.06,0.05,bl,steel,bx+0.6,f*fh+1.0,(Zf+1.5-2.7)/2,g);
+  }
+ }
+ box(2*X,0.12,dz,own(mat('#a6a39d',0.05,0.9)),0,pit-0.06,cz,g);                       // pit floor
+ for(const x of [-1.32,1.32]) box(0.07,Ht-pit-0.2,0.1,rail,x,(Ht+pit-0.2)/2,0,g);   // car guide rails
+ const cross=box(2.1,0.14,0.18,steel,0,height+0.07,0,cabin); cross.userData.towerOnly=true; g.userData.cross=cross;
+ const carTop=()=>new THREE.Vector3(0,height+0.14+lift.y,0);
+ if(hyd){
+  const jx=1.38, jz=-0.55;
+  rod(new THREE.Vector3(jx,pit,jz),new THREE.Vector3(jx,2.2,jz),0.12,own(mat('#2c3e66',0.5,0.4)),g);
+  dynRod(0.075,own(mat('#d9dee3',0.9,0.15)),()=>new THREE.Vector3(jx,2.2,jz),()=>new THREE.Vector3(jx,height+0.1+lift.y,jz));
+  const brk=box(0.36,0.14,0.26,steel,jx-0.12,height+0.12,jz,cabin); brk.userData.towerOnly=true;
+  const u=new THREE.Group(); u.position.copy(s.hydUnit==='Pit'?new THREE.Vector3(0.55,pit+0.05,0.5):new THREE.Vector3(X+1.6,0.02,-0.4)); g.add(u);
+  box(0.85,0.6,0.5,own(mat('#1f3f7a',0.4,0.45)),0,0.3,0,u); const m=new THREE.Mesh(new THREE.CylinderGeometry(0.16,0.16,0.4,24),own(mat('#7d848c',0.5,0.5))); m.position.set(0.15,0.8,0); u.add(m);
+  box(0.3,0.5,0.2,own(mat('#c9ced4',0.3,0.5)),-0.35,0.85,0,u);
+  const pipe=own(mat('#2b2b2b',0.4,0.5)); const py=s.hydUnit==='Pit'?pit+0.15:0.15;
+  rod(new THREE.Vector3(u.position.x+(s.hydUnit==='Pit'?0.4:-0.4),py,u.position.z),new THREE.Vector3(jx,py,u.position.z),0.025,pipe,g);
+  rod(new THREE.Vector3(jx,py,u.position.z),new THREE.Vector3(jx,py,jz),0.025,pipe,g);
+  if(s.hydUnit!=='Pit'){ const wm=own(new THREE.MeshStandardMaterial({color:'#cdc8bf',transparent:true,opacity:0.32,depthWrite:false,side:THREE.DoubleSide}));
+   box(2.2,2.6,2.0,wm,X+1.6,1.3,-0.4,g); }
+ } else {
+  const ropeM=own(mat('#2e2e2e',0.6,0.5)), cwM=own(mat('#4a5058',0.5,0.5));
+  const cwX=0.55, cwZ=-1.2, cwTop=travel+height*0.6;
+  const cw=box(0.6,1.2,0.2,cwM,cwX,cwTop,cwZ,g); lift.cw=cw; lift.cwTop=cwTop;
+  for(const x of [cwX-0.38,cwX+0.38]) box(0.04,Ht-pit-0.2,0.06,rail,x,(Ht+pit-0.2)/2,cwZ,g);
+  const cwHook=()=>new THREE.Vector3(cwX,cw.position.y+0.6,cwZ);
+  let mx,my,mz;
+  if(mrl){ // machine inside the tower, at the top beside the car (behind it, not above it)
+   mx=-0.45; my=Ht-1.15; mz=-1.15;
+   machineModel(s.machine==='Geared'?'Geared':'Gearless',g,mx,my,mz);
+   box(1.6,0.1,0.32,steel,mx,my-0.06,mz,g);
+  } else { // machine room attached to the side of the tower at the top
+   const rx=X+1.25, rw=2.5, ry=Ht-2.5;
+   box(rw,0.18,dz,slab,rx,ry,cz,g);
+   const wm=own(new THREE.MeshStandardMaterial({color:'#d4cfc6',transparent:true,opacity:0.3,depthWrite:false,side:THREE.DoubleSide}));
+   box(rw,2.5,0.03,wm,rx,ry+1.25,Zb,g); box(rw,2.5,0.03,wm,rx,ry+1.25,Zf,g); box(0.03,2.5,dz,wm,rx+rw/2,ry+1.25,cz,g); box(rw,0.04,dz,wm,rx,ry+2.5,cz,g);
+   mx=rx-0.2; my=ry+0.09; mz=-0.3;
+   machineModel(s.machine==='Geared'?'Geared':'Gearless',g,mx,my,mz);
+   box(0.45,1.3,0.3,own(mat('#c9ced4',0.6,0.35)),rx+0.8,ry+0.74,Zf-0.3,g);       // controller
+  }
+  const sheave=new THREE.Vector3(mx+(s.machine==='Geared'?0.42:0.16),my+(mrl?0.4:0.4),mz);
+  // diverter sheaves at the tower top, above the car and above the counterweight
+  const div1=new THREE.Vector3(0,Ht-0.3,0), div2=new THREE.Vector3(cwX,Ht-0.3,cwZ);
+  for(const v of [div1,div2]){const c=new THREE.Mesh(new THREE.CylinderGeometry(0.2,0.2,0.1,20),own(mat('#b5bcc4',0.8,0.3)));c.rotation.z=Math.PI/2;c.position.copy(v);g.add(c);}
+  for(const o of [-0.05,0.05]){
+   dynRod(0.012,ropeM,()=>carTop().add(new THREE.Vector3(o,0,0)),()=>div1.clone().add(new THREE.Vector3(o,-0.2,0)));
+   dynRod(0.012,ropeM,()=>div1.clone().add(new THREE.Vector3(o,0.15,0)),()=>sheave.clone().add(new THREE.Vector3(0,0,o)));
+   dynRod(0.012,ropeM,()=>sheave.clone().add(new THREE.Vector3(0,0.1,o)),()=>div2.clone().add(new THREE.Vector3(o,0.15,0)));
+   dynRod(0.012,ropeM,()=>div2.clone().add(new THREE.Vector3(o,-0.2,0)),()=>cwHook().add(new THREE.Vector3(o,0,0)));
+  }
+ }
+}
+function tickLift(dt){
+ if(!lift.tower)return;
+ if(shaftView){
+  if(lift.p<1){ const dist=Math.abs(lift.target-lift.from)*lift.fh; lift.p=Math.min(1,lift.p+dt*1.4/Math.max(dist,0.1));
+   const e=lift.p<0.5?2*lift.p*lift.p:1-Math.pow(-2*lift.p+2,2)/2; lift.y=(lift.from+(lift.target-lift.from)*e)*lift.fh;
+   if(lift.p>=1){lift.floor=lift.target;lift.wait=1.4;} }
+  else if((lift.wait-=dt)<=0){ let n=lift.floor+lift.dir; if(n>=lift.stops||n<0){lift.dir*=-1;n=lift.floor+lift.dir;} lift.from=lift.floor; lift.target=n; lift.p=0; }
+ } else if(lift.y>0){ lift.y=Math.max(0,lift.y-dt*6); lift.floor=lift.target=0; lift.p=1; }
+ cabin.position.y=lift.y;
+ for(const c of cabin.children) if(c.userData.towerOnly)c.visible=shaftView;
+ if(lift.cw)lift.cw.position.y=lift.cwTop-lift.y;
+ for(const R of lift.ropes)setRod(R);
+}
 function rebuildShaft(s){
- const key=[s.drive,s.machineRoom,s.machine,s.hydUnit,s.location].join('|'); if(key===lastShaftKey)return; lastShaftKey=key; emptyGroup(shaftGroup);
+ const key=[s.drive,s.machineRoom,s.machine,s.hydUnit,s.location,s.building].join('|'); if(key===lastShaftKey)return; lastShaftKey=key; emptyGroup(shaftGroup);
+ lift.tower=false; lift.ropes=[]; lift.cw=null; lift.y=0; cabin.position.y=0;
+ cabin.children.filter(c=>c.userData.towerOnly).forEach(c=>{cabin.remove(c);c.geometry.dispose();});
+ if(s.location==='Outside'){buildTower(s);return;}
  const hyd=s.drive==='Hydraulic', mrl=!hyd&&s.machineRoom==='MRL';
  const X=1.48, Zb=-1.38, Zf=depth/2+0.09, pit=-1.1, Ht=hyd?4.6:mrl?6.1:5.6;
  const glass=own(new THREE.MeshPhysicalMaterial({color:s.location==='Outside'?'#bfe0f0':'#d7dde3',transparent:true,opacity:s.location==='Outside'?0.2:0.28,roughness:0.08,metalness:0,depthWrite:false,side:THREE.DoubleSide}));
@@ -1016,7 +1117,8 @@ function flyTo(points,done){ // points: [{pos,target}], each step ~0.9s
 }
 function goInside(){
  window.melsaInsideMode=true; controls.minAzimuthAngle=-Infinity; controls.maxAzimuthAngle=Infinity;
- if(shaftView){shaftView=false;shaftGroup.visible=false;lobby.material.opacity=1;lobby.material.transparent=false;}
+ if(shaftView){shaftView=false;shaftGroup.visible=false;lobby.material.opacity=1;lobby.material.transparent=false;window.melsaShaftMode=false;}
+ lift.y=0; cabin.position.y=0; for(const R of lift.ropes)setRod(R);
  setDoor(true); OUTSIDE.pos.copy(camera.position); OUTSIDE.target.copy(controls.target);
  controls.minDistance=0; controls.maxDistance=100;
  flyTo([{pos:new THREE.Vector3(0,1.6,3.4),target:new THREE.Vector3(0,1.55,0)},{pos:new THREE.Vector3(0,1.6,0.5),target:new THREE.Vector3(0,1.56,0.42)}],()=>{
@@ -1047,7 +1149,10 @@ shaftBtn.addEventListener('click',()=>{
   window.melsaShaftMode=true;
   OUTSIDE.pos.copy(camera.position); OUTSIDE.target.copy(controls.target);
   shaftGroup.visible=true; lobby.material.transparent=true; lobby.material.opacity=0.3; lobby.material.depthWrite=false;
-  flyTo([{pos:SHAFT_CAM.pos.clone(),target:SHAFT_CAM.target.clone()}],()=>{controls.minDistance=5;controls.maxDistance=22;});
+  if(lift.tower){ setDoor(false); const H=lift.towerH;
+   const tgt=new THREE.Vector3(0.6,H*0.5,-0.4), dist=H*1.75+7, dir=new THREE.Vector3(0.55,0.22,0.8).normalize();
+   flyTo([{pos:tgt.clone().addScaledVector(dir,dist),target:tgt}],()=>{controls.minDistance=5;controls.maxDistance=Math.max(45,dist+10);});
+  } else flyTo([{pos:SHAFT_CAM.pos.clone(),target:SHAFT_CAM.target.clone()}],()=>{controls.minDistance=5;controls.maxDistance=22;});
  } else {
   flyTo([{pos:OUTSIDE.pos.clone(),target:OUTSIDE.target.clone()}],()=>{
    shaftGroup.visible=false; lobby.material.opacity=1; lobby.material.transparent=false; lobby.material.depthWrite=true;
@@ -1060,6 +1165,7 @@ function animate(){
  requestAnimationFrame(animate);
  const dt=Math.min(clock.getDelta(),0.05);
  if(walkers.length)tickOutdoor(dt);
+ tickLift(dt);
  if(doorT!==doorTarget){doorT+=Math.sign(doorTarget-doorT)*dt/0.9; doorT=Math.max(0,Math.min(1,doorT)); if(Math.abs(doorT-doorTarget)<0.001)doorT=doorTarget; applyDoor();}
  if(camPath){
   const p=camPath, to=p.points[p.i]; p.t=Math.min(1,p.t+dt/0.9); const e=p.t*p.t*(3-2*p.t);
