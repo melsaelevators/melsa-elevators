@@ -1,4 +1,4 @@
-/* Melsa Elevators — company details, clients and projects shown on the public pages.
+/* Melsa Elevators — company details and clients shown on the public pages.
    Fill these in and the pages update automatically. Leave a field empty ("") to hide it. */
 window.MELSA_SITE = {
   company: {
@@ -15,9 +15,6 @@ window.MELSA_SITE = {
   },
 
   /* Clients: { name_en, name_ar, logo: "assets/clients/xxx.png" (optional) } */
-  clients: [],
+  clients: []
 
-  /* Projects: { title_en, title_ar, place_en, place_ar, type: "Residential|Villa|Hospital|Mall|Office|Hotel|Factory",
-                 year: "2025", photos: ["assets/projects/xxx.jpg", ...], text_en, text_ar } */
-  projects: []
 };

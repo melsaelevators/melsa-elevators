@@ -83,10 +83,6 @@ window.PAGE_T={
   <div class="grid4" id="prods"></div>
  </div></section>
 
- <section id="projSec" hidden><div class="wrap">
-  <div class="secthead"><div><div class="eyebrow" data-i18n="projEyebrow"></div><h2 data-i18n="projTitle"></h2></div><a href="projects.html" data-i18n="projAll" style="font-weight:700"></a></div>
-  <div class="grid3" id="projs"></div>
- </div></section>
 
  <section><div class="wrap"><div class="cta"><div><h2 data-i18n="ctaTitle"></h2><p data-i18n="ctaText"></p></div><a class="btn red" href="contact.html" data-i18n="ctaBtn"></a></div></div></section>
 </main>
@@ -104,8 +100,6 @@ window.PAGE_T={
   document.getElementById("types").innerHTML=["Residential","Villa","Hospital","Mall","Office","Hotel","Factory"].map(k=>`<span>${esc(t("b."+k))}</span>`).join("");
   const show=["semi_automatic_doors_03","automatic_doors_04","control_panels_02","flooring_samples_10","semi_automatic_doors_06","automatic_doors_07","control_panels_05","panel_buttons_04"];
   document.getElementById("prods").innerHTML=show.map(id=>{const p=byId[id];return `<a class="prod" href="catalog.html"><img src="assets/thumbs/${p.id}.jpg" alt="" loading="lazy"><span>${esc(L==="ar"?p.ar:p.label)}</span></a>`}).join("");
-  const pr=(site.projects||[]).slice(0,3); document.getElementById("projSec").hidden=!pr.length;
-  document.getElementById("projs").innerHTML=pr.map(p=>`<a class="prod" href="projects.html"><img src="${esc(p.photos?.[0]||"")}" alt="" loading="lazy" style="aspect-ratio:4/3;object-fit:cover"><span>${esc(L==="ar"?(p.title_ar||p.title_en):(p.title_en||p.title_ar))}</span></a>`).join("");
  }
  render(); window.addEventListener("melsa:lang",render);
 })();

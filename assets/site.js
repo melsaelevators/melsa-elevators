@@ -22,7 +22,7 @@ const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&
 const page=document.body.dataset.page;
 
 /* header & footer */
-const NAV=[["home","./"],["projects","projects.html"],["catalog","catalog.html"],["clients","clients.html"],["maint","maintenance.html"],["contact","contact.html"]];
+const NAV=[["home","./"],["catalog","catalog.html"],["clients","clients.html"],["maint","maintenance.html"],["contact","contact.html"]];
 const header=document.createElement("header"); header.className="site-header";
 header.innerHTML=`<div class="hwrap"><a class="logo" href="./"><img src="assets/logo.png" alt="Melsa Elevators" width="400" height="308"></a>
  <button class="menu-btn" type="button" aria-label="Menu" aria-expanded="false">☰</button>
