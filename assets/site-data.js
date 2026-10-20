@@ -8,7 +8,7 @@ window.MELSA_SITE = {
     email: "Milsalift@hotmail.com",
     address_en: "2 Ayoub Buildings, Hassan Aflaton St.",
     address_ar: "٢ عمارات أيوب، شارع حسن أفلاطون",
-    mapsQuery: "Hassan Aflaton Street, Nasr City, Cairo, Egypt", // what to search on Google Maps
+    mapsQuery: "30.0804633,31.3453222", // exact location of the office (from the Google Maps pin) // what to search on Google Maps
     hours_en: "",         // e.g. "Sat–Thu, 9:00–17:00"
     hours_ar: "",
     facebook: "",         // full link
