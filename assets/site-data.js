@@ -29,7 +29,19 @@ window.MELSA_SITE = {
     { name_en: "United Glass Company", name_ar: "الشركة المتحدة للزجاج", logo: "assets/clients/united-glass.png" },
     { name_en: "PIL", name_ar: "PIL", logo: "assets/clients/pil.png" },
     { name_en: "The GEEK Campus", name_ar: "ذا جيك كامبس", logo: "assets/clients/geek-campus.png" },
-    { name_en: "Al Seddik Community Development Association", name_ar: "جمعية الصديق لتنمية المجتمع", logo: "assets/clients/al-seddik.png" }
+    { name_en: "Al Seddik Community Development Association", name_ar: "جمعية الصديق لتنمية المجتمع", logo: "assets/clients/al-seddik.png" },
+    { name_en: "Italian Hospital Umberto I, Cairo", name_ar: "المستشفى الإيطالي أومبرتو الأول بالقاهرة", logo: "assets/clients/italian-hospital.png" },
+    { name_en: "Ain Shams University", name_ar: "جامعة عين شمس", logo: "assets/clients/ain-shams-university.png" },
+    { name_en: "Al-Azhar University", name_ar: "جامعة الأزهر", logo: "assets/clients/al-azhar-university.png" },
+    { name_en: "Canadian International College (CIC)", name_ar: "الكلية الكندية الدولية", logo: "assets/clients/cic.png" },
+    { name_en: "The Arab Contractors", name_ar: "المقاولون العرب", logo: "assets/clients/arab-contractors.png" },
+    { name_en: "Consolidated Contractors Company (CCC)", name_ar: "شركة اتحاد المقاولين (CCC)", logo: "assets/clients/ccc.png" },
+    { name_en: "ACROW", name_ar: "أكرو", logo: "assets/clients/acrow.png" },
+    { name_en: "ABB", name_ar: "ABB", logo: "assets/clients/abb.png" },
+    { name_en: "Ahmed El Sallab", name_ar: "أحمد السلاب", logo: "assets/clients/ahmed-el-sallab.png" },
+    { name_en: "Farm Cheese", name_ar: "فارم تشيز", logo: "assets/clients/farm-cheese.png" },
+    { name_en: "Syndicate of Applied Professions", name_ar: "نقابة التطبيقيين", logo: "assets/clients/applied-professions-syndicate.png" },
+    { name_en: "Syndicate of Commercial Professions", name_ar: "نقابة التجاريين", logo: "assets/clients/commercial-professions-syndicate.png" }
   ]
 
 };
