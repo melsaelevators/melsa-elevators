@@ -167,13 +167,14 @@ body.locked #lock{display:flex;min-height:100vh;flex-direction:column}
    <div class="f wide"><label data-i18n="p.address">Address</label><input data-bind="project.address"></div>
    <div class="f"><label data-i18n="p.gps">GPS location</label><div class="inline"><input data-bind="project.gps" placeholder="lat, lng"><button type="button" class="btn ghost small no-print" id="gpsBtn">📍</button></div></div>
    <div class="f"><label data-i18n="p.date">Survey date</label><input data-bind="project.date" type="date"></div>
-   <div class="f"><label data-i18n="p.engineer">Engineer</label><input data-bind="project.engineer"></div>
+   <div class="f"><label data-i18n="p.engineer">Surveyed by</label><input data-bind="project.engineer"></div>
    <div class="f"><label data-i18n="p.building">Building type</label><select data-bind="project.building" data-opts="building"></select></div>
    <div class="f"><label data-i18n="p.use">Elevator type</label><select data-bind="project.use" data-opts="use"></select></div>
    <div class="f"><label data-i18n="p.drive">Drive system</label><select data-bind="project.drive" data-opts="drive"></select></div>
    <div class="f"><label data-i18n="p.machine">Machine / power unit location</label><select data-bind="project.machineRoom" data-opts="machineRoom"></select></div>
-   <div class="f"><label data-i18n="p.stops">Number of stops (floors served)</label><input data-bind="project.stops" type="number" inputmode="numeric" min="2"></div>
-   <div class="f"><label data-i18n="p.entrances">Car entrances</label><select data-bind="project.entrances" data-opts="entrances"></select></div>
+   <div class="f"><label data-i18n="p.floorsN">Number of floors</label><input data-bind="project.floorsN" type="number" inputmode="numeric" min="1"></div>
+   <div class="f"><label data-i18n="p.stops">Number of stops</label><input data-bind="project.stops" type="number" inputmode="numeric" min="2"></div>
+   <div class="f"><label data-i18n="p.entrances">Cabin</label><select data-bind="project.entrances" data-opts="entrances"></select></div>
    <div class="f"><label><span data-i18n="p.capacity">Capacity</span> <span class="unit">(kg)</span></label><input data-bind="project.capacity" type="number" inputmode="numeric"></div>
    <div class="f"><label><span data-i18n="p.speed">Speed</span> <span class="unit">(m/s)</span></label><input data-bind="project.speed" type="number" inputmode="decimal" step="0.1"></div>
   </div>
@@ -275,8 +276,8 @@ const T={
   s3:"Heights & levels",s3sub:"All heights in centimetres.",s4:"Components & quantities",s4sub:"Size / specification and the quantity needed for each part.",
   s5:"Site checks",s5sub:"Tick what you confirmed on site.",s6:"Notes & photos",notes:"Notes",savedTitle:"Saved surveys",savedSub:"Stored on this device only. Print or share a survey to keep a copy.",
   foot1:"MELSA ELEVATORS · SITE SURVEY",
-  "p.name":"Project name","p.client":"Client name","p.phone":"Client phone","p.address":"Address","p.gps":"GPS location","p.date":"Survey date","p.engineer":"Engineer",
-  "p.building":"Building type","p.use":"Elevator type","p.drive":"Drive system","p.machine":"Machine / power unit location","p.stops":"Number of stops (floors served)","p.entrances":"Car entrances","p.capacity":"Capacity","p.speed":"Speed",
+  "p.name":"Project name","p.client":"Client name","p.phone":"Client phone","p.address":"Address","p.gps":"GPS location","p.date":"Survey date","p.engineer":"Surveyed by",
+  "p.building":"Building type","p.use":"Elevator type","p.drive":"Drive system","p.machine":"Machine / power unit location","p.floorsN":"Number of floors","p.stops":"Number of stops","p.entrances":"Cabin","p.capacity":"Capacity","p.speed":"Speed",
   "w.back":"Back wall","w.front":"Front wall (landing)","w.left":"Left wall","w.right":"Right wall",planNote:"Left and right are as seen from the landing, facing the shaft.",
   "sh.doorW":"Door opening width","sh.doorH":"Door opening height","sh.doorLeft":"Door distance from left wall","sh.wall":"Wall thickness","sh.diag1":"Diagonal 1","sh.diag2":"Diagonal 2","sh.carW":"Car width","sh.carD":"Car depth","sh.carH":"Car height",
   "v.pit":"Pit depth","v.overhead":"Overhead (top floor to shaft ceiling)","v.travel":"Travel (lowest to top floor)","v.floors":"Floor-to-floor heights","v.mr":"Machine room","v.mrW":"Width","v.mrD":"Depth","v.mrH":"Height",
@@ -290,7 +291,7 @@ const T={
   "o.use.Passenger":"Passenger","o.use.Home":"Home lift (villa)","o.use.Goods":"Goods / freight","o.use.Hospital":"Hospital bed","o.use.Panoramic":"Panoramic","o.use.Car":"Car lift",
   "o.drive.Electric":"Electric (traction)","o.drive.Hydraulic":"Hydraulic",
   "o.machineRoom.Top":"Machine room on top","o.machineRoom.MRL":"In the shaft (MRL)","o.machineRoom.Beside":"Machine room beside the shaft","o.machineRoom.Pit":"Inside the shaft (pit)",
-  "o.entrances.Single":"Single entrance","o.entrances.Opposite":"Two, opposite","o.entrances.Adjacent":"Two, adjacent (90°)",
+  "o.entrances.Single":"One entrance","o.entrances.Two":"Two entrances",
   "k.plumb":"Shaft is plumb (checked top to bottom)","k.pit":"Pit is dry and clean","k.power":"3-phase power supply available","k.light":"Shaft lighting / temporary light","k.access":"Access for delivering materials","k.vent":"Ventilation for shaft / machine room","k.anchor":"Walls suitable for bracket anchoring","k.scaff":"Scaffolding / safe working platform",
   "x.car":"Car (cabin)","x.carDoor":"Car door","x.landing":"Landing doors","x.carRails":"Car guide rails","x.cwRails":"Counterweight guide rails","x.brackets":"Rail brackets","x.machine":"Machine","x.controller":"Controller","x.ropes":"Suspension ropes",
   "x.governor":"Speed governor","x.cw":"Counterweight & filler weights","x.buffers":"Buffers","x.cable":"Travelling cable","x.cop":"Car operating panel (COP)","x.lop":"Landing call panels","x.jack":"Hydraulic jack","x.pump":"Hydraulic power unit","x.hose":"Hydraulic hose / pipe"},
@@ -301,8 +302,8 @@ const T={
   s3:"الارتفاعات والأدوار",s3sub:"كل الارتفاعات بالسنتيمتر.",s4:"المكونات والكميات",s4sub:"المقاس / المواصفات والعدد المطلوب لكل جزء.",
   s5:"فحوصات الموقع",s5sub:"علّم على ما تم التأكد منه في الموقع.",s6:"ملاحظات وصور",notes:"ملاحظات",savedTitle:"المعاينات المحفوظة",savedSub:"محفوظة على هذا الجهاز فقط. اطبع أو شارك المعاينة للاحتفاظ بنسخة.",
   foot1:"ميلسا للمصاعد · معاينة الموقع",
-  "p.name":"اسم المشروع","p.client":"اسم العميل","p.phone":"تليفون العميل","p.address":"العنوان","p.gps":"الموقع (GPS)","p.date":"تاريخ المعاينة","p.engineer":"المهندس",
-  "p.building":"نوع المبنى","p.use":"نوع المصعد","p.drive":"نظام التشغيل","p.machine":"مكان الماكينة / وحدة الزيت","p.stops":"عدد الوقفات (الأدوار)","p.entrances":"مداخل الكابينة","p.capacity":"الحمولة","p.speed":"السرعة",
+  "p.name":"اسم المشروع","p.client":"اسم العميل","p.phone":"تليفون العميل","p.address":"العنوان","p.gps":"الموقع (GPS)","p.date":"تاريخ المعاينة","p.engineer":"القائم بالمعاينة",
+  "p.building":"نوع المبنى","p.use":"نوع المصعد","p.drive":"نظام التشغيل","p.machine":"مكان الماكينة / وحدة الزيت","p.floorsN":"عدد الأدوار","p.stops":"عدد الوقفات","p.entrances":"الكابينة","p.capacity":"الحمولة","p.speed":"السرعة",
   "w.back":"الحائط الخلفي","w.front":"الحائط الأمامي (جهة الباب)","w.left":"الحائط الأيسر","w.right":"الحائط الأيمن",planNote:"اليمين والشمال كما تراهم وأنت واقف أمام باب البئر.",
   "sh.doorW":"عرض فتحة الباب","sh.doorH":"ارتفاع فتحة الباب","sh.doorLeft":"بعد الباب عن الحائط الأيسر","sh.wall":"سُمك الحائط","sh.diag1":"القطر ١","sh.diag2":"القطر ٢","sh.carW":"عرض الكابينة","sh.carD":"عمق الكابينة","sh.carH":"ارتفاع الكابينة",
   "v.pit":"عمق الحفرة (البيت)","v.overhead":"الارتفاع العلوي (من آخر دور لسقف البئر)","v.travel":"مسافة المشوار (من أول لآخر دور)","v.floors":"ارتفاع كل دور","v.mr":"غرفة الماكينة","v.mrW":"العرض","v.mrD":"العمق","v.mrH":"الارتفاع",
@@ -316,13 +317,13 @@ const T={
   "o.use.Passenger":"ركاب","o.use.Home":"مصعد منزلي (فيلا)","o.use.Goods":"بضائع","o.use.Hospital":"مستشفى (سرير)","o.use.Panoramic":"بانوراما","o.use.Car":"مصعد سيارات",
   "o.drive.Electric":"كهرباء (جر بالحبال)","o.drive.Hydraulic":"هيدروليك",
   "o.machineRoom.Top":"غرفة ماكينة أعلى المبنى","o.machineRoom.MRL":"داخل البئر (MRL)","o.machineRoom.Beside":"غرفة بجوار البئر","o.machineRoom.Pit":"داخل البئر (الحفرة)",
-  "o.entrances.Single":"مدخل واحد","o.entrances.Opposite":"مدخلين متقابلين","o.entrances.Adjacent":"مدخلين متجاورين (٩٠°)",
+  "o.entrances.Single":"مدخل واحد","o.entrances.Two":"مدخلين",
   "k.plumb":"البئر رأسي (تم الفحص من أعلى لأسفل)","k.pit":"الحفرة جافة ونظيفة","k.power":"كهرباء ٣ فاز متوفرة","k.light":"إضاءة البئر / إضاءة مؤقتة","k.access":"مدخل لتوريد الخامات","k.vent":"تهوية للبئر / غرفة الماكينة","k.anchor":"الحيطان مناسبة لتثبيت الكانات","k.scaff":"سقالة / منصة عمل آمنة",
   "x.car":"الكابينة","x.carDoor":"باب الكابينة","x.landing":"أبواب الأدوار","x.carRails":"سكك الكابينة","x.cwRails":"سكك الثقل","x.brackets":"كانات السكك","x.machine":"الماكينة","x.controller":"لوحة الكنترول","x.ropes":"حبال الجر",
   "x.governor":"منظم السرعة (جفرنر)","x.cw":"الثقل وأوزانه","x.buffers":"المخمدات (بفر)","x.cable":"الكابل المرن","x.cop":"لوحة الكابينة (COP)","x.lop":"لوحات الاستدعاء بالأدوار","x.jack":"المكبس الهيدروليكي","x.pump":"وحدة الزيت (الباور يونت)","x.hose":"خرطوم / ماسورة الزيت"}
 };
 const OPTS={building:["Residential","Villa","Factory","Hospital","Mall","Office","Hotel"],use:["Passenger","Home","Goods","Hospital","Panoramic","Car"],drive:["Electric","Hydraulic"],
- machineRoom:{Electric:["Top","MRL"],Hydraulic:["Beside","Pit"]},entrances:["Single","Opposite","Adjacent"]};
+ machineRoom:{Electric:["Top","MRL"],Hydraulic:["Beside","Pit"]},entrances:["Single","Two"]};
 const CHECKS=["plumb","pit","power","light","access","vent","anchor","scaff"];
 const COMP_KEYS={Electric:["car","carDoor","landing","carRails","cwRails","brackets","machine","controller","ropes","governor","cw","buffers","cable","cop","lop"],
  Hydraulic:["car","carDoor","landing","carRails","brackets","jack","pump","hose","controller","buffers","cable","cop","lop"]};
@@ -338,7 +339,7 @@ function today(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth
 function blank(){
  const id="s"+Date.now().toString(36);
  return {id,unit:"cm",created:Date.now(),updated:Date.now(),
-  project:{name:"",client:"",phone:"",address:"",gps:"",date:today(),engineer:"",building:"Residential",use:"Passenger",drive:"Electric",machineRoom:"Top",stops:"",entrances:"Single",capacity:"",speed:""},
+  project:{name:"",client:"",phone:"",address:"",gps:"",date:today(),engineer:"",building:"Residential",use:"Passenger",drive:"Electric",machineRoom:"Top",floorsN:"",stops:"",entrances:"Single",capacity:"",speed:""},
   shaft:{front:"",back:"",left:"",right:"",doorW:"",doorH:"",doorLeft:"",wall:"",diag1:"",diag2:""},car:{w:"",d:"",h:""},
   vertical:{pit:"",overhead:"",travel:"",floors:[],mrW:"",mrD:"",mrH:""},checks:{},components:COMP_KEYS.Electric.map(k=>({key:k,name:"",spec:"",qty:"",note:""})),notes:"",photos:[]};
 }
@@ -348,7 +349,8 @@ function toCm(sv){ // surveys saved before the switch to centimetres were in mil
  for(const k in sv.shaft)if(k!=="unit")sv.shaft[k]=c(sv.shaft[k]); for(const k in sv.car)sv.car[k]=c(sv.car[k]);
  for(const k of ["pit","overhead","travel","mrW","mrD","mrH"])sv.vertical[k]=c(sv.vertical[k]); sv.vertical.floors=(sv.vertical.floors||[]).map(c);
  sv.unit="cm"; return sv;}
-Object.values(all).forEach(toCm);
+function fixEntr(sv){if(sv.project&&/Opposite|Adjacent/.test(sv.project.entrances))sv.project.entrances="Two"; return sv;}
+Object.values(all).forEach(toCm); Object.values(all).forEach(fixEntr);
 (function init(){let cur=null;try{cur=localStorage.getItem(CUR)}catch(e){} S=all[cur]||Object.values(all).sort((a,b)=>b.updated-a.updated)[0]||blank(); all[S.id]=S;})();
 function get(path){return path.split(".").reduce((o,k)=>o?.[k],S)}
 function set(path,v){const ks=path.split(".");let o=S;for(let i=0;i<ks.length-1;i++)o=o[ks[i]];o[ks[ks.length-1]]=v;}
@@ -519,7 +521,7 @@ function summary(){
  line("p.name",p.name);line("p.client",p.client);line("p.phone",p.phone);line("p.address",p.address);
  if(p.gps)L.push(t("p.gps")+": https://maps.google.com/?q="+encodeURIComponent(p.gps));
  line("p.date",p.date);line("p.engineer",p.engineer);line("p.building",t("o.building."+p.building));line("p.use",t("o.use."+p.use));
- line("p.drive",t("o.drive."+p.drive));line("p.machine",t("o.machineRoom."+p.machineRoom));line("p.stops",p.stops);line("p.entrances",t("o.entrances."+p.entrances));line("p.capacity",p.capacity,"kg");line("p.speed",p.speed,"m/s");
+ line("p.drive",t("o.drive."+p.drive));line("p.machine",t("o.machineRoom."+p.machineRoom));line("p.floorsN",p.floorsN);line("p.stops",p.stops);line("p.entrances",t("o.entrances."+p.entrances));line("p.capacity",p.capacity,"kg");line("p.speed",p.speed,"m/s");
  L.push("","— "+t("s2")+" ("+t("mm")+") —");
  line("w.front",sh.front);line("w.back",sh.back);line("w.left",sh.left);line("w.right",sh.right);line("sh.diag1",sh.diag1);line("sh.diag2",sh.diag2);
  line("sh.doorW",sh.doorW);line("sh.doorH",sh.doorH);line("sh.doorLeft",sh.doorLeft);line("sh.wall",sh.wall);line("sh.carW",S.car.w);line("sh.carD",S.car.d);line("sh.carH",S.car.h);
