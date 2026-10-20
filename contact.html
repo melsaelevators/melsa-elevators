@@ -14,23 +14,29 @@
 .item small{display:block;color:var(--muted);font-size:12px}.item b{font-size:15px;word-break:break-word}
 .map{width:100%;height:260px;border:0;border-radius:14px;margin-top:4px}
 @media(max-width:860px){.cgrid{grid-template-columns:1fr}}
+.spec-cta{display:flex;align-items:center;gap:14px;background:var(--navy);color:#fff;text-decoration:none;border-radius:14px;padding:16px 18px;margin-top:18px;max-width:560px;border-bottom:4px solid var(--red);transition:transform .15s,box-shadow .15s}
+.spec-cta:hover{transform:translateY(-2px);box-shadow:0 10px 24px #02358433}
+.spec-cta .ic{font-size:28px;width:48px;height:48px;border-radius:12px;background:#ffffff1f;display:grid;place-items:center;flex:none}
+.spec-cta b{display:block;font-size:17px}.spec-cta small{display:block;color:#c7d4ec;font-size:13px;margin-top:2px}
+.spec-cta .ar{margin-inline-start:auto;font-size:28px;color:var(--red);font-weight:800}
+[dir=rtl] .spec-cta .ar{transform:scaleX(-1)}
 </style>
 <script>
 window.PAGE_T={
  en:{title:"Contact us | Melsa Elevators",eyebrow:"Contact us",h1:"Let's talk about your elevator",lead:"Send us a message for a quotation, maintenance or any question. We reply on WhatsApp right away.",
   formTitle:"Send a message",name:"Your name",phone:"Phone number",email:"Email (optional)",subject:"Subject",message:"Message",send:"Send on WhatsApp",
   "subj.Quote":"Quotation for a new elevator","subj.Maintenance":"Maintenance or repair","subj.Modernization":"Modernizing an old elevator","subj.Other":"Other",
-  msgHead:"New message from the Melsa website",soonTitle:"Contact details coming soon",soonText:"We are adding our phone, WhatsApp and address."},
+  msgHead:"New message from the Melsa website",soonTitle:"Contact details coming soon",soonText:"We are adding our phone, WhatsApp and address.",specBtn:"Request with your specifications",specText:"Choose the drive, doors, machine, cabin finish and controller yourself.",or:"Or send us a message"},
  ar:{title:"تواصل معنا | ميلسا للمصاعد",eyebrow:"تواصل معنا",h1:"خلينا نتكلم عن مصعدك",lead:"ابعتلنا رسالة لعرض سعر أو صيانة أو أي استفسار. بنرد على واتساب على طول.",
   formTitle:"ابعت رسالة",name:"الاسم",phone:"رقم التليفون",email:"البريد الإلكتروني (اختياري)",subject:"الموضوع",message:"الرسالة",send:"إرسال على واتساب",
   "subj.Quote":"عرض سعر لمصعد جديد","subj.Maintenance":"صيانة أو إصلاح","subj.Modernization":"تحديث مصعد قديم","subj.Other":"أخرى",
-  msgHead:"رسالة جديدة من موقع ميلسا",soonTitle:"بيانات التواصل قريبًا",soonText:"بنضيف التليفون والواتساب والعنوان."}
+  msgHead:"رسالة جديدة من موقع ميلسا",soonTitle:"بيانات التواصل قريبًا",soonText:"بنضيف التليفون والواتساب والعنوان.",specBtn:"اطلب بالمواصفات على اختيارك",specText:"اختار نوع المصعد والأبواب والماكينة وتشطيب الكابينة ولوحة التحكم بنفسك.",or:"أو ابعتلنا رسالة"}
 };
 </script>
 </head>
 <body data-page="contact">
 <main>
- <div class="page-head"><div class="wrap"><div class="eyebrow" data-i18n="eyebrow"></div><h1 data-i18n="h1"></h1><p class="lead" data-i18n="lead"></p></div></div>
+ <div class="page-head"><div class="wrap"><div class="eyebrow" data-i18n="eyebrow"></div><h1 data-i18n="h1"></h1><p class="lead" data-i18n="lead"></p><a class="spec-cta" href="quote.html"><span class="ic">🛗</span><span><b data-i18n="specBtn"></b><small data-i18n="specText"></small></span><span class="ar">›</span></a></div></div>
  <section><div class="wrap cgrid">
   <div class="info" id="info"></div>
   <div class="card">

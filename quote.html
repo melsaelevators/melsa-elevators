@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Request a quote | Melsa Elevators</title>
+<link rel="icon" type="image/png" href="assets/logo-mark.png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#023584">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+.qwrap{max-width:860px}
+.qsec{background:#fff;border:1px solid var(--line);border-top:4px solid var(--navy);border-radius:16px;padding:18px clamp(14px,3vw,22px);margin-bottom:14px}
+.qsec h2{font-size:18px;margin:0 0 4px;display:flex;align-items:center;gap:10px}
+.qsec h2 .n{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--red);color:#fff;font-size:13px;flex:0 0 26px}
+.qsec .sub{color:var(--muted);font-size:12.5px;margin:0 0 12px}
+.q{margin-top:14px}.q:first-of-type{margin-top:4px}
+.q>label,.q>.ql{display:block;font-size:13px;font-weight:800;color:var(--navy);margin-bottom:8px}
+.q .ql small{font-weight:500;color:var(--muted)}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{border:1.5px solid var(--line);background:#fff;color:var(--ink);border-radius:12px;padding:11px 15px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;min-height:46px;display:inline-flex;align-items:center;gap:8px}
+.opt:hover{border-color:#9fb1d1}
+.opt[aria-pressed=true]{border-color:var(--navy);background:var(--tint);color:var(--navy);box-shadow:inset 0 0 0 1px var(--navy)}
+.opt[aria-pressed=true]::before{content:"✓";font-weight:800;color:var(--red)}
+.sw{width:20px;height:20px;border-radius:6px;border:1px solid #0002;flex:0 0 20px}
+.q[hidden]{display:none}
+.summary{background:var(--tint);border:1px solid var(--line);border-radius:14px;padding:14px 16px;font-size:13.5px;white-space:pre-line;color:var(--ink)}
+.sendbar{position:sticky;bottom:0;background:linear-gradient(transparent,var(--paper) 30%);padding:18px 0 14px;display:flex;gap:10px;flex-wrap:wrap}
+.sendbar .btn{flex:1;min-width:220px;font-size:15px;padding:15px 20px}
+</style>
+<script>
+window.PAGE_T={
+ en:{title:"Request a quote | Melsa Elevators",eyebrow:"Request a quote",h1:"Choose your elevator specifications",lead:"Pick the options you want and send them to us on WhatsApp. We will reply with a quotation.",
+  s1:"Elevator type",s1sub:"Drive system and doors.",s2:"Main components",s2sub:"Choose the origin of each component.",s3:"Cabin",s3sub:"Finish and the work you want in the cabin.",
+  s4:"Panels & control",s4sub:"Call panels and the controller.",s5:"Your details",
+  drive:"Drive system",doors:"Doors",rails:"Guide rails",machine:"Machine",ropes:"Traction ropes",finish:"Cabin finish",cabinWork:"Cabin work",multi:"(choose one or more)",
+  panels:"Call panels",controller:"Control panel (controller)",
+  "o.drive.Electric":"Electric (traction)","o.drive.Hydraulic":"Hydraulic","o.doors.Automatic":"Automatic","o.doors.Semi":"Semi-automatic",
+  "o.rails.Italian":"Italian","o.rails.Turkish":"Turkish","o.rails.Chinese":"Chinese","o.machine.Italian":"Italian","o.machine.Spanish":"Spanish","o.machine.German":"German",
+  "o.ropes.Italian":"Italian","o.ropes.Turkish":"Turkish","o.finish.Mirror":"Mirror silver","o.finish.Hairline":"Silver hairline (standard)","o.finish.Bronze":"Bronze","o.finish.Black":"Black",
+  "o.cabinWork.Floor":"Flooring","o.cabinWork.Ceiling":"Ceiling","o.panels.LOP":"External — LOP (landing)","o.panels.COP":"Internal — COP (cabin)",
+  "o.controller.TwoSpeed":"Two-speed","o.controller.VF":"VF (variable frequency)","o.controller.Emergency":"Emergency (rescue) panel",
+  name:"Your name",phone:"Phone number",area:"Address / area",building:"Building type",stops:"Number of floors (stops)",capacity:"Capacity (persons or kg)",notes:"Notes",
+  "b.Residential":"Residential building","b.Villa":"Villa","b.Hospital":"Hospital","b.Mall":"Mall","b.Office":"Office","b.Hotel":"Hotel","b.Factory":"Factory",
+  summary:"Your request",send:"Send request on WhatsApp",reset:"Clear",nothing:"Choose at least one specification.",
+  msgHead:"Quotation request — elevator specifications"},
+ ar:{title:"اطلب عرض سعر | ميلسا للمصاعد",eyebrow:"اطلب عرض سعر",h1:"اختار مواصفات مصعدك",lead:"اختار المواصفات اللي تناسبك وابعتها لنا على واتساب، وهنرد عليك بعرض السعر.",
+  s1:"نوع المصعد",s1sub:"نظام التشغيل والأبواب.",s2:"المكونات الأساسية",s2sub:"اختار منشأ كل مكون.",s3:"الكابينة",s3sub:"التشطيب والشغل اللي عايزه في الكابينة.",
+  s4:"اللوحات والكنترول",s4sub:"لوحات الطلبات ولوحة التحكم.",s5:"بياناتك",
+  drive:"نظام التشغيل",doors:"الأبواب",rails:"الدلائل (السكك)",machine:"الماكينة",ropes:"حبال الجر",finish:"تشطيب الكابينة",cabinWork:"شغل الكابينة",multi:"(اختار واحد أو أكتر)",
+  panels:"لوحات الطلبات",controller:"لوحة التحكم (الكنترول)",
+  "o.drive.Electric":"كهرباء (جر)","o.drive.Hydraulic":"هيدروليك","o.doors.Automatic":"أوتوماتيك","o.doors.Semi":"نصف أوتوماتيك",
+  "o.rails.Italian":"إيطالي","o.rails.Turkish":"تركي","o.rails.Chinese":"صيني","o.machine.Italian":"إيطالي","o.machine.Spanish":"إسباني","o.machine.German":"ألماني",
+  "o.ropes.Italian":"إيطالي","o.ropes.Turkish":"تركي","o.finish.Mirror":"فضي مرايا","o.finish.Hairline":"فضي عادي (هيرلاين)","o.finish.Bronze":"برونز","o.finish.Black":"أسود",
+  "o.cabinWork.Floor":"أرضيات","o.cabinWork.Ceiling":"سقف","o.panels.LOP":"خارجية — LOP (الأدوار)","o.panels.COP":"داخلية — COP (الكابينة)",
+  "o.controller.TwoSpeed":"سرعتين","o.controller.VF":"VF (تحكم في التردد)","o.controller.Emergency":"لوحة طوارئ",
+  name:"الاسم",phone:"رقم التليفون",area:"العنوان / المنطقة",building:"نوع المبنى",stops:"عدد الأدوار (الوقفات)",capacity:"الحمولة (عدد الأشخاص أو كجم)",notes:"ملاحظات",
+  "b.Residential":"عمارة سكنية","b.Villa":"فيلا","b.Hospital":"مستشفى","b.Mall":"مول","b.Office":"مبنى إداري","b.Hotel":"فندق","b.Factory":"مصنع",
+  summary:"طلبك",send:"إرسال الطلب على واتساب",reset:"مسح",nothing:"اختار مواصفة واحدة على الأقل.",
+  msgHead:"طلب عرض سعر — مواصفات المصعد"}
+};
+</script>
+</head>
+<body data-page="contact">
+<main>
+ <div class="page-head"><div class="wrap"><div class="eyebrow" data-i18n="eyebrow"></div><h1 data-i18n="h1"></h1><p class="lead" data-i18n="lead"></p></div></div>
+ <section><div class="wrap qwrap">
+  <div class="qsec"><h2><span class="n">1</span><span data-i18n="s1"></span></h2><p class="sub" data-i18n="s1sub"></p>
+   <div class="q"><span class="ql" data-i18n="drive"></span><div class="opts" data-g="drive" data-v="Electric,Hydraulic"></div></div>
+   <div class="q"><span class="ql" data-i18n="doors"></span><div class="opts" data-g="doors" data-v="Automatic,Semi"></div></div>
+  </div>
+  <div class="qsec"><h2><span class="n">2</span><span data-i18n="s2"></span></h2><p class="sub" data-i18n="s2sub"></p>
+   <div class="q"><span class="ql" data-i18n="rails"></span><div class="opts" data-g="rails" data-v="Italian,Turkish,Chinese"></div></div>
+   <div class="q" data-electric><span class="ql" data-i18n="machine"></span><div class="opts" data-g="machine" data-v="Italian,Spanish,German"></div></div>
+   <div class="q" data-electric><span class="ql" data-i18n="ropes"></span><div class="opts" data-g="ropes" data-v="Italian,Turkish"></div></div>
+  </div>
+  <div class="qsec"><h2><span class="n">3</span><span data-i18n="s3"></span></h2><p class="sub" data-i18n="s3sub"></p>
+   <div class="q"><span class="ql" data-i18n="finish"></span><div class="opts" data-g="finish" data-v="Mirror,Hairline,Bronze,Black"></div></div>
+   <div class="q"><span class="ql"><span data-i18n="cabinWork"></span> <small data-i18n="multi"></small></span><div class="opts" data-g="cabinWork" data-v="Floor,Ceiling" data-multi></div></div>
+  </div>
+  <div class="qsec"><h2><span class="n">4</span><span data-i18n="s4"></span></h2><p class="sub" data-i18n="s4sub"></p>
+   <div class="q"><span class="ql"><span data-i18n="panels"></span> <small data-i18n="multi"></small></span><div class="opts" data-g="panels" data-v="LOP,COP" data-multi></div></div>
+   <div class="q"><span class="ql" data-i18n="controller"></span><div class="opts" data-g="controller" data-v="TwoSpeed,VF,Emergency"></div></div>
+  </div>
+  <div class="qsec"><h2><span class="n">5</span><span data-i18n="s5"></span></h2>
+   <form class="form" id="form" style="margin-top:8px">
+    <div class="row"><div><label for="n" data-i18n="name"></label><input id="n" required autocomplete="name"></div><div><label for="ph" data-i18n="phone"></label><input id="ph" type="tel" inputmode="tel" required autocomplete="tel"></div></div>
+    <div><label for="ar" data-i18n="area"></label><input id="ar" autocomplete="street-address"></div>
+    <div class="row">
+     <div><label for="bt" data-i18n="building"></label><select id="bt" data-opts="b"><option value="Residential"></option><option value="Villa"></option><option value="Hospital"></option><option value="Mall"></option><option value="Office"></option><option value="Hotel"></option><option value="Factory"></option></select></div>
+     <div><label for="st" data-i18n="stops"></label><input id="st" type="number" inputmode="numeric" min="2"></div>
+    </div>
+    <div><label for="cp" data-i18n="capacity"></label><input id="cp"></div>
+    <div><label for="no" data-i18n="notes"></label><textarea id="no"></textarea></div>
+   </form>
+  </div>
+  <div class="qsec" style="border-top-color:var(--red)"><h2 data-i18n="summary"></h2><div class="summary" id="sum"></div></div>
+  <div class="sendbar"><button type="button" class="btn red" id="send"></button><button type="button" class="btn ghost" id="clear" style="flex:0 0 auto;min-width:0"></button></div>
+ </div></section>
+</main>
+<script src="assets/site-data.js"></script>
+<script src="assets/site.js"></script>
+<script>
+(function(){
+ const {t,esc,send,toast}=Melsa;
+ const sel={}; const groups=[...document.querySelectorAll(".opts[data-g]")];
+ const ORDER=["drive","doors","rails","machine","ropes","finish","cabinWork","panels","controller"];
+ const SW={Mirror:"linear-gradient(135deg,#ffffff,#b9c1c8 45%,#f4f6f8)",Hairline:"repeating-linear-gradient(90deg,#c9ced3 0 2px,#b3b9bf 2px 3px)",Bronze:"linear-gradient(135deg,#d0a17a,#644733)",Black:"linear-gradient(135deg,#55575b,#17191e)"};
+ const electric=()=>sel.drive!=="Hydraulic";
+ function renderOpts(){
+  groups.forEach(box=>{const g=box.dataset.g, multi=box.hasAttribute("data-multi");
+   box.innerHTML=box.dataset.v.split(",").map(v=>{const on=multi?(sel[g]||[]).includes(v):sel[g]===v;
+    return `<button type="button" class="opt" data-v="${v}" aria-pressed="${on}">${g==="finish"?`<span class="sw" style="background:${SW[v]}"></span>`:""}${esc(t("o."+g+"."+v))}</button>`;}).join("");});
+  document.querySelectorAll("[data-electric]").forEach(q=>q.hidden=!electric());
+  document.getElementById("send").textContent=t("send"); document.getElementById("clear").textContent=t("reset");
+  renderSum();
+ }
+ function lines(){
+  const L=[];
+  ORDER.forEach(g=>{ if((g==="machine"||g==="ropes")&&!electric())return; const v=sel[g]; if(!v||(Array.isArray(v)&&!v.length))return;
+   const label=document.querySelector(`.opts[data-g=${g}]`).closest(".q").querySelector(".ql [data-i18n], .ql")?.dataset?.i18n||g;
+   L.push(t(g)+": "+(Array.isArray(v)?v.map(x=>t("o."+g+"."+x)).join(" + "):t("o."+g+"."+v)));});
+  return L;
+ }
+ function renderSum(){const L=lines();document.getElementById("sum").textContent=L.length?L.join("\n"):"—";}
+ document.addEventListener("click",e=>{
+  const b=e.target.closest(".opt"); if(!b)return; const box=b.closest(".opts"), g=box.dataset.g, v=b.dataset.v;
+  if(box.hasAttribute("data-multi")){const a=sel[g]||[];sel[g]=a.includes(v)?a.filter(x=>x!==v):[...a,v];} else sel[g]=sel[g]===v?undefined:v;
+  renderOpts();
+ });
+ document.getElementById("clear").addEventListener("click",()=>{for(const k in sel)delete sel[k];document.getElementById("form").reset();renderOpts();scrollTo({top:0,behavior:"smooth"});});
+ document.getElementById("send").addEventListener("click",()=>{
+  const v=id=>document.getElementById(id).value.trim(), o=id=>{const s=document.getElementById(id);return s.options[s.selectedIndex].textContent;};
+  const L=lines(); if(!L.length){toast(t("nothing"));return;}
+  if(!v("n")||!v("ph")){toast(t("required"));document.getElementById("n").focus();return;}
+  const text=[t("msgHead"),"",...L,"",t("name")+": "+v("n"),t("phone")+": "+v("ph"),v("ar")?t("area")+": "+v("ar"):"",t("building")+": "+o("bt"),
+   v("st")?t("stops")+": "+v("st"):"",v("cp")?t("capacity")+": "+v("cp"):"",v("no")?"\n"+v("no"):""].filter(x=>x!=="").join("\n");
+  send(t("msgHead"),text);
+ });
+ renderOpts(); window.addEventListener("melsa:lang",renderOpts);
+})();
+</script>
+</body>
+</html>
