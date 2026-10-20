@@ -116,6 +116,23 @@ footer a{color:#fff;font-weight:700;text-decoration:none;border-bottom:1px solid
 .wbtn{border:0;border-radius:12px;padding:15px 26px;font:700 15px Inter,Arial,sans-serif;cursor:pointer;min-width:190px}
 .wbtn.en{background:var(--navy);color:#fff}.wbtn.ar{background:var(--red);color:#fff;font-family:'Cairo',Tahoma,sans-serif;font-size:16px}
 .wbtn:hover{filter:brightness(1.08)}
+body.locked{background:#fff}
+body.locked>*:not(#lock):not(.toast){display:none!important}
+#lock{display:none}
+body.locked #lock{display:flex;min-height:100vh;flex-direction:column}
+.lock-bar{height:10px;background:var(--navy);box-shadow:0 5px 0 var(--red)}
+.lock-inner{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px 20px;max-width:420px;margin:0 auto;width:100%}
+.lock-inner img{width:min(240px,60vw);height:auto;margin-bottom:18px}
+.lock-inner h1{font-size:26px;margin:0 0 6px;color:var(--navy)}
+.lock-inner p{color:var(--muted);font-size:13.5px;margin:0 0 18px}
+.lock-form{display:flex;flex-direction:column;gap:10px;width:100%}
+.lock-form input{border:2px solid var(--navy);border-radius:10px;padding:13px 14px;font:inherit;font-size:16px;text-align:center}
+.lock-go{padding:14px!important;font-size:14px}
+.lock-err{color:var(--red);font-size:12.5px;min-height:18px}
+.navlink{border:1px solid var(--navy);color:var(--navy);background:#fff;border-radius:999px;padding:7px 13px;font-size:12px;font-weight:700;text-decoration:none;white-space:nowrap}
+.navlink:hover{background:var(--tint)}
+.foot-lock{background:none;border:1px solid #ffffff55;color:#fff;border-radius:999px;padding:5px 12px;font:inherit;font-size:11px;cursor:pointer}
+@media(max-width:760px){.navlink{padding:6px 10px;font-size:11px}.foot-lock{margin-top:8px}}
 .ai-btn{width:100%;margin-top:10px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;gap:8px;font-size:13px;padding:15px}
 .ai-btn:hover{background:var(--navy-dark)}.ai-btn svg{width:18px;height:18px}
 .ai-note{font-size:10.5px;color:var(--muted);text-align:center;margin:6px 0 0}
@@ -135,7 +152,21 @@ footer a{color:#fff;font-weight:700;text-decoration:none;border-bottom:1px solid
 
 </style>
 </head>
-<body>
+<body class="locked">
+<div id="lock" role="dialog" aria-modal="true" aria-labelledby="lockTitle">
+ <div class="lock-bar"></div>
+ <div class="lock-inner">
+  <img src="assets/logo.png" alt="Melsa Elevators" width="400" height="308">
+  <h1 id="lockTitle" data-i18n="lockTitle">Engineers only</h1>
+  <p data-i18n="lockText">Enter the engineers' password to open the Melsa design tools.</p>
+  <form class="lock-form" id="lockForm">
+   <input type="password" id="lockPw" autocomplete="current-password" required data-i18n-ph="lockPh" placeholder="Password">
+   <button type="submit" class="btn primary lock-go" data-i18n="unlock">Unlock</button>
+   <div class="lock-err" id="lockErr" role="alert"></div>
+  </form>
+  <button type="button" class="lang-btn" id="lockLang" lang="ar" style="margin-top:14px">عربي</button>
+ </div>
+</div>
 <div class="welcome" id="welcome" role="dialog" aria-modal="true" aria-label="Welcome">
  <div class="welcome-bar"></div>
  <div class="welcome-inner">
@@ -149,7 +180,7 @@ footer a{color:#fff;font-weight:700;text-decoration:none;border-bottom:1px solid
  </div>
  <div class="welcome-bar bottom"></div>
 </div>
-<header><div class="brand"><img src="assets/logo.png" alt="Melsa Elevators" width="400" height="308"><small data-i18n="tagline">ENGINEERED FOR ELEGANCE</small></div><div class="header-right"><div class="tag" data-i18n="tag">CABIN CONFIGURATOR · CONCEPT DEMO</div><button type="button" class="install-btn" id="installBtn" data-i18n="install" hidden>Install app</button><button type="button" class="lang-btn" id="langBtn" lang="ar">عربي</button></div></header>
+<header><div class="brand"><img src="assets/logo.png" alt="Melsa Elevators" width="400" height="308"><small data-i18n="tagline">ENGINEERED FOR ELEGANCE</small></div><div class="header-right"><a class="navlink" href="survey.html" data-i18n="navSurvey">Site survey</a><div class="tag" data-i18n="tag">CABIN CONFIGURATOR · CONCEPT DEMO</div><button type="button" class="install-btn" id="installBtn" data-i18n="install" hidden>Install app</button><button type="button" class="lang-btn" id="langBtn" lang="ar">عربي</button></div></header>
 <div class="toast" id="toast" role="status" hidden></div>
 <main>
 <section class="intro"><div><div class="eyebrow" data-i18n="eyebrow">YOUR DESIGN, YOUR CHOICE</div><h1 data-i18n-html="h1">Design your <em>own cabin.</em></h1><p data-i18n="intro">Explore finishes and build a look that feels right for your project. Choose the cabin style, flooring, metal finish, ceiling, control panels and door type/design.</p></div><div class="step" data-i18n="step">REAL MELSA PRODUCTS</div></section>
@@ -214,7 +245,7 @@ footer a{color:#fff;font-weight:700;text-decoration:none;border-bottom:1px solid
 <div class="ai-actions"><button class="btn secondary" id="aiRegen" type="button" data-i18n="aiRegen">Generate another</button><button class="btn primary" id="aiDownload" type="button" data-i18n="aiDownload">Download image</button></div>
 <p class="ai-disclaimer" data-i18n="aiDisclaimer">AI-generated concept image for inspiration only. Final finishes, dimensions and details must be confirmed with Melsa Elevators.</p>
 </div></div>
-<footer><span data-i18n="foot1">MELSA ELEVATORS · DESIGN COLLECTION</span><span data-i18n="foot2">Concept configurator — not an engineering drawing</span><a href="survey.html" data-i18n="surveyLink">For engineers: Site survey →</a></footer>
+<footer><span data-i18n="foot1">MELSA ELEVATORS · DESIGN COLLECTION</span><span data-i18n="foot2">Concept configurator — not an engineering drawing</span><a href="survey.html" data-i18n="surveyLink">Site survey →</a><button type="button" class="foot-lock" id="lockBtn" data-i18n="lock">🔒 Lock</button></footer>
 <script>
 /* ---------- Language (English / Arabic) ---------- */
 const T={
@@ -222,10 +253,10 @@ const T={
   h1:"Design your <em>own cabin.</em>",intro:"Explore finishes and build a look that feels right for your project. Choose the cabin style, flooring, metal finish, ceiling, control panels and door type/design.",
   step:"REAL MELSA PRODUCTS",preview:"LIVE 3D DESIGN PREVIEW",hint3d:"3D PREVIEW",customize:"Customize your cabin",sub:"Pick real Melsa products — the 3D preview updates instantly.",
   aiOnly:"Used for the AI image",spec:"Your design specification",note:"Concept preview only. Final finishes must be confirmed against available materials and real product samples.",
-  install:"Install app",iosHint:"To install: tap the Share button, then “Add to Home Screen”.",copy:"Copy design brief",copied:"Copied!",reset:"Reset",aiBtn:"Generate realistic image (AI)",aiNote:"Uses your selected Melsa products. Takes about 10–30 seconds.",
+  navSurvey:"Site survey",lockTitle:"Engineers only",lockText:"Enter the engineers' password to open the Melsa design tools.",lockPh:"Password",unlock:"Unlock",lockWrong:"Wrong password. Try again.",lock:"🔒 Lock",install:"Install app",iosHint:"To install: tap the Share button, then “Add to Home Screen”.",copy:"Copy design brief",copied:"Copied!",reset:"Reset",aiBtn:"Generate realistic image (AI)",aiNote:"Uses your selected Melsa products. Takes about 10–30 seconds.",
   aiTitle:"AI REALISTIC PREVIEW",aiRegen:"Generate another",aiDownload:"Download image",aiDisclaimer:"AI-generated concept image for inspiration only. Final finishes, dimensions and details must be confirmed with Melsa Elevators.",
   aiLoading:"Creating your elevator design…",aiError:"Could not create the image. Please try again.",aiConn:"Connection problem. Please try again.",aiLimit:"You've reached the hourly limit. Please try again later.",
-  surveyLink:"For engineers: Site survey →",foot1:"MELSA ELEVATORS · DESIGN COLLECTION",foot2:"Concept configurator — not an engineering drawing",brief:"MELSA ELEVATORS — CABIN DESIGN BRIEF",
+  surveyLink:"Site survey →",foot1:"MELSA ELEVATORS · DESIGN COLLECTION",foot2:"Concept configurator — not an engineering drawing",brief:"MELSA ELEVATORS — CABIN DESIGN BRIEF",
   shaft:"Shaft & machine",shaftOff:"Back to cabin",capShaft:"SHAFT & MACHINE VIEW",open:"Open door",close:"Close door",inside:"Step inside",outside:"Step outside",capOut:"INTERACTIVE 3D CONCEPT · DRAG TO ROTATE",capIn:"INSIDE THE CABIN · DRAG TO LOOK AROUND",
   mrlGeared:"Machine-room-less elevators use gearless machines",telescopic:"telescopic doors",
   "f.style":"Cabin style","f.metal":"Metal finish","f.floor":"Flooring","f.ceiling":"Ceiling & lighting","f.doorType":"Door type","f.door":"Door design","f.panel":"Control panel","f.buttons":"Panel buttons",
@@ -246,10 +277,10 @@ const T={
   h1:"صمّم <em>كابينتك بنفسك.</em>",intro:"استكشف الخامات واصنع الشكل المناسب لمشروعك. اختر طراز الكابينة والأرضية ولون المعدن والسقف ولوحة التحكم ونوع الباب وتصميمه.",
   step:"منتجات ميلسا الحقيقية",preview:"معاينة ثلاثية الأبعاد مباشرة",hint3d:"معاينة 3D",customize:"خصّص كابينتك",sub:"اختر من منتجات ميلسا الحقيقية — تتحدث المعاينة فورًا.",
   aiOnly:"يُستخدم لصورة الذكاء الاصطناعي",spec:"مواصفات تصميمك",note:"معاينة تصورية فقط. يجب تأكيد الخامات النهائية مع الخامات المتاحة وعينات المنتجات الحقيقية.",
-  install:"ثبّت التطبيق",iosHint:"للتثبيت: اضغط زر المشاركة ثم «إضافة إلى الشاشة الرئيسية».",copy:"نسخ ملخص التصميم",copied:"تم النسخ!",reset:"إعادة ضبط",aiBtn:"إنشاء صورة واقعية بالذكاء الاصطناعي",aiNote:"تستخدم منتجات ميلسا التي اخترتها. تستغرق حوالي ١٠–٣٠ ثانية.",
+  navSurvey:"معاينة الموقع",lockTitle:"للمهندسين فقط",lockText:"اكتب كلمة سر المهندسين لفتح أدوات ميلسا للتصميم.",lockPh:"كلمة السر",unlock:"فتح",lockWrong:"كلمة السر غير صحيحة. حاول مرة أخرى.",lock:"🔒 قفل",install:"ثبّت التطبيق",iosHint:"للتثبيت: اضغط زر المشاركة ثم «إضافة إلى الشاشة الرئيسية».",copy:"نسخ ملخص التصميم",copied:"تم النسخ!",reset:"إعادة ضبط",aiBtn:"إنشاء صورة واقعية بالذكاء الاصطناعي",aiNote:"تستخدم منتجات ميلسا التي اخترتها. تستغرق حوالي ١٠–٣٠ ثانية.",
   aiTitle:"معاينة واقعية بالذكاء الاصطناعي",aiRegen:"إنشاء صورة أخرى",aiDownload:"تحميل الصورة",aiDisclaimer:"صورة تصورية بالذكاء الاصطناعي للإلهام فقط. يجب تأكيد الخامات والمقاسات والتفاصيل النهائية مع ميلسا للمصاعد.",
   aiLoading:"جارٍ إنشاء تصميم مصعدك…",aiError:"تعذر إنشاء الصورة. حاول مرة أخرى.",aiConn:"مشكلة في الاتصال. حاول مرة أخرى.",aiLimit:"وصلت للحد المسموح في الساعة. حاول مرة أخرى لاحقًا.",
-  surveyLink:"للمهندسين: معاينة الموقع ←",foot1:"ميلسا للمصاعد · مجموعة التصميم",foot2:"أداة تصميم تصورية — ليست رسمًا هندسيًا",brief:"ميلسا للمصاعد — ملخص تصميم الكابينة",
+  surveyLink:"معاينة الموقع ←",foot1:"ميلسا للمصاعد · مجموعة التصميم",foot2:"أداة تصميم تصورية — ليست رسمًا هندسيًا",brief:"ميلسا للمصاعد — ملخص تصميم الكابينة",
   shaft:"البئر والماكينة",shaftOff:"رجوع للكابينة",capShaft:"عرض البئر والماكينة",open:"افتح الباب",close:"أغلق الباب",inside:"ادخل الكابينة",outside:"اخرج من الكابينة",capOut:"تصور تفاعلي ثلاثي الأبعاد · اسحب للتدوير",capIn:"داخل الكابينة · اسحب للنظر حولك",
   mrlGeared:"مصاعد MRL تستخدم ماكينات بدون جيربوكس (Gearless)",telescopic:"تلسكوبي",
   "f.style":"طراز الكابينة","f.metal":"لون المعدن","f.floor":"الأرضية","f.ceiling":"السقف والإضاءة","f.doorType":"نوع الباب","f.door":"تصميم الباب","f.panel":"لوحة التحكم","f.buttons":"أزرار اللوحة",
@@ -281,7 +312,8 @@ function applyLang(L){
   first.textContent=num+" — "+t("f."+key)+" ";
   if(g.dataset.group) g.querySelectorAll("button[data-value]").forEach(b=>{const tn=[...b.childNodes].reverse().find(n=>n.nodeType===3);if(tn)tn.textContent=t("o."+key+"."+b.dataset.value);});
  });
- document.getElementById("langBtn").textContent=L==="ar"?"English":"عربي";
+ document.getElementById("langBtn").textContent=document.getElementById("lockLang").textContent=L==="ar"?"English":"عربي";
+ document.querySelectorAll("[data-i18n-ph]").forEach(el=>el.placeholder=t(el.dataset.i18nPh));
  document.getElementById("langBtn").lang=L==="ar"?"en":"ar";
  if(typeof render==="function"&&window.melsaReady)render();
  window.dispatchEvent(new Event("melsa:lang"));
@@ -302,11 +334,29 @@ if("serviceWorker" in navigator) window.addEventListener("load",()=>navigator.se
   toast.textContent=t("iosHint");toast.hidden=false;clearTimeout(tm);tm=setTimeout(()=>toast.hidden=true,7000);
  });
 })();
+// Engineers' password (same as the site survey page; only a salted hash is stored)
+const LOCK={salt:"186f61d54c8efec36171f41507c2dbd0",hash:"37bcf36379b662ce9b593233277aaad24976dc04214fbdb053e901893569cf61",iter:150000,key:"melsaSurveyKey"};
+async function derive(pw){
+ const enc=new TextEncoder(), k=await crypto.subtle.importKey("raw",enc.encode(pw),"PBKDF2",false,["deriveBits"]);
+ const salt=new Uint8Array(LOCK.salt.match(/../g).map(h=>parseInt(h,16)));
+ const bits=await crypto.subtle.deriveBits({name:"PBKDF2",hash:"SHA-256",salt,iterations:LOCK.iter},k,256);
+ return [...new Uint8Array(bits)].map(b=>b.toString(16).padStart(2,"0")).join("");
+}
+try{if(localStorage.getItem(LOCK.key)===LOCK.hash)document.body.classList.remove("locked");}catch(e){}
+document.getElementById("lockLang").addEventListener("click",()=>applyLang(lang==="ar"?"en":"ar"));
+document.getElementById("lockForm").addEventListener("submit",async e=>{
+ e.preventDefault(); const inp=document.getElementById("lockPw"), err=document.getElementById("lockErr"); err.textContent="";
+ if(await derive(inp.value.trim())===LOCK.hash){
+  try{localStorage.setItem(LOCK.key,LOCK.hash);sessionStorage.setItem("melsaWelcomed","1")}catch(e){}
+  inp.value=""; document.getElementById("welcome")?.remove(); document.body.style.overflow=""; document.body.classList.remove("locked"); scrollTo(0,0);
+ } else {err.textContent=t("lockWrong"); inp.select();}
+});
+document.getElementById("lockBtn").addEventListener("click",()=>{try{localStorage.removeItem(LOCK.key)}catch(e){} location.reload();});
 // Welcome page: once per visit
 (function(){
  const w=document.getElementById("welcome"); let seen=false;
  try{seen=sessionStorage.getItem("melsaWelcomed")==="1";}catch(e){}
- if(seen){w.remove();return;}
+ if(seen||document.body.classList.contains("locked")){w.remove();return;}
  document.body.style.overflow="hidden";
  w.querySelectorAll("[data-lang]").forEach(b=>b.addEventListener("click",()=>{
   applyLang(b.dataset.lang); try{sessionStorage.setItem("melsaWelcomed","1")}catch(e){}
