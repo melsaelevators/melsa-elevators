@@ -8,12 +8,23 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css">
 <style>
-.hero{background:#fff;padding:48px 0 40px;border-bottom:1px solid var(--line);overflow:hidden}
-.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:36px;align-items:center}
-.hero h1 em{font-style:normal;color:var(--red)}
-.collage{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.collage img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:14px;border:1px solid var(--line);background:#f4f5f7}
-.collage img:nth-child(2){transform:translateY(-18px)}.collage img:nth-child(5){transform:translateY(-18px)}
+.hero{position:relative;overflow:hidden;min-height:clamp(520px,78vh,760px);display:flex;align-items:center;color:#fff;background:#0a1730}
+.hero .slides{position:absolute;inset:0}
+.hero .slides img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 45%;opacity:0;transform:scale(1.04);transition:opacity 1.4s ease,transform 7s ease}
+.hero .slides img.on{opacity:1;transform:scale(1.12)}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#021a46e0 0%,#021a4680 42%,#021a4600 72%)}
+[dir=rtl] .hero::after{background:linear-gradient(270deg,#021a46e0 0%,#021a4680 42%,#021a4600 72%)}
+.hero .wrap{position:relative;z-index:1;width:100%;padding-top:56px;padding-bottom:72px}
+.hero .txt{max-width:640px}
+.hero .eyebrow{color:#ff8a96}
+.hero h1{color:#fff;text-shadow:0 2px 18px #0006}
+.hero h1 em{font-style:normal;color:#ff4d5e}
+.hero .lead{color:#e3eaf7;text-shadow:0 1px 8px #0006}
+.hero .btn.ghost{background:#ffffff1a;color:#fff;border-color:#fff;backdrop-filter:blur(4px)}
+.hero .dots{position:absolute;z-index:2;bottom:22px;inset-inline:0;display:flex;justify-content:center;gap:8px}
+.hero .dots button{width:9px;height:9px;border-radius:50%;border:0;padding:0;background:#ffffff66;cursor:pointer;transition:width .3s,background .3s}
+.hero .dots button.on{width:26px;border-radius:6px;background:#fff}
+@media(prefers-reduced-motion:reduce){.hero .slides img{transition:opacity .6s;transform:none!important}}
 .svc{display:flex;flex-direction:column;gap:6px}
 .svc .ic{width:44px;height:44px;border-radius:12px;background:var(--tint);display:grid;place-items:center;font-size:22px;margin-bottom:6px}
 .svc p{margin:0;color:var(--muted);font-size:14px}
@@ -30,7 +41,7 @@
 @media(max-width:900px){.logos{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media(max-width:560px){.logos{grid-template-columns:repeat(3,minmax(0,1fr))}.logos a{height:90px}.logos img{max-height:66px}}
 .secthead{display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:18px}
-@media(max-width:860px){.hero .wrap{grid-template-columns:1fr}.cta{flex-direction:column;align-items:flex-start}}
+@media(max-width:860px){.hero::after,[dir=rtl] .hero::after{background:linear-gradient(0deg,#021a46f0 0%,#021a46a6 50%,#021a4610 100%)}.hero{align-items:flex-end}.cta{flex-direction:column;align-items:flex-start}}
 </style>
 <script>
 window.PAGE_T={
@@ -63,15 +74,16 @@ window.PAGE_T={
 </head>
 <body data-page="home">
 <main>
- <div class="hero"><div class="wrap">
-  <div>
+ <div class="hero">
+  <div class="slides" id="slides" aria-hidden="true"></div>
+  <div class="wrap"><div class="txt">
    <div class="eyebrow" data-i18n="eyebrow">Engineered for elegance</div>
    <h1 data-i18n-html="h1">Crafted to Match <em>Your Vision.</em></h1>
    <p class="lead" data-i18n="lead"></p>
    <div class="btns"><a class="btn red" href="quote.html" data-i18n="cta1">Request a quote</a><a class="btn navy" href="maintenance.html" data-i18n="cta2">Book maintenance</a><a class="btn ghost" href="catalog.html" data-i18n="cta3">View catalog</a></div>
-  </div>
-  <div class="collage" id="collage"></div>
- </div></div>
+  </div></div>
+  <div class="dots" id="dots"></div>
+ </div>
 
  <section><div class="wrap">
   <div class="eyebrow" data-i18n="svcEyebrow">What we do</div><h2 data-i18n="svcTitle">Complete elevator solutions</h2>
@@ -103,9 +115,18 @@ window.PAGE_T={
 <script>
 (function(){
  const {t,esc,lang,site}=Melsa, P=window.MELSA_PRODUCTS;
- const pick=["semi_automatic_doors_02","automatic_doors_01","control_panels_04","semi_automatic_doors_05","automatic_doors_08","control_panels_02"];
  const all=Object.values(P).flat(), byId=Object.fromEntries(all.map(p=>[p.id,p]));
- document.getElementById("collage").innerHTML=pick.map(id=>`<img src="assets/thumbs/${id}.jpg" alt="" loading="lazy">`).join("");
+ // hero slideshow
+ const HERO=[1,2,3,4,5,6,7,8,9,10].map(n=>`assets/hero/${String(n).padStart(2,"0")}.jpg`);
+ const sl=document.getElementById("slides"), dots=document.getElementById("dots");
+ sl.innerHTML=HERO.map((src,i)=>`<img ${i?`data-src="${src}"`:`src="${src}" class="on"`} alt="">`).join("");
+ dots.innerHTML=HERO.map((_,i)=>`<button type="button" aria-label="${i+1}" class="${i?"":"on"}"></button>`).join("");
+ const imgs=[...sl.children], dbs=[...dots.children]; let cur=0, timer;
+ const load=i=>{const im=imgs[i];if(im&&im.dataset.src){im.src=im.dataset.src;delete im.dataset.src;}};
+ function show(i){load(i);load((i+1)%imgs.length);imgs[cur].classList.remove("on");dbs[cur].classList.remove("on");cur=i;imgs[cur].classList.add("on");dbs[cur].classList.add("on");}
+ const next=()=>show((cur+1)%imgs.length), start=()=>{clearInterval(timer);timer=setInterval(()=>{if(!document.hidden)next();},5000);};
+ dbs.forEach((b,i)=>b.addEventListener("click",()=>{show(i);start();}));
+ window.addEventListener("load",()=>load(1)); start();
  function render(){
   const L=lang();
   document.getElementById("types").innerHTML=["Residential","Villa","Hospital","Mall","Office","Hotel","Factory"].map(k=>`<span>${esc(t("b."+k))}</span>`).join("");
