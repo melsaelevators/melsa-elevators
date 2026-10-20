@@ -16,7 +16,9 @@ window.MELSA_SITE = {
   },
 
   /* Clients: { name_en, name_ar, logo: "assets/clients/xxx.png" (optional),
-     cat: "hospitals" | "education" | "industry" | "construction" | "gov" | "business" } */
+     cat: "hospitals" | "education" | "industry" | "construction" | "gov" | "business",
+     photos: ["assets/projects/<client>/1.jpg", ...]  (project photos shown when the logo is tapped),
+     text_en / text_ar: short description of the project (optional) } */
   clients: [
     { name_en: "Sonesta Hotels & Resorts", name_ar: "فنادق ومنتجعات سونستا", logo: "assets/clients/sonesta.png", cat: "business" },
     { name_en: "Administrative Control Authority", name_ar: "هيئة الرقابة الإدارية", logo: "assets/clients/aca.png", cat: "gov" },

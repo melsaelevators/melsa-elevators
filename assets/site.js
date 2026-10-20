@@ -79,7 +79,7 @@ function send(subject,text){
  toast(t("notSet")); return false;
 }
 function lightbox(srcs,start=0,caption=""){
- let i=start; const d=document.createElement("div");
+ let i=start; const d=document.createElement("div"); d.className="lb";
  d.style.cssText="position:fixed;inset:0;z-index:95;background:#0a1730e6;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px";
  d.innerHTML=`<img style="max-width:100%;max-height:calc(100vh - 120px);border-radius:12px;background:#fff" alt=""><div style="color:#fff;margin-top:10px;font-weight:700;text-align:center"></div>
  <div style="display:flex;gap:10px;margin-top:12px">${srcs.length>1?'<button class="btn ghost" data-a="-1">‹</button><button class="btn ghost" data-a="1">›</button>':""}<button class="btn red" data-a="x">${esc(t("close"))}</button></div>`;
