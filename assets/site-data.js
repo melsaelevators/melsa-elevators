@@ -43,7 +43,8 @@ window.MELSA_SITE = {
     { name_en: "ACROW Misr", name_ar: "أكرو مصر", logo: "assets/clients/acrow.png", cat: "construction",
       photos: ["assets/projects/acrow/1.jpg", "assets/projects/acrow/2.jpg"] },
     { name_en: "ABB", name_ar: "ABB", logo: "assets/clients/abb.png", cat: "industry" },
-    { name_en: "Ahmed El Sallab", name_ar: "أحمد السلاب", logo: "assets/clients/ahmed-el-sallab.png", cat: "business" },
+    { name_en: "Ahmed El Sallab", name_ar: "أحمد السلاب", logo: "assets/clients/ahmed-el-sallab.png", cat: "business",
+      photos: ["assets/projects/ahmed-el-sallab/1.jpg"] },
     { name_en: "Farm Cheese", name_ar: "فارم تشيز", logo: "assets/clients/farm-cheese.png", cat: "industry" },
     { name_en: "Syndicate of Applied Professions", name_ar: "نقابة التطبيقيين", logo: "assets/clients/applied-professions-syndicate.png", cat: "gov" },
     { name_en: "Syndicate of Commercial Professions", name_ar: "نقابة التجاريين", logo: "assets/clients/commercial-professions-syndicate.png", cat: "gov" }
