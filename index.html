@@ -441,7 +441,6 @@ function render(){
  ["floor","door","panel","buttons"].forEach(k=>document.getElementById("pickName-"+k).textContent=nice(k));
  HINT_KEYS.forEach(k=>document.getElementById("hint-"+k).textContent=t("h."+k+"."+state[k]));
  document.querySelectorAll("[data-show]").forEach(f=>f.hidden=f.dataset.show!==state.drive);
- const geared=document.querySelector('[data-group=machine] [data-value=Geared]'); geared.disabled=state.machineRoom==="MRL"; geared.title=geared.disabled?t("mrlGeared"):"";
  document.getElementById("previewStatus").textContent=nice("style")+" · "+nice("metal");
  const chips=document.getElementById("chips");chips.replaceChildren();
  activeKeys().forEach(k=>{const span=document.createElement("span");span.className="chip";span.textContent=t("f."+k)+": "+nice(k);chips.append(span)});
@@ -452,7 +451,6 @@ document.querySelectorAll("[data-group]").forEach(group=>group.addEventListener(
  const b=e.target.closest("button[data-value]");if(!b)return;const g=group.dataset.group;state[g]=b.dataset.value;
  if(g==="doorType"&&productById[state.door].type!==doorPhotoType(state.doorType)){state.door=PRODUCTS.door.find(p=>p.type===doorPhotoType(state.doorType)).id;}
  if(g==="doorType")buildPhotoGroups();
- if(g==="machineRoom"&&state.machineRoom==="MRL")state.machine="Gearless";
  render()}));
 document.querySelectorAll("[data-photo-group]").forEach(box=>box.addEventListener("click",e=>{const b=e.target.closest(".pchoice");if(!b)return;state[box.dataset.photoGroup]=b.dataset.value;render()}));
 document.getElementById("resetBtn").addEventListener("click",()=>{Object.assign(state,defaults);buildPhotoGroups();render()});
@@ -963,24 +961,34 @@ function buildTower(s){
    mx=-0.45; my=Ht-1.15; mz=-1.15;
    machineModel(s.machine==='Geared'?'Geared':'Gearless',g,mx,my,mz);
    box(1.6,0.1,0.32,steel,mx,my-0.06,mz,g);
-  } else { // machine room attached to the side of the tower at the top
-   const rx=X+1.25, rw=2.5, ry=Ht-2.5;
-   box(rw,0.18,dz,slab,rx,ry,cz,g);
+  } else { // machine room on top of the tower, right above the shaft
+   const ry=Ht+0.16, rh=2.5, rw=2*X+0.6, rd=dz+0.5;
+   box(rw,0.2,rd,slab,0,ry-0.1,cz,g);
    const wm=own(new THREE.MeshStandardMaterial({color:'#d4cfc6',transparent:true,opacity:0.3,depthWrite:false,side:THREE.DoubleSide}));
-   box(rw,2.5,0.03,wm,rx,ry+1.25,Zb,g); box(rw,2.5,0.03,wm,rx,ry+1.25,Zf,g); box(0.03,2.5,dz,wm,rx+rw/2,ry+1.25,cz,g); box(rw,0.04,dz,wm,rx,ry+2.5,cz,g);
-   mx=rx-0.2; my=ry+0.09; mz=-0.3;
+   box(rw,rh,0.03,wm,0,ry+rh/2,cz-rd/2,g); box(rw,rh,0.03,wm,0,ry+rh/2,cz+rd/2,g); box(0.03,rh,rd,wm,-rw/2,ry+rh/2,cz,g); box(0.03,rh,rd,wm,rw/2,ry+rh/2,cz,g);
+   box(rw+0.1,0.12,rd+0.1,steel,0,ry+rh,cz,g);
+   mx=-0.2; my=ry; mz=-0.35;
    machineModel(s.machine==='Geared'?'Geared':'Gearless',g,mx,my,mz);
-   box(0.45,1.3,0.3,own(mat('#c9ced4',0.6,0.35)),rx+0.8,ry+0.74,Zf-0.3,g);       // controller
+   box(0.5,1.3,0.3,own(mat('#c9ced4',0.6,0.35)),rw/2-0.45,ry+0.65,cz+rd/2-0.3,g);  // controller
+   lift.towerH=Ht+rh+0.3;
   }
   const sheave=new THREE.Vector3(mx+(s.machine==='Geared'?0.42:0.16),my+(mrl?0.4:0.4),mz);
-  // diverter sheaves at the tower top, above the car and above the counterweight
-  const div1=new THREE.Vector3(0,Ht-0.3,0), div2=new THREE.Vector3(cwX,Ht-0.3,cwZ);
-  for(const v of [div1,div2]){const c=new THREE.Mesh(new THREE.CylinderGeometry(0.2,0.2,0.1,20),own(mat('#b5bcc4',0.8,0.3)));c.rotation.z=Math.PI/2;c.position.copy(v);g.add(c);}
-  for(const o of [-0.05,0.05]){
-   dynRod(0.012,ropeM,()=>carTop().add(new THREE.Vector3(o,0,0)),()=>div1.clone().add(new THREE.Vector3(o,-0.2,0)));
-   dynRod(0.012,ropeM,()=>div1.clone().add(new THREE.Vector3(o,0.15,0)),()=>sheave.clone().add(new THREE.Vector3(0,0,o)));
-   dynRod(0.012,ropeM,()=>sheave.clone().add(new THREE.Vector3(0,0.1,o)),()=>div2.clone().add(new THREE.Vector3(o,0.15,0)));
-   dynRod(0.012,ropeM,()=>div2.clone().add(new THREE.Vector3(o,-0.2,0)),()=>cwHook().add(new THREE.Vector3(o,0,0)));
+  if(mrl){
+   // diverter sheaves at the tower top, above the car and above the counterweight
+   const div1=new THREE.Vector3(0,Ht-0.3,0), div2=new THREE.Vector3(cwX,Ht-0.3,cwZ);
+   for(const v of [div1,div2]){const c=new THREE.Mesh(new THREE.CylinderGeometry(0.2,0.2,0.1,20),own(mat('#b5bcc4',0.8,0.3)));c.rotation.z=Math.PI/2;c.position.copy(v);g.add(c);}
+   for(const o of [-0.05,0.05]){
+    dynRod(0.012,ropeM,()=>carTop().add(new THREE.Vector3(o,0,0)),()=>div1.clone().add(new THREE.Vector3(o,-0.2,0)));
+    dynRod(0.012,ropeM,()=>div1.clone().add(new THREE.Vector3(o,0.15,0)),()=>sheave.clone().add(new THREE.Vector3(0,0,o)));
+    dynRod(0.012,ropeM,()=>sheave.clone().add(new THREE.Vector3(0,0.1,o)),()=>div2.clone().add(new THREE.Vector3(o,0.15,0)));
+    dynRod(0.012,ropeM,()=>div2.clone().add(new THREE.Vector3(o,-0.2,0)),()=>cwHook().add(new THREE.Vector3(o,0,0)));
+   }
+  } else {
+   // machine above the shaft: ropes go straight up from the car to the sheave and down to the counterweight
+   for(const o of [-0.06,0,0.06]){
+    dynRod(0.012,ropeM,()=>carTop().add(new THREE.Vector3(o,0,0)),()=>new THREE.Vector3(sheave.x+o,sheave.y,sheave.z+0.28));
+    dynRod(0.012,ropeM,()=>new THREE.Vector3(sheave.x+o,sheave.y,sheave.z-0.28),()=>cwHook().add(new THREE.Vector3(o,0,0)));
+   }
   }
  }
 }
