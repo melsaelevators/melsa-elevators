@@ -155,10 +155,11 @@ body.locked #lock{display:flex;min-height:100vh;flex-direction:column}
  <div class="toolbar">
   <button type="button" class="btn navy" id="newBtn" data-i18n="newSurvey">+ New survey</button>
   <button type="button" class="btn ghost" id="printBtn" data-i18n="print">Print / Save PDF</button>
+  <button type="button" class="btn red" id="sheetBtn" data-i18n="sendOffice">📤 Send to office</button>
   <button type="button" class="btn ghost" id="shareBtn" data-i18n="share">Share (WhatsApp)</button>
   <a class="btn ghost" href="#savedCard" id="savedLink"></a>
   <button type="button" class="btn ghost" id="lockBtn" data-i18n="lock">🔒 Lock</button>
-  <span class="status" id="status"></span>
+  <span class="status" id="status"></span><span class="status" id="sheetStatus"></span>
  </div>
 
  <section class="card">
@@ -279,7 +280,7 @@ body.locked #lock{display:flex;min-height:100vh;flex-direction:column}
 const T={
  en:{docTitle:"Melsa Elevators | Site Survey",lockTitle:"Engineers only",lockText:"Enter the engineers' password to open the site survey.",lockPh:"Password",unlock:"Unlock",lockWrong:"Wrong password. Try again.",lock:"🔒 Lock",tagline:"ENGINEERED FOR ELEGANCE",navConfig:"Cabin configurator",eyebrow:"FOR ENGINEERS",title:"Site survey",printTitle:"SITE SURVEY REPORT",
   lead:"Record the shaft measurements, heights and the components needed for the installation. Everything is saved on this device automatically.",
-  newSurvey:"+ New survey",print:"Print / Save PDF",share:"Share (WhatsApp)",saved:"Saved surveys",savedAt:"Saved automatically · ",
+  sendOffice:"📤 Send to office",sending:"Sending…",sentOk:"Sent to the office sheet ✓",sentAt:"Sent to office ",unsent:"Changes not sent to office yet",sendFail:"Could not send. Check the internet and try again.",sendAuth:"The office sheet refused the request. Enter the engineers' password again.",notLinked:"The office sheet is not linked yet.",askPw:"Enter the engineers' password to send:",needName:"Write the client or project name first.",newSurvey:"+ New survey",print:"Print / Save PDF",share:"Share (WhatsApp)",saved:"Saved surveys",savedAt:"Saved automatically · ",
   s1:"Project details",s1sub:"Who, where and what type of elevator.",s2:"Shaft plan (top view)",s2sub:"Write the inside measurement of each wall in centimetres. The drawing follows your numbers.",
   s3:"Heights & levels",s3sub:"All heights in centimetres.",s4:"Components & quantities",s4sub:"Size / specification and the quantity needed for each part.",
   s5:"Site checks",s5sub:"Tick what you confirmed on site.",s6:"Notes & photos",notes:"Notes",savedTitle:"Saved surveys",savedSub:"Stored on this device only. Print or share a survey to keep a copy.",
@@ -305,7 +306,7 @@ const T={
   "x.governor":"Speed governor","x.cw":"Counterweight & filler weights","x.buffers":"Buffers","x.cable":"Travelling cable","x.cop":"Car operating panel (COP)","x.lop":"Landing call panels","x.jack":"Hydraulic jack","x.pump":"Hydraulic power unit","x.hose":"Hydraulic hose / pipe"},
  ar:{docTitle:"ميلسا للمصاعد | معاينة الموقع",lockTitle:"للمهندسين فقط",lockText:"اكتب كلمة سر المهندسين لفتح صفحة المعاينة.",lockPh:"كلمة السر",unlock:"فتح",lockWrong:"كلمة السر غير صحيحة. حاول مرة أخرى.",lock:"🔒 قفل",tagline:"هندسة الأناقة",navConfig:"مصمم الكابينة",eyebrow:"للمهندسين",title:"معاينة الموقع",printTitle:"تقرير معاينة الموقع",
   lead:"سجّل مقاسات البئر والارتفاعات والمكونات المطلوبة للتركيب. يتم الحفظ تلقائيًا على هذا الجهاز.",
-  newSurvey:"+ معاينة جديدة",print:"طباعة / حفظ PDF",share:"مشاركة (واتساب)",saved:"المعاينات المحفوظة",savedAt:"تم الحفظ تلقائيًا · ",
+  sendOffice:"📤 إرسال للمكتب",sending:"جاري الإرسال…",sentOk:"اتبعتت لشيت المكتب ✓",sentAt:"اتبعتت للمكتب ",unsent:"فيه تعديلات لسه متبعتتش للمكتب",sendFail:"الإرسال فشل. اتأكد من النت وجرّب تاني.",sendAuth:"الشيت رفض الطلب. اكتب كلمة سر المهندسين تاني.",notLinked:"شيت المكتب لسه مش متربط.",askPw:"اكتب كلمة سر المهندسين عشان تبعت:",needName:"اكتب اسم العميل أو المشروع الأول.",newSurvey:"+ معاينة جديدة",print:"طباعة / حفظ PDF",share:"مشاركة (واتساب)",saved:"المعاينات المحفوظة",savedAt:"تم الحفظ تلقائيًا · ",
   s1:"بيانات المشروع",s1sub:"العميل والمكان ونوع المصعد.",s2:"رسمة البئر (من أعلى)",s2sub:"اكتب المقاس الداخلي لكل حائط بالسنتيمتر. الرسمة تتغير حسب أرقامك.",
   s3:"الارتفاعات والأدوار",s3sub:"كل الارتفاعات بالسنتيمتر.",s4:"المكونات والكميات",s4sub:"المقاس / المواصفات والعدد المطلوب لكل جزء.",
   s5:"فحوصات الموقع",s5sub:"علّم على ما تم التأكد منه في الموقع.",s6:"ملاحظات وصور",notes:"ملاحظات",savedTitle:"المعاينات المحفوظة",savedSub:"محفوظة على هذا الجهاز فقط. اطبع أو شارك المعاينة للاحتفاظ بنسخة.",
@@ -364,7 +365,9 @@ function get(path){return path.split(".").reduce((o,k)=>o?.[k],S)}
 function set(path,v){const ks=path.split(".");let o=S;for(let i=0;i<ks.length-1;i++)o=o[ks[i]];o[ks[ks.length-1]]=v;}
 let saveTimer; function touch(){S.updated=Date.now(); clearTimeout(saveTimer); saveTimer=setTimeout(persist,350);}
 function persist(){all[S.id]=S; if(saveAll(all)){try{localStorage.setItem(CUR,S.id)}catch(e){} status();} renderSaved();}
-function status(){const d=new Date(S.updated);document.getElementById("status").textContent=t("savedAt")+d.toLocaleTimeString(lang==="ar"?"ar-EG":"en-GB",{hour:"2-digit",minute:"2-digit"});}
+function sheetStatus(){const el=document.getElementById("sheetStatus"); if(!el)return; const f=x=>new Date(x).toLocaleString(lang==="ar"?"ar-EG":"en-GB",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"});
+ el.textContent=S.sentAt?(S.updated>S.sentAt+1500?"· ⚠ "+t("unsent"):"· ✓ "+t("sentAt")+f(S.sentAt)):""; el.style.color=S.sentAt&&S.updated>S.sentAt+1500?"#b45309":"#15803d";}
+function status(){sheetStatus();const d=new Date(S.updated);document.getElementById("status").textContent=t("savedAt")+d.toLocaleTimeString(lang==="ar"?"ar-EG":"en-GB",{hour:"2-digit",minute:"2-digit"});}
 const num=v=>{const n=parseFloat(v);return isFinite(n)?n:null};
 
 /* ---------- Binding ---------- */
@@ -592,6 +595,53 @@ document.getElementById("shareBtn").addEventListener("click",async()=>{
  window.open("https://wa.me/?text="+encodeURIComponent(text),"_blank");
 });
 
+/* ---------- Send to the office Google Sheet ----------
+   The sheet's Apps Script checks a token derived from the engineers' password,
+   so the token itself never appears in this file. */
+const SHEET={url:"",salt:"melsa-sheet-v1",key:"melsaSheetToken"};
+async function sheetToken(pw){
+ const enc=new TextEncoder(), k=await crypto.subtle.importKey("raw",enc.encode(pw),"PBKDF2",false,["deriveBits"]);
+ const bits=await crypto.subtle.deriveBits({name:"PBKDF2",hash:"SHA-256",salt:enc.encode(SHEET.salt),iterations:150000},k,256);
+ return [...new Uint8Array(bits)].map(b=>b.toString(16).padStart(2,"0")).join("");
+}
+function tAr(k,vars){const o=lang;lang="ar";const r=t(k,vars);lang=o;return r;}
+function sheetFields(){
+ const p=S.project, sh=S.shaft, v=S.vertical, F=[], n=x=>{const y=num(x);return y===null?(x||""):y;};
+ const add=(h,val)=>F.push([h,val??""]), k=(key,val)=>add(tAr(key),val), c=(key,val)=>add(tAr(key)+" (سم)",val);
+ add("ID",S.id); add("آخر إرسال",new Date().toLocaleString("en-GB"));
+ k("p.date",p.date);k("p.engineer",p.engineer);k("p.name",p.name);k("p.client",p.client);k("p.phone",p.phone);k("p.address",p.address);
+ add(tAr("p.gps"),p.gps?"https://maps.google.com/?q="+encodeURIComponent(p.gps):"");
+ k("p.building",tAr("o.building."+p.building));k("p.use",tAr("o.use."+p.use));k("p.drive",tAr("o.drive."+p.drive));k("p.machine",tAr("o.machineRoom."+p.machineRoom));
+ k("p.floorsN",n(p.floorsN));k("p.stops",n(p.stops));k("p.entrances",tAr("o.entrances."+p.entrances));k("p.capacity",n(p.capacity));k("p.speed",n(p.speed));
+ for(const w of ["front","back","left","right"])c("w."+w,n(sh[w]));
+ c("sh.diag1",n(sh.diag1));c("sh.diag2",n(sh.diag2));c("sh.doorW",n(sh.doorW));c("sh.doorH",n(sh.doorH));c("sh.doorLeft",n(sh.doorLeft));c("sh.wall",n(sh.wall));
+ c("sh.carW",n(S.car.w));c("sh.carD",n(S.car.d));c("sh.carH",n(S.car.h));
+ c("v.pit",n(v.pit));c("v.overhead",n(v.overhead));c("v.travel",n(v.travel)??"");
+ add(tAr("v.floors"),Array.from({length:Math.max(0,(parseInt(p.stops)||0)-1)},(_,i)=>tAr("floorLbl",{a:i+1,b:i+2})+": "+(v.floors[i]||"—")).join("\n"));
+ add(tAr("v.mr")+" (سم)",p.drive==="Electric"&&p.machineRoom==="Top"&&(v.mrW||v.mrD||v.mrH)?[v.mrW,v.mrD,v.mrH].map(x=>x||"—").join(" × "):"");
+ add(tAr("s4"),S.components.map(r=>{const nm=r.key?tAr("x."+r.key):r.name; if(!nm||(!r.spec&&!r.qty&&!r.note))return ""; return "• "+nm+(r.qty?" × "+r.qty:"")+(r.spec?" — "+r.spec:"")+(r.note?" ("+r.note+")":"");}).filter(Boolean).join("\n"));
+ add(tAr("s5"),CHECKS.filter(c=>S.checks[c]).map(c=>"✓ "+tAr("k."+c)).join("\n"));
+ k("notes",S.notes);
+ return F;
+}
+document.getElementById("sheetBtn").addEventListener("click",async()=>{
+ const btn=document.getElementById("sheetBtn");
+ if(!SHEET.url){toast(t("notLinked"));return;}
+ if(!S.project.client&&!S.project.name){toast(t("needName"));return;}
+ let tok=null; try{tok=localStorage.getItem(SHEET.key)}catch(e){}
+ if(!tok){const pw=prompt(t("askPw")); if(!pw)return; if(await derive(pw.trim())!==LOCK.hash){toast(t("lockWrong"));return;} tok=await sheetToken(pw.trim()); try{localStorage.setItem(SHEET.key,tok)}catch(e){}}
+ persist(); btn.disabled=true; const old=btn.textContent; btn.textContent=t("sending");
+ try{
+  const name=[S.project.date,S.project.client||S.project.name].filter(Boolean).join(" - ");
+  const res=await fetch(SHEET.url,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({token:tok,id:S.id,folder:name,fields:sheetFields(),photos:S.photos})});
+  const j=await res.json();
+  if(j.ok){S.sentAt=Date.now(); S.updated=S.sentAt; persist(); toast(t("sentOk"));}
+  else if(j.error==="auth"){try{localStorage.removeItem(SHEET.key)}catch(e){} toast(t("sendAuth"));}
+  else toast(t("sendFail"));
+ }catch(e){toast(t("sendFail"));}
+ btn.disabled=false; btn.textContent=old; sheetStatus();
+});
+
 /* ---------- UI helpers ---------- */
 let tm; function toast(msg){const el=document.getElementById("toast");el.textContent=msg;el.hidden=false;clearTimeout(tm);tm=setTimeout(()=>el.hidden=true,4000);}
 function applyLang(L){
@@ -620,10 +670,10 @@ try{if(localStorage.getItem(LOCK.key)===LOCK.hash)unlock();}catch(e){}
 document.getElementById("lockForm").addEventListener("submit",async e=>{
  e.preventDefault(); const inp=document.getElementById("lockPw"), err=document.getElementById("lockErr"); err.textContent="";
  const h=await derive(inp.value.trim());
- if(h===LOCK.hash){try{localStorage.setItem(LOCK.key,h)}catch(e){} inp.value=""; unlock(); scrollTo(0,0);}
+ if(h===LOCK.hash){try{localStorage.setItem(LOCK.key,h)}catch(e){} const pw=inp.value.trim(); sheetToken(pw).then(x=>{try{localStorage.setItem(SHEET.key,x)}catch(e){}}); inp.value=""; unlock(); scrollTo(0,0);}
  else{err.textContent=t("lockWrong"); inp.select();}
 });
-document.getElementById("lockBtn").addEventListener("click",()=>{try{localStorage.removeItem(LOCK.key)}catch(e){} document.body.classList.add("locked"); scrollTo(0,0);});
+document.getElementById("lockBtn").addEventListener("click",()=>{try{localStorage.removeItem(LOCK.key);localStorage.removeItem(SHEET.key)}catch(e){} document.body.classList.add("locked"); scrollTo(0,0);});
 function renderAll(keepScroll){loadInputs();renderFloors();renderMR();renderComps();renderChecks();renderPhotos();drawPlan();drawElev();renderSaved();status();}
 applyLang(lang); persist();
 if("serviceWorker" in navigator) window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
