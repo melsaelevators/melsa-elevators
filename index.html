@@ -502,7 +502,31 @@ Use the attached product photos as exact references:
 - Image 3 is the control/call panel (${pn.label}). Mount it on the wall beside the door. Keep its shape and finish, but all its buttons must be ${btnAi()}.
 Cabin: ${nice("style","en")} style with ${nice("metal","en")} stainless steel walls, ${s.ceiling.toLowerCase()} ceiling lighting, matching handrail.
 Natural, realistic proportions for a ${s.building==="Hospital"?"deep hospital bed elevator":s.building==="Factory"?"sturdy passenger/goods elevator":s.building==="Mall"?"spacious high-capacity passenger elevator":s.building==="Office"||s.building==="Hotel"?"spacious passenger elevator":"compact passenger elevator"}. ${lightAi()}, sharp focus, no people, no text, no logos.`;
+ if(s.location==="Outside") return {prompt:outsidePrompt(),images:[base+d.src,base+f.src,base+pn.src]};
  return {prompt,images:[base+d.src,base+f.src,base+pn.src]};
+}
+/* Outside: a wide street view showing the whole glass tower and the drive machinery */
+const TOWER_FLOORS={Residential:6,Villa:2,Factory:1,Hospital:6,Mall:3,Office:9,Hotel:7};
+const BUILDING_AI={Residential:"a modern residential apartment building",Villa:"a luxury private villa",Factory:"an industrial factory building",Hospital:"a modern hospital building",
+ Mall:"a modern shopping mall with a glass facade",Office:"a modern glass office tower",Hotel:"a luxury five-star hotel"};
+function outsidePrompt(){
+ const s=state, d=productById[s.door], f=productById[s.floor], pn=productById[s.panel];
+ let stops=Math.max(2,Math.min(5,TOWER_FLOORS[s.building]||5)); if(s.drive==="Hydraulic")stops=Math.min(stops,3);
+ const machine=s.machine==="Geared"?"geared traction machine (electric motor, gearbox, brake and traction sheave)":"compact gearless permanent-magnet traction machine (flat disc motor with traction sheave, no gearbox)";
+ let drive;
+ if(s.drive==="Hydraulic") drive=`It is a hydraulic elevator: a polished chrome hydraulic piston (jack) beside the car pushes it up, clearly visible through the glass. There are no hoisting ropes and no machine room on top. ${s.hydUnit==="Pit"?"The oil pump power unit sits in the pit at the bottom of the shaft, visible through the glass.":"A small machine room with a door stands beside the base of the tower and houses the oil pump power unit."}`;
+ else if(s.machineRoom==="MRL") drive=`It is a machine-room-less (MRL) traction elevator: there is no machine room. A ${machine} is mounted inside the top of the glass shaft, beside the car path, clearly visible through the glass. Steel hoisting ropes run from the car top up to the machine, and a counterweight runs on its own rails at the back of the shaft.`;
+ else drive=`On top of the glass tower there is a compact enclosed machine room (same steel frame, small louvres) housing a ${machine} and the controller cabinet. Steel hoisting ropes run from the car top straight up into the machine room, and a counterweight runs on its own rails at the back of the shaft.`;
+ return `Create a photorealistic, high-end architectural exterior photograph of ${BUILDING_AI[s.building]||"a modern building"} with an external panoramic elevator.
+The elevator runs inside a transparent glass tower with a dark steel frame, attached to the facade, serving ${stops} floors. At every upper floor there is a landing platform with a glass railing connected to the building, and a landing door at every floor.
+${drive}
+The elevator car is visible through the glass between two floors.
+Use the attached product photos as references:
+- Image 1 is the landing door (${d.label}): use this exact colour, pattern and frame for the landing doors${s.doorType==="Telescopic"?" (two-panel telescopic side-opening)":s.doorType==="Automatic"?" (centre-opening automatic sliding doors)":" (semi-automatic swing doors)"}.
+- Image 2 is the cabin floor (${f.label}).
+- Image 3 is the call panel (${pn.label}), mounted beside the ground-floor door, with ${btnAi()}.
+Cabin: ${nice("style","en")} style with ${nice("metal","en")} stainless steel walls and ${s.ceiling.toLowerCase()} ceiling lighting.
+Camera: from the street, slightly elevated, showing the whole tower from the ground to the top${s.drive!=="Hydraulic"&&s.machineRoom!=="MRL"?" including the machine room":""}. Natural daylight, a few people walking on the sidewalk, trees, sharp focus, realistic proportions, no text, no logos.`;
 }
 const aiModal=document.getElementById("aiModal"), aiStage=document.getElementById("aiStage");
 let aiUrl=null, aiBusy=false;
