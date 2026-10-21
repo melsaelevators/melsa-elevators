@@ -11,8 +11,8 @@ window.MELSA_SITE = {
     mapsQuery: "30.0804633,31.3453222", // exact location of the office (from the Google Maps pin) // what to search on Google Maps
     hours_en: "",         // e.g. "Sat–Thu, 9:00–17:00"
     hours_ar: "",
-    facebook: "",         // full link
-    instagram: ""         // full link
+    facebook: "https://www.facebook.com/Madelmelsa",   // full link
+    instagram: "https://www.instagram.com/melsaelevators"   // full link
   },
 
   /* Clients: { name_en, name_ar, logo: "assets/clients/xxx.png" (optional),

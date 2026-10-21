@@ -76,3 +76,5 @@ h3{font-size:18px;margin:0 0 6px}
 .wa-float{position:fixed;bottom:18px;inset-inline-end:18px;z-index:45;width:56px;height:56px;border-radius:50%;background:#25d366;display:grid;place-items:center;box-shadow:0 8px 20px #0003}
 .wa-float svg{width:30px;height:30px;fill:#fff}
 .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:90;background:var(--navy);color:#fff;padding:12px 18px;border-radius:12px;font-size:13.5px;max-width:calc(100% - 32px);box-shadow:0 8px 24px #0a173055;border-bottom:3px solid var(--red)}
+
+.fsocial{display:flex;gap:10px;margin-top:14px}.fsocial a{display:grid;place-items:center;width:42px;height:42px;border-radius:12px;background:#fff;font-size:22px;transition:transform .15s}.fsocial a:hover{transform:translateY(-2px)}
