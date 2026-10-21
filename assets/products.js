@@ -34,7 +34,7 @@ window.MELSA_PRODUCTS={
   {id:"automatic_doors_05",code:"017",ar:"أبواب برونزية سادة",ext:"jpeg",type:"Automatic",label:"Bronze plain automatic doors",color:"#9a6b47",design:"plain"},
   {id:"automatic_doors_06",code:"018",ar:"أبواب سوداء سادة",ext:"jpeg",type:"Automatic",label:"Black plain automatic doors",color:"#2a2b2f",design:"plain"}],
  panel:[
-  {id:"control_panels_01",code:"019",ar:"لوحة زجاج أسود بأزرار دائرية",ext:"jpeg",label:"Black glass panel with round buttons",trim:"Silver"},
+  {id:"control_panels_01",code:"019",kind:"COP",ar:"لوحة زجاج أسود بأزرار دائرية",ext:"jpeg",label:"Black glass panel with round buttons",trim:"Silver"},
   {id:"control_panels_02",code:"020",ar:"لوحة ذهبي وأسود",ext:"jpeg",label:"Gold-and-black access panel",trim:"Gold"},
   {id:"control_panels_03",code:"021",ar:"لوحة استدعاء رفيعة أسود وفضي",ext:"jpeg",label:"Slim black-and-silver call panel",trim:"Silver"},
   {id:"control_panels_04",code:"022",ar:"لوحة استدعاء منحنية ذهبي وأسود",ext:"jpeg",label:"Curved gold-and-black call panel",trim:"Gold"},

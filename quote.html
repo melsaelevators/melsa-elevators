@@ -42,7 +42,7 @@
 </style>
 <script>
 window.PAGE_T={
- en:{cabinDesign:"Cabin design (from our catalog)",doorDesign:"Door design (from our catalog)",floorDesign:"Cabin flooring (from our catalog)",panelDesign:"LOP call panel (from our catalog)",optional:"— optional",code:"Code {c}","doorNote.Automatic":"Showing automatic doors. Tap 🔍 to enlarge.","doorNote.Semi":"Showing semi-automatic doors. Tap 🔍 to enlarge.",doorNoteAll:"Choose the door type above to filter. Tap 🔍 to enlarge.",title:"Request an elevator quote | Melsa Elevators",eyebrow:"Request a quote",h1:"Choose your elevator specifications",lead:"Pick the options you want and send them to us on WhatsApp. We will reply with a quotation.",
+ en:{copDesign:"COP car panel (from our catalog)",cabinDesign:"Cabin design (from our catalog)",doorDesign:"Door design (from our catalog)",floorDesign:"Cabin flooring (from our catalog)",panelDesign:"LOP call panel (from our catalog)",optional:"— optional",code:"Code {c}","doorNote.Automatic":"Showing automatic doors. Tap 🔍 to enlarge.","doorNote.Semi":"Showing semi-automatic doors. Tap 🔍 to enlarge.",doorNoteAll:"Choose the door type above to filter. Tap 🔍 to enlarge.",title:"Request an elevator quote | Melsa Elevators",eyebrow:"Request a quote",h1:"Choose your elevator specifications",lead:"Pick the options you want and send them to us on WhatsApp. We will reply with a quotation.",
   s1:"Elevator type",s1sub:"Drive system and doors.",s2:"Main components",s2sub:"Choose the origin of each component.",s3:"Cabin",s3sub:"Finish and the work you want in the cabin.",
   s4:"Panels & control",s4sub:"Call panels and the controller.",s5:"Your details",
   drive:"Drive system",doors:"Doors",rails:"Guide rails",machine:"Machine",ropes:"Traction ropes",finish:"Cabin finish",cabinWork:"Cabin work",multi:"(choose one or more)",
@@ -56,7 +56,7 @@ window.PAGE_T={
   "b.Residential":"Residential building","b.Villa":"Villa","b.Hospital":"Hospital","b.Mall":"Mall","b.Office":"Office","b.Hotel":"Hotel","b.Factory":"Factory",
   summary:"Your request",send:"Send request on WhatsApp",reset:"Clear",nothing:"Choose at least one specification.",
   msgHead:"Quotation request — elevator specifications"},
- ar:{cabinDesign:"شكل الكابينة (من الكتالوج)",doorDesign:"شكل الباب (من الكتالوج)",floorDesign:"أرضية الكابينة (من الكتالوج)",panelDesign:"لوحة الطلبات LOP (من الكتالوج)",optional:"— اختياري",code:"كود {c}","doorNote.Automatic":"معروض الأبواب الأوتوماتيك. دوس 🔍 للتكبير.","doorNote.Semi":"معروض الأبواب النصف أوتوماتيك. دوس 🔍 للتكبير.",doorNoteAll:"اختار نوع الأبواب فوق عشان نعرضلك الأشكال المناسبة. دوس 🔍 للتكبير.",title:"اطلب عرض سعر | إلكتروميلسا للمصاعد",eyebrow:"اطلب عرض سعر",h1:"اختار مواصفات مصعدك",lead:"اختار المواصفات اللي تناسبك وابعتها لنا على واتساب، وهنرد عليك بعرض السعر.",
+ ar:{copDesign:"لوحة الكابينة الداخلية COP (من الكتالوج)",cabinDesign:"شكل الكابينة (من الكتالوج)",doorDesign:"شكل الباب (من الكتالوج)",floorDesign:"أرضية الكابينة (من الكتالوج)",panelDesign:"لوحة الطلبات LOP (من الكتالوج)",optional:"— اختياري",code:"كود {c}","doorNote.Automatic":"معروض الأبواب الأوتوماتيك. دوس 🔍 للتكبير.","doorNote.Semi":"معروض الأبواب النصف أوتوماتيك. دوس 🔍 للتكبير.",doorNoteAll:"اختار نوع الأبواب فوق عشان نعرضلك الأشكال المناسبة. دوس 🔍 للتكبير.",title:"اطلب عرض سعر | إلكتروميلسا للمصاعد",eyebrow:"اطلب عرض سعر",h1:"اختار مواصفات مصعدك",lead:"اختار المواصفات اللي تناسبك وابعتها لنا على واتساب، وهنرد عليك بعرض السعر.",
   s1:"نوع المصعد",s1sub:"نظام التشغيل والأبواب.",s2:"المكونات الأساسية",s2sub:"اختار منشأ كل مكون.",s3:"الكابينة",s3sub:"التشطيب والشغل اللي عايزه في الكابينة.",
   s4:"اللوحات والكنترول",s4sub:"لوحات الطلبات ولوحة التحكم.",s5:"بياناتك",
   drive:"نظام التشغيل",doors:"الأبواب",rails:"الدلائل (السكك)",machine:"الماكينة",ropes:"حبال الجر",finish:"تشطيب الكابينة",cabinWork:"شغل الكابينة",multi:"(اختار واحد أو أكتر)",
@@ -96,6 +96,7 @@ window.PAGE_T={
   <div class="qsec"><h2><span class="n">4</span><span data-i18n="s4"></span></h2><p class="sub" data-i18n="s4sub"></p>
    <div class="q"><span class="ql"><span data-i18n="panels"></span> <small data-i18n="multi"></small></span><div class="opts" data-g="panels" data-v="LOP,COP" data-multi></div></div>
    <div class="q"><span class="ql"><span data-i18n="panelDesign"></span> <small data-i18n="optional"></small></span><div class="cat" data-c="panel"></div></div>
+   <div class="q"><span class="ql"><span data-i18n="copDesign"></span> <small data-i18n="optional"></small></span><div class="cat" data-c="cop"></div></div>
    <div class="q"><span class="ql" data-i18n="controller"></span><div class="opts" data-g="controller" data-v="TwoSpeed,VF,Emergency"></div></div>
   </div>
   <div class="qsec"><h2><span class="n">5</span><span data-i18n="s5"></span></h2>
@@ -122,14 +123,14 @@ window.PAGE_T={
  const {t,esc,send,toast,lightbox}=Melsa, P=window.MELSA_PRODUCTS||{};
  const pick={}; // catalog choices: door / floor / panel -> product id
  const prodName=p=>(Melsa.lang()==="ar"?p.ar:p.label);
- function catList(c){const list=P[c]||[]; if(c!=="door"||!sel.doors)return list; const ty=sel.doors==="Semi"?"Semi-automatic":"Automatic"; return list.filter(p=>p.type===ty);}
+ function catList(c){if(c==="panel")return (P.panel||[]).filter(p=>p.kind!=="COP"); if(c==="cop")return (P.panel||[]).filter(p=>p.kind==="COP"); const list=P[c]||[]; if(c!=="door"||!sel.doors)return list; const ty=sel.doors==="Semi"?"Semi-automatic":"Automatic"; return list.filter(p=>p.type===ty);}
  function renderCat(){
   document.querySelectorAll(".cat[data-c]").forEach(box=>{const c=box.dataset.c, list=catList(c);
    if(pick[c]&&!list.some(p=>p.id===pick[c]))delete pick[c];
    box.innerHTML=list.map(p=>`<button type="button" class="ci" data-id="${p.id}" aria-pressed="${pick[c]===p.id}" title="${esc(prodName(p))}"><img src="assets/thumbs/${p.id}.jpg" alt="${esc(prodName(p))}" loading="lazy"><b>${esc(t("code",{c:p.code}))}</b><span class="zoom" data-zoom="${p.id}" aria-label="zoom">🔍</span></button>`).join("");});
   document.getElementById("doorNote").textContent=sel.doors?t("doorNote."+sel.doors):t("doorNoteAll");
  }
- function catLines(){const L=[]; [["cabin","cabinDesign"],["door","doorDesign"],["floor","floorDesign"],["panel","panelDesign"]].forEach(([c,k])=>{const p=(P[c]||[]).find(x=>x.id===pick[c]); if(p)L.push(t(k)+": "+t("code",{c:p.code}));}); return L;}
+ function catLines(){const L=[]; [["cabin","cabinDesign"],["door","doorDesign"],["floor","floorDesign"],["panel","panelDesign"],["cop","copDesign"]].forEach(([c,k])=>{const p=Object.values(P).flat().find(x=>x.id===pick[c]); if(p)L.push(t(k)+": "+t("code",{c:p.code}));}); return L;}
  const sel={}; const groups=[...document.querySelectorAll(".opts[data-g]")];
  const ORDER=["drive","doors","rails","machine","ropes","finish","cabinWork","panels","controller"];
  const SW={Mirror:"linear-gradient(135deg,#ffffff,#b9c1c8 45%,#f4f6f8)",Hairline:"repeating-linear-gradient(90deg,#c9ced3 0 2px,#b3b9bf 2px 3px)",Bronze:"linear-gradient(135deg,#d0a17a,#644733)",Black:"linear-gradient(135deg,#55575b,#17191e)"};
