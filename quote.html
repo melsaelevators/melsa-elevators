@@ -25,13 +25,23 @@
 .opt[aria-pressed=true]::before{content:"✓";font-weight:800;color:var(--red)}
 .sw{width:20px;height:20px;border-radius:6px;border:1px solid #0002;flex:0 0 20px}
 .q[hidden]{display:none}
+.wa-float{display:none!important}
+.cat{display:grid;grid-template-columns:repeat(auto-fill,minmax(86px,1fr));gap:8px}
+.ci{position:relative;border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:0;overflow:hidden;cursor:pointer;font:inherit;text-align:center}
+.ci img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;background:#f4f5f7}
+.cat[data-c=floor] .ci img{aspect-ratio:1}
+.ci b{display:block;padding:5px 2px;font-size:12px;color:var(--navy)}
+.ci[aria-pressed=true]{border-color:var(--navy);box-shadow:0 0 0 2px var(--navy)}
+.ci[aria-pressed=true]::after{content:"✓";position:absolute;top:6px;inset-inline-start:6px;width:24px;height:24px;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;font-weight:800;font-size:13px}
+.ci .zoom{position:absolute;top:5px;inset-inline-end:5px;width:24px;height:24px;font-size:11px!important;border-radius:50%;background:#fffd;border:1px solid var(--line);display:grid;place-items:center;font-size:13px}
+.catnote{font-size:12.5px;color:var(--muted);margin:-2px 0 8px}
 .summary{background:var(--tint);border:1px solid var(--line);border-radius:14px;padding:14px 16px;font-size:13.5px;white-space:pre-line;color:var(--ink)}
 .sendbar{position:sticky;bottom:0;background:linear-gradient(transparent,var(--paper) 30%);padding:18px 0 14px;display:flex;gap:10px;flex-wrap:wrap}
 .sendbar .btn{flex:1;min-width:220px;font-size:15px;padding:15px 20px}
 </style>
 <script>
 window.PAGE_T={
- en:{title:"Request an elevator quote | Melsa Elevators",eyebrow:"Request a quote",h1:"Choose your elevator specifications",lead:"Pick the options you want and send them to us on WhatsApp. We will reply with a quotation.",
+ en:{doorDesign:"Door design (from our catalog)",floorDesign:"Cabin flooring (from our catalog)",panelDesign:"LOP call panel (from our catalog)",optional:"— optional",code:"Code {c}","doorNote.Automatic":"Showing automatic doors. Tap 🔍 to enlarge.","doorNote.Semi":"Showing semi-automatic doors. Tap 🔍 to enlarge.",doorNoteAll:"Choose the door type above to filter. Tap 🔍 to enlarge.",title:"Request an elevator quote | Melsa Elevators",eyebrow:"Request a quote",h1:"Choose your elevator specifications",lead:"Pick the options you want and send them to us on WhatsApp. We will reply with a quotation.",
   s1:"Elevator type",s1sub:"Drive system and doors.",s2:"Main components",s2sub:"Choose the origin of each component.",s3:"Cabin",s3sub:"Finish and the work you want in the cabin.",
   s4:"Panels & control",s4sub:"Call panels and the controller.",s5:"Your details",
   drive:"Drive system",doors:"Doors",rails:"Guide rails",machine:"Machine",ropes:"Traction ropes",finish:"Cabin finish",cabinWork:"Cabin work",multi:"(choose one or more)",
@@ -45,7 +55,7 @@ window.PAGE_T={
   "b.Residential":"Residential building","b.Villa":"Villa","b.Hospital":"Hospital","b.Mall":"Mall","b.Office":"Office","b.Hotel":"Hotel","b.Factory":"Factory",
   summary:"Your request",send:"Send request on WhatsApp",reset:"Clear",nothing:"Choose at least one specification.",
   msgHead:"Quotation request — elevator specifications"},
- ar:{title:"اطلب عرض سعر | إلكتروميلسا للمصاعد",eyebrow:"اطلب عرض سعر",h1:"اختار مواصفات مصعدك",lead:"اختار المواصفات اللي تناسبك وابعتها لنا على واتساب، وهنرد عليك بعرض السعر.",
+ ar:{doorDesign:"شكل الباب (من الكتالوج)",floorDesign:"أرضية الكابينة (من الكتالوج)",panelDesign:"لوحة الطلبات LOP (من الكتالوج)",optional:"— اختياري",code:"كود {c}","doorNote.Automatic":"معروض الأبواب الأوتوماتيك. دوس 🔍 للتكبير.","doorNote.Semi":"معروض الأبواب النصف أوتوماتيك. دوس 🔍 للتكبير.",doorNoteAll:"اختار نوع الأبواب فوق عشان نعرضلك الأشكال المناسبة. دوس 🔍 للتكبير.",title:"اطلب عرض سعر | إلكتروميلسا للمصاعد",eyebrow:"اطلب عرض سعر",h1:"اختار مواصفات مصعدك",lead:"اختار المواصفات اللي تناسبك وابعتها لنا على واتساب، وهنرد عليك بعرض السعر.",
   s1:"نوع المصعد",s1sub:"نظام التشغيل والأبواب.",s2:"المكونات الأساسية",s2sub:"اختار منشأ كل مكون.",s3:"الكابينة",s3sub:"التشطيب والشغل اللي عايزه في الكابينة.",
   s4:"اللوحات والكنترول",s4sub:"لوحات الطلبات ولوحة التحكم.",s5:"بياناتك",
   drive:"نظام التشغيل",doors:"الأبواب",rails:"الدلائل (السكك)",machine:"الماكينة",ropes:"حبال الجر",finish:"تشطيب الكابينة",cabinWork:"شغل الكابينة",multi:"(اختار واحد أو أكتر)",
@@ -69,6 +79,7 @@ window.PAGE_T={
   <div class="qsec"><h2><span class="n">1</span><span data-i18n="s1"></span></h2><p class="sub" data-i18n="s1sub"></p>
    <div class="q"><span class="ql" data-i18n="drive"></span><div class="opts" data-g="drive" data-v="Electric,Hydraulic"></div></div>
    <div class="q"><span class="ql" data-i18n="doors"></span><div class="opts" data-g="doors" data-v="Automatic,Semi"></div></div>
+   <div class="q"><span class="ql"><span data-i18n="doorDesign"></span> <small data-i18n="optional"></small></span><p class="catnote" id="doorNote"></p><div class="cat" data-c="door"></div></div>
   </div>
   <div class="qsec"><h2><span class="n">2</span><span data-i18n="s2"></span></h2><p class="sub" data-i18n="s2sub"></p>
    <div class="q"><span class="ql" data-i18n="rails"></span><div class="opts" data-g="rails" data-v="Italian,Turkish,Chinese"></div></div>
@@ -78,9 +89,11 @@ window.PAGE_T={
   <div class="qsec"><h2><span class="n">3</span><span data-i18n="s3"></span></h2><p class="sub" data-i18n="s3sub"></p>
    <div class="q"><span class="ql" data-i18n="finish"></span><div class="opts" data-g="finish" data-v="Mirror,Hairline,Bronze,Black"></div></div>
    <div class="q"><span class="ql"><span data-i18n="cabinWork"></span> <small data-i18n="multi"></small></span><div class="opts" data-g="cabinWork" data-v="Floor,Ceiling" data-multi></div></div>
+   <div class="q"><span class="ql"><span data-i18n="floorDesign"></span> <small data-i18n="optional"></small></span><div class="cat" data-c="floor"></div></div>
   </div>
   <div class="qsec"><h2><span class="n">4</span><span data-i18n="s4"></span></h2><p class="sub" data-i18n="s4sub"></p>
    <div class="q"><span class="ql"><span data-i18n="panels"></span> <small data-i18n="multi"></small></span><div class="opts" data-g="panels" data-v="LOP,COP" data-multi></div></div>
+   <div class="q"><span class="ql"><span data-i18n="panelDesign"></span> <small data-i18n="optional"></small></span><div class="cat" data-c="panel"></div></div>
    <div class="q"><span class="ql" data-i18n="controller"></span><div class="opts" data-g="controller" data-v="TwoSpeed,VF,Emergency"></div></div>
   </div>
   <div class="qsec"><h2><span class="n">5</span><span data-i18n="s5"></span></h2>
@@ -100,10 +113,21 @@ window.PAGE_T={
  </div></section>
 </main>
 <script src="assets/site-data.js"></script>
+<script src="assets/products.js"></script>
 <script src="assets/site.js"></script>
 <script>
 (function(){
- const {t,esc,send,toast}=Melsa;
+ const {t,esc,send,toast,lightbox}=Melsa, P=window.MELSA_PRODUCTS||{};
+ const pick={}; // catalog choices: door / floor / panel -> product id
+ const prodName=p=>(Melsa.lang()==="ar"?p.ar:p.label);
+ function catList(c){const list=P[c]||[]; if(c!=="door"||!sel.doors)return list; const ty=sel.doors==="Semi"?"Semi-automatic":"Automatic"; return list.filter(p=>p.type===ty);}
+ function renderCat(){
+  document.querySelectorAll(".cat[data-c]").forEach(box=>{const c=box.dataset.c, list=catList(c);
+   if(pick[c]&&!list.some(p=>p.id===pick[c]))delete pick[c];
+   box.innerHTML=list.map(p=>`<button type="button" class="ci" data-id="${p.id}" aria-pressed="${pick[c]===p.id}" title="${esc(prodName(p))}"><img src="assets/thumbs/${p.id}.jpg" alt="${esc(prodName(p))}" loading="lazy"><b>${esc(t("code",{c:p.code}))}</b><span class="zoom" data-zoom="${p.id}" aria-label="zoom">🔍</span></button>`).join("");});
+  document.getElementById("doorNote").textContent=sel.doors?t("doorNote."+sel.doors):t("doorNoteAll");
+ }
+ function catLines(){const L=[]; [["door","doorDesign"],["floor","floorDesign"],["panel","panelDesign"]].forEach(([c,k])=>{const p=(P[c]||[]).find(x=>x.id===pick[c]); if(p)L.push(t(k)+": "+t("code",{c:p.code}));}); return L;}
  const sel={}; const groups=[...document.querySelectorAll(".opts[data-g]")];
  const ORDER=["drive","doors","rails","machine","ropes","finish","cabinWork","panels","controller"];
  const SW={Mirror:"linear-gradient(135deg,#ffffff,#b9c1c8 45%,#f4f6f8)",Hairline:"repeating-linear-gradient(90deg,#c9ced3 0 2px,#b3b9bf 2px 3px)",Bronze:"linear-gradient(135deg,#d0a17a,#644733)",Black:"linear-gradient(135deg,#55575b,#17191e)"};
@@ -113,6 +137,7 @@ window.PAGE_T={
    box.innerHTML=box.dataset.v.split(",").map(v=>{const on=multi?(sel[g]||[]).includes(v):sel[g]===v;
     return `<button type="button" class="opt" data-v="${v}" aria-pressed="${on}">${g==="finish"?`<span class="sw" style="background:${SW[v]}"></span>`:""}${esc(t("o."+g+"."+v))}</button>`;}).join("");});
   document.querySelectorAll("[data-electric]").forEach(q=>q.hidden=!electric());
+  renderCat();
   document.getElementById("send").textContent=t("send"); document.getElementById("clear").textContent=t("reset");
   renderSum();
  }
@@ -121,15 +146,17 @@ window.PAGE_T={
   ORDER.forEach(g=>{ if((g==="machine"||g==="ropes")&&!electric())return; const v=sel[g]; if(!v||(Array.isArray(v)&&!v.length))return;
    const label=document.querySelector(`.opts[data-g=${g}]`).closest(".q").querySelector(".ql [data-i18n], .ql")?.dataset?.i18n||g;
    L.push(t(g)+": "+(Array.isArray(v)?v.map(x=>t("o."+g+"."+x)).join(" + "):t("o."+g+"."+v)));});
-  return L;
+  return L.concat(catLines());
  }
  function renderSum(){const L=lines();document.getElementById("sum").textContent=L.length?L.join("\n"):"—";}
  document.addEventListener("click",e=>{
+  const z=e.target.closest("[data-zoom]"); if(z){e.stopPropagation(); const p=Object.values(P).flat().find(x=>x.id===z.dataset.zoom); if(p)lightbox(["assets/"+p.id+"."+p.ext],0,t("code",{c:p.code})+" — "+prodName(p)); return;}
+  const ci=e.target.closest(".ci"); if(ci){const c=ci.closest(".cat").dataset.c; pick[c]=pick[c]===ci.dataset.id?undefined:ci.dataset.id; if(!pick[c])delete pick[c]; renderOpts(); return;}
   const b=e.target.closest(".opt"); if(!b)return; const box=b.closest(".opts"), g=box.dataset.g, v=b.dataset.v;
   if(box.hasAttribute("data-multi")){const a=sel[g]||[];sel[g]=a.includes(v)?a.filter(x=>x!==v):[...a,v];} else sel[g]=sel[g]===v?undefined:v;
   renderOpts();
  });
- document.getElementById("clear").addEventListener("click",()=>{for(const k in sel)delete sel[k];document.getElementById("form").reset();renderOpts();scrollTo({top:0,behavior:"smooth"});});
+ document.getElementById("clear").addEventListener("click",()=>{for(const k in sel)delete sel[k];for(const k in pick)delete pick[k];document.getElementById("form").reset();renderOpts();scrollTo({top:0,behavior:"smooth"});});
  document.getElementById("send").addEventListener("click",()=>{
   const v=id=>document.getElementById(id).value.trim(), o=id=>{const s=document.getElementById(id);return s.options[s.selectedIndex].textContent;};
   const L=lines(); if(!L.length){toast(t("nothing"));return;}
