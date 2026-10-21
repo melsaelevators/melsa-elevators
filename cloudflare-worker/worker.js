@@ -8,8 +8,12 @@
  * Setup: add a secret named GEMINI_API_KEY in the worker's Settings → Variables.
  */
 
-const ALLOWED_ORIGIN = "https://melsaelevators.github.io";
-const ALLOWED_IMAGE_PREFIX = "https://melsaelevators.github.io/melsa-elevators/assets/";
+const ALLOWED_ORIGINS = ["https://melsaelevators.com", "https://www.melsaelevators.com", "https://melsaelevators.github.io"];
+const ALLOWED_IMAGE_PREFIXES = [
+  "https://melsaelevators.com/assets/",
+  "https://www.melsaelevators.com/assets/",
+  "https://melsaelevators.github.io/melsa-elevators/assets/",
+];
 // Tried in order; the first one Google accepts is used.
 const MODELS = ["gemini-3.1-flash-image", "gemini-nano-banana-2.1", "gemini-3.1-flash-image-preview"];
 const LIMIT_PER_HOUR = 8; // per visitor (best effort)
@@ -18,7 +22,7 @@ const hits = new Map();
 
 function cors(origin) {
   return {
-    "Access-Control-Allow-Origin": origin === ALLOWED_ORIGIN ? origin : ALLOWED_ORIGIN,
+    "Access-Control-Allow-Origin": ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0],
     "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
     "Vary": "Origin",
@@ -55,7 +59,7 @@ export default {
     const origin = request.headers.get("Origin") || "";
     if (request.method === "OPTIONS") return new Response(null, { headers: cors(origin) });
     if (request.method !== "POST") return json({ error: "Not found" }, 404, origin);
-    if (origin !== ALLOWED_ORIGIN) return json({ error: "Not allowed" }, 403, origin);
+    if (!ALLOWED_ORIGINS.includes(origin)) return json({ error: "Not allowed" }, 403, origin);
     if (!env.GEMINI_API_KEY) return json({ error: "Server is missing GEMINI_API_KEY." }, 500, origin);
 
     const ip = request.headers.get("CF-Connecting-IP") || "unknown";
@@ -65,7 +69,7 @@ export default {
     try { body = await request.json(); } catch { return json({ error: "Bad request" }, 400, origin); }
     const prompt = String(body.prompt || "").slice(0, 3000);
     const images = Array.isArray(body.images) ? body.images.slice(0, 3) : [];
-    if (!prompt || images.some((u) => typeof u !== "string" || !u.startsWith(ALLOWED_IMAGE_PREFIX))) {
+    if (!prompt || images.some((u) => typeof u !== "string" || !ALLOWED_IMAGE_PREFIXES.some((p) => u.startsWith(p)))) {
       return json({ error: "Bad request" }, 400, origin);
     }
 
