@@ -605,7 +605,7 @@ document.getElementById("shareBtn").addEventListener("click",async()=>{
 /* ---------- Send to the office Google Sheet ----------
    The sheet's Apps Script checks a token derived from the engineers' password,
    so the token itself never appears in this file. */
-const SHEET={url:"",salt:"melsa-sheet-v1",key:"melsaSheetToken"};
+const SHEET={url:"https://script.google.com/macros/s/AKfycbwQekfSM3BBbQ1OPJ3lEB_FbcuWN3TKglrcdRLe-q3AyC_6gFaaJIhCeW1IppxweiCLGw/exec",salt:"melsa-sheet-v1",key:"melsaSheetToken"};
 async function sheetToken(pw){
  const enc=new TextEncoder(), k=await crypto.subtle.importKey("raw",enc.encode(pw),"PBKDF2",false,["deriveBits"]);
  const bits=await crypto.subtle.deriveBits({name:"PBKDF2",hash:"SHA-256",salt:enc.encode(SHEET.salt),iterations:150000},k,256);
