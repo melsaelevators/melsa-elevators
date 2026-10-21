@@ -212,29 +212,30 @@ body.locked #lock{display:flex;min-height:100vh;flex-direction:column}
 <button class="choice" data-value="Semi-automatic" aria-pressed="true">Semi-Automatic</button><button class="choice" data-value="Automatic" aria-pressed="false">Automatic</button><button class="choice full" data-value="Telescopic" aria-pressed="false">Automatic Telescopic</button>
 </div></div>
 <div class="field"><label>06 — Door design <span class="pick-name" id="pickName-door"></span></label><div class="photo-choices" data-photo-group="door"></div></div>
-<div class="field"><label>07 — Control panel <span class="pick-name" id="pickName-panel"></span></label><div class="photo-choices" data-photo-group="panel"></div></div>
-<div class="field"><label>08 — Panel buttons <span class="pick-name" id="pickName-buttons"></span></label><div class="photo-choices" data-photo-group="buttons"></div></div>
-<div class="field"><label>09 — Elevator location <span class="pick-name" data-i18n="aiOnly">Used for the AI image</span></label><div class="choices" data-group="location">
+<div class="field"><label>07 — LOP call panel <span class="pick-name" id="pickName-panel"></span></label><div class="photo-choices" data-photo-group="panel"></div></div>
+<div class="field"><label>08 — COP car panel <span class="pick-name" id="pickName-cop"></span></label><div class="photo-choices" data-photo-group="cop"></div></div>
+<div class="field"><label>09 — Panel buttons <span class="pick-name" id="pickName-buttons"></span></label><div class="photo-choices" data-photo-group="buttons"></div></div>
+<div class="field"><label>10 — Elevator location <span class="pick-name" data-i18n="aiOnly">Used for the AI image</span></label><div class="choices" data-group="location">
 <button class="choice" data-value="Inside" aria-pressed="true">Inside the building</button><button class="choice" data-value="Outside" aria-pressed="false">Outside the building</button>
 </div></div>
-<div class="field"><label>10 — Building type <span class="pick-name" data-i18n="aiOnly">Used for the AI image</span></label><div class="choices" data-group="building">
+<div class="field"><label>11 — Building type <span class="pick-name" data-i18n="aiOnly">Used for the AI image</span></label><div class="choices" data-group="building">
 <button class="choice" data-value="Residential" aria-pressed="true">Residential building</button><button class="choice" data-value="Villa" aria-pressed="false">Villa</button><button class="choice" data-value="Factory" aria-pressed="false">Factory</button><button class="choice" data-value="Hospital" aria-pressed="false">Hospital</button><button class="choice" data-value="Mall" aria-pressed="false">Mall</button><button class="choice" data-value="Office" aria-pressed="false">Office</button><button class="choice full" data-value="Hotel" aria-pressed="false">Hotel</button>
 </div></div>
-<div class="field"><label>11 — Drive system <span class="pick-name" id="hint-drive"></span></label><div class="choices" data-group="drive">
+<div class="field"><label>12 — Drive system <span class="pick-name" id="hint-drive"></span></label><div class="choices" data-group="drive">
 <button class="choice" data-value="Electric" aria-pressed="true">Electric (traction)</button><button class="choice" data-value="Hydraulic" aria-pressed="false">Hydraulic</button>
 </div></div>
-<div class="field" data-show="Electric"><label>12 — Machine location <span class="pick-name" id="hint-machineRoom"></span></label><div class="choices" data-group="machineRoom">
+<div class="field" data-show="Electric"><label>13 — Machine location <span class="pick-name" id="hint-machineRoom"></span></label><div class="choices" data-group="machineRoom">
 <button class="choice" data-value="Top" aria-pressed="true">Machine room on top</button><button class="choice" data-value="MRL" aria-pressed="false">In the shaft (MRL)</button>
 </div></div>
-<div class="field" data-show="Electric"><label>13 — Machine type <span class="pick-name" id="hint-machine"></span></label><div class="choices" data-group="machine">
+<div class="field" data-show="Electric"><label>14 — Machine type <span class="pick-name" id="hint-machine"></span></label><div class="choices" data-group="machine">
 <button class="choice" data-value="Geared" aria-pressed="false">Geared</button><button class="choice" data-value="Gearless" aria-pressed="true">Gearless</button>
 </div></div>
-<div class="field" data-show="Hydraulic" hidden><label>12 — Power unit location <span class="pick-name" id="hint-hydUnit"></span></label><div class="choices" data-group="hydUnit">
+<div class="field" data-show="Hydraulic" hidden><label>13 — Power unit location <span class="pick-name" id="hint-hydUnit"></span></label><div class="choices" data-group="hydUnit">
 <button class="choice" data-value="Beside" aria-pressed="true">Machine room beside the shaft</button><button class="choice" data-value="Pit" aria-pressed="false">Inside the shaft</button>
 </div></div>
 <div class="summary"><h3 data-i18n="spec">Your design specification</h3><div class="chips" id="chips"></div><p class="note" data-i18n="note">Concept preview only. Final finishes must be confirmed against available materials and real product samples.</p></div>
 <div class="actions"><button class="btn primary" id="copyBtn" data-i18n="copy">Copy design brief</button><button class="btn secondary" id="resetBtn" data-i18n="reset">Reset</button></div>
-<div class="field ai-view-field"><label>14 — AI image view</label><div class="choices" data-group="aiView">
+<div class="field ai-view-field"><label>15 — AI image view</label><div class="choices" data-group="aiView">
 <button class="choice" data-value="Whole" aria-pressed="true">Whole elevator</button><button class="choice" data-value="Cabin" aria-pressed="false">Cabin close-up</button>
 </div></div>
 <button class="btn ai-btn" id="aiBtn" type="button"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8zM19 14l.9 2.6 2.6.9-2.6.9L19 21l-.9-2.6-2.6-.9 2.6-.9zM5 15l.7 1.8 1.8.7-1.8.7L5 20l-.7-1.8-1.8-.7 1.8-.7z"/></svg><span data-i18n="aiBtn">Generate realistic image (AI)</span></button>
@@ -264,7 +265,7 @@ const T={
   surveyLink:"Site survey →",foot1:"MELSA ELEVATORS · DESIGN COLLECTION",foot2:"Concept configurator — not an engineering drawing",brief:"MELSA ELEVATORS — CABIN DESIGN BRIEF",
   shaft:"Shaft & machine",shaftOff:"Back to cabin",capShaft:"SHAFT & MACHINE VIEW",open:"Open door",close:"Close door",inside:"Step inside",outside:"Step outside",capOut:"INTERACTIVE 3D CONCEPT · DRAG TO ROTATE",capIn:"INSIDE THE CABIN · DRAG TO LOOK AROUND",
   mrlGeared:"Machine-room-less elevators use gearless machines",telescopic:"telescopic doors",
-  "f.aiView":"AI image view","o.aiView.Whole":"Whole elevator","o.aiView.Cabin":"Cabin close-up","f.style":"Cabin style","f.metal":"Metal finish","f.floor":"Flooring","f.ceiling":"Ceiling & lighting","f.doorType":"Door type","f.door":"Door design","f.panel":"Control panel","f.buttons":"Panel buttons",
+  "f.aiView":"AI image view","o.aiView.Whole":"Whole elevator","o.aiView.Cabin":"Cabin close-up","f.style":"Cabin style","f.metal":"Metal finish","f.floor":"Flooring","f.ceiling":"Ceiling & lighting","f.doorType":"Door type","f.door":"Door design","f.panel":"LOP call panel (landing)","f.cop":"COP car panel (inside cabin)","f.buttons":"Panel buttons",
   "f.location":"Elevator location","f.building":"Building type","f.drive":"Drive system","f.machineRoom":"Machine location","f.machine":"Machine type","f.hydUnit":"Power unit location",
   "o.style.Modern":"Modern Minimal","o.style.Classic":"Classic Panels","o.style.Mirror":"Mirror Luxury","o.style.Glass":"Glass Look",
   "o.metal.Silver":"Silver","o.metal.Gold":"Champagne Gold","o.metal.Bronze":"Bronze","o.metal.Black":"Black",
@@ -288,7 +289,7 @@ const T={
   surveyLink:"معاينة الموقع ←",foot1:"إلكتروميلسا للمصاعد · مجموعة التصميم",foot2:"أداة تصميم تصورية — ليست رسمًا هندسيًا",brief:"إلكتروميلسا للمصاعد — ملخص تصميم الكابينة",
   shaft:"البئر والماكينة",shaftOff:"رجوع للكابينة",capShaft:"عرض البئر والماكينة",open:"افتح الباب",close:"أغلق الباب",inside:"ادخل الكابينة",outside:"اخرج من الكابينة",capOut:"تصور تفاعلي ثلاثي الأبعاد · اسحب للتدوير",capIn:"داخل الكابينة · اسحب للنظر حولك",
   mrlGeared:"مصاعد MRL تستخدم ماكينات بدون جيربوكس (Gearless)",telescopic:"تلسكوبي",
-  "f.aiView":"نوع صورة الذكاء الاصطناعي","o.aiView.Whole":"المصعد كامل","o.aiView.Cabin":"الكابينة من قريب","f.style":"طراز الكابينة","f.metal":"لون المعدن","f.floor":"الأرضية","f.ceiling":"السقف والإضاءة","f.doorType":"نوع الباب","f.door":"تصميم الباب","f.panel":"لوحة التحكم","f.buttons":"أزرار اللوحة",
+  "f.aiView":"نوع صورة الذكاء الاصطناعي","o.aiView.Whole":"المصعد كامل","o.aiView.Cabin":"الكابينة من قريب","f.style":"طراز الكابينة","f.metal":"لون المعدن","f.floor":"الأرضية","f.ceiling":"السقف والإضاءة","f.doorType":"نوع الباب","f.door":"تصميم الباب","f.panel":"لوحة الطلبات الخارجية LOP","f.cop":"لوحة الكابينة الداخلية COP","f.buttons":"أزرار اللوحة",
   "f.location":"مكان المصعد","f.building":"نوع المبنى","f.drive":"نظام التشغيل","f.machineRoom":"مكان الماكينة","f.machine":"نوع الماكينة","f.hydUnit":"مكان وحدة الزيت",
   "o.style.Modern":"عصري بسيط","o.style.Classic":"ألواح كلاسيكية","o.style.Mirror":"مرايا فاخرة","o.style.Glass":"مظهر زجاجي",
   "o.metal.Silver":"فضي","o.metal.Gold":"ذهبي شامبين","o.metal.Bronze":"برونزي","o.metal.Black":"أسود",
@@ -373,7 +374,7 @@ document.getElementById("lockBtn").addEventListener("click",()=>{try{localStorag
 const PRODUCTS=window.MELSA_PRODUCTS;
 const doorPhotoType=t=>t==="Telescopic"?"Automatic":t;
 const productById={};Object.values(PRODUCTS).flat().forEach(p=>{p.src="assets/"+p.id+"."+p.ext;p.thumb="assets/thumbs/"+p.id+".jpg";productById[p.id]=p});
-const state={style:"Modern",metal:"Silver",floor:"flooring_samples_02",ceiling:"Linear LED",doorType:"Semi-automatic",door:"semi_automatic_doors_01",panel:"control_panels_01",buttons:"panel_buttons_02",location:"Inside",building:"Residential",drive:"Electric",machineRoom:"Top",machine:"Gearless",hydUnit:"Beside",aiView:"Whole"};
+const state={style:"Modern",metal:"Silver",floor:"flooring_samples_02",ceiling:"Linear LED",doorType:"Semi-automatic",door:"semi_automatic_doors_01",panel:PRODUCTS.panel.find(p=>p.kind!=="COP").id,cop:(PRODUCTS.panel.find(p=>p.kind==="COP")||PRODUCTS.panel[0]).id,buttons:"panel_buttons_02",location:"Inside",building:"Residential",drive:"Electric",machineRoom:"Top",machine:"Gearless",hydUnit:"Beside",aiView:"Whole"};
 const defaults={...state};
 function nice(k,L=lang){const v=state[k],p=productById[v];
  if(p){let l=L==="ar"?p.ar:p.label; if(k==="door"&&state.doorType==="Telescopic") l=L==="ar"?l+" ("+t("telescopic",L)+")":l.replace(/ automatic doors| doors/i,"")+" "+t("telescopic",L); return l;}
@@ -381,7 +382,8 @@ function nice(k,L=lang){const v=state[k],p=productById[v];
 function buildPhotoGroups(){
  document.querySelectorAll("[data-photo-group]").forEach(box=>{
   const g=box.dataset.photoGroup; box.classList.add(g); box.replaceChildren();
-  PRODUCTS[g].filter(p=>g!=="door"||p.type===doorPhotoType(state.doorType)).forEach(p=>{
+  const src=g==="cop"?PRODUCTS.panel.filter(p=>p.kind==="COP"):g==="panel"?PRODUCTS.panel.filter(p=>p.kind!=="COP"):PRODUCTS[g];
+  src.filter(p=>g!=="door"||p.type===doorPhotoType(state.doorType)).forEach(p=>{
    const b=document.createElement("button"); b.type="button"; b.className="pchoice"+(g==="floor"||g==="buttons"?"":" contain"); b.dataset.value=p.id; b.title=p.label; b.setAttribute("aria-label",p.label);
    const img=new Image(); img.src=p.thumb; img.alt=""; img.loading="lazy"; b.append(img); box.append(b);
   });
@@ -392,14 +394,14 @@ function activeKeys(){return Object.keys(state).filter(k=>k!=="aiView"&&(state.d
 function render(){
  document.querySelectorAll("[data-group]").forEach(group=>group.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",String(state[group.dataset.group]===b.dataset.value))));
  document.querySelectorAll("[data-photo-group]").forEach(box=>box.querySelectorAll(".pchoice").forEach(b=>b.setAttribute("aria-pressed",String(state[box.dataset.photoGroup]===b.dataset.value))));
- ["floor","door","panel","buttons"].forEach(k=>document.getElementById("pickName-"+k).textContent=nice(k));
+ ["floor","door","panel","cop","buttons"].forEach(k=>document.getElementById("pickName-"+k).textContent=nice(k));
  HINT_KEYS.forEach(k=>document.getElementById("hint-"+k).textContent=t("h."+k+"."+state[k]));
  document.querySelectorAll("[data-show]").forEach(f=>f.hidden=f.dataset.show!==state.drive);
  document.getElementById("previewStatus").textContent=nice("style")+" · "+nice("metal");
  const chips=document.getElementById("chips");chips.replaceChildren();
  activeKeys().forEach(k=>{const span=document.createElement("span");span.className="chip";span.textContent=t("f."+k)+": "+nice(k);chips.append(span)});
  const d=productById[state.door], f=productById[state.floor], pn=productById[state.panel];
- window.dispatchEvent(new CustomEvent('melsa:update',{detail:{...state,doorInfo:d,floorInfo:f,panelInfo:pn,buttonInfo:productById[state.buttons]}}));
+ window.dispatchEvent(new CustomEvent('melsa:update',{detail:{...state,doorInfo:d,floorInfo:f,panelInfo:pn,copInfo:productById[state.cop],buttonInfo:productById[state.buttons]}}));
 }
 document.querySelectorAll("[data-group]").forEach(group=>group.addEventListener("click",e=>{
  const b=e.target.closest("button[data-value]");if(!b)return;const g=group.dataset.group;state[g]=b.dataset.value;
@@ -424,7 +426,7 @@ function buildAiPrompt(){
  const d=productById[s.door], f=productById[s.floor], pn=productById[s.panel];
  return ["Photorealistic photo of a compact luxury elevator cabin seen through its open "+DOOR_AI[s.doorType],
   "door: "+d.label.toLowerCase(), walls, f.label.toLowerCase()+" floor", ceiling,
-  "control panel: "+pn.label.toLowerCase()+" with "+btnAi(),settingAi(),lightAi(), s.metal==="Gold"?"gold handrail":"stainless handrail","high-end interior photography"].join(", ");
+  "car operating panel inside the cabin: "+productById[s.cop].label.toLowerCase()+" with "+btnAi(),settingAi(),lightAi(), s.metal==="Gold"?"gold handrail":"stainless handrail","high-end interior photography"].join(", ");
 }
 function btnAi(){return productById[state.buttons].ai;}
 const DOOR_AI={"Semi-automatic":"semi-automatic swing landing door",Automatic:"centre-opening automatic sliding doors",Telescopic:"two-panel telescopic side-opening automatic sliding doors (both panels stacked to one side)"};
@@ -453,11 +455,12 @@ function buildGeminiRequest(){
 Use the attached product photos as exact references:
 - Image 1 is the landing door (${d.label}). Reproduce its colour, pattern and frame faithfully.${s.doorType==="Telescopic"?" Keep that exact finish, but build it as a two-panel telescopic side-opening door: both panels slide to the same side and stack.":""}
 - Image 2 is the floor material (${f.label}). Use it for the cabin floor.
-- Image 3 is the control/call panel (${pn.label}). Mount it on the wall beside the door. Keep its shape and finish, but all its buttons must be ${btnAi()}.
+- Image 3 is the car operating panel / COP (${productById[s.cop].label}). Mount it inside the cabin on the side wall next to the door opening. Keep its shape and finish, but all its buttons must be ${btnAi()}.
+On the landing wall beside the door, outside the cabin, add a slim landing call panel (${pn.label.toLowerCase()}) with ${btnAi()}.
 Cabin: ${nice("style","en")} style with ${nice("metal","en")} stainless steel walls, ${s.ceiling.toLowerCase()} ceiling lighting, matching handrail.
 Natural, realistic proportions for a ${s.building==="Hospital"?"deep hospital bed elevator":s.building==="Factory"?"sturdy passenger/goods elevator":s.building==="Mall"?"spacious high-capacity passenger elevator":s.building==="Office"||s.building==="Hotel"?"spacious passenger elevator":"compact passenger elevator"}. ${lightAi()}, sharp focus, no people, no text, no logos.`;
  if(s.aiView==="Whole") return {prompt:s.location==="Outside"?outsidePrompt():insideWholePrompt(),images:[base+d.src,base+f.src,base+pn.src]};
- return {prompt,images:[base+d.src,base+f.src,base+pn.src]};
+ return {prompt,images:[base+d.src,base+f.src,base+productById[s.cop].src]};
 }
 /* Outside: a wide street view showing the whole glass tower and the drive machinery */
 const TOWER_FLOORS={Residential:6,Villa:2,Factory:1,Hospital:6,Mall:3,Office:9,Hotel:7};
@@ -1085,7 +1088,7 @@ function update3D(s){
  setColor(mats.shell, metalColors[s.metal]);
  setColor(mats.back, s.style==='Mirror'?'#aebfc7':s.style==='Glass'?'#a2c6cb':metalColors[s.metal]);
  if(s.floorInfo){mats.floor.map=floorTexture(s.floorInfo.src);mats.floor.color.set('#ffffff');mats.floor.needsUpdate=true;}
- const trim=panelColors[s.panelInfo?.trim||'Silver'];
+ const trim=panelColors[s.copInfo?.trim||s.panelInfo?.trim||'Silver'], hallTrim=panelColors[s.panelInfo?.trim||'Silver'];
  setColor(mats.trim,trim);
  mats.back.metalness=s.style==='Mirror'?0.92:s.style==='Glass'?0.18:0.62;
  mats.back.roughness=s.style==='Mirror'?0.08:s.style==='Glass'?0.12:0.28;
@@ -1094,7 +1097,7 @@ function update3D(s){
  sideInsets.forEach(x=>x.visible=s.style==='Classic'||s.style==='Mirror');
  setColor(panelBase.material,trim);
  setColor(panelScreen.material,'#101114');
- setColor(hallBase.material,trim);
+ setColor(hallBase.material,hallTrim);
  rebuildButtons(s.buttonInfo);
  rebuildDoor(s);
 }
