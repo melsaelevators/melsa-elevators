@@ -120,8 +120,12 @@ body.locked #lock{display:flex;min-height:100vh;flex-direction:column}
  .print-head{display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid var(--navy);padding-bottom:8px;margin-bottom:6px}
  .print-head img{height:52px}
  .card{break-inside:avoid;border:1px solid #bbb;border-top:3px solid var(--navy);margin-top:10px;padding:10px 14px}
- input,select,textarea{border:0!important;border-bottom:1px solid #999!important;border-radius:0!important;padding:3px 2px!important}
- .pin input{border:1px solid #333!important}
+ input,select,textarea{border:0!important;border-bottom:2.5px solid #000!important;border-radius:0!important;padding:8px 2px 4px!important;min-height:34px;font-size:13px!important;font-weight:700;color:#000!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ input[type=number]{-moz-appearance:textfield;appearance:textfield}
+ input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+ select{-webkit-appearance:none;appearance:none;background-image:none!important}
+ label{font-weight:800!important;color:#000!important}
+ .pin input{border:2px solid #000!important;min-height:30px}
  .plan{background:#fff}
  textarea{min-height:0}
  .crow.sug .qty{background:none}
