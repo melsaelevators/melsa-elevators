@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Elevator consulting | Melsa Elevators — استشارات المصاعد</title>
+<meta name="description" content="Ask Melsa Elevators for expert advice on any elevator matter: new installation, modernization, choosing specifications, shaft design, maintenance contracts and inspections. اطلب استشارة في أي حاجة تخص المصعد: تركيب أو تطوير أو اختيار المواصفات.">
+<link rel="canonical" href="https://melsaelevators.github.io/melsa-elevators/consulting.html">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Melsa Elevators"><meta property="og:title" content="Elevator consulting | Melsa Elevators — استشارات المصاعد"><meta property="og:description" content="Expert advice on elevator installation, modernization, specifications and maintenance. استشارات المصاعد من ميلسا."><meta property="og:url" content="https://melsaelevators.github.io/melsa-elevators/consulting.html"><meta property="og:image" content="https://melsaelevators.github.io/melsa-elevators/assets/og.jpg"><meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="assets/logo-mark.png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#023584">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+.cgrid2{display:grid;grid-template-columns:1fr 1.25fr;gap:22px;align-items:start}
+.topics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.tp{display:flex;gap:12px;align-items:flex-start;text-align:start;background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:14px;cursor:pointer;font:inherit;color:inherit;transition:border-color .15s,background .15s,transform .15s}
+.tp:hover{transform:translateY(-2px);border-color:#9fb1d1}
+.tp[aria-pressed="true"]{border-color:var(--navy);background:var(--tint);box-shadow:inset 0 0 0 1px var(--navy)}
+.tp .ic{width:40px;height:40px;border-radius:10px;background:var(--tint);display:grid;place-items:center;font-size:19px;flex:0 0 40px}
+.tp[aria-pressed="true"] .ic{background:var(--navy)}
+.tp h3{font-size:15px;margin:0 0 2px;color:var(--navy)}.tp p{margin:0;color:var(--muted);font-size:12.5px;line-height:1.5}
+.how{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:18px}
+.how div{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;text-align:center}
+.how b{display:grid;place-items:center;width:30px;height:30px;margin:0 auto 6px;border-radius:50%;background:var(--red);color:#fff}
+.how span{font-size:13px;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:8px 14px;font:inherit;font-weight:700;font-size:13.5px;color:var(--navy);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+@media(max-width:900px){.cgrid2{grid-template-columns:1fr}}
+@media(max-width:520px){.topics{grid-template-columns:1fr}.how{grid-template-columns:1fr}}
+</style>
+<script>
+window.PAGE_T={
+ en:{title:"Elevator consulting | Melsa Elevators",eyebrow:"Consulting",h1:"Ask our experts about your elevator",
+  lead:"Planning a new elevator, upgrading an old one, or not sure what to choose? Tell us what you need and one of our engineers will advise you.",
+  topicsTitle:"What do you need advice on?",topicsSub:"Choose one or more.",
+  "t.New":"New elevator installation","t.Newt":"Which elevator suits your building, capacity, speed and budget.",
+  "t.Modern":"Modernization & upgrade","t.Modernt":"Replacing the machine, controller, doors or cabin of an existing elevator.",
+  "t.Specs":"Choosing specifications","t.Specst":"Electric or hydraulic, machine origin, doors, controller, finishes.",
+  "t.Shaft":"Shaft & building design","t.Shaftt":"Shaft size, pit, overhead and machine room before or during construction.",
+  "t.Inspect":"Technical inspection","t.Inspectt":"Evaluating an existing elevator's condition and safety.",
+  "t.Contract":"Maintenance contracts","t.Contractt":"Reviewing your current contract or choosing the right plan.",
+  "t.Quote":"Reviewing a quotation","t.Quotet":"A second opinion on an offer you received.",
+  "t.Other":"Something else","t.Othert":"Any other question about elevators.",
+  how1:"Tell us what you need",how2:"An engineer contacts you",how3:"Phone call or site visit",
+  formTitle:"Request a consultation",name:"Your name",phone:"Phone number",area:"Address / area",building:"Building type",stage:"Project stage",
+  contact:"How should we contact you?",details:"Tell us more",detailsPh:"e.g. 6-storey residential building, we want to replace the old elevator…",send:"Send request on WhatsApp",
+  pickTopic:"Choose at least one topic.",topicsLbl:"Topics",
+  "b.Residential":"Residential building","b.Villa":"Villa","b.Hospital":"Hospital","b.Mall":"Mall","b.Office":"Office","b.Hotel":"Hotel","b.Factory":"Factory",
+  "s.Design":"Design / planning","s.Construction":"Under construction","s.Existing":"Existing building","s.Existing2":"Has an old elevator",
+  "c.Call":"Phone call","c.WhatsApp":"WhatsApp","c.Visit":"Site visit",
+  msgHead:"Consultation request from the Melsa website"},
+ ar:{title:"استشارات المصاعد | ميلسا للمصاعد",eyebrow:"استشارات",h1:"اسأل خبراءنا عن مصعدك",
+  lead:"بتخطط لمصعد جديد، أو عايز تطوّر مصعد قديم، أو محتار تختار إيه؟ قولّنا محتاج إيه وواحد من مهندسينا هيفيدك.",
+  topicsTitle:"محتاج استشارة في إيه؟",topicsSub:"اختار حاجة أو أكتر.",
+  "t.New":"تركيب مصعد جديد","t.Newt":"أنهي مصعد يناسب مبناك والحمولة والسرعة والميزانية.",
+  "t.Modern":"تطوير وتحديث","t.Modernt":"تغيير الماكينة أو الكنترول أو الأبواب أو الكابينة لمصعد موجود.",
+  "t.Specs":"اختيار المواصفات","t.Specst":"كهرباء ولا هيدروليك، منشأ الماكينة، الأبواب، الكنترول، التشطيبات.",
+  "t.Shaft":"تصميم البئر والمبنى","t.Shaftt":"مقاس البئر والحفرة والارتفاع العلوي وغرفة الماكينة قبل أو أثناء البناء.",
+  "t.Inspect":"فحص فني","t.Inspectt":"تقييم حالة وأمان مصعد موجود.",
+  "t.Contract":"عقود الصيانة","t.Contractt":"مراجعة عقدك الحالي أو اختيار الخطة المناسبة.",
+  "t.Quote":"مراجعة عرض سعر","t.Quotet":"رأي تاني في عرض سعر وصلك.",
+  "t.Other":"حاجة تانية","t.Othert":"أي سؤال تاني يخص المصاعد.",
+  how1:"قولّنا محتاج إيه",how2:"مهندس يتواصل معاك",how3:"مكالمة أو زيارة للموقع",
+  formTitle:"اطلب استشارة",name:"الاسم",phone:"رقم التليفون",area:"العنوان / المنطقة",building:"نوع المبنى",stage:"مرحلة المشروع",
+  contact:"نتواصل معاك إزاي؟",details:"احكيلنا أكتر",detailsPh:"مثلًا: عمارة سكنية ٦ أدوار وعايزين نغيّر المصعد القديم…",send:"إرسال الطلب على واتساب",
+  pickTopic:"اختار موضوع واحد على الأقل.",topicsLbl:"الموضوع",
+  "b.Residential":"عمارة سكنية","b.Villa":"فيلا","b.Hospital":"مستشفى","b.Mall":"مول","b.Office":"مبنى إداري","b.Hotel":"فندق","b.Factory":"مصنع",
+  "s.Design":"تصميم / تخطيط","s.Construction":"تحت الإنشاء","s.Existing":"مبنى قائم","s.Existing2":"فيه مصعد قديم",
+  "c.Call":"مكالمة","c.WhatsApp":"واتساب","c.Visit":"زيارة للموقع",
+  msgHead:"طلب استشارة من موقع ميلسا"}
+};
+</script>
+</head>
+<body data-page="consult">
+<main>
+ <div class="page-head"><div class="wrap"><div class="eyebrow" data-i18n="eyebrow"></div><h1 data-i18n="h1"></h1><p class="lead" data-i18n="lead"></p></div></div>
+ <section><div class="wrap cgrid2">
+  <div>
+   <h2 style="margin:0;font-size:22px" data-i18n="topicsTitle"></h2>
+   <p style="margin:2px 0 12px;color:var(--muted)" data-i18n="topicsSub"></p>
+   <div class="topics" id="topics"></div>
+   <div class="how"><div><b>1</b><span data-i18n="how1"></span></div><div><b>2</b><span data-i18n="how2"></span></div><div><b>3</b><span data-i18n="how3"></span></div></div>
+  </div>
+  <div class="card">
+   <h2 style="margin-top:0;font-size:22px" data-i18n="formTitle"></h2>
+   <form class="form" id="form">
+    <div class="row"><div><label for="n" data-i18n="name"></label><input id="n" required autocomplete="name"></div><div><label for="ph" data-i18n="phone"></label><input id="ph" type="tel" inputmode="tel" required autocomplete="tel"></div></div>
+    <div><label for="ar" data-i18n="area"></label><input id="ar" autocomplete="street-address"></div>
+    <div class="row">
+     <div><label for="bt" data-i18n="building"></label><select id="bt" data-opts="b"><option value="Residential"></option><option value="Villa"></option><option value="Hospital"></option><option value="Mall"></option><option value="Office"></option><option value="Hotel"></option><option value="Factory"></option></select></div>
+     <div><label for="sg" data-i18n="stage"></label><select id="sg" data-opts="s"><option value="Design"></option><option value="Construction"></option><option value="Existing"></option><option value="Existing2"></option></select></div>
+    </div>
+    <div><label data-i18n="contact"></label><div class="chips" id="contact"></div></div>
+    <div><label for="de" data-i18n="details"></label><textarea id="de" data-i18n-ph="detailsPh"></textarea></div>
+    <button class="btn red" type="submit" data-i18n="send"></button>
+   </form>
+  </div>
+ </div></section>
+</main>
+<script src="assets/site-data.js"></script>
+<script src="assets/site.js"></script>
+<script>
+(function(){
+ const {t,esc,send,toast}=Melsa;
+ const TOPICS=[["New","🏗️"],["Modern","⚙️"],["Specs","📋"],["Shaft","📐"],["Inspect","🔍"],["Contract","📝"],["Quote","💬"],["Other","❓"]];
+ const CONTACT=["Call","WhatsApp","Visit"];
+ const picked=new Set(), how=new Set(["WhatsApp"]);
+ const q=new URLSearchParams(location.search).get("topic"); if(q&&TOPICS.some(x=>x[0]===q))picked.add(q);
+ function render(){
+  document.getElementById("topics").innerHTML=TOPICS.map(([k,ic])=>`<button type="button" class="tp" data-k="${k}" aria-pressed="${picked.has(k)}"><span class="ic">${ic}</span><span><h3>${esc(t("t."+k))}</h3><p>${esc(t("t."+k+"t"))}</p></span></button>`).join("");
+  document.getElementById("contact").innerHTML=CONTACT.map(k=>`<button type="button" class="chip" data-c="${k}" aria-pressed="${how.has(k)}">${esc(t("c."+k))}</button>`).join("");
+  document.getElementById("de").placeholder=t("detailsPh");
+ }
+ render(); window.addEventListener("melsa:lang",render);
+ document.getElementById("topics").addEventListener("click",e=>{const b=e.target.closest(".tp");if(!b)return;const k=b.dataset.k;picked.has(k)?picked.delete(k):picked.add(k);b.setAttribute("aria-pressed",picked.has(k));});
+ document.getElementById("contact").addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;const k=b.dataset.c;how.has(k)?how.delete(k):how.add(k);b.setAttribute("aria-pressed",how.has(k));});
+ document.getElementById("form").addEventListener("submit",e=>{
+  e.preventDefault(); const v=id=>document.getElementById(id).value.trim(), o=id=>{const s=document.getElementById(id);return s.options[s.selectedIndex].textContent;};
+  if(!picked.size){toast(t("pickTopic"));document.getElementById("topics").scrollIntoView({block:"center"});return;}
+  if(!v("n")||!v("ph")){toast(t("required"));return;}
+  const text=[t("msgHead"),"",t("topicsLbl")+": "+TOPICS.filter(x=>picked.has(x[0])).map(x=>t("t."+x[0])).join(" + "),
+   t("name")+": "+v("n"),t("phone")+": "+v("ph"),v("ar")?t("area")+": "+v("ar"):"",t("building")+": "+o("bt"),t("stage")+": "+o("sg"),
+   how.size?t("contact")+": "+CONTACT.filter(k=>how.has(k)).map(k=>t("c."+k)).join(" / "):"",v("de")?"\n"+v("de"):""].filter(Boolean).join("\n");
+  send(t("msgHead"),text);
+ });
+})();
+</script>
+</body>
+</html>

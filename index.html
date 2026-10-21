@@ -43,6 +43,12 @@
 .logos img{max-height:84px;max-width:100%;object-fit:contain}
 @media(max-width:900px){.logos{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media(max-width:560px){.logos{grid-template-columns:repeat(3,minmax(0,1fr))}.logos a{height:90px}.logos img{max-height:66px}}
+.consult{display:flex;align-items:center;gap:14px;margin-top:18px;background:#fff;border:1.5px solid var(--navy);border-radius:16px;padding:16px 18px;text-decoration:none;color:var(--ink);transition:transform .15s,box-shadow .15s}
+.consult:hover{transform:translateY(-2px);box-shadow:0 10px 24px #02358422}
+.consult .ic{font-size:26px;width:48px;height:48px;border-radius:12px;background:var(--tint);display:grid;place-items:center;flex:none}
+.consult b{display:block;color:var(--navy);font-size:17px}.consult small{display:block;color:var(--muted);font-size:13.5px}
+.consult .go{margin-inline-start:auto;background:var(--red);color:#fff;border-radius:10px;padding:10px 16px;font-weight:700;font-size:14px;white-space:nowrap}
+@media(max-width:560px){.consult{flex-wrap:wrap}.consult .go{margin-inline-start:62px}}
 .secthead{display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:18px}
 @media(max-width:860px){.hero::after,[dir=rtl] .hero::after{background:linear-gradient(0deg,#021a46f0 0%,#021a46a6 50%,#021a4610 100%)}.hero{align-items:flex-end}.cta{flex-direction:column;align-items:flex-start}}
 </style>
@@ -55,7 +61,7 @@ window.PAGE_T={
   s2:"Custom cabins",s2t:"Choose doors, LOP call panels, floors and finishes from our collection.",
   s3:"Maintenance",s3t:"Scheduled maintenance and repairs to keep your elevator safe and reliable.",
   s4:"Modernization",s4t:"Upgrade older elevators with new machines, controllers, doors and cabins.",
-  typesTitle:"Elevators for every building",prodEyebrow:"From our collection",prodTitle:"Real Melsa products",code:"Code {c}",seeAll:"See the full catalog →",
+  consT:"Need expert advice?",consS:"Installation, modernization, specifications or shaft design — ask our engineers.",consB:"Request a consultation",typesTitle:"Elevators for every building",prodEyebrow:"From our collection",prodTitle:"Real Melsa products",code:"Code {c}",seeAll:"See the full catalog →",
   projEyebrow:"Our work",projTitle:"Recent projects",projAll:"All projects →",
   trustEyebrow:"Our clients",trustTitle:"Trusted by",trustAll:"All clients →",
   ctaTitle:"Need a new elevator or a repair?",ctaText:"Tell us about your building and we will get back to you.",ctaBtn:"Contact us",
@@ -67,7 +73,7 @@ window.PAGE_T={
   s2:"كبائن حسب الطلب",s2t:"اختر الأبواب ولوحات LOP والأرضيات والتشطيبات من مجموعتنا.",
   s3:"الصيانة",s3t:"صيانة دورية وإصلاحات للحفاظ على مصعدك آمنًا وموثوقًا.",
   s4:"التحديث",s4t:"تطوير المصاعد القديمة بماكينات ولوحات تحكم وأبواب وكبائن جديدة.",
-  typesTitle:"مصاعد لكل أنواع المباني",prodEyebrow:"من مجموعتنا",prodTitle:"منتجات ميلسا الحقيقية",code:"كود {c}",seeAll:"شاهد الكتالوج كاملًا ←",
+  consT:"محتاج استشارة؟",consS:"تركيب أو تطوير أو اختيار مواصفات أو تصميم البئر — اسأل مهندسينا.",consB:"اطلب استشارة",typesTitle:"مصاعد لكل أنواع المباني",prodEyebrow:"من مجموعتنا",prodTitle:"منتجات ميلسا الحقيقية",code:"كود {c}",seeAll:"شاهد الكتالوج كاملًا ←",
   projEyebrow:"أعمالنا",projTitle:"أحدث المشاريع",projAll:"كل المشاريع ←",
   trustEyebrow:"عملاؤنا",trustTitle:"بيثقوا فينا",trustAll:"كل العملاء ←",
   ctaTitle:"محتاج مصعد جديد أو صيانة؟",ctaText:"قولنا عن مبناك وهنتواصل معاك.",ctaBtn:"تواصل معنا",
@@ -96,6 +102,7 @@ window.PAGE_T={
    <div class="card svc"><div class="ic">🛠️</div><h3 data-i18n="s3"></h3><p data-i18n="s3t"></p></div>
    <div class="card svc"><div class="ic">⚙️</div><h3 data-i18n="s4"></h3><p data-i18n="s4t"></p></div>
   </div>
+  <a class="consult" href="consulting.html"><span class="ic">💡</span><span><b data-i18n="consT"></b><small data-i18n="consS"></small></span><span class="go" data-i18n="consB"></span></a>
   <h3 style="margin-top:30px" data-i18n="typesTitle">Elevators for every building</h3>
   <div class="types" id="types"></div>
  </div></section>
