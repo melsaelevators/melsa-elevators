@@ -25,6 +25,8 @@
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chip{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:8px 14px;font:inherit;font-weight:700;font-size:13.5px;color:var(--navy);cursor:pointer}
 .chip[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.fee{display:flex;gap:10px;align-items:flex-start;background:#fff8e6;border:1px solid #f1c96b;color:#7a4b00;border-radius:12px;padding:12px 14px;font-size:13.5px;font-weight:600;line-height:1.6;transition:box-shadow .2s}
+.fee.on{box-shadow:0 0 0 3px #f1c96b66;border-color:#d99a00}
 @media(max-width:900px){.cgrid2{grid-template-columns:1fr}}
 @media(max-width:520px){.topics{grid-template-columns:1fr}.how{grid-template-columns:1fr}}
 </style>
@@ -48,6 +50,7 @@ window.PAGE_T={
   "b.Residential":"Residential building","b.Villa":"Villa","b.Hospital":"Hospital","b.Mall":"Mall","b.Office":"Office","b.Hotel":"Hotel","b.Factory":"Factory",
   "s.Design":"Design / planning","s.Construction":"Under construction","s.Existing":"Existing building","s.Existing2":"Has an old elevator",
   "c.Call":"Phone call","c.WhatsApp":"WhatsApp","c.Visit":"Site visit",
+  fee:"Site-visit inspections carry a fee that depends on the address and location of the elevator. We will confirm the amount with you before the visit.",feeAck:"Note: I understand the site visit has a fee depending on the location.",
   msgHead:"Consultation request from the Melsa website"},
  ar:{title:"استشارات المصاعد | ميلسا للمصاعد",eyebrow:"استشارات",h1:"اسأل خبراءنا عن مصعدك",
   lead:"بتخطط لمصعد جديد، أو عايز تطوّر مصعد قديم، أو محتار تختار إيه؟ قولّنا محتاج إيه وواحد من مهندسينا هيفيدك.",
@@ -67,6 +70,7 @@ window.PAGE_T={
   "b.Residential":"عمارة سكنية","b.Villa":"فيلا","b.Hospital":"مستشفى","b.Mall":"مول","b.Office":"مبنى إداري","b.Hotel":"فندق","b.Factory":"مصنع",
   "s.Design":"تصميم / تخطيط","s.Construction":"تحت الإنشاء","s.Existing":"مبنى قائم","s.Existing2":"فيه مصعد قديم",
   "c.Call":"مكالمة","c.WhatsApp":"واتساب","c.Visit":"زيارة للموقع",
+  fee:"المعاينة في الموقع ليها رسوم بتختلف حسب العنوان ومكان المصعد، وهنبلغك بالقيمة قبل الزيارة.",feeAck:"ملحوظة: عارف إن زيارة المعاينة ليها رسوم حسب المكان.",
   msgHead:"طلب استشارة من موقع ميلسا"}
 };
 </script>
@@ -92,6 +96,7 @@ window.PAGE_T={
     </div>
     <div><label data-i18n="contact"></label><div class="chips" id="contact"></div></div>
     <div><label for="de" data-i18n="details"></label><textarea id="de" data-i18n-ph="detailsPh"></textarea></div>
+    <div class="fee" id="fee"><span>ℹ️</span><span data-i18n="fee"></span></div>
     <button class="btn red" type="submit" data-i18n="send"></button>
    </form>
   </div>
@@ -113,14 +118,15 @@ window.PAGE_T={
  }
  render(); window.addEventListener("melsa:lang",render);
  document.getElementById("topics").addEventListener("click",e=>{const b=e.target.closest(".tp");if(!b)return;const k=b.dataset.k;picked.has(k)?picked.delete(k):picked.add(k);b.setAttribute("aria-pressed",picked.has(k));});
- document.getElementById("contact").addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;const k=b.dataset.c;how.has(k)?how.delete(k):how.add(k);b.setAttribute("aria-pressed",how.has(k));});
+ document.getElementById("contact").addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;const k=b.dataset.c;how.has(k)?how.delete(k):how.add(k);b.setAttribute("aria-pressed",how.has(k)); feeUpd();});
+ function feeUpd(){document.getElementById("fee").classList.toggle("on",how.has("Visit"));} feeUpd();
  document.getElementById("form").addEventListener("submit",e=>{
   e.preventDefault(); const v=id=>document.getElementById(id).value.trim(), o=id=>{const s=document.getElementById(id);return s.options[s.selectedIndex].textContent;};
   if(!picked.size){toast(t("pickTopic"));document.getElementById("topics").scrollIntoView({block:"center"});return;}
   if(!v("n")||!v("ph")){toast(t("required"));return;}
   const text=[t("msgHead"),"",t("topicsLbl")+": "+TOPICS.filter(x=>picked.has(x[0])).map(x=>t("t."+x[0])).join(" + "),
    t("name")+": "+v("n"),t("phone")+": "+v("ph"),v("ar")?t("area")+": "+v("ar"):"",t("building")+": "+o("bt"),t("stage")+": "+o("sg"),
-   how.size?t("contact")+": "+CONTACT.filter(k=>how.has(k)).map(k=>t("c."+k)).join(" / "):"",v("de")?"\n"+v("de"):""].filter(Boolean).join("\n");
+   how.size?t("contact")+": "+CONTACT.filter(k=>how.has(k)).map(k=>t("c."+k)).join(" / "):"",how.has("Visit")?t("feeAck"):"",v("de")?"\n"+v("de"):""].filter(Boolean).join("\n");
   send(t("msgHead"),text);
  });
 })();
