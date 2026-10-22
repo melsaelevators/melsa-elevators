@@ -75,6 +75,8 @@ function setLang(L){
 
 /* helpers for pages */
 let tm; function toast(m){let el=document.querySelector(".toast");if(!el){el=document.createElement("div");el.className="toast";el.setAttribute("role","status");document.body.append(el);}el.textContent=m;el.hidden=false;clearTimeout(tm);tm=setTimeout(()=>el.hidden=true,4500);}
+/* copy each request into the company CRM (fire-and-forget; WhatsApp/email still opens as before) */
+function crmLead(d){try{fetch("https://help.melsaelevators.com/public/lead",{method:"POST",mode:"no-cors",keepalive:true,headers:{"Content-Type":"text/plain"},body:JSON.stringify(Object.assign({page:location.pathname},d))});}catch(e){}}
 function send(subject,text){
  if(C.whatsapp){toast(t("sent"));window.open("https://wa.me/"+C.whatsapp+"?text="+encodeURIComponent(text),"_blank","noopener");return true;}
  if(C.email){location.href="mailto:"+C.email+"?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(text);return true;}
@@ -90,7 +92,7 @@ function lightbox(srcs,start=0,caption=""){
  document.addEventListener("keydown",function k(e){if(e.key==="Escape"){d.remove();document.removeEventListener("keydown",k);}});
  document.body.append(d);
 }
-window.Melsa={t,esc,lang:()=>lang,send,toast,lightbox,contactItems,site:SITE};
+window.Melsa={t,esc,lang:()=>lang,send,crmLead,toast,lightbox,contactItems,site:SITE};
 setLang(lang);
 if("serviceWorker" in navigator) window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 })();

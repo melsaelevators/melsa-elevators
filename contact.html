@@ -58,7 +58,7 @@ window.PAGE_T={
 <script src="assets/site.js"></script>
 <script>
 (function(){
- const {t,esc,lang,site,send,toast,contactItems}=Melsa, C=site.company||{};
+ const {t,esc,lang,site,send,crmLead,toast,contactItems}=Melsa, C=site.company||{};
  const sel=document.getElementById("sj"); const params=new URLSearchParams(location.search); if(params.get("subject"))sel.value=params.get("subject");
  if(params.get("product")) document.getElementById("msg").value=params.get("product");
  function render(){
@@ -72,6 +72,7 @@ window.PAGE_T={
   e.preventDefault(); const v=id=>document.getElementById(id).value.trim();
   if(!v("n")||!v("ph")){toast(t("required"));return;}
   const text=[t("msgHead"),"",t("name")+": "+v("n"),t("phone")+": "+v("ph"),v("em")?t("email")+": "+v("em"):"",t("subject")+": "+t("subj."+sel.value),"",v("msg")].filter(x=>x!=="").join("\n");
+  crmLead({kind:"contact",name:v("n"),phone:v("ph"),email:v("em"),subject:sel.value,message:text});
   send(t("subj."+sel.value),text);
  });
 })();

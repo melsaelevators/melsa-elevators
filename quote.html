@@ -166,6 +166,7 @@ window.PAGE_T={
   if(!v("n")||!v("ph")){toast(t("required"));document.getElementById("n").focus();return;}
   const text=[t("msgHead"),"",...L,"",t("name")+": "+v("n"),t("phone")+": "+v("ph"),v("ar")?t("area")+": "+v("ar"):"",t("building")+": "+o("bt"),
    v("st")?t("stops")+": "+v("st"):"",v("cp")?t("capacity")+": "+v("cp"):"",v("no")?"\n"+v("no"):""].filter(x=>x!=="").join("\n");
+  Melsa.crmLead({kind:"quote",name:v("n"),phone:v("ph"),area:v("ar"),subject:"Quote",message:text});
   send(t("msgHead"),text);
  });
  renderOpts(); window.addEventListener("melsa:lang",renderOpts);
