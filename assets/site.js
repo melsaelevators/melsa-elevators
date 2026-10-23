@@ -94,5 +94,21 @@ function lightbox(srcs,start=0,caption=""){
 }
 window.Melsa={t,esc,lang:()=>lang,send,crmLead,toast,lightbox,contactItems,site:SITE};
 setLang(lang);
+/* welcome intro: animated logo, then the screen opens like elevator doors (once per visit) */
+(function intro(){
+ let seen=false; try{seen=sessionStorage.getItem("melsaIntro")==="1";sessionStorage.setItem("melsaIntro","1");}catch(e){}
+ if(seen||/bot|crawl|spider|lighthouse/i.test(navigator.userAgent))return;
+ const el=document.createElement("div"); el.id="intro"; el.setAttribute("aria-hidden","true");
+ const tag=lang==="ar"?"إلكتروميلسا للمصاعد":"Crafted to Match Your Vision";
+ el.innerHTML=`<div class="door l"></div><div class="door r"></div><div class="stage"><div class="logo">${["m","tri","red","txt"].map(k=>`<img class="p-${k}" src="assets/intro/${k}.png" alt="">`).join("")}</div><div class="tag">${esc(tag)}</div></div><div class="skip">${lang==="ar"?"اضغط للدخول":"Tap to enter"}</div>`;
+ document.body.append(el); document.documentElement.style.overflow="hidden";
+ let done=false, tmr;
+ const open=()=>{if(done)return;done=true;clearTimeout(tmr);el.classList.add("open");document.documentElement.style.overflow="";setTimeout(()=>el.remove(),900);};
+ el.addEventListener("click",open); addEventListener("keydown",open,{once:true});
+ const imgs=[...el.querySelectorAll("img")]; let n=0;
+ const start=()=>{if(el.classList.contains("go"))return; el.classList.add("go"); tmr=setTimeout(open,matchMedia("(prefers-reduced-motion: reduce)").matches?900:3300);};
+ imgs.forEach(i=>{if(i.complete)n++;else i.addEventListener("load",()=>{if(++n===imgs.length)start();},{once:true});});
+ if(n===imgs.length)start(); setTimeout(start,1500);
+})();
 if("serviceWorker" in navigator) window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 })();

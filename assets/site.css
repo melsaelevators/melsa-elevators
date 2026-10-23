@@ -78,3 +78,29 @@ h3{font-size:18px;margin:0 0 6px}
 .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:90;background:var(--navy);color:#fff;padding:12px 18px;border-radius:12px;font-size:13.5px;max-width:calc(100% - 32px);box-shadow:0 8px 24px #0a173055;border-bottom:3px solid var(--red)}
 
 .fsocial{display:flex;gap:10px;margin-top:14px}.fsocial a{display:grid;place-items:center;width:42px;height:42px;border-radius:12px;background:#fff;font-size:22px;transition:transform .15s}.fsocial a:hover{transform:translateY(-2px)}
+
+/* ---------- welcome intro (first visit per session) ---------- */
+#intro{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden}
+#intro .door{position:absolute;top:0;bottom:0;width:50.5%;background:#fff;transition:transform .8s cubic-bezier(.7,0,.3,1)}
+#intro .door.l{left:0;border-right:2px solid #e6ebf3}#intro .door.r{right:0;border-left:2px solid #e6ebf3}
+#intro.open .door.l{transform:translateX(-101%)}#intro.open .door.r{transform:translateX(101%)}
+#intro .stage{position:relative;z-index:1;width:min(78vw,420px);text-align:center;transition:opacity .35s,transform .45s}
+#intro.open .stage{opacity:0;transform:scale(.92)}
+#intro .logo{position:relative;width:100%;aspect-ratio:700/536}
+#intro .logo img{position:absolute;inset:0;width:100%;height:100%;opacity:0}
+#intro.go .p-m{animation:iM 1s cubic-bezier(.2,.8,.2,1) .05s forwards}
+#intro.go .p-tri{animation:iTri .7s cubic-bezier(.2,.9,.3,1.2) .7s forwards}
+#intro.go .p-red{animation:iRed .7s cubic-bezier(.2,.9,.3,1.3) 1.05s forwards}
+#intro.go .p-txt{animation:iTxt .7s ease-out 1.45s forwards}
+#intro .tag{margin-top:18px;font-family:Cairo,Inter,system-ui,sans-serif;font-weight:800;color:#023584;font-size:clamp(15px,3.6vw,19px);opacity:0;letter-spacing:.02em}
+#intro .tag::after{content:"";display:block;width:0;height:3px;margin:10px auto 0;background:#d8031a;border-radius:3px}
+#intro.go .tag{animation:iFade .6s ease-out 1.9s forwards}
+#intro.go .tag::after{animation:iLine .7s ease-out 2.1s forwards}
+#intro .skip{position:absolute;z-index:2;bottom:22px;inset-inline:0;text-align:center;font:600 12px Cairo,Inter,system-ui,sans-serif;color:#8a94a6;opacity:0;animation:iFade .4s 1s forwards}
+@keyframes iM{0%{opacity:1;clip-path:inset(100% 0 0 0);transform:translateY(18%)}100%{opacity:1;clip-path:inset(0 0 0 0);transform:none}}
+@keyframes iTri{0%{opacity:0;transform:translateY(-40%)}100%{opacity:1;transform:none}}
+@keyframes iRed{0%{opacity:0;transform:translateY(-55%) scale(.6)}100%{opacity:1;transform:none}}
+@keyframes iTxt{0%{opacity:0;transform:translateY(12%);letter-spacing:.4em;filter:blur(4px)}100%{opacity:1;transform:none;filter:none}}
+@keyframes iFade{to{opacity:1}}
+@keyframes iLine{to{width:64px}}
+@media(prefers-reduced-motion:reduce){#intro.go .logo img{animation:iFade .4s forwards!important}#intro .door{transition:opacity .4s}#intro.open .door{transform:none;opacity:0}}
