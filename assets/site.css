@@ -88,16 +88,19 @@ h3{font-size:18px;margin:0 0 6px}
 #intro.open .stage{opacity:0;transform:scale(.92)}
 #intro .logo{position:relative;width:100%;aspect-ratio:700/536}
 #intro .logo img{position:absolute;inset:0;width:100%;height:100%;opacity:0}
-#intro.go .p-m{animation:iM 1s cubic-bezier(.2,.8,.2,1) .05s forwards}
-#intro.go .p-tri{animation:iTri .7s cubic-bezier(.2,.9,.3,1.2) .7s forwards}
-#intro.go .p-red{animation:iRed .7s cubic-bezier(.2,.9,.3,1.3) 1.05s forwards}
-#intro.go .p-txt{animation:iTxt .7s ease-out 1.45s forwards}
+#intro .p-tri{z-index:0}#intro .p-m{z-index:1}#intro .p-red{z-index:2}
+#intro.go .p-red{animation:iRedDown 1.5s cubic-bezier(.45,0,.2,1) .1s forwards}
+#intro.go .p-m{animation:iMDown 1.5s cubic-bezier(.45,0,.2,1) .1s forwards}
+#intro.go .p-tri{animation:iTriUp .9s cubic-bezier(.2,.9,.3,1.15) 1.5s forwards}
+#intro.go .p-txt{animation:iTxt .7s ease-out 2.2s forwards}
 #intro .tag{margin-top:18px;font-family:Cairo,Inter,system-ui,sans-serif;font-weight:800;color:#023584;font-size:clamp(15px,3.6vw,19px);opacity:0;letter-spacing:.02em}
 #intro .tag::after{content:"";display:block;width:0;height:3px;margin:10px auto 0;background:#d8031a;border-radius:3px}
-#intro.go .tag{animation:iFade .6s ease-out 1.9s forwards}
-#intro.go .tag::after{animation:iLine .7s ease-out 2.1s forwards}
+#intro.go .tag{animation:iFade .6s ease-out 2.6s forwards}
+#intro.go .tag::after{animation:iLine .7s ease-out 2.8s forwards}
 #intro .skip{position:absolute;z-index:2;bottom:22px;inset-inline:0;text-align:center;font:600 12px Cairo,Inter,system-ui,sans-serif;color:#8a94a6;opacity:0;animation:iFade .4s 1s forwards}
-@keyframes iM{0%{opacity:1;clip-path:inset(100% 0 0 0);transform:translateY(18%)}100%{opacity:1;clip-path:inset(0 0 0 0);transform:none}}
+@keyframes iRedDown{0%{opacity:0;transform:translateY(-75%) scale(.7)}22%{opacity:1;transform:translateY(-75%) scale(1)}100%{opacity:1;transform:none}}
+@keyframes iMDown{0%,22%{opacity:0;transform:translateY(-75%)}34%{opacity:1;transform:translateY(-68%)}100%{opacity:1;transform:none}}
+@keyframes iTriUp{0%{opacity:0;transform:translateY(120%)}25%{opacity:1}100%{opacity:1;transform:none}}
 @keyframes iTri{0%{opacity:0;transform:translateY(-40%)}100%{opacity:1;transform:none}}
 @keyframes iRed{0%{opacity:0;transform:translateY(-55%) scale(.6)}100%{opacity:1;transform:none}}
 @keyframes iTxt{0%{opacity:0;transform:translateY(12%);letter-spacing:.4em;filter:blur(4px)}100%{opacity:1;transform:none;filter:none}}

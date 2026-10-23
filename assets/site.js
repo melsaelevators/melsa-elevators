@@ -106,7 +106,7 @@ setLang(lang);
  const open=()=>{if(done)return;done=true;clearTimeout(tmr);el.classList.add("open");document.documentElement.style.overflow="";setTimeout(()=>el.remove(),900);};
  el.addEventListener("click",open); addEventListener("keydown",open,{once:true});
  const imgs=[...el.querySelectorAll("img")]; let n=0;
- const start=()=>{if(el.classList.contains("go"))return; el.classList.add("go"); tmr=setTimeout(open,matchMedia("(prefers-reduced-motion: reduce)").matches?900:3300);};
+ const start=()=>{if(el.classList.contains("go"))return; el.classList.add("go"); tmr=setTimeout(open,matchMedia("(prefers-reduced-motion: reduce)").matches?900:4000);};
  imgs.forEach(i=>{if(i.complete)n++;else i.addEventListener("load",()=>{if(++n===imgs.length)start();},{once:true});});
  if(n===imgs.length)start(); setTimeout(start,1500);
 })();
