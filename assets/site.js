@@ -9,8 +9,8 @@ const T={
   "ci.phone":"Phone","ci.mobile":"Mobile","ci.whatsapp":"WhatsApp","ci.email":"Email","ci.address":"Address","ci.hours":"Working hours","ci.facebook":"Facebook","review":"Rate us on Google","reviewSub":"Happy with our work? Your review helps others find us.","ci.instagram":"Instagram",close:"Close",
   "t.Residential":"Residential","t.Villa":"Villa","t.Factory":"Factory","t.Hospital":"Hospital","t.Mall":"Mall","t.Office":"Office","t.Hotel":"Hotel"},
  ar:{"nav.home":"الرئيسية","nav.about":"من نحن","nav.projects":"مشاريعنا","nav.catalog":"الكتالوج","nav.clients":"عملاؤنا","nav.maint":"الصيانة","nav.consult":"استشارات","nav.contact":"تواصل معنا","nav.eng":"🔒 المهندسين",
-  "f.about":"إلكتروميلسا للمصاعد تصمم وتورّد وتركّب وتصاين المصاعد للمنازل والمباني والشركات.","f.links":"الصفحات","f.contact":"تواصل",
-  "f.rights":"© {y} إلكتروميلسا للمصاعد. جميع الحقوق محفوظة.","f.soon":"بيانات التواصل قريبًا.","f.engineers":"منطقة المهندسين",
+  "f.about":"إلكتروميلسا لتصميم وتركيب وتوريد وصيانة المصاعد — للمنازل والمباني والشركات.","f.links":"الصفحات","f.contact":"تواصل",
+  "f.rights":"© {y} إلكتروميلسا لتصميم وتركيب وتوريد وصيانة المصاعد. جميع الحقوق محفوظة.","f.soon":"بيانات التواصل قريبًا.","f.engineers":"منطقة المهندسين",
   notSet:"بيانات التواصل قيد الإضافة. برجاء المحاولة لاحقًا.",sent:"جارٍ فتح واتساب…",required:"برجاء كتابة الاسم ورقم التليفون.",
   "review":"قيّمنا على Google","reviewSub":"عجبك شغلنا؟ تقييمك بيساعد غيرك يلاقينا.","ci.phone":"التليفون الأرضي","ci.mobile":"الموبايل","ci.whatsapp":"واتساب","ci.email":"البريد الإلكتروني","ci.address":"العنوان","ci.hours":"مواعيد العمل","ci.facebook":"فيسبوك","ci.instagram":"إنستجرام",close:"إغلاق",
   "t.Residential":"سكني","t.Villa":"فيلا","t.Factory":"مصنع","t.Hospital":"مستشفى","t.Mall":"مول","t.Office":"إداري","t.Hotel":"فندق"}
@@ -100,7 +100,7 @@ setLang(lang);
  let seen=false; try{seen=sessionStorage.getItem("melsaIntro")==="1";sessionStorage.setItem("melsaIntro","1");}catch(e){}
  if(seen||/bot|crawl|spider|lighthouse/i.test(navigator.userAgent))return;
  const el=document.createElement("div"); el.id="intro"; el.setAttribute("aria-hidden","true");
- const tag=lang==="ar"?"إلكتروميلسا للمصاعد":"Crafted to Match Your Vision";
+ const tag=lang==="ar"?"إلكتروميلسا لتصميم وتركيب وتوريد وصيانة المصاعد":"Crafted to Match Your Vision";
  el.innerHTML=`<div class="door l"></div><div class="door r"></div><div class="stage"><div class="logo">${["m","tri","red","txt"].map(k=>`<img class="p-${k}" src="assets/intro/${k}.png" alt="">`).join("")}</div><div class="tag">${esc(tag)}</div></div><div class="skip">${lang==="ar"?"اضغط للدخول":"Tap to enter"}</div>`;
  document.body.append(el); document.documentElement.style.overflow="hidden";
  let done=false, tmr;
