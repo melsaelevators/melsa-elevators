@@ -14,7 +14,7 @@
 .tab{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:999px;padding:9px 15px;font:inherit;font-weight:700;font-size:13.5px;cursor:pointer}
 .tab[aria-pressed=true]{background:var(--navy);border-color:var(--navy);color:#fff}
 .pc{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
-.pc button.img{border:0;padding:0;background:#f4f5f7;cursor:zoom-in}
+.pc button.img{border:0;padding:0;background:#fff;cursor:zoom-in}
 .pc img{width:100%;aspect-ratio:1;object-fit:contain;display:block}
 .pc.floor img{object-fit:cover}
 .pc .body{padding:12px;display:flex;flex-direction:column;gap:8px;flex:1}
@@ -63,7 +63,7 @@ window.PAGE_T={
   document.getElementById("tabs").innerHTML=["all","cabin","semi","auto","panel","cop","floor"].map(k=>`<button type="button" class="tab" data-k="${k}" aria-pressed="${k===cur}">${esc(t(k))}</button>`).join("");
   const list=items.filter(p=>cur==="all"||p.cat===cur);
   document.getElementById("count").textContent=t("items",{n:list.length});
-  document.getElementById("grid").innerHTML=list.map((p,i)=>`<div class="pc ${p.cat==="floor"?"floor":""}"><button type="button" class="img" data-i="${items.indexOf(p)}" aria-label="${esc(name(p))}"><img src="assets/thumbs/${p.id}.jpg" alt="${esc(name(p))}" loading="lazy"></button>
+  document.getElementById("grid").innerHTML=list.map((p,i)=>`<div class="pc ${p.cat==="floor"?"floor":""}"><button type="button" class="img" data-i="${items.indexOf(p)}" aria-label="${esc(name(p))}"><img src="assets/thumbs-lg/${p.id}.jpg" alt="${esc(name(p))}" loading="lazy" decoding="async"></button>
    <div class="body"><span class="cat">${esc(t(p.cat))}</span><span class="name ${p.code?"code":""}"><bdi>${esc(name(p))}</bdi></span><a class="ask" href="contact.html?subject=Quote&product=${encodeURIComponent(t("askMsg",{p:askName(p)}))}">${esc(t("ask"))}</a></div></div>`).join("");
  }
  document.getElementById("tabs").addEventListener("click",e=>{const b=e.target.closest(".tab");if(!b)return;cur=b.dataset.k;history.replaceState(null,"","?cat="+cur);render();});

@@ -35,7 +35,7 @@
 .types{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
 .types span{background:#fff;border:1px solid var(--line);border-radius:999px;padding:9px 16px;font-weight:700;color:var(--navy);font-size:14px}
 .prod{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;text-decoration:none;color:var(--ink)}
-.prod img{width:100%;aspect-ratio:1;object-fit:contain;background:#f4f5f7;display:block}
+.prod img{width:100%;aspect-ratio:1;object-fit:contain;background:#fff;display:block}
 .prod span{display:block;padding:10px 12px;font-size:13px;font-weight:700}
 .cta{background:var(--navy);color:#fff;border-radius:20px;padding:34px clamp(20px,4vw,48px);display:flex;justify-content:space-between;align-items:center;gap:20px;border-bottom:5px solid var(--red)}
 .cta h2{color:#fff;margin:0 0 6px}.cta p{margin:0;color:#c7d4ec}
@@ -142,7 +142,7 @@ window.PAGE_T={
   const L=lang();
   document.getElementById("types").innerHTML=["Residential","Villa","Hospital","Mall","Office","Hotel","Factory"].map(k=>`<span>${esc(t("b."+k))}</span>`).join("");
   const show=["semi_automatic_doors_03","automatic_doors_04","control_panels_01","flooring_samples_10","semi_automatic_doors_06","automatic_doors_07","control_panels_05","flooring_samples_03"];
-  document.getElementById("prods").innerHTML=show.map(id=>{const p=byId[id];return `<a class="prod" href="catalog.html"><img src="assets/thumbs/${p.id}.jpg" alt="" loading="lazy"><span>${esc(p.code?t("code",{c:p.code}):(L==="ar"?p.ar:p.label))}</span></a>`}).join("");
+  document.getElementById("prods").innerHTML=show.map(id=>{const p=byId[id];return `<a class="prod" href="catalog.html"><img src="assets/thumbs-lg/${p.id}.jpg" alt="" loading="lazy"><span>${esc(p.code?t("code",{c:p.code}):(L==="ar"?p.ar:p.label))}</span></a>`}).join("");
  const cl=(site.clients||[]).filter(c=>c.logo); document.getElementById("trust").hidden=!cl.length;
   document.getElementById("logos").innerHTML=cl.slice(0,12).map(c=>`<a href="clients.html" title="${esc(L==="ar"?c.name_ar:c.name_en)}"><img src="${esc(c.logo)}" alt="${esc(L==="ar"?c.name_ar:c.name_en)}" loading="lazy"></a>`).join("");
  }
