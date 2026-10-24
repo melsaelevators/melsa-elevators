@@ -49,7 +49,7 @@ function contactItems(){
  if(C.mobile)L.push({k:"mobile",icon:"📱",text:C.mobile,href:tel(C.mobile),ltr:1});
  if(C.whatsapp)L.push({k:"whatsapp",icon:WA_ICON,text:C.whatsapp.replace(/^20/,"0"),href:"https://wa.me/"+C.whatsapp,ext:1,ltr:1});
  if(C.email)L.push({k:"email",icon:"✉️",text:C.email,href:"mailto:"+C.email,ltr:1});
- const addr=lang==="ar"?(C.address_ar||C.address_en):(C.address_en||C.address_ar); if(addr)L.push({k:"address",icon:"📍",text:addr,href:C.mapsQuery?"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(C.mapsQuery):"",ext:1});
+ const addr=lang==="ar"?(C.address_ar||C.address_en):(C.address_en||C.address_ar); if(addr)L.push({k:"address",icon:"📍",text:addr,href:C.mapsUrl||(C.mapsQuery?"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(C.mapsQuery):""),ext:1});
  const hrs=lang==="ar"?(C.hours_ar||C.hours_en):(C.hours_en||C.hours_ar); if(hrs)L.push({k:"hours",icon:"🕘",text:hrs});
  if(C.facebook)L.push({k:"facebook",icon:FB_ICON,text:"Melsa Elevators",href:C.facebook,ext:1});
  if(C.instagram)L.push({k:"instagram",icon:IG_ICON,text:"@"+C.instagram.replace(/\/+$/,"").split("/").pop(),href:C.instagram,ext:1,ltr:1});
