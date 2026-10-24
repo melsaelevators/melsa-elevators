@@ -8,7 +8,7 @@ window.MELSA_SITE = {
     email: "Milsalift@hotmail.com",
     address_en: "2 Ayoub Buildings, Hassan Aflaton St., next to the UAE Embassy, Ard El-Golf, Nasr City, Cairo",
     address_ar: "٢ عمارات أيوب، شارع حسن أفلاطون، بجوار سفارة الإمارات، أرض الجولف، مدينة نصر، القاهرة",
-    reviewUrl: "",       // direct "write a review" link from Google Business Profile (Ask for reviews). Empty = open the profile.
+    reviewUrl: "https://g.page/r/CfWrXcL5ygzKECE/review",       // direct "write a review" link from Google Business Profile (Ask for reviews). Empty = open the profile.
     mapsUrl: "https://share.google/0ERQkUUM1roe2bvt5", // Google Business Profile (opens the company on Google Maps)
     mapsQuery: "30.0804633,31.3453222", // exact location of the office (from the Google Maps pin) // what to search on Google Maps
     hours_en: "Sat–Thu, 9:00 am – 5:00 pm",         // e.g. "Sat–Thu, 9:00–17:00"
