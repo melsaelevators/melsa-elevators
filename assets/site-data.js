@@ -9,8 +9,8 @@ window.MELSA_SITE = {
     address_en: "2 Ayoub Buildings, Hassan Aflaton St., next to the UAE Embassy, Ard El-Golf, Nasr City, Cairo",
     address_ar: "٢ عمارات أيوب، شارع حسن أفلاطون، بجوار سفارة الإمارات، أرض الجولف، مدينة نصر، القاهرة",
     mapsQuery: "30.0804633,31.3453222", // exact location of the office (from the Google Maps pin) // what to search on Google Maps
-    hours_en: "",         // e.g. "Sat–Thu, 9:00–17:00"
-    hours_ar: "",
+    hours_en: "Sat–Thu, 9:00 am – 5:00 pm",         // e.g. "Sat–Thu, 9:00–17:00"
+    hours_ar: "السبت – الخميس، ٩ صباحًا – ٥ مساءً",
     facebook: "https://www.facebook.com/Madelmelsa",   // full link
     instagram: "https://www.instagram.com/melsaelevators"   // full link
   },
