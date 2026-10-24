@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>قيّمنا على Google | Melsa Elevators</title>
+<link rel="icon" type="image/png" href="assets/logo-mark.png">
+<style>
+body{margin:0;min-height:100vh;display:grid;place-items:center;font-family:Cairo,system-ui,sans-serif;background:#f3f6fb;color:#023584;text-align:center}
+img{width:140px}a{color:#d8031a;font-weight:700}
+</style>
+</head>
+<body>
+<div>
+ <img src="assets/logo.png" alt="Melsa Elevators">
+ <p>جاري فتح صفحة التقييم على Google…<br>Opening Google reviews…</p>
+ <p><a id="go" href="#">اضغط هنا لو ما اتفتحتش / Tap here</a></p>
+</div>
+<script src="assets/site-data.js"></script>
+<script>
+ var C=(window.MELSA_SITE||{}).company||{}, u=C.reviewUrl||C.mapsUrl||"https://melsaelevators.com/";
+ document.getElementById("go").href=u; location.replace(u);
+</script>
+</body>
+</html>

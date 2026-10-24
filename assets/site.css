@@ -107,3 +107,5 @@ h3{font-size:18px;margin:0 0 6px}
 @keyframes iFade{to{opacity:1}}
 @keyframes iLine{to{width:64px}}
 @media(prefers-reduced-motion:reduce){#intro.go .logo img{animation:iFade .4s forwards!important}#intro .door{transition:opacity .4s}#intro.open .door{transform:none;opacity:0}}
+.frev{display:inline-flex;align-items:center;gap:8px;margin-top:14px;background:#fff;color:#1f2937;text-decoration:none;border-radius:12px;padding:9px 14px;font-weight:700;font-size:14px}.frev b{color:#fbbc05;font-size:13px;letter-spacing:1px}.frev:hover{transform:translateY(-2px)}
+.rev-card{display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:16px 18px;text-decoration:none;color:var(--ink);margin-top:14px}.rev-card .gi{width:46px;height:46px;border-radius:12px;background:#f4f6fb;display:grid;place-items:center;flex:none}.rev-card .gi svg{width:26px;height:26px}.rev-card b{display:block;color:var(--navy);font-size:16px}.rev-card small{color:var(--muted);font-size:13px}.rev-card .st{margin-inline-start:auto;color:#fbbc05;font-size:18px;letter-spacing:2px;white-space:nowrap}

@@ -6,13 +6,13 @@ const T={
   "f.about":"Melsa Elevators designs, supplies, installs and maintains elevators for homes, buildings and businesses.","f.links":"Pages","f.contact":"Contact",
   "f.rights":"© {y} Melsa Elevators. All rights reserved.","f.soon":"Contact details coming soon.","f.engineers":"Engineers' area",
   notSet:"Our contact details are being added. Please check back soon.",sent:"Opening WhatsApp…",required:"Please fill in your name and phone number.",
-  "ci.phone":"Phone","ci.mobile":"Mobile","ci.whatsapp":"WhatsApp","ci.email":"Email","ci.address":"Address","ci.hours":"Working hours","ci.facebook":"Facebook","ci.instagram":"Instagram",close:"Close",
+  "ci.phone":"Phone","ci.mobile":"Mobile","ci.whatsapp":"WhatsApp","ci.email":"Email","ci.address":"Address","ci.hours":"Working hours","ci.facebook":"Facebook","review":"Rate us on Google","reviewSub":"Happy with our work? Your review helps others find us.","ci.instagram":"Instagram",close:"Close",
   "t.Residential":"Residential","t.Villa":"Villa","t.Factory":"Factory","t.Hospital":"Hospital","t.Mall":"Mall","t.Office":"Office","t.Hotel":"Hotel"},
  ar:{"nav.home":"الرئيسية","nav.about":"من نحن","nav.projects":"مشاريعنا","nav.catalog":"الكتالوج","nav.clients":"عملاؤنا","nav.maint":"الصيانة","nav.consult":"استشارات","nav.contact":"تواصل معنا","nav.eng":"🔒 المهندسين",
   "f.about":"إلكتروميلسا للمصاعد تصمم وتورّد وتركّب وتصاين المصاعد للمنازل والمباني والشركات.","f.links":"الصفحات","f.contact":"تواصل",
   "f.rights":"© {y} إلكتروميلسا للمصاعد. جميع الحقوق محفوظة.","f.soon":"بيانات التواصل قريبًا.","f.engineers":"منطقة المهندسين",
   notSet:"بيانات التواصل قيد الإضافة. برجاء المحاولة لاحقًا.",sent:"جارٍ فتح واتساب…",required:"برجاء كتابة الاسم ورقم التليفون.",
-  "ci.phone":"التليفون الأرضي","ci.mobile":"الموبايل","ci.whatsapp":"واتساب","ci.email":"البريد الإلكتروني","ci.address":"العنوان","ci.hours":"مواعيد العمل","ci.facebook":"فيسبوك","ci.instagram":"إنستجرام",close:"إغلاق",
+  "review":"قيّمنا على Google","reviewSub":"عجبك شغلنا؟ تقييمك بيساعد غيرك يلاقينا.","ci.phone":"التليفون الأرضي","ci.mobile":"الموبايل","ci.whatsapp":"واتساب","ci.email":"البريد الإلكتروني","ci.address":"العنوان","ci.hours":"مواعيد العمل","ci.facebook":"فيسبوك","ci.instagram":"إنستجرام",close:"إغلاق",
   "t.Residential":"سكني","t.Villa":"فيلا","t.Factory":"مصنع","t.Hospital":"مستشفى","t.Mall":"مول","t.Office":"إداري","t.Hotel":"فندق"}
 };
 let lang="en"; try{const s=localStorage.getItem("melsaLang");if(s==="ar"||s==="en")lang=s;}catch(e){}
@@ -20,6 +20,7 @@ const PAGE_T=window.PAGE_T||{en:{},ar:{}};
 function t(k,v){let s=(PAGE_T[lang]&&PAGE_T[lang][k])??(T[lang]&&T[lang][k])??PAGE_T.en?.[k]??T.en[k]??k; if(v)for(const x in v)s=s.split("{"+x+"}").join(v[x]); return s;}
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const page=document.body.dataset.page;
+const G_ICON='<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5a5.6 5.6 0 0 1-2.4 3.6v3h3.9c2.3-2.1 3.5-5.2 3.5-8.8z"/><path fill="#34A853" d="M12 24c3.2 0 6-1.1 8-2.9l-3.9-3c-1.1.7-2.5 1.2-4.1 1.2-3.1 0-5.8-2.1-6.7-5H1.3v3.1A12 12 0 0 0 12 24z"/><path fill="#FBBC05" d="M5.3 14.3a7.2 7.2 0 0 1 0-4.6V6.6h-4a12 12 0 0 0 0 10.8l4-3.1z"/><path fill="#EA4335" d="M12 4.8c1.8 0 3.4.6 4.6 1.8l3.4-3.4A12 12 0 0 0 1.3 6.6l4 3.1c.9-2.9 3.6-4.9 6.7-4.9z"/></svg>';
 const FB_ICON='<svg viewBox="0 0 24 24" width="1.25em" height="1.25em" style="vertical-align:-.25em" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#1877F2"/><path fill="#fff" d="M13.4 19.5v-6.1h2.1l.3-2.4h-2.4V9.5c0-.7.2-1.2 1.2-1.2h1.3V6.2c-.2 0-1-.1-1.9-.1-1.9 0-3.2 1.2-3.2 3.3V11H8.7v2.4h2.1v6.1h2.6z"/></svg>', IG_ICON='<svg viewBox="0 0 24 24" width="1.25em" height="1.25em" style="vertical-align:-.25em" aria-hidden="true"><defs><radialGradient id="igg" cx="30%" cy="107%" r="150%"><stop offset="0" stop-color="#fdf497"/><stop offset=".05" stop-color="#fdf497"/><stop offset=".45" stop-color="#fd5949"/><stop offset=".6" stop-color="#d6249f"/><stop offset=".9" stop-color="#285AEB"/></radialGradient></defs><rect width="24" height="24" rx="6" fill="url(#igg)"/><rect x="5.5" y="5.5" width="13" height="13" rx="4" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="12" cy="12" r="3.2" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="16.1" cy="7.9" r="1" fill="#fff"/></svg>';
 const WA_ICON='<svg viewBox="0 0 24 24" width="1.25em" height="1.25em" style="vertical-align:-.25em;fill:#25d366" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.3z"/></svg>';
 
@@ -37,7 +38,7 @@ header.querySelector(".lang-btn").addEventListener("click",()=>setLang(lang==="a
 const footer=document.createElement("footer"); footer.className="site-footer"; document.body.append(footer);
 function renderFooter(){
  const items=contactItems();
- footer.innerHTML=`<div class="fwrap"><div><span class="flogo"><img src="assets/logo.png" alt="Melsa Elevators"></span><p style="margin:12px 0 0">${esc(t("f.about"))}</p>${C.facebook||C.instagram?`<div class="fsocial">${C.facebook?`<a href="${esc(C.facebook)}" target="_blank" rel="noopener" aria-label="Facebook">${FB_ICON}</a>`:""}${C.instagram?`<a href="${esc(C.instagram)}" target="_blank" rel="noopener" aria-label="Instagram">${IG_ICON}</a>`:""}</div>`:""}</div>
+ footer.innerHTML=`<div class="fwrap"><div><span class="flogo"><img src="assets/logo.png" alt="Melsa Elevators"></span><p style="margin:12px 0 0">${esc(t("f.about"))}</p>${C.facebook||C.instagram?`<div class="fsocial">${C.facebook?`<a href="${esc(C.facebook)}" target="_blank" rel="noopener" aria-label="Facebook">${FB_ICON}</a>`:""}${C.instagram?`<a href="${esc(C.instagram)}" target="_blank" rel="noopener" aria-label="Instagram">${IG_ICON}</a>`:""}${C.reviewUrl||C.mapsUrl?`<a class="frev" href="review.html" target="_blank" rel="noopener">${G_ICON}<span>${esc(t("review"))}</span><b aria-hidden="true">★★★★★</b></a>`:""}</div>`:""}</div>
  <div><h4>${esc(t("f.links"))}</h4><ul>${NAV.map(([k,h])=>`<li><a href="${h}">${esc(t("nav."+k))}</a></li>`).join("")}<li><a href="configurator.html">${esc(t("f.engineers"))}</a></li></ul></div>
  <div><h4>${esc(t("f.contact"))}</h4>${items.length?`<ul>${items.map(i=>`<li>${i.icon} ${i.href?`<a href="${esc(i.href)}" ${i.ext?'target="_blank" rel="noopener"':""}><bdi ${i.ltr?'dir="ltr"':""}>${esc(i.text)}</bdi></a>`:esc(i.text)}</li>`).join("")}</ul>`:`<p style="margin:0">${esc(t("f.soon"))}</p>`}</div></div>
  <div class="fbottom">${esc(t("f.rights",{y:new Date().getFullYear()}))}</div>`;
@@ -92,7 +93,7 @@ function lightbox(srcs,start=0,caption=""){
  document.addEventListener("keydown",function k(e){if(e.key==="Escape"){d.remove();document.removeEventListener("keydown",k);}});
  document.body.append(d);
 }
-window.Melsa={t,esc,lang:()=>lang,send,crmLead,toast,lightbox,contactItems,site:SITE};
+window.Melsa={G_ICON,t,esc,lang:()=>lang,send,crmLead,toast,lightbox,contactItems,site:SITE};
 setLang(lang);
 /* welcome intro: animated logo, then the screen opens like elevator doors (once per visit) */
 (function intro(){
