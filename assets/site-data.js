@@ -14,7 +14,8 @@ window.MELSA_SITE = {
     hours_en: "Sat–Thu, 9:00 am – 5:00 pm",         // e.g. "Sat–Thu, 9:00–17:00"
     hours_ar: "السبت – الخميس، ٩ صباحًا – ٥ مساءً",
     facebook: "https://www.facebook.com/Madelmelsa",   // full link
-    instagram: "https://www.instagram.com/melsaelevators"   // full link
+    instagram: "https://www.instagram.com/melsaelevators",   // full link
+    youtube: ""   // full channel link, e.g. "https://www.youtube.com/@melsaelevators" (empty = hidden)
   },
 
   /* Clients: { name_en, name_ar, logo: "assets/clients/xxx.png" (optional),
