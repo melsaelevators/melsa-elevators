@@ -1,6 +1,6 @@
 // Melsa Elevators — offline support for the installed app.
 // Bump VERSION when you want every installed copy to refresh its cache.
-const VERSION = "melsa-v58";
+const VERSION = "melsa-v59";
 const SHELL = ["./", "./index.html", "./configurator.html", "./survey.html", "./contact.html", "./maintenance.html", "./catalog.html", "./clients.html", "./quote.html", "./about.html", "./consulting.html", "./assets/site.css", "./assets/site.js", "./assets/site-data.js", "./assets/products.js", "./manifest.webmanifest", "./assets/logo.png", "./assets/logo-mark.png", "./icons/icon-192.png", "./assets/intro/m.png", "./assets/intro/tri.png", "./assets/intro/red.png", "./assets/intro/txt.png"];
 
 self.addEventListener("install", (e) => {
@@ -25,6 +25,15 @@ self.addEventListener("fetch", (e) => {
     e.respondWith(
       fetch(req).then((res) => { const copy = res.clone(); caches.open(VERSION).then((c) => c.put(req, copy)); return res; })
         .catch(() => caches.match(req, { ignoreSearch: true }).then((hit) => hit || caches.match("./index.html")))
+    );
+    return;
+  }
+
+  // The site's own code, styles and data: network first, so text changes show up right away.
+  if (url.origin === self.location.origin && /\.(js|css|json|webmanifest)$/.test(url.pathname)) {
+    e.respondWith(
+      fetch(req).then((res) => { if (res.ok) { const copy = res.clone(); caches.open(VERSION).then((c) => c.put(req, copy)); } return res; })
+        .catch(() => caches.match(req, { ignoreSearch: true }))
     );
     return;
   }
