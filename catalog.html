@@ -23,16 +23,20 @@
 .pc .name.code{font-size:20px;color:var(--navy);letter-spacing:.02em}
 .pc a.ask{font-size:12.5px;font-weight:700;text-decoration:none;color:var(--navy);border:1px solid var(--navy);border-radius:9px;padding:7px 10px;text-align:center}
 .pc a.ask:hover{background:var(--tint)}
+.vars{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.vars .vl{font-size:11.5px;color:var(--muted);font-weight:700;width:100%}
+.vars button{width:34px;height:46px;border-radius:7px;border:1.5px solid var(--line);padding:0;overflow:hidden;background:#fff;cursor:pointer}
+.vars button img{width:100%;height:100%;object-fit:cover;display:block}
+.vars button[aria-pressed=true]{border-color:var(--navy);box-shadow:0 0 0 2px var(--navy)}
 .count{color:var(--muted);font-size:13px;margin:-8px 0 14px}
 </style>
 <script>
 window.PAGE_T={
  en:{title:"Catalog | Melsa Elevators",eyebrow:"Catalog",h1:"Our product collection",lead:"Real Melsa cabins, doors, LOP and COP panels and floor finishes. Every product has a code — just tell us the code. Tap a photo to see it larger.",
   all:"All",cabin:"Cabins",semi:"Semi-automatic doors",auto:"Automatic doors",panel:"LOP",cop:"COP",floor:"Flooring",ask:"Ask about this product",items:"{n} products",code:"Code {c}",
-  askMsg:"Hello, I'd like to ask about this product from your catalog: {p}"},
+  askMsg:"Hello, I'd like to ask about this product from your catalog: {p}",colors:"Colours",colour:"colour"},
  ar:{title:"الكتالوج | إلكتروميلسا لتصميم وتركيب وتوريد وصيانة المصاعد",eyebrow:"الكتالوج",h1:"مجموعة منتجاتنا",lead:"كبائن وأبواب ولوحات LOP وCOP وأرضيات ميلسا الحقيقية. كل منتج ليه كود، قولنا الكود بس. اضغط على أي صورة لتكبيرها.",
   all:"الكل",cabin:"الكبائن",semi:"أبواب نصف أوتوماتيك",auto:"أبواب أوتوماتيك",panel:"LOP",cop:"COP",floor:"الأرضيات",ask:"استفسر عن المنتج",items:"{n} منتج",code:"كود {c}",
-  askMsg:"مرحبًا، عايز أستفسر عن المنتج ده من الكتالوج: {p}"}
+  askMsg:"مرحبًا، عايز أستفسر عن المنتج ده من الكتالوج: {p}",colors:"الألوان المتاحة",colour:"لون"}
 };
 </script>
 </head>
@@ -58,16 +62,20 @@ window.PAGE_T={
   ...P.panel.map(p=>({...p,cat:p.kind==="COP"?"cop":"panel"})), ...P.floor.map(p=>({...p,cat:"floor"}))];
  let cur=new URLSearchParams(location.search).get("cat")||"all";
  const name=p=>p.code?t("code",{c:p.code}):(lang()==="ar"?p.ar:p.label);
- const askName=p=>p.code?t("code",{c:p.code})+" — "+t(p.cat):name(p);
+ const vsel={}; const curV=p=>p.variants&&vsel[p.id]!=null?p.variants[vsel[p.id]]:null;
+ const vName=v=>lang()==="ar"?v.ar:v.label;
+ const askName=p=>{const v=curV(p);return (p.code?t("code",{c:v?"\u2066"+p.code+"-"+v.v+"\u2069":p.code})+" — "+t(p.cat):name(p))+(v?" ("+t("colour")+": "+vName(v)+")":"");};
+ const imgId=p=>{const v=curV(p);return v?v.id:p.id;};
  function render(){
   document.getElementById("tabs").innerHTML=["all","cabin","semi","auto","panel","cop","floor"].map(k=>`<button type="button" class="tab" data-k="${k}" aria-pressed="${k===cur}">${esc(t(k))}</button>`).join("");
   const list=items.filter(p=>cur==="all"||p.cat===cur);
   document.getElementById("count").textContent=t("items",{n:list.length});
-  document.getElementById("grid").innerHTML=list.map((p,i)=>`<div class="pc ${p.cat==="floor"?"floor":""}"><button type="button" class="img" data-i="${items.indexOf(p)}" aria-label="${esc(name(p))}"><img src="assets/thumbs-lg/${p.id}.jpg" alt="${esc(name(p))}" loading="lazy" decoding="async"></button>
-   <div class="body"><span class="cat">${esc(t(p.cat))}</span><span class="name ${p.code?"code":""}"><bdi>${esc(name(p))}</bdi></span><a class="ask" href="contact.html?subject=Quote&product=${encodeURIComponent(t("askMsg",{p:askName(p)}))}">${esc(t("ask"))}</a></div></div>`).join("");
+  document.getElementById("grid").innerHTML=list.map((p,i)=>`<div class="pc ${p.cat==="floor"?"floor":""}"><button type="button" class="img" data-i="${items.indexOf(p)}" aria-label="${esc(name(p))}"><img src="assets/thumbs-lg/${imgId(p)}.jpg" alt="${esc(name(p))}" loading="lazy" decoding="async"></button>
+   <div class="body"><span class="cat">${esc(t(p.cat))}</span><span class="name ${p.code?"code":""}"><bdi>${esc(curV(p)?t("code",{c:"\u2066"+p.code+"-"+curV(p).v+"\u2069"}):name(p))}</bdi></span>${p.variants?`<div class="vars" data-p="${p.id}"><span class="vl">${esc(t("colors"))}${curV(p)?": "+esc(vName(curV(p))):""}</span>${[{id:p.id,ar:p.ar,label:p.label,_o:1},...p.variants].map((v,k)=>`<button type="button" data-k="${k-1}" aria-pressed="${(vsel[p.id]??-1)===k-1}" title="${esc(vName(v))}"><img src="assets/thumbs/${v.id}.jpg" alt="${esc(vName(v))}" loading="lazy"></button>`).join("")}</div>`:""}<a class="ask" href="contact.html?subject=Quote&product=${encodeURIComponent(t("askMsg",{p:askName(p)}))}">${esc(t("ask"))}</a></div></div>`).join("");
  }
  document.getElementById("tabs").addEventListener("click",e=>{const b=e.target.closest(".tab");if(!b)return;cur=b.dataset.k;history.replaceState(null,"","?cat="+cur);render();});
- document.getElementById("grid").addEventListener("click",e=>{const b=e.target.closest("button.img");if(!b)return;const p=items[+b.dataset.i];lightbox([p.src||("assets/"+p.id+"."+p.ext)],0,name(p));});
+ document.getElementById("grid").addEventListener("click",e=>{const vb=e.target.closest(".vars button");if(vb){const id=vb.closest(".vars").dataset.p,k=+vb.dataset.k;if(k<0)delete vsel[id];else vsel[id]=k;render();return;}
+  const b=e.target.closest("button.img");if(!b)return;const p=items[+b.dataset.i];if(p.variants){const all=[{id:p.id,ext:p.ext},...p.variants.map(v=>({id:v.id,ext:"jpg"}))];lightbox(all.map(x=>"assets/"+x.id+"."+x.ext),(vsel[p.id]??-1)+1,name(p));return;}lightbox([p.src||("assets/"+p.id+"."+p.ext)],0,name(p));});
  render(); window.addEventListener("melsa:lang",render);
 })();
 </script>
