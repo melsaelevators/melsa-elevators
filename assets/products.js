@@ -21,7 +21,12 @@ window.MELSA_PRODUCTS={
   {id:"control_panels_08",code:"004",ar:"باب ستانلس مطفي مع شباك رفيع",ext:"jpeg",type:"Semi-automatic",label:"Brushed stainless door with slim vision panel",color:"#b8bdc2",design:"vision"},
   {id:"control_panels_09",code:"005",ar:"باب ستانلس أسود مع شباك رفيع",ext:"jpeg",type:"Semi-automatic",label:"Black stainless door with slim vision panel",color:"#2b2c30",design:"vision"},
   {id:"semi_automatic_doors_02",code:"006",ar:"باب عاجي بزخرفة هندسية ذهبية",ext:"jpeg",type:"Semi-automatic",label:"Ivory door with geometric gold insert",color:"#ece6d6",design:"insert",insert:"#c9a35a"},
-  {id:"semi_automatic_doors_03",code:"007",ar:"باب خشبي بزخرفة هندسية ذهبية",ext:"jpeg",type:"Semi-automatic",label:"Wood finish with gold geometric insert",color:"#7a4a2a",design:"insert",insert:"#c9a35a"},
+  {id:"semi_automatic_doors_03",code:"007",variants:[
+   {id:"door_007_a",v:"A",ar:"كريمي بإطار دهبي",label:"Cream with gold frame",sw:"#ece6d2"},
+   {id:"door_007_b",v:"B",ar:"خشب رمادي بإطار فضي",label:"Grey wood with silver frame",sw:"#c9c7c2"},
+   {id:"door_007_c",v:"C",ar:"خشب جوز بإطار دهبي",label:"Walnut wood with gold frame",sw:"#7a3f1c"},
+   {id:"door_007_d",v:"D",ar:"أسود بإطار فضي",label:"Black with silver frame",sw:"#14182a"}],
+   ar:"باب خشبي بزخرفة هندسية ذهبية",ext:"jpeg",type:"Semi-automatic",label:"Wood finish with gold geometric insert",color:"#7a4a2a",design:"insert",insert:"#c9a35a"},
   {id:"semi_automatic_doors_04",code:"008",variants:[
    {id:"door_008_a",v:"A",ar:"كريمي بإطار دهبي",label:"Cream with gold frame",sw:"#e6e3da"},
    {id:"door_008_b",v:"B",ar:"خشب رمادي بإطار فضي",label:"Grey wood with silver frame",sw:"#c9c7c2"},
