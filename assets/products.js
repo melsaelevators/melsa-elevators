@@ -45,7 +45,9 @@ window.MELSA_PRODUCTS={
   {id:"cabin_designs_01",code:"039",ar:"كابينة سوداء بألواح رخام بيج وسقف مخرّم",ext:"jpg",label:"Black cabin with beige stone panels and perforated ceiling"},
   {id:"cabin_designs_02",code:"040",ar:"كابينة ستانلس بخطوط ذهبية وسقف مزخرف",ext:"jpg",label:"Stainless cabin with gold strips and decorative ceiling"},
   {id:"cabin_designs_03",code:"041",ar:"كابينة بانوراما زجاج",ext:"jpg",label:"Panoramic glass cabin"},
-  {id:"cabin_designs_04",code:"042",ar:"كابينة بيضاء بإضاءة خطية وأرضية رخام",ext:"jpg",label:"White cabin with linear lighting and marble floor"}],
+  {id:"cabin_designs_04",code:"042",ar:"كابينة بيضاء بإضاءة خطية وأرضية رخام",ext:"jpg",label:"White cabin with linear lighting and marble floor"},
+  {id:"cabin_designs_05",code:"043",ar:"مصعد بضائع ستانلس بأرضية مضلعة",ext:"jpg",label:"Stainless goods elevator with chequer-plate floor"},
+  {id:"cabin_designs_06",code:"044",ar:"كابينة سوداء بستانلس وسقف سبوتات",ext:"jpg",label:"Black and stainless cabin with spotlight ceiling"}],
  buttons:[
   {id:"panel_buttons_02",ar:"زر دائري فضي بطريقة برايل",ext:"jpeg",label:"Silver round button with Braille",shape:"round",color:"#cdd1d5",ring:"#6d6f73",
    ai:"round brushed silver stainless push buttons, each with a wide flat silver flange ring, a thin grey illuminated outline ring, raised grey characters and Braille dots"},
