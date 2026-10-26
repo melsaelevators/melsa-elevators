@@ -40,7 +40,11 @@ window.MELSA_PRODUCTS={
    {id:"door_009_d",v:"D",ar:"أسود بإطار دهبي",label:"Black with gold frame",sw:"#14182a"},
    {id:"door_009_e",v:"E",ar:"خشب رمادي بإطار أسود",label:"Grey wood with black frame",sw:"#bdbab4"}],
    ar:"باب أسود بزخرفة ذهبية",ext:"jpeg",type:"Semi-automatic",label:"Black door with gold decorative insert",color:"#1d1d22",design:"insert",insert:"#c9a35a"},
-  {id:"semi_automatic_doors_06",code:"010",ar:"باب عاجي بزخرفة سوداء",ext:"jpeg",type:"Semi-automatic",label:"Ivory door with ornamental black insert",color:"#ece6d6",design:"insert",insert:"#1b1b1e"},
+  {id:"semi_automatic_doors_06",code:"010",variants:[
+   {id:"door_010_a",v:"A",ar:"عاجي بزخرفة دهبي",label:"Ivory with gold ornament",sw:"#c9a24a"},
+   {id:"door_010_b",v:"B",ar:"عاجي بزخرفة فضي",label:"Ivory with silver ornament",sw:"#b8bcc0"},
+   {id:"door_010_c",v:"C",ar:"عاجي بزخرفة سوداء",label:"Ivory with black ornament",sw:"#16171a"}],
+   ar:"باب عاجي بزخرفة سوداء",ext:"jpeg",type:"Semi-automatic",label:"Ivory door with ornamental black insert",color:"#ece6d6",design:"insert",insert:"#1b1b1e"},
   {id:"automatic_doors_01",code:"011",ar:"أبواب ذهبية مقلمة أفقيًا",ext:"jpeg",type:"Automatic",label:"Gold horizontal-striped doors",color:"#c9a35a",design:"stripes"},
   {id:"automatic_doors_02",code:"012",ar:"أبواب سوداء مقلمة أفقيًا",ext:"jpeg",type:"Automatic",label:"Black horizontal-striped doors",color:"#2a2b2f",design:"stripes"},
   {id:"automatic_doors_03",code:"013",ar:"أبواب فضية مقلمة أفقيًا",ext:"jpeg",type:"Automatic",label:"Silver horizontal-striped doors",color:"#c2c7cc",design:"stripes"},
