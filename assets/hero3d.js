@@ -38,7 +38,7 @@ function start() {
   const redL = new THREE.PointLight(0xff2a3d, 3, 8); redL.position.set(3, 1, 3); scene.add(redL);
 
   const CYAN = 0x7cc8ff, NAVY = 0x023584, RED = 0xd8031a;
-  const B = 0.4, FLOORS = [B, B + 2.8, B + 5.6], TOP = B + 9.2, W = 1.95, D = 1.85;
+  const B = 0.4, FLOORS = [B, B + 2.8, B + 5.6], TOP = B + 9.2, W = 2.3, D = 2.0, DZ = D / 2 - 0.28; // DZ = landing door line
 
   /* ---------- realistic look: shadows, generated metal textures, catalog photos ---------- */
   renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -116,8 +116,8 @@ function start() {
     const g = new THREE.Mesh(new THREE.PlaneGeometry(w, TOP), glassMat); g.position.set(x, TOP / 2, z); g.rotation.y = ry; structure.add(g);
   }
   FLOORS.forEach(y => {
-    structure.add(at(se(box(3.4, 0.16, 1.4, slabMat), CYAN, 0.15), 0, y - 0.08, D / 2 + 0.7));
-    structure.add(at(box(3.42, 0.04, 0.04, slabEdge), 0, y - 0.15, D / 2 + 1.4));
+    structure.add(at(se(box(W - 0.12, 0.16, 1.7, slabMat), CYAN, 0.15), 0, y - 0.08, DZ + 0.88));
+    structure.add(at(box(W - 0.1, 0.04, 0.04, slabEdge), 0, y - 0.15, DZ + 1.73));
   });
   structure.add(at(se(box(W, 0.1, D, concMat), CYAN, 0.15), 0, 0.05, 0));                    // pit floor
   structure.add(at(se(box(W + 0.12, 0.14, D + 0.12, postMat), CYAN, 0.2), 0, TOP, 0));       // top frame
@@ -126,18 +126,22 @@ function start() {
 
   /* ---------- landing doors: frame, sill, header & hall indicator + two gold panels per floor ---------- */
   const landing = new THREE.Group(); scene.add(landing);
+  const leafM = new THREE.MeshStandardMaterial({ map: brushed("#c9c7c0", true, 0.06), metalness: 0.35, roughness: 0.45 });
   const LD = FLOORS.map((y, i) => {
     const g = new THREE.Group();
-    g.add(at(edges(box(0.09, 2.3, 0.08, M.stainless), CYAN, 0.4), -0.68, 1.15, 0), at(edges(box(0.09, 2.3, 0.08, M.stainless), CYAN, 0.4), 0.68, 1.15, 0));
-    g.add(at(edges(box(1.45, 0.12, 0.08, M.stainless), CYAN, 0.4), 0, 2.36, 0));
-    g.add(at(box(1.5, 0.03, 0.14, M.machined), 0, 0.015, 0.03));                                // sill
-    g.add(at(box(1.5, 0.16, 0.12, M.paintGrey), 0, 2.52, -0.05));                               // door hanger box
-    const disp = at(box(0.26, 0.08, 0.02, M.glassPanel), 0, 2.62, 0.05); g.add(disp);
+    g.add(at(edges(box(0.1, 2.3, 0.1, M.stainless), CYAN, 0.4), -0.5, 1.15, 0), at(edges(box(0.1, 2.3, 0.1, M.stainless), CYAN, 0.4), 0.5, 1.15, 0));
+    g.add(at(edges(box(1.1, 0.12, 0.1, M.stainless), CYAN, 0.4), 0, 2.36, 0));
+    g.add(at(box(1.1, 0.03, 0.16, M.machined), 0, 0.015, 0.02));                                  // sill
+    const disp = at(box(0.26, 0.08, 0.02, M.glassPanel), 0, 2.56, 0.05); g.add(disp);
     disp.add(at(new THREE.Mesh(new THREE.PlaneGeometry(0.08, 0.05), ledM(0xff2a3d)), 0, 0, 0.011));
-    const pl = at(edges(box(0.62, 2.2, 0.03, M.gold), CYAN, 0.4), -0.31, 1.12, 0.05);
-    const pr = at(edges(box(0.62, 2.2, 0.03, M.gold), CYAN, 0.4), 0.31, 1.12, 0.05);
-    g.add(pl, pr); landing.add(g);
-    return { g, pl, pr, asm: new THREE.Vector3(0, y, D / 2 + 0.01), show: new THREE.Vector3(2.6 + i * 0.25, 2.0 + i * 0.1, 1.2 - i * 0.4) };
+    const hinge = new THREE.Group(); hinge.position.set(-0.45, 0, 0.03); g.add(hinge);        // the leaf swings on its left hinge
+    const leaf = new THREE.Group(); leaf.position.x = 0.45; hinge.add(leaf);
+    leaf.add(at(edges(box(0.9, 2.26, 0.045, leafM), CYAN, 0.4), 0, 1.15, 0));
+    leaf.add(at(box(0.12, 0.98, 0.05, new THREE.MeshPhysicalMaterial({ color: 0xbfe3ff, roughness: 0.05, transmission: 0.6, transparent: true, opacity: 0.55 })), -0.12, 1.42, 0));
+    for (const [w, h, x, y] of [[0.16, 0.03, -0.12, 1.92], [0.16, 0.03, -0.12, 0.92], [0.03, 1.0, -0.2, 1.42], [0.03, 1.0, -0.04, 1.42]]) leaf.add(at(box(w, h, 0.052, M.stainless), x, y, 0));
+    leaf.add(at(box(0.04, 0.2, 0.06, M.machined), 0.34, 1.05, 0.04));                          // handle
+    landing.add(g);
+    return { g, hinge, asm: new THREE.Vector3(0, y, DZ), show: new THREE.Vector3(3.0 + i * 0.3, 3.4 + i * 0.12, -0.9 - i * 0.45) };
   });
 
   /* ---------- components (each shown apart, then assembled) ---------- */
@@ -161,7 +165,7 @@ function start() {
   for (let k = 0; k < 5; k++) { const gr = new THREE.Mesh(new THREE.TorusGeometry(0.262, 0.008, 6, 48), M.darkSteel); gr.rotation.y = Math.PI / 2; gr.position.x = -0.05 + k * 0.025; sheave.add(gr); }
   for (let k = 0; k < 6; k++) { const sp = box(0.02, 0.4, 0.04, M.darkSteel); sp.rotation.x = k * Math.PI / 6; sp.position.x = 0.075; sheave.add(sp); }
   machine.add(at(box(0.1, 0.36, 0.1, M.paintGrey), 0.26, -0.14, 0));                                   // outer bearing stand
-  const mc = comp("machine", machine, { p: [-2.4, 7.2, 0.6], r: [0.3, 0.6, 0], s: 1.6 }, [6.3, 7.5], [0, 0.6, 0]);
+  const mc = comp("machine", machine, { p: [-2.9, 7.2, 0.4], r: [0.3, 0.6, 0], s: 1.6 }, [6.3, 7.5], [0, 0.6, 0]);
   mc.asm.p.set(0, TOP + 0.42, -0.35);
 
   // controller cabinet
@@ -171,8 +175,8 @@ function start() {
   ctrl.add(at(box(0.02, 0.12, 0.02, M.machined), 0.14, 0, 0.125));
   for (let k = 0; k < 5; k++) ctrl.add(at(box(0.22, 0.008, 0.004, M.darkSteel), -0.02, -0.22 + k * 0.025, 0.118));
   for (let i = 0; i < 3; i++) ctrl.add(at(new THREE.Mesh(new THREE.CircleGeometry(0.013, 12), ledM(i ? 0x2bff88 : RED)), -0.08 + i * 0.05, 0.22, 0.117));
-  const cc = comp("controller", ctrl, { p: [2.4, 7.0, 0.6], r: [0.2, -0.6, 0], s: 1.8 }, [6.5, 7.6], [0, 0.5, 0]);
-  cc.asm.p.set(0.72, TOP + 0.38, 0.5);
+  const cc = comp("controller", ctrl, { p: [2.8, 7.2, 0.4], r: [0.2, -0.6, 0], s: 1.8 }, [6.5, 7.6], [0, 0.5, 0]);
+  cc.asm.p.set(0.85, TOP + 0.38, 0.55);
 
   // guide rails: T-section steel with brackets
   const tShape = new THREE.Shape();
@@ -182,9 +186,9 @@ function start() {
   const rails = new THREE.Group();
   for (const s of [-1, 1]) {
     const r = new THREE.Mesh(tGeo, M.machined); r.rotation.y = s > 0 ? Math.PI / 2 : -Math.PI / 2; r.position.x = s * 0.86; rails.add(edges(r, CYAN, 0.3));
-    for (let y = 0.9; y < TOP; y += 1.6) rails.add(at(box(0.1, 0.05, 0.16, M.paintGrey), s * 0.93, y, 0));
+    for (let y = 0.9; y < TOP; y += 1.6) rails.add(at(box(W / 2 - 0.9, 0.05, 0.14, M.paintGrey), s * (0.9 + (W / 2 - 0.9) / 2), y, 0));
   }
-  comp("rails", rails, { p: [-4.0, 0.3, -1.6], r: [0, -0.4, 0.12], s: 0.4 }, [5.0, 6.2], [0.3, TOP * 0.45, 0]);
+  comp("rails", rails, { p: [-4.4, 0.3, -1.2], r: [0, -0.4, 0.12], s: 0.4 }, [5.0, 6.2], [0.3, TOP * 0.45, 0]);
 
   // buffers: red coil springs on base plates
   const buffers = new THREE.Group();
@@ -194,14 +198,14 @@ function start() {
     buffers.add(at(new THREE.Mesh(springGeo, M.paintRed), x, 0, 0));
     buffers.add(at(edges(box(0.26, 0.06, 0.26, M.paintGrey), CYAN, 0.4), x, 0.06, 0), at(cyl(0.1, 0.03, M.rubber), x, 0.36, 0));
   }
-  comp("buffers", buffers, { p: [-2.0, 1.0, 1.4], r: [0.3, 0.5, 0], s: 2.0 }, [5.3, 6.3], [0, 0.5, 0]);
+  comp("buffers", buffers, { p: [-3.5, 0.3, 2.3], r: [0.3, 0.5, 0], s: 2.0 }, [5.3, 6.3], [0, 0.5, 0]);
 
   // counterweight: steel frame with stacked filler blocks
   const cwG = new THREE.Group();
   for (const x of [-0.32, 0.32]) cwG.add(at(edges(box(0.05, 1.3, 0.14, M.paintGrey), CYAN, 0.4), x, 0, 0));
   for (const y of [-0.63, 0.63]) cwG.add(at(box(0.7, 0.06, 0.14, M.paintGrey), 0, y, 0));
   for (let i = 0; i < 9; i++) cwG.add(at(box(0.58, 0.12, 0.12, M.darkSteel), 0, -0.53 + i * 0.133, 0));
-  comp("cw", cwG, { p: [-3.1, 4.0, 0.2], r: [0, 0.7, 0], s: 1.2 }, [5.8, 7.0], [0, 0.85, 0]);
+  comp("cw", cwG, { p: [-3.0, 3.4, -0.2], r: [0, 0.7, 0], s: 1.2 }, [5.8, 7.0], [0, 0.85, 0]);
 
   // cabin: stainless walls with panel seams, granite floor, LED ceiling, gold front, door operator, car-top rail, sling
   const car = new THREE.Group();
@@ -224,8 +228,6 @@ function start() {
   cop.add(at(new THREE.Mesh(new THREE.PlaneGeometry(0.08, 0.05), ledM(0xff2a3d)), 0, 0.31, 0.011));
   for (const x of [-0.4, 0.4]) { const led = at(new THREE.Mesh(new THREE.PlaneGeometry(0.06, 1.0), ledM(0xfff1c8)), x, 2.225, 0); led.rotation.x = Math.PI / 2; car.add(led); }
   car.add(at(box(1.4, 0.1, 0.02, M.machined), 0, 0.05, 0.665));                                        // car sill
-  add(box(1.5, 0.14, 0.22, M.paintGrey), 0, 2.4, 0.56);                                               // door operator
-  car.add(at(box(1.5, 0.02, 0.02, M.machined), 0, 2.33, 0.68));
   for (const [x, z] of [[-0.68, -0.6], [0.68, -0.6], [-0.68, 0.45], [0.68, 0.45]]) car.add(at(cyl(0.012, 0.5, M.paintGrey, 8), x, 2.55, z)); // top balustrade posts
   car.add(at(box(1.38, 0.025, 0.025, M.paintGrey), 0, 2.8, -0.6), at(box(0.025, 0.025, 1.05, M.paintGrey), -0.68, 2.8, -0.08), at(box(0.025, 0.025, 1.05, M.paintGrey), 0.68, 2.8, -0.08));
   add(box(0.08, 2.9, 0.08, M.paintGrey), -0.76, 1.4, 0);                                              // sling uprights
@@ -236,10 +238,10 @@ function start() {
   for (const s of [-1, 1]) car.add(at(box(0.1, 0.16, 0.12, M.paintRed), s * 0.78, 0.08, 0));            // safety gear
   ceil.material.emissive = new THREE.Color(0xfff1c8); ceil.material.emissiveIntensity = 0.2;
   const carLight = new THREE.PointLight(0xfff1c8, 5, 3); carLight.position.y = 1.9; car.add(carLight);
-  const doors = new THREE.Group(); car.add(doors);
+  const doors = new THREE.Group(); // semi-automatic: the cabin has no doors of its own
   const doorL = edges(box(0.62, 2.02, 0.03, M.gold), CYAN, 0.35); doorL.position.set(-0.31, 1.06, 0.69); doors.add(doorL);
   const doorR = edges(box(0.62, 2.02, 0.03, M.gold), CYAN, 0.35); doorR.position.set(0.31, 1.06, 0.69); doors.add(doorR);
-  const cabC = comp("cabin", car, { p: [0, 2.4, 0.9], r: [0.08, 0.55, 0], s: 1.0 }, [6.6, 7.9], [0, 3.1, 0]);
+  const cabC = comp("cabin", car, { p: [2.9, 0.3, 1.9], r: [0.08, 0.55, 0], s: 1.0 }, [6.6, 7.9], [0, 3.1, 0]);
 
   // LOP: stainless plate, up/down buttons with lit rings
   const lop = new THREE.Group();
@@ -249,8 +251,8 @@ function start() {
     lop.add(at(new THREE.Mesh(new THREE.CircleGeometry(0.028, 24), M.machined), 0, y, 0.011));
   }
   lop.add(at(new THREE.Mesh(new THREE.PlaneGeometry(0.08, 0.04), ledM(0xff2a3d)), 0, 0.17, 0.011));
-  const lc = comp("lop", lop, { p: [2.3, 0.9, 2.4], r: [0, -0.4, 0], s: 2.4 }, [7.4, 8.4], [0, 0.4, 0]);
-  lc.asm.p.set(0.98, B + 1.15, D / 2 + 0.05);
+  const lc = comp("lop", lop, { p: [3.5, 1.7, 2.6], r: [0, -0.4, 0], s: 2.4 }, [7.4, 8.4], [0, 0.4, 0]);
+  lc.asm.p.set(0.8, B + 1.15, DZ + 0.06);
 
   // overspeed governor (top) + rope and tension pulley (pit)
   const gov = new THREE.Group();
@@ -260,8 +262,8 @@ function start() {
   const gs = cyl(0.16, 0.05, M.machined, 36); gs.rotation.z = Math.PI / 2; govSheave.add(gs);
   const gg = new THREE.Mesh(new THREE.TorusGeometry(0.162, 0.007, 6, 40), M.darkSteel); gg.rotation.y = Math.PI / 2; govSheave.add(gg);
   for (const a of [0, Math.PI]) govSheave.add(at(new THREE.Mesh(new THREE.SphereGeometry(0.03, 12, 8), M.paintRed), 0.035, Math.sin(a) * 0.09, Math.cos(a) * 0.09));
-  const GX = -0.68, GZ = 0.5;
-  const gc = comp("governor", gov, { p: [0.2, 6.3, 0.4], r: [0.2, 0.8, 0], s: 2.2 }, [6.4, 7.5], [0, 0.45, 0]);
+  const GX = -1.0, GZ = 0.55;
+  const gc = comp("governor", gov, { p: [-1.5, 5.9, 0.6], r: [0.2, 0.8, 0], s: 2.2 }, [6.4, 7.5], [0, 0.45, 0]);
   gc.asm.p.set(GX, TOP + 0.32, GZ);
   const pulley = new THREE.Group(); pulley.position.set(GX, 0.32, GZ); scene.add(pulley);
   const pw = cyl(0.11, 0.04, M.machined, 24); pw.rotation.z = Math.PI / 2; pulley.add(pw);
@@ -276,16 +278,16 @@ function start() {
   const coilPts = []; for (let i = 0; i <= 120; i++) { const a = i / 120 * Math.PI * 2 * 3.2; coilPts.push(new THREE.Vector3(Math.cos(a) * 0.32, i / 120 * 0.34 - 0.17, Math.sin(a) * 0.32)); }
   const cableMat = new THREE.MeshStandardMaterial({ color: 0x1b1e24, metalness: 0.1, roughness: 0.7, transparent: true });
   const coilG = new THREE.Group(); coilG.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(coilPts), 240, 0.03, 8), cableMat));
-  const cab2 = comp("cable", coilG, { p: [-3.2, 2.0, 0.9], r: [0.5, 0.3, 0], s: 1.6 }, [7.6, 8.6], [0, 0.42, 0]);
-  const CA = new THREE.Vector3(0.82, B + 2.8 + 1.2, -0.38), CL = 4.4;
+  const cab2 = comp("cable", coilG, { p: [-2.5, 1.4, 1.2], r: [0.5, 0.3, 0], s: 1.6 }, [7.6, 8.6], [0, 0.42, 0]);
+  const CA = new THREE.Vector3(1.0, B + 2.8 + 1.2, -0.45), CL = 4.4;
   cab2.asm.p.copy(CA); cab2.asm.s = 0.2;
   const hangMat = cableMat.clone(); let hang = null;
   function hangCable(carY, op) {
     if (hang) { scene.remove(hang); hang.geometry.dispose(); hang = null; }
     if (op < 0.01) return;
     const cy = carY, lo = Math.max(0.18, (CA.y + cy) / 2 - CL / 2);
-    const P = [CA.clone(), new THREE.Vector3(0.82, Math.min(CA.y - 0.3, lo + 0.45), -0.38), new THREE.Vector3(0.8, lo + 0.1, -0.38),
-      new THREE.Vector3(0.69, lo, -0.38), new THREE.Vector3(0.58, lo + 0.1, -0.38), new THREE.Vector3(0.56, Math.max(lo + 0.12, Math.min(cy - 0.08, lo + 0.45)), -0.38), new THREE.Vector3(0.55, cy, -0.38)];
+    const z = -0.45, P = [CA.clone(), new THREE.Vector3(1.0, Math.min(CA.y - 0.3, lo + 0.5), z), new THREE.Vector3(0.98, lo + 0.12, z),
+      new THREE.Vector3(0.86, lo, z), new THREE.Vector3(0.74, lo + 0.12, z), new THREE.Vector3(0.72, Math.max(lo + 0.14, Math.min(cy - 0.12, lo + 0.5)), z), new THREE.Vector3(0.62, cy - 0.12, z)];
     hangMat.opacity = op;
     hang = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(P), 48, 0.025, 6), hangMat); hang.castShadow = true; scene.add(hang);
   }
@@ -301,7 +303,7 @@ function start() {
   const ropeMat = new THREE.MeshStandardMaterial({ color: 0xe6edf5, metalness: 0.9, roughness: 0.25, emissive: new THREE.Color(0x7cc8ff), emissiveIntensity: 0.35, transparent: true });
   const r1 = [new THREE.Vector3(3.6, TOP + 2.4, 3.2), new THREE.Vector3(2.2, TOP + 1.5, 1.8), new THREE.Vector3(0.9, SY + 0.7, 0.5), new THREE.Vector3(SX + 0.1, SY + SR + 0.05, SZ + 0.15)];
   for (let k = 0; k <= 60; k++) { const th = Math.PI / 2 + k / 60 * Math.PI * 2 * 1.5; r1.push(new THREE.Vector3(SX + 0.06 - k / 60 * 0.08, SY + Math.sin(th) * SR, SZ + Math.cos(th) * SR)); }
-  r1.push(new THREE.Vector3(SX - 0.04, SY - 0.6, SZ + SR - 0.02), new THREE.Vector3(0, B + 2.67, 0));
+  r1.push(new THREE.Vector3(SX - 0.04, SY - 0.6, SZ + SR - 0.02), new THREE.Vector3(0, B + 2.96, 0));
   const r2 = [new THREE.Vector3(SX - 0.02, SY, SZ - SR), new THREE.Vector3(0.02, SY - 1.2, -D / 2 + 0.16), new THREE.Vector3(0, B + 7.3, -D / 2 + 0.16)];
   const tube = (pts, n) => new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts, false, "catmullrom", 0.2), n, 0.016, 6), ropeMat);
   const rope1 = tube(r1, 260), rope2 = tube(r2, 60); scene.add(rope1, rope2);
@@ -348,12 +350,12 @@ function start() {
     for (const name in comps) {
       const c = comps[name], o = c.obj;
       const a = ease(seg(t, c.win[0], c.win[1])) * (1 - out);
-      const live = name === cur && t < c.win[0];   // zoomed on it, not moving yet: little "presentation" spin
+      const pres = ease(seg(t, STEP[name][0], c.win[0])) * (1 - out), bump = Math.sin(Math.PI * seg(t, STEP[name][0], c.win[1]));
       const bob = (1 - a) * Math.sin(T * 0.9 + c.win[0] * 3) * 0.1;
-      const spin = (1 - a) * (Math.sin(T * 0.35 + c.win[0]) * 0.3 + (live ? (t - STEP[name][0]) * 0.9 : 0));
+      const spin = (1 - a) * (Math.sin(T * 0.35 + c.win[0]) * 0.25 + pres * 1.2);
       o.position.set(...c.show.p).lerp(c.asm.p, a); o.position.y += bob;
       o.rotation.set(c.show.r[0] * (1 - a), (c.show.r[1] + spin) * (1 - a), c.show.r[2] * (1 - a));
-      o.scale.setScalar((c.show.s + (c.asm.s - c.show.s) * a) * (0.6 + 0.4 * showIn) * (live ? 1.06 : 1));
+      o.scale.setScalar((c.show.s + (c.asm.s - c.show.s) * a) * (0.6 + 0.4 * showIn) * (1 + 0.06 * bump));
       c.a = a;
       if (!c.lines) { c.lines = []; o.traverse(x => { if (x.isLineSegments) c.lines.push(x.material); }); }
       for (const m of c.lines) m.opacity = m.userData.base * (1 - a);
@@ -364,13 +366,13 @@ function start() {
     const o2 = ease(open) * 0.56 * (comps.cabin.a || 0); doorL.position.x = -0.31 - o2; doorR.position.x = 0.31 + o2;
     LD.forEach((d, i) => {
       const span = (d1 - 0.2 - (d0 + HOLD)) / 3, a = ease(seg(t, d0 + HOLD + i * span * 0.8, d0 + HOLD + (i + 1.4) * span)) * (1 - out);
-      const live = cur === "doors" && t < d0 + HOLD;
+      const pres = ease(seg(t, d0, d0 + HOLD)) * (1 - out);
       d.g.position.copy(d.show).lerp(d.asm, a); d.g.position.y += (1 - a) * Math.sin(T * 0.9 + i) * 0.08;
-      d.g.rotation.y = (1 - a) * (-0.7 + (live ? (t - d0) * 0.9 : 0)); d.g.scale.setScalar(1 + 0.15 * (1 - a));
+      d.g.rotation.y = (1 - a) * (-0.7 + pres * 0.9); d.g.scale.setScalar(1 + 0.1 * (1 - a));
       if (!d.lines) { d.lines = []; d.g.traverse(x => { if (x.isLineSegments) d.lines.push(x.material); }); }
       for (const m of d.lines) m.opacity = m.userData.base * (1 - a);
-      const here = a > 0.99 && Math.abs(carY - FLOORS[i]) < 0.03 ? o2 : 0;
-      d.pl.position.x = -0.31 - here; d.pr.position.x = 0.31 + here;
+      const here = a > 0.99 && Math.abs(carY - FLOORS[i]) < 0.03 ? o2 / 0.56 : 0;
+      d.hinge.rotation.y = -1.45 * here;          // swing door opens outwards to the landing
     });
     sheave.rotation.x = carY * 2.4; govSheave.rotation.x = carY * 4; pulley.rotation.x = carY * 6;
     // shaft builds with a scan beam
@@ -396,7 +398,7 @@ function start() {
     ropes.material.opacity = 0.85 * ropeOn; ropes.visible = ropeOn > 0.01;
     const cwy = comps.cw.obj.position.y;
     let i = 0; const put = (a, b) => { ropePts.set([...a, ...b], i); i += 6; };
-    for (const dx of [-0.05, 0, 0.05]) { put([dx, carY + 2.67, 0], [dx + SX, SY, SZ + SR]); put([dx + SX, SY, SZ - SR], [dx, cwy + 0.55, -D / 2 + 0.16]); }
+    for (const dx of [-0.05, 0, 0.05]) { put([dx, carY + 2.96, 0], [dx + SX, SY, SZ + SR]); put([dx + SX, SY, SZ - SR], [dx, cwy + 0.55, -D / 2 + 0.16]); }
     ropeGeo.attributes.position.needsUpdate = true;
 
     // camera focus
@@ -459,7 +461,7 @@ function start() {
     const dt = Math.min(0.1, (now - last) / 1000); last = now;
     const T = FIX != null ? FIX : reduce ? BUILT + 1 : (now - t0) / 1000;
     const wantD = apply(T);
-    const s = FIX != null ? 1 : 1 - Math.exp(-dt * 2.2);
+    const s = FIX != null ? 1 : 1 - Math.exp(-dt * 1.6);
     camT.lerp(focus, s); camD += (wantD - camD) * s;
     const a = -0.5 + (reduce ? 0 : Math.sin(T * 0.08) * 0.35);
     camera.position.set(camT.x + Math.sin(a) * camD, camT.y + camD * 0.12, camT.z + Math.cos(a) * camD);
