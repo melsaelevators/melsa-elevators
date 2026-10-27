@@ -280,16 +280,21 @@ function start() {
   const coilG = new THREE.Group(); coilG.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(coilPts), 240, 0.03, 8), cableMat));
   const cab2 = comp("cable", coilG, { p: [-2.5, 1.4, 1.2], r: [0.5, 0.3, 0], s: 1.6 }, [7.6, 8.6], [0, 0.42, 0]);
   const CA = new THREE.Vector3(1.0, B + 2.8 + 1.2, -0.45), CL = 4.4;
-  cab2.asm.p.copy(CA); cab2.asm.s = 0.2;
-  const hangMat = cableMat.clone(); let hang = null;
-  function hangCable(carY, op) {
+  cab2.asm.p.set(0.72, B - 0.2, -0.45); cab2.asm.s = 0.55;   // the coil is brought under the cabin first
+  const hangMat = cableMat.clone(); hangMat.color.set(0x2a2f38); hangMat.emissive = new THREE.Color(0x3aa0ff); hangMat.emissiveIntensity = 0.25; let hang = null;
+  const tip = new THREE.Mesh(new THREE.SphereGeometry(0.05, 16, 12), new THREE.MeshBasicMaterial({ color: 0x9fe0ff, transparent: true })); tip.visible = false; scene.add(tip);
+  const tipGlow = new THREE.PointLight(0x7cc8ff, 0, 1.6); tip.add(tipGlow);
+  let hangCurve = null;
+  function hangCable(carY, draw, op) {   // draw: 0..1 how much is installed, starting from the cabin end
     if (hang) { scene.remove(hang); hang.geometry.dispose(); hang = null; }
-    if (op < 0.01) return;
+    if (draw < 0.01 || op < 0.01) return;
     const cy = carY, lo = Math.max(0.18, (CA.y + cy) / 2 - CL / 2);
     const z = -0.45, P = [CA.clone(), new THREE.Vector3(1.0, Math.min(CA.y - 0.3, lo + 0.5), z), new THREE.Vector3(0.98, lo + 0.12, z),
       new THREE.Vector3(0.86, lo, z), new THREE.Vector3(0.74, lo + 0.12, z), new THREE.Vector3(0.72, Math.max(lo + 0.14, Math.min(cy - 0.12, lo + 0.5)), z), new THREE.Vector3(0.62, cy - 0.12, z)];
+    P.reverse(); hangCurve = new THREE.CatmullRomCurve3(P);
     hangMat.opacity = op;
-    hang = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(P), 48, 0.025, 6), hangMat); hang.castShadow = true; scene.add(hang);
+    hang = new THREE.Mesh(new THREE.TubeGeometry(hangCurve, 64, 0.034, 6), hangMat); hang.castShadow = true;
+    hang.geometry.setDrawRange(0, Math.floor(draw * hang.geometry.index.count / 36) * 36); scene.add(hang);
   }
 
   // shadows on all solid parts
@@ -324,7 +329,7 @@ function start() {
     controller: [0, 0, 0, 1.6], cabin: [0, 1.2, 0, 3.4], lop: [0, 0, 0, 1.4], cable: [0, 0, 0, 2.0] };
   // real installation order: rails, landing doors, machine (+counterweight), cabin (+ropes), governor, controller, travelling cable, LOP, buffers
   const ORDER = [["shaft", 6.0], ["rails", 6.5], ["doors", 10.5], ["machine", 6.5], ["cw", 6.0], ["cabin", 7.0], ["ropes", 9.0],
-    ["governor", 6.0], ["controller", 6.0], ["cable", 7.0], ["lop", 5.5], ["buffers", 6.0]];
+    ["governor", 6.0], ["controller", 6.0], ["cable", 9.5], ["lop", 5.5], ["buffers", 6.0]];
   const INTRO = 5.0, HOLD = 1.9; // HOLD = camera travels to the part and shows it before it moves
   // best camera angle for each step: [azimuth (0 = front, + = right side, ±3 = back), height]
   const VIEW = { shaft: [-0.5, 0.14], rails: [-0.55, 0.1], doors: [-0.25, 0.08], machine: [-0.5, 0.45], cw: [-2.5, 0.18], cabin: [0.25, 0.1],
@@ -337,6 +342,7 @@ function start() {
     down: [BUILT + 11.0, BUILT + 15.8], open2: [BUILT + 15.8, BUILT + 16.7] };
   const OUT = [BUILT + 18.0, BUILT + 21.0], CYCLE = BUILT + 22.0;
   for (const n in comps) comps[n].win = [STEP[n][0] + HOLD, STEP[n][1] - 0.9];
+  comps.cable.win = [STEP.cable[0] + HOLD, STEP.cable[0] + HOLD + 2.0];
   const v = new THREE.Vector3(), camT = new THREE.Vector3(0, 4.2, 0);
   let lastInd = "", focusSize = 0, focus = new THREE.Vector3();
 
@@ -390,7 +396,13 @@ function start() {
     const gOn = (comps.governor.a > 0.98 ? 1 : 0) * (1 - out);
     govRope.material.opacity = 0.8 * gOn; govRope.visible = pulley.visible = gOn > 0.01;
     // travelling cable
-    const ca = comps.cable.a || 0; cableMat.opacity = 1 - ca; coilG.visible = ca < 0.98; hangCable(carY, ca);
+    // travelling cable: coil arrives under the cabin, the end is fixed to the cabin, then it unwinds up to the shaft wall
+    const [k0, k1] = STEP.cable, kDraw = ease(seg(t, k0 + HOLD + 1.9, k1 - 0.9));
+    const cDraw = t >= k1 ? 1 : kDraw, cOp = 1 - out;
+    coilG.scale.multiplyScalar(1 - 0.9 * cDraw); coilG.rotation.y += cDraw * 9;
+    cableMat.opacity = 1 - ease(seg(cDraw, 0.85, 1)); coilG.visible = cableMat.opacity > 0.02 && out < 0.5;
+    hangCable(carY, cDraw * (out > 0 ? 1 - out : 1), cOp);
+    tip.visible = kDraw > 0.01 && kDraw < 0.99 && hangCurve; if (tip.visible) { tip.position.copy(hangCurve.getPointAt(kDraw)); tipGlow.intensity = 3; }
     // hoisting ropes: tube arrives from far, wraps the sheave, drops to car & counterweight, then hands over to live lines
     const [q0, q1] = STEP.ropes, qd = q1 - q0;
     const p1 = ease(seg(t, q0 + 0.5, q0 + qd * 0.72)), p2 = ease(seg(t, q0 + qd * 0.55, q0 + qd * 0.85));
@@ -419,6 +431,7 @@ function start() {
       if (u < 0.5) { focus.copy(ropeHead).lerp(new THREE.Vector3(SX, SY, SZ), seg(u, 0.25, 0.5)); wantD = fit(3.2, 3.2); }
       else { focus.set(SX, SY, SZ).lerp(new THREE.Vector3(0, 5.2, 0), ease(seg(t, q0 + qd * 0.6, q1))); wantD = fit(2.6 + 8 * ease(seg(t, q0 + qd * 0.6, q1)), 3.0); }
     }
+    else if (cur === "cable" && kDraw > 0 && hangCurve) { focus.copy(hangCurve.getPointAt(clamp(kDraw, 0.001, 0.999))); wantD = fit(2.8, 2.8); }
     else if (cur && FOCUS[cur]) { const c = comps[cur], f = FOCUS[cur]; focus.set(f[0], f[1], f[2]).multiplyScalar(c.obj.scale.x).add(c.obj.position); wantD = fit(f[3] * c.obj.scale.x / (cur === "rails" ? 1 : 1) + 0.6, f[3] * c.obj.scale.x + 0.6); }
     else if (t < R.up[0]) { focus.set(0, 5.2, 0); wantD = fit(10.6, 5); }
     else { focus.set(0, carY + 1.6, 0); wantD = dRide; }
