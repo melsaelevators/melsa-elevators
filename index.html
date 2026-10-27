@@ -18,13 +18,25 @@
 .hero .slides img.on{opacity:1;transform:scale(1.12)}
 .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#021a46e0 0%,#021a4680 42%,#021a4600 72%)}
 [dir=rtl] .hero::after{background:linear-gradient(270deg,#021a46e0 0%,#021a4680 42%,#021a4600 72%)}
-.hero .wrap{position:relative;z-index:1;width:100%;padding-top:56px;padding-bottom:72px}
+.hero .wrap{position:relative;z-index:2;width:100%;padding-top:56px;padding-bottom:72px}
 .hero .txt{max-width:640px}
 .hero .eyebrow{color:#ff8a96}
 .hero h1{color:#fff;text-shadow:0 2px 18px #0006}
 .hero h1 em{font-style:normal;color:#ff4d5e}
 .hero .lead{color:#e3eaf7;text-shadow:0 1px 8px #0006}
 .hero .btn.ghost{background:#ffffff1a;color:#fff;border-color:#fff;backdrop-filter:blur(4px)}
+.hero3d{position:absolute;z-index:1;top:0;bottom:0;right:0;width:52%;pointer-events:none}
+[dir=rtl] .hero3d{right:auto;left:0}
+.hero3d canvas{width:100%!important;height:100%!important;display:block}
+.hero.has3d .slides img{filter:saturate(.6) brightness(.55) blur(1.5px)}
+.hero.has3d::after{background:radial-gradient(ellipse at 75% 45%,#0b3a8a66 0%,#021a46d9 55%,#010f2bf2 100%),linear-gradient(90deg,#010f2bf0 0%,#021a4699 60%,#021a4640 100%)}
+[dir=rtl] .hero.has3d::after{background:radial-gradient(ellipse at 25% 45%,#0b3a8a66 0%,#021a46d9 55%,#010f2bf2 100%),linear-gradient(270deg,#010f2bf0 0%,#021a4699 60%,#021a4640 100%)}
+.hero.has3d::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(#7cc8ff12 1px,transparent 1px),linear-gradient(90deg,#7cc8ff12 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(180deg,transparent,#000 30%,#000 80%,transparent)}
+.hero.has3d .dots{display:none}
+.lift-ind{position:absolute;top:22px;right:24px;font:800 15px/1 Inter,system-ui,sans-serif;color:#ff4d5e;background:#0a1730cc;border:1px solid #ff4d5e66;border-radius:10px;padding:8px 12px;letter-spacing:.08em;box-shadow:0 0 18px #ff2a3d44;opacity:0;transition:opacity .4s;direction:ltr}
+.lift-ind.on{opacity:1}
+[dir=rtl] .lift-ind{right:auto;left:24px}
+@media(max-width:860px){.hero3d{width:100%;top:0;bottom:auto;height:min(54vh,470px)}.hero.has3d{display:block;min-height:0}.hero.has3d .wrap{padding-top:calc(min(54vh,470px) - 40px);padding-bottom:40px}.hero.has3d::after,[dir=rtl] .hero.has3d::after{background:linear-gradient(0deg,#010f2bf7 0%,#021a46d9 42%,#021a4666 70%,#010f2bcc 100%)}}
 .hero .dots{position:absolute;z-index:2;bottom:22px;inset-inline:0;display:flex;justify-content:center;gap:8px}
 .hero .dots button{width:9px;height:9px;border-radius:50%;border:0;padding:0;background:#ffffff66;cursor:pointer;transition:width .3s,background .3s}
 .hero .dots button.on{width:26px;border-radius:6px;background:#fff}
@@ -92,6 +104,7 @@ window.PAGE_T={
    <p class="lead" data-i18n="lead"></p>
    <div class="btns"><a class="btn red" href="quote.html" data-i18n="cta1">Request a quote</a><a class="btn navy" href="maintenance.html" data-i18n="cta2">Book maintenance</a><a class="btn ghost" href="catalog.html" data-i18n="cta3">View catalog</a></div>
   </div></div>
+  <div class="hero3d" id="hero3d" aria-hidden="true"><span class="lift-ind" id="liftInd">• G</span></div>
   <div class="dots" id="dots"></div>
  </div>
 
@@ -120,6 +133,8 @@ window.PAGE_T={
  </div></section>
  <section><div class="wrap"><div class="cta"><div><h2 data-i18n="ctaTitle"></h2><p data-i18n="ctaText"></p></div><a class="btn red" href="contact.html" data-i18n="ctaBtn"></a></div></div></section>
 </main>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"}}</script>
+<script type="module" src="assets/hero3d.js"></script>
 <script src="assets/site-data.js"></script>
 <script src="assets/products.js"></script>
 <script src="assets/site.js"></script>
