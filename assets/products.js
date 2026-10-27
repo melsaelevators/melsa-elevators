@@ -16,7 +16,12 @@ window.MELSA_PRODUCTS={
   {id:"flooring_samples_10",code:"038",ar:"رخام أسود بعروق ذهبية",ext:"jpeg",label:"Black marble with gold veining"}],
  door:[
   {id:"semi_automatic_doors_01",code:"001",ar:"إطار نبيتي بلونين مع شباك رفيع",ext:"jpeg",type:"Semi-automatic",label:"Two-tone burgundy frame with slim vision panel",color:"#ece8df",design:"vision"},
-  {id:"semi_automatic_doors_07",code:"002",ar:"باب عاجي مع شباك رفيع بإطار فضي",ext:"jpeg",type:"Semi-automatic",label:"Ivory door with slim silver-trimmed vision panel",color:"#f1efea",design:"vision"},
+  {id:"semi_automatic_doors_07",code:"002",variants:[
+   {id:"door_002_a",v:"A",ar:"عاجي بإطار فضي",label:"Ivory with silver frame",sw:"#f3f1ea"},
+   {id:"door_002_b",v:"B",ar:"خشب رمادي",label:"Grey wood",sw:"#a9a7a3"},
+   {id:"door_002_c",v:"C",ar:"خشب جوز",label:"Walnut wood",sw:"#6b3a1a"},
+   {id:"door_002_d",v:"D",ar:"أسود بإطار فضي",label:"Black with silver frame",sw:"#16171a"}],
+   ar:"باب عاجي مع شباك رفيع بإطار فضي",ext:"jpeg",type:"Semi-automatic",label:"Ivory door with slim silver-trimmed vision panel",color:"#f1efea",design:"vision"},
   {id:"semi_automatic_doors_08",code:"003",ar:"باب ذهبي شامبين مع شباك طويل",ext:"jpeg",type:"Semi-automatic",label:"Champagne-gold door with tall vision panel",color:"#c9b98d",design:"wide"},
   {id:"control_panels_08",code:"004",ar:"باب ستانلس مطفي مع شباك رفيع",ext:"jpeg",type:"Semi-automatic",label:"Brushed stainless door with slim vision panel",color:"#b8bdc2",design:"vision"},
   {id:"control_panels_09",code:"005",ar:"باب ستانلس أسود مع شباك رفيع",ext:"jpeg",type:"Semi-automatic",label:"Black stainless door with slim vision panel",color:"#2b2c30",design:"vision"},
