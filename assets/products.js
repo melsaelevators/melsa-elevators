@@ -15,7 +15,13 @@ window.MELSA_PRODUCTS={
   {id:"automatic_doors_10",code:"037",ar:"جرانيت أسود بنقاط ذهبية",ext:"jpeg",label:"Black granite with gold fleck"},
   {id:"flooring_samples_10",code:"038",ar:"رخام أسود بعروق ذهبية",ext:"jpeg",label:"Black marble with gold veining"}],
  door:[
-  {id:"semi_automatic_doors_01",code:"001",ar:"إطار نبيتي بلونين مع شباك رفيع",ext:"jpeg",type:"Semi-automatic",label:"Two-tone burgundy frame with slim vision panel",color:"#ece8df",design:"vision"},
+  {id:"semi_automatic_doors_01",code:"001",variants:[
+   {id:"door_001_a",v:"A",ar:"رمادي فاتح",label:"Light grey",sw:"#c9c7c0"},
+   {id:"door_001_b",v:"B",ar:"رمادي فاتح بإطار نبيتي",label:"Light grey with burgundy frame",sw:"#6e2a2e"},
+   {id:"door_001_c",v:"C",ar:"رمادي غامق",label:"Dark grey",sw:"#626a73"},
+   {id:"door_001_d",v:"D",ar:"ستانلس فضي",label:"Brushed stainless steel",sw:"#b8bcc0"},
+   {id:"door_001_e",v:"E",ar:"ستانلس دهبي",label:"Brushed gold stainless",sw:"#c9b77a"}],
+   ar:"إطار نبيتي بلونين مع شباك رفيع",ext:"jpeg",type:"Semi-automatic",label:"Two-tone burgundy frame with slim vision panel",color:"#ece8df",design:"vision"},
   {id:"semi_automatic_doors_07",code:"002",variants:[
    {id:"door_002_a",v:"A",ar:"عاجي بإطار فضي",label:"Ivory with silver frame",sw:"#f3f1ea"},
    {id:"door_002_b",v:"B",ar:"خشب رمادي",label:"Grey wood",sw:"#a9a7a3"},
