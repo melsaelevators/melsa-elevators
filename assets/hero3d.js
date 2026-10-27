@@ -323,16 +323,20 @@ function start() {
   const FOCUS = { rails: [0, TOP * 0.5, 0, 5.2], buffers: [0, 0.2, 0, 1.8], cw: [0, 0, 0, 2.2], machine: [0, 0, 0, 2.2], governor: [0, -0.05, 0, 1.6],
     controller: [0, 0, 0, 1.6], cabin: [0, 1.2, 0, 3.4], lop: [0, 0, 0, 1.4], cable: [0, 0, 0, 2.0] };
   // real installation order: rails, landing doors, machine (+counterweight), cabin (+ropes), governor, controller, travelling cable, LOP, buffers
-  const ORDER = [["shaft", 3.2], ["rails", 3.4], ["doors", 3.6], ["machine", 3.2], ["cw", 2.8], ["cabin", 3.6], ["ropes", 6.0],
-    ["governor", 3.0], ["controller", 2.8], ["cable", 3.2], ["lop", 2.8], ["buffers", 3.0]];
-  const INTRO = 4.5, HOLD = 0.9; // HOLD = time spent zoomed on the part before it moves
+  const ORDER = [["shaft", 6.0], ["rails", 6.5], ["doors", 10.5], ["machine", 6.5], ["cw", 6.0], ["cabin", 7.0], ["ropes", 9.0],
+    ["governor", 6.0], ["controller", 6.0], ["cable", 7.0], ["lop", 5.5], ["buffers", 6.0]];
+  const INTRO = 5.0, HOLD = 1.9; // HOLD = camera travels to the part and shows it before it moves
+  // best camera angle for each step: [azimuth (0 = front, + = right side, ±3 = back), height]
+  const VIEW = { shaft: [-0.5, 0.14], rails: [-0.55, 0.1], doors: [-0.25, 0.08], machine: [-0.5, 0.45], cw: [-2.5, 0.18], cabin: [0.25, 0.1],
+    ropes: [-0.7, 0.3], governor: [-1.0, 0.3], controller: [0.8, 0.3], cable: [2.0, 0.22], lop: [0.45, 0.05], buffers: [-2.3, 0.75] };
+  let wantAz = -0.5, wantEl = 0.12;
   const STEP = {}; let tt = INTRO;
   for (const [n, d] of ORDER) { STEP[n] = [tt, tt + d]; tt += d; }
   const BUILT = tt;                                  // ≈ 44s
   const R = { lights: BUILT + 0.2, close1: [BUILT + 1.4, BUILT + 2.3], up: [BUILT + 2.6, BUILT + 7.4], open1: [BUILT + 7.4, BUILT + 8.3], close2: [BUILT + 9.8, BUILT + 10.7],
     down: [BUILT + 11.0, BUILT + 15.8], open2: [BUILT + 15.8, BUILT + 16.7] };
   const OUT = [BUILT + 18.0, BUILT + 21.0], CYCLE = BUILT + 22.0;
-  for (const n in comps) comps[n].win = [STEP[n][0] + HOLD, STEP[n][1] - 0.2];
+  for (const n in comps) comps[n].win = [STEP[n][0] + HOLD, STEP[n][1] - 0.9];
   const v = new THREE.Vector3(), camT = new THREE.Vector3(0, 4.2, 0);
   let lastInd = "", focusSize = 0, focus = new THREE.Vector3();
 
@@ -365,7 +369,7 @@ function start() {
     const open = Math.max(1 - seg(t, ...R.close1), seg(t, ...R.open1) * (1 - seg(t, ...R.close2)), seg(t, ...R.open2) * (1 - seg(t, OUT[0] - 0.9, OUT[0])));
     const o2 = ease(open) * 0.56 * (comps.cabin.a || 0); doorL.position.x = -0.31 - o2; doorR.position.x = 0.31 + o2;
     LD.forEach((d, i) => {
-      const span = (d1 - 0.2 - (d0 + HOLD)) / 3, a = ease(seg(t, d0 + HOLD + i * span * 0.8, d0 + HOLD + (i + 1.4) * span)) * (1 - out);
+      const span = (d1 - 0.9 - (d0 + HOLD)) / 3, a = ease(seg(t, d0 + HOLD + i * span, d0 + HOLD + (i + 1) * span)) * (1 - out);
       const pres = ease(seg(t, d0, d0 + HOLD)) * (1 - out);
       d.g.position.copy(d.show).lerp(d.asm, a); d.g.position.y += (1 - a) * Math.sin(T * 0.9 + i) * 0.08;
       d.g.rotation.y = (1 - a) * (-0.7 + pres * 0.9); d.g.scale.setScalar(1 + 0.1 * (1 - a));
@@ -405,7 +409,11 @@ function start() {
     let wantD, ropeHead = null;
     if (t < INTRO || t >= OUT[0]) { focus.set(0, 4.2, 0); wantD = dShow; }
     else if (cur === "shaft") { focus.set(0, 5.0, 0); wantD = fit(10.6, 5); }
-    else if (cur === "doors") { const sp = (STEP.doors[1] - STEP.doors[0] - HOLD) / 3, j = clamp(Math.floor((t - STEP.doors[0] - HOLD) / sp), 0, 2); focus.copy(LD[t < STEP.doors[0] + HOLD ? 0 : j].g.position); focus.y += 1.1; wantD = fit(t < STEP.doors[0] + HOLD ? 3.6 : 3.2, 3.2); }
+    else if (cur === "doors") {
+      const sp = (STEP.doors[1] - 0.9 - STEP.doors[0] - HOLD) / 3, u = (t - STEP.doors[0] - HOLD) / sp;
+      if (u < 0) { focus.copy(LD[1].g.position); focus.y += 1.2; wantD = fit(4.2, 4.2); }
+      else { const j = clamp(Math.floor(u), 0, 2), f = u - j; focus.copy(LD[j].g.position); focus.y += 1.15; if (j < 2 && f > 0.85) focus.lerp(LD[j + 1].g.position.clone().setY(LD[j + 1].g.position.y + 1.15), (f - 0.85) / 0.15); wantD = fit(3.6, 3.6); }
+    }
     else if (cur === "ropes") {
       const u = clamp(p1 * 1.0); ropeHead = headCurve.getPointAt(Math.min(0.999, u));
       if (u < 0.5) { focus.copy(ropeHead).lerp(new THREE.Vector3(SX, SY, SZ), seg(u, 0.25, 0.5)); wantD = fit(3.2, 3.2); }
@@ -414,6 +422,7 @@ function start() {
     else if (cur && FOCUS[cur]) { const c = comps[cur], f = FOCUS[cur]; focus.set(f[0], f[1], f[2]).multiplyScalar(c.obj.scale.x).add(c.obj.position); wantD = fit(f[3] * c.obj.scale.x / (cur === "rails" ? 1 : 1) + 0.6, f[3] * c.obj.scale.x + 0.6); }
     else if (t < R.up[0]) { focus.set(0, 5.2, 0); wantD = fit(10.6, 5); }
     else { focus.set(0, carY + 1.6, 0); wantD = dRide; }
+    const vw = cur && VIEW[cur]; wantAz = vw ? vw[0] : -0.5; wantEl = vw ? vw[1] : 0.12;
 
     // labels: everything during the intro, then only the part in focus
     const L = document.documentElement.lang === "ar" ? 1 : 0;
@@ -453,7 +462,7 @@ function start() {
   new ResizeObserver(resize).observe(host); resize();
 
   const FIX = (q => q === null ? null : +q)(new URLSearchParams(location.search).get("t3d"));
-  let visible = true, t0 = performance.now(), last = t0, camD = dShow;
+  let visible = true, t0 = performance.now(), last = t0, camD = dShow, camA = -0.5, camE = 0.12;
   new IntersectionObserver(es => { visible = es[0].isIntersecting; }).observe(host);
   function frame(now) {
     requestAnimationFrame(frame);
@@ -461,10 +470,10 @@ function start() {
     const dt = Math.min(0.1, (now - last) / 1000); last = now;
     const T = FIX != null ? FIX : reduce ? BUILT + 1 : (now - t0) / 1000;
     const wantD = apply(T);
-    const s = FIX != null ? 1 : 1 - Math.exp(-dt * 1.6);
-    camT.lerp(focus, s); camD += (wantD - camD) * s;
-    const a = -0.5 + (reduce ? 0 : Math.sin(T * 0.08) * 0.35);
-    camera.position.set(camT.x + Math.sin(a) * camD, camT.y + camD * 0.12, camT.z + Math.cos(a) * camD);
+    const s = FIX != null ? 1 : 1 - Math.exp(-dt * 1.15), sa = FIX != null ? 1 : 1 - Math.exp(-dt * 0.7);
+    camT.lerp(focus, s); camD += (wantD - camD) * s; camA += (wantAz - camA) * sa; camE += (wantEl - camE) * sa;
+    const a = camA + (reduce ? 0 : Math.sin(T * 0.07) * 0.12), ce = Math.cos(Math.atan(camE));
+    camera.position.set(camT.x + Math.sin(a) * camD * ce, camT.y + camD * Math.sin(Math.atan(camE)), camT.z + Math.cos(a) * camD * ce);
     camera.lookAt(camT);
     renderer.render(scene, camera);
   }
