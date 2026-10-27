@@ -14,6 +14,7 @@ const LABELS = {
   machine: ["Traction machine", "الماكينة"], controller: ["Controller", "لوحة الكنترول"], rails: ["Guide rails", "السكك"],
   cabin: ["Cabin", "الكابينة"], doors: ["Doors", "الأبواب"], cw: ["Counterweight", "الثقل"],
   buffers: ["Buffers", "المخمدات"], lop: ["LOP panel", "لوحة الطلبات"],
+  governor: ["Overspeed governor", "الجفرنر (منظم السرعة)"], cable: ["Travelling cable", "الكابل المرن"],
 };
 
 function start() {
@@ -157,6 +158,42 @@ function start() {
   const lc = comp("lop", lop, { p: [2.3, 0.9, 2.4], r: [0, -0.4, 0], s: 2.4 }, [7.4, 8.4], [0, 0.4, 0]);
   lc.asm.p.set(0.95, B + 1.15, D / 2 + 0.05);
 
+  // overspeed governor (top) + its rope and tension pulley (pit)
+  const gov = new THREE.Group();
+  gov.add(edges(box(0.34, 0.06, 0.3, metal(0x2b3550)))); gov.children[0].position.y = -0.2;
+  for (const x of [-0.12, 0.12]) { const s = box(0.03, 0.22, 0.03, metal(0x39445a)); s.position.set(x, -0.08, 0); gov.add(s); }
+  const govSheave = edges(new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.16, 0.05, 28), metal(0xf2c94c, 0.9, 0.25)), 0x0a1730, 0.9);
+  govSheave.rotation.z = Math.PI / 2; gov.add(govSheave);
+  for (const a of [0, Math.PI]) { const fw = new THREE.Mesh(new THREE.SphereGeometry(0.035, 12, 8), new THREE.MeshBasicMaterial({ color: RED })); fw.position.set(0.03, Math.sin(a) * 0.09, Math.cos(a) * 0.09); govSheave.add(fw); }
+  const GX = -0.68, GZ = 0.5;
+  const gc = comp("governor", gov, { p: [0.2, 6.3, 0.4], r: [0.2, 0.8, 0], s: 2.2 }, [6.4, 7.5], [0, 0.45, 0]);
+  gc.asm.p.set(GX, TOP + 0.3, GZ);
+  const pulley = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.11, 0.04, 20), metal(0xf2c94c, 0.9, 0.25));
+  pulley.rotation.z = Math.PI / 2; pulley.position.set(GX, 0.3, GZ); scene.add(pulley);
+  const govRope = new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints([
+    new THREE.Vector3(GX, TOP + 0.3, GZ + 0.16), new THREE.Vector3(GX, 0.3, GZ + 0.11),
+    new THREE.Vector3(GX, TOP + 0.3, GZ - 0.16), new THREE.Vector3(GX, 0.3, GZ - 0.11)]),
+    new THREE.LineBasicMaterial({ color: 0xff8a96, transparent: true, opacity: 0.8 }));
+  scene.add(govRope);
+
+  // travelling cable: a coil when shown apart, a hanging loop under the car once installed
+  const coilPts = []; for (let i = 0; i <= 120; i++) { const a = i / 120 * Math.PI * 2 * 3.2; coilPts.push(new THREE.Vector3(Math.cos(a) * 0.32, i / 120 * 0.34 - 0.17, Math.sin(a) * 0.32)); }
+  const cableMat = new THREE.MeshStandardMaterial({ color: 0x1a1d24, metalness: 0.2, roughness: 0.6, emissive: new THREE.Color(0x3aa0ff), emissiveIntensity: 0.15, transparent: true });
+  const coilG = new THREE.Group(); const coil = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(coilPts), 240, 0.03, 8), cableMat); coilG.add(coil);
+  const cab2 = comp("cable", coilG, { p: [-3.2, 2.0, 0.9], r: [0.5, 0.3, 0], s: 1.6 }, [7.6, 8.6], [0, 0.42, 0]);
+  const CA = new THREE.Vector3(0.82, B + 2.8 + 1.2, -0.38), CL = 4.4;
+  cab2.asm.p.copy(CA); cab2.asm.s = 0.2;
+  const hangMat = cableMat.clone(); let hang = null;
+  function hangCable(carY, op) {
+    if (hang) { scene.remove(hang); hang.geometry.dispose(); hang = null; }
+    if (op < 0.01) return;
+    const cy = carY, lo = Math.max(0.18, (CA.y + cy) / 2 - CL / 2);
+    const P = [CA.clone(), new THREE.Vector3(0.82, Math.min(CA.y - 0.3, lo + 0.45), -0.38), new THREE.Vector3(0.8, lo + 0.1, -0.38),
+      new THREE.Vector3(0.69, lo, -0.38), new THREE.Vector3(0.58, lo + 0.1, -0.38), new THREE.Vector3(0.56, Math.max(lo + 0.12, Math.min(cy - 0.08, lo + 0.45)), -0.38), new THREE.Vector3(0.55, cy, -0.38)];
+    hangMat.opacity = op;
+    hang = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(P), 48, 0.025, 6), hangMat); scene.add(hang);
+  }
+
   // ropes
   const ropeGeo = new THREE.BufferGeometry(); const ropePts = new Float32Array(6 * 3 * 2);
   ropeGeo.setAttribute("position", new THREE.BufferAttribute(ropePts, 3));
@@ -194,6 +231,7 @@ function start() {
       o.position.set(...c.show.p).lerp(c.asm.p, a); o.position.y += bob;
       o.rotation.set(c.show.r[0] * (1 - a), (c.show.r[1] + spin) * (1 - a), c.show.r[2] * (1 - a));
       o.scale.setScalar((c.show.s + (c.asm.s - c.show.s) * a) * (0.6 + 0.4 * showIn));
+      c.a = a;
     }
     // doors: shown beside the cabin, slide into the car, open at the floors
     const da = ease(seg(t, doorWin[0], doorWin[1])) * (1 - out);
@@ -201,7 +239,8 @@ function start() {
     doors.rotation.y = -0.6 * (1 - da);
     const open = Math.max(seg(t, 13.4, 14.0) * (1 - seg(t, 15.0, 15.6)), seg(t, 19.0, 19.6) * (1 - seg(t, 20.0, 20.4)));
     const o2 = ease(open) * 0.56; doorL.position.x = -0.31 - o2; doorR.position.x = 0.31 + o2;
-    sheave.rotation.x = carY * 2.4;
+    sheave.rotation.x = carY * 2.4; govSheave.rotation.x = carY * 4; pulley.rotation.x = carY * 6;
+    const ca = comps.cable.a || 0; cableMat.opacity = 1 - ca; coilG.visible = ca < 0.98; hangCable(carY, ca);
     // the shaft builds with a scan beam
     const built = ease(seg(t, 5.2, 6.9)) * (1 - out);
     structure.visible = built > 0.01;
@@ -211,6 +250,7 @@ function start() {
     // ropes
     const ropeOn = ease(seg(t, 8.0, 8.8)) * (1 - out);
     ropes.material.opacity = 0.85 * ropeOn; ropes.visible = ropeOn > 0.01;
+    govRope.material.opacity = 0.8 * ropeOn; govRope.visible = pulley.visible = ropeOn > 0.01;
     const sy = TOP + 0.38, sz = -0.35, cwy = comps.cw.obj.position.y;
     let i = 0; const put = (a, b) => { ropePts.set([...a, ...b], i); i += 6; };
     for (const dx of [-0.05, 0, 0.05]) { put([dx, carY + 2.67, 0], [dx + 0.12, sy, sz + 0.2]); put([dx + 0.12, sy, sz - 0.2], [dx, cwy + 0.55, -D / 2 + 0.16]); }
