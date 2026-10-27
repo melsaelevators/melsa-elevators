@@ -62,7 +62,7 @@ window.PAGE_T={
   ...P.panel.map(p=>({...p,cat:p.kind==="COP"?"cop":"panel"})), ...P.floor.map(p=>({...p,cat:"floor"}))];
  let cur=new URLSearchParams(location.search).get("cat")||"all";
  const name=p=>p.code?t("code",{c:p.code}):(lang()==="ar"?p.ar:p.label);
- const vsel={}; const curV=p=>p.variants&&vsel[p.id]!=null?p.variants[vsel[p.id]]:null;
+ const vsel={}; const dflt=p=>p.variants?p.variants.findIndex(v=>v.same):-1; const vIdx=p=>vsel[p.id]??dflt(p); const curV=p=>p.variants&&vIdx(p)>=0?p.variants[vIdx(p)]:null;
  const vName=v=>lang()==="ar"?v.ar:v.label;
  const askName=p=>{const v=curV(p);return (p.code?t("code",{c:v?"\u2066"+p.code+"-"+v.v+"\u2069":p.code})+" — "+t(p.cat):name(p))+(v?" ("+t("colour")+": "+vName(v)+")":"");};
  const imgId=p=>{const v=curV(p);return v?v.id:p.id;};
@@ -71,11 +71,11 @@ window.PAGE_T={
   const list=items.filter(p=>cur==="all"||p.cat===cur);
   document.getElementById("count").textContent=t("items",{n:list.length});
   document.getElementById("grid").innerHTML=list.map((p,i)=>`<div class="pc ${p.cat==="floor"?"floor":""}"><button type="button" class="img" data-i="${items.indexOf(p)}" aria-label="${esc(name(p))}"><img src="assets/thumbs-lg/${imgId(p)}.jpg" alt="${esc(name(p))}" loading="lazy" decoding="async"></button>
-   <div class="body"><span class="cat">${esc(t(p.cat))}</span><span class="name ${p.code?"code":""}"><bdi>${esc(curV(p)?t("code",{c:"\u2066"+p.code+"-"+curV(p).v+"\u2069"}):name(p))}</bdi></span>${p.variants?`<div class="vars" data-p="${p.id}"><span class="vl">${esc(t("colors"))}${curV(p)?": "+esc(vName(curV(p))):""}</span>${[{id:p.id,ar:p.ar,label:p.label,_o:1},...p.variants].map((v,k)=>`<button type="button" data-k="${k-1}" aria-pressed="${(vsel[p.id]??-1)===k-1}" title="${esc(vName(v))}"><img src="assets/thumbs/${v.id}.jpg" alt="${esc(vName(v))}" loading="lazy"></button>`).join("")}</div>`:""}<a class="ask" href="contact.html?subject=Quote&product=${encodeURIComponent(t("askMsg",{p:askName(p)}))}">${esc(t("ask"))}</a></div></div>`).join("");
+   <div class="body"><span class="cat">${esc(t(p.cat))}</span><span class="name ${p.code?"code":""}"><bdi>${esc(curV(p)?t("code",{c:"\u2066"+p.code+"-"+curV(p).v+"\u2069"}):name(p))}</bdi></span>${p.variants?`<div class="vars" data-p="${p.id}"><span class="vl">${esc(t("colors"))}${curV(p)?": "+esc(vName(curV(p))):""}</span>${(dflt(p)>=0?p.variants.map((v,k)=>[v,k]):[[{id:p.id,ar:p.ar,label:p.label},-1],...p.variants.map((v,k)=>[v,k])]).map(([v,k])=>`<button type="button" data-k="${k}" aria-pressed="${vIdx(p)===k}" title="${esc(vName(v))}"><img src="assets/thumbs/${v.id}.jpg" alt="${esc(vName(v))}" loading="lazy"></button>`).join("")}</div>`:""}<a class="ask" href="contact.html?subject=Quote&product=${encodeURIComponent(t("askMsg",{p:askName(p)}))}">${esc(t("ask"))}</a></div></div>`).join("");
  }
  document.getElementById("tabs").addEventListener("click",e=>{const b=e.target.closest(".tab");if(!b)return;cur=b.dataset.k;history.replaceState(null,"","?cat="+cur);render();});
- document.getElementById("grid").addEventListener("click",e=>{const vb=e.target.closest(".vars button");if(vb){const id=vb.closest(".vars").dataset.p,k=+vb.dataset.k;if(k<0)delete vsel[id];else vsel[id]=k;render();return;}
-  const b=e.target.closest("button.img");if(!b)return;const p=items[+b.dataset.i];if(p.variants){const all=[{id:p.id,ext:p.ext},...p.variants.map(v=>({id:v.id,ext:"jpg"}))];lightbox(all.map(x=>"assets/"+x.id+"."+x.ext),(vsel[p.id]??-1)+1,name(p));return;}lightbox([p.src||("assets/"+p.id+"."+p.ext)],0,name(p));});
+ document.getElementById("grid").addEventListener("click",e=>{const vb=e.target.closest(".vars button");if(vb){const id=vb.closest(".vars").dataset.p,k=+vb.dataset.k;vsel[id]=k;render();return;}
+  const b=e.target.closest("button.img");if(!b)return;const p=items[+b.dataset.i];if(p.variants){const hasD=dflt(p)>=0;const all=[...(hasD?[]:[{id:p.id,ext:p.ext}]),...p.variants.map(v=>({id:v.id,ext:"jpg"}))];lightbox(all.map(x=>"assets/"+x.id+"."+x.ext),vIdx(p)+(hasD?0:1),name(p));return;}lightbox([p.src||("assets/"+p.id+"."+p.ext)],0,name(p));});
  render(); window.addEventListener("melsa:lang",render);
 })();
 </script>
