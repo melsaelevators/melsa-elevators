@@ -12,7 +12,7 @@ const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const LABELS = {
   machine: ["Traction machine", "الماكينة"], controller: ["Controller", "لوحة الكنترول"], rails: ["Guide rails", "السكك"],
-  cabin: ["Cabin", "الكابينة"], doors: ["Doors", "الأبواب"], cw: ["Counterweight", "الثقل"],
+  cabin: ["Cabin", "الكابينة"], doors: ["Landing doors", "الأبواب الخارجية"], cw: ["Counterweight", "الثقل"],
   buffers: ["Buffers", "المخمدات"], lop: ["LOP panel", "لوحة الطلبات"],
   governor: ["Overspeed governor", "الجفرنر (منظم السرعة)"], cable: ["Travelling cable", "الكابل المرن"],
 };
@@ -72,9 +72,17 @@ function start() {
   const se = (m, c, o) => { edges(m, c, o); structEdges.push(m.children[m.children.length - 1].material); return m; };
   FLOORS.forEach(y => {
     const slab = se(box(3.4, 0.14, 1.4, slabMat), CYAN, 0.35); slab.position.set(0, y - 0.07, D / 2 + 0.7); structure.add(slab);
-    for (const [w, h, x, yy] of [[0.08, 2.25, -0.66, 1.12], [0.08, 2.25, 0.66, 1.12], [1.4, 0.1, 0, 2.3]]) {
-      const f = se(box(w, h, 0.06, frameMat), RED, 0.8); f.position.set(x, y + yy, D / 2 + 0.01); structure.add(f);
-    }
+  });
+  // landing doors: one set per floor (frame + two gold panels), shown stacked, then fitted floor by floor
+  const landing = new THREE.Group(); scene.add(landing);
+  const lGold = metal(0xc8a45e, 0.95, 0.22), lFrame = metal(0xd9dee5, 0.9, 0.25);
+  const LD = FLOORS.map((y, i) => {
+    const g = new THREE.Group();
+    for (const [w, h, x, yy] of [[0.08, 2.25, -0.66, 1.12], [0.08, 2.25, 0.66, 1.12], [1.4, 0.1, 0, 2.3]]) { const f = edges(box(w, h, 0.06, lFrame), RED, 0.8); f.position.set(x, yy, 0); g.add(f); }
+    const pl = edges(box(0.62, 2.18, 0.03, lGold), CYAN, 0.5); pl.position.set(-0.31, 1.1, 0.04); g.add(pl);
+    const pr = edges(box(0.62, 2.18, 0.03, lGold), CYAN, 0.5); pr.position.set(0.31, 1.1, 0.04); g.add(pr);
+    landing.add(g);
+    return { g, pl, pr, asm: new THREE.Vector3(0, y, D / 2 + 0.01), show: new THREE.Vector3(2.6 + i * 0.25, 2.0 + i * 0.1, 1.2 - i * 0.4) };
   });
   structure.children.forEach(o => { if (o.children[0] && o.children[0].material && !structEdges.includes(o.children[0].material)) structEdges.push(o.children[0].material); });
   const pit = se(box(W, 0.06, D, sm(0x141c2c, 0.3, 0.7)), CYAN, 0.4); pit.position.y = 0.03; structure.add(pit);
@@ -149,7 +157,7 @@ function start() {
   const doorL = edges(box(0.62, 2.02, 0.03, goldM), CYAN, 0.5); doorL.position.set(-0.31, 1.05, 0.67); doors.add(doorL);
   const doorR = edges(box(0.62, 2.02, 0.03, goldM), CYAN, 0.5); doorR.position.set(0.31, 1.05, 0.67); doors.add(doorR);
   const cabC = comp("cabin", car, { p: [0, 2.4, 0.9], r: [0.08, 0.55, 0], s: 1.0 }, [6.6, 7.9], [0, 2.8, 0]);
-  const doorShow = new THREE.Vector3(2.3, 0.3, 1.4), doorWin = [7.2, 8.3];
+
 
   // LOP panel on the ground landing
   const lop = new THREE.Group();
@@ -221,8 +229,9 @@ function start() {
   // focus: [offset x, y, z, size] in the part's own scale
   const FOCUS = { rails: [0, TOP * 0.5, 0, 5.2], buffers: [0, 0.2, 0, 1.8], cw: [0, 0, 0, 2.2], machine: [0, 0, 0, 2.2], governor: [0, -0.05, 0, 1.6],
     controller: [0, 0, 0, 1.6], cabin: [0, 1.2, 0, 3.4], lop: [0, 0, 0, 1.4], cable: [0, 0, 0, 2.0] };
-  const ORDER = [["rails", 3.4], ["buffers", 2.8], ["shaft", 3.6], ["cw", 3.0], ["machine", 3.2], ["governor", 3.0], ["controller", 2.8],
-    ["cabin", 3.6], ["doors", 3.2], ["lop", 2.8], ["cable", 3.2], ["ropes", 6.0]];
+  // real installation order: rails, landing doors, machine (+counterweight), cabin (+ropes), governor, controller, travelling cable, LOP, buffers
+  const ORDER = [["shaft", 3.2], ["rails", 3.4], ["doors", 3.6], ["machine", 3.2], ["cw", 2.8], ["cabin", 3.6], ["ropes", 6.0],
+    ["governor", 3.0], ["controller", 2.8], ["cable", 3.2], ["lop", 2.8], ["buffers", 3.0]];
   const INTRO = 4.5, HOLD = 0.9; // HOLD = time spent zoomed on the part before it moves
   const STEP = {}; let tt = INTRO;
   for (const [n, d] of ORDER) { STEP[n] = [tt, tt + d]; tt += d; }
@@ -257,11 +266,17 @@ function start() {
       c.a = a;
     }
     // doors
-    const da = ease(seg(t, STEP.doors[0] + HOLD, STEP.doors[1] - 0.2)) * (1 - out);
-    doors.position.copy(doorShow).multiplyScalar(1 - da);
-    doors.rotation.y = -0.6 * (1 - da) + (cur === "doors" && da === 0 ? (t - STEP.doors[0]) * 0.9 : 0) * (1 - da);
+    const [d0, d1] = STEP.doors;
     const open = Math.max(1 - seg(t, ...R.close1), seg(t, ...R.open1) * (1 - seg(t, ...R.close2)), seg(t, ...R.open2) * (1 - seg(t, OUT[0] - 0.9, OUT[0])));
-    const o2 = ease(open) * 0.56 * da; doorL.position.x = -0.31 - o2; doorR.position.x = 0.31 + o2;
+    const o2 = ease(open) * 0.56 * (comps.cabin.a || 0); doorL.position.x = -0.31 - o2; doorR.position.x = 0.31 + o2;
+    LD.forEach((d, i) => {
+      const span = (d1 - 0.2 - (d0 + HOLD)) / 3, a = ease(seg(t, d0 + HOLD + i * span * 0.8, d0 + HOLD + (i + 1.4) * span)) * (1 - out);
+      const live = cur === "doors" && t < d0 + HOLD;
+      d.g.position.copy(d.show).lerp(d.asm, a); d.g.position.y += (1 - a) * Math.sin(T * 0.9 + i) * 0.08;
+      d.g.rotation.y = (1 - a) * (-0.7 + (live ? (t - d0) * 0.9 : 0)); d.g.scale.setScalar(1 + 0.15 * (1 - a));
+      const here = a > 0.99 && Math.abs(carY - FLOORS[i]) < 0.03 ? o2 : 0;
+      d.pl.position.x = -0.31 - here; d.pr.position.x = 0.31 + here;
+    });
     sheave.rotation.x = carY * 2.4; govSheave.rotation.x = carY * 4; pulley.rotation.x = carY * 6;
     // shaft builds with a scan beam
     const [s0, s1] = STEP.shaft;
@@ -293,7 +308,7 @@ function start() {
     let wantD, ropeHead = null;
     if (t < INTRO || t >= OUT[0]) { focus.set(0, 4.2, 0); wantD = dShow; }
     else if (cur === "shaft") { focus.set(0, 5.0, 0); wantD = fit(10.6, 5); }
-    else if (cur === "doors") { doors.getWorldPosition(focus); focus.y += 1.0 * car.scale.x; wantD = fit(3.0, 3.0); }
+    else if (cur === "doors") { const sp = (STEP.doors[1] - STEP.doors[0] - HOLD) / 3, j = clamp(Math.floor((t - STEP.doors[0] - HOLD) / sp), 0, 2); focus.copy(LD[t < STEP.doors[0] + HOLD ? 0 : j].g.position); focus.y += 1.1; wantD = fit(t < STEP.doors[0] + HOLD ? 3.6 : 3.2, 3.2); }
     else if (cur === "ropes") {
       const u = clamp(p1 * 1.0); ropeHead = headCurve.getPointAt(Math.min(0.999, u));
       if (u < 0.5) { focus.copy(ropeHead).lerp(new THREE.Vector3(SX, SY, SZ), seg(u, 0.25, 0.5)); wantD = fit(3.2, 3.2); }
@@ -310,7 +325,7 @@ function start() {
     for (const kname in lab) {
       const el = lab[kname];
       if (L !== langNow) el.textContent = LABELS[kname][L];
-      if (kname === "doors") { doors.getWorldPosition(v); v.y += 2.3 * car.scale.x; }
+      if (kname === "doors") { v.copy(LD[0].g.position); v.y += 2.75; }
       else { const c = comps[kname]; v.copy(c.labelOff).multiplyScalar(c.obj.scale.x).add(c.obj.position); }
       const st = STEP[kname], mine = st && t >= st[0] && t < st[1] ? Math.min(seg(t, st[0], st[0] + 0.4), 1 - seg(t, st[1] - 0.5, st[1])) : 0;
       const vis = Math.max(introVis, mine);
