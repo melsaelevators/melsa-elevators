@@ -108,7 +108,7 @@ function start() {
   // guide rails
   const rails = new THREE.Group();
   for (const x of [-0.82, 0.82]) { const g = new THREE.BoxGeometry(0.05, TOP, 0.09); g.translate(0, TOP / 2, 0); const r = edges(new THREE.Mesh(g, metal(0xaab4c0, 0.9, 0.3)), CYAN, 0.6); r.position.x = x; rails.add(r); }
-  comp("rails", rails, { p: [3.5, 0.5, -0.8], r: [0, -0.4, 0.12], s: 0.4 }, [5.0, 6.2], [0.3, TOP * 0.45, 0]);
+  comp("rails", rails, { p: [-4.0, 0.3, -1.6], r: [0, -0.4, 0.12], s: 0.4 }, [5.0, 6.2], [0.3, TOP * 0.45, 0]);
 
   // buffers (springs in the pit)
   const buffers = new THREE.Group();
@@ -194,114 +194,166 @@ function start() {
     hang = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(P), 48, 0.025, 6), hangMat); scene.add(hang);
   }
 
-  // ropes
+  // hoisting ropes: drawn as tubes that arrive from far away and wrap the traction sheave
   const ropeGeo = new THREE.BufferGeometry(); const ropePts = new Float32Array(6 * 3 * 2);
   ropeGeo.setAttribute("position", new THREE.BufferAttribute(ropePts, 3));
   const ropes = new THREE.LineSegments(ropeGeo, new THREE.LineBasicMaterial({ color: 0xdfe6ee, transparent: true, opacity: 0.85 })); scene.add(ropes);
+  const SX = 0.12, SY = TOP + 0.38, SZ = -0.35, SR = 0.28;
+  const ropeMat = new THREE.MeshStandardMaterial({ color: 0xe6edf5, metalness: 0.9, roughness: 0.25, emissive: new THREE.Color(0x7cc8ff), emissiveIntensity: 0.35, transparent: true });
+  const r1 = [new THREE.Vector3(3.6, TOP + 2.4, 3.2), new THREE.Vector3(2.2, TOP + 1.5, 1.8), new THREE.Vector3(0.9, SY + 0.7, 0.5), new THREE.Vector3(SX + 0.1, SY + SR + 0.05, SZ + 0.15)];
+  for (let k = 0; k <= 60; k++) { const th = Math.PI / 2 + k / 60 * Math.PI * 2 * 1.5; r1.push(new THREE.Vector3(SX + 0.06 - k / 60 * 0.08, SY + Math.sin(th) * SR, SZ + Math.cos(th) * SR)); }
+  r1.push(new THREE.Vector3(SX - 0.04, SY - 0.6, SZ + SR - 0.02), new THREE.Vector3(0, B + 2.67, 0));
+  const r2 = [new THREE.Vector3(SX - 0.02, SY, SZ - SR), new THREE.Vector3(0.02, SY - 1.2, -D / 2 + 0.16), new THREE.Vector3(0, B + 7.3, -D / 2 + 0.16)];
+  const tube = (pts, n) => new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts, false, "catmullrom", 0.2), n, 0.016, 6), ropeMat);
+  const rope1 = tube(r1, 260), rope2 = tube(r2, 60); scene.add(rope1, rope2);
+  const rCount1 = rope1.geometry.index.count, rCount2 = rope2.geometry.index.count;
+  const headCurve = new THREE.CatmullRomCurve3(r1, false, "catmullrom", 0.2);
 
   /* ---------- labels (HTML, follow their component on screen) ---------- */
   const lab = {};
   for (const k in LABELS) { const s = document.createElement("span"); s.className = "c3-lab"; host.append(s); lab[k] = s; }
   let langNow = -1;
 
-  /* ---------- timeline ---------- */
+  /* ---------- timeline: overview, then one part at a time with the camera on it ---------- */
   const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
   const seg = (t, a, b) => clamp((t - a) / (b - a));
   const ease = x => x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
-  const CYCLE = 22, OUT = [20.4, 21.9];
-  const v = new THREE.Vector3();
-  let lastInd = "";
+  // focus: [offset x, y, z, size] in the part's own scale
+  const FOCUS = { rails: [0, TOP * 0.5, 0, 5.2], buffers: [0, 0.2, 0, 1.8], cw: [0, 0, 0, 2.2], machine: [0, 0, 0, 2.2], governor: [0, -0.05, 0, 1.6],
+    controller: [0, 0, 0, 1.6], cabin: [0, 1.2, 0, 3.4], lop: [0, 0, 0, 1.4], cable: [0, 0, 0, 2.0] };
+  const ORDER = [["rails", 3.4], ["buffers", 2.8], ["shaft", 3.6], ["cw", 3.0], ["machine", 3.2], ["governor", 3.0], ["controller", 2.8],
+    ["cabin", 3.6], ["doors", 3.2], ["lop", 2.8], ["cable", 3.2], ["ropes", 6.0]];
+  const INTRO = 4.5, HOLD = 0.9; // HOLD = time spent zoomed on the part before it moves
+  const STEP = {}; let tt = INTRO;
+  for (const [n, d] of ORDER) { STEP[n] = [tt, tt + d]; tt += d; }
+  const BUILT = tt;                                  // ≈ 44s
+  const R = { lights: BUILT + 0.2, close1: [BUILT + 1.4, BUILT + 2.3], up: [BUILT + 2.6, BUILT + 7.4], open1: [BUILT + 7.4, BUILT + 8.3], close2: [BUILT + 9.8, BUILT + 10.7],
+    down: [BUILT + 11.0, BUILT + 15.8], open2: [BUILT + 15.8, BUILT + 16.7] };
+  const OUT = [BUILT + 18.0, BUILT + 21.0], CYCLE = BUILT + 22.0;
+  for (const n in comps) comps[n].win = [STEP[n][0] + HOLD, STEP[n][1] - 0.2];
+  const v = new THREE.Vector3(), camT = new THREE.Vector3(0, 4.2, 0);
+  let lastInd = "", focusSize = 0, focus = new THREE.Vector3();
 
   function apply(T) {
     const t = T % CYCLE;
     const out = ease(seg(t, OUT[0], OUT[1]));
-    const showIn = ease(seg(t, 0, 1.2));
-    const up = ease(seg(t, 10.0, 13.4)), down = ease(seg(t, 15.6, 19.0));
+    const showIn = ease(seg(t, 0, 1.4));
+    const up = ease(seg(t, ...R.up)), down = ease(seg(t, ...R.down));
     const carY = FLOORS[0] + 5.6 * (up - down);
     cabC.asm.p.set(0, carY, 0);
     comps.cw.asm.p.set(0, B + 0.55 + (5.6 - (carY - B)) + 0.6, -D / 2 + 0.16);
 
-    let k = 0;
+    // which step is running now
+    let cur = null; for (const [n] of ORDER) { const [a, b] = STEP[n]; if (t >= a && t < b) { cur = n; break; } }
     for (const name in comps) {
       const c = comps[name], o = c.obj;
       const a = ease(seg(t, c.win[0], c.win[1])) * (1 - out);
-      if (name === "cabin") k = a;
-      const bob = (1 - a) * Math.sin(T * 1.3 + c.win[0] * 3) * 0.12;
-      const spin = (1 - a) * Math.sin(T * 0.5 + c.win[0]) * 0.35;
+      const live = name === cur && t < c.win[0];   // zoomed on it, not moving yet: little "presentation" spin
+      const bob = (1 - a) * Math.sin(T * 0.9 + c.win[0] * 3) * 0.1;
+      const spin = (1 - a) * (Math.sin(T * 0.35 + c.win[0]) * 0.3 + (live ? (t - STEP[name][0]) * 0.9 : 0));
       o.position.set(...c.show.p).lerp(c.asm.p, a); o.position.y += bob;
       o.rotation.set(c.show.r[0] * (1 - a), (c.show.r[1] + spin) * (1 - a), c.show.r[2] * (1 - a));
-      o.scale.setScalar((c.show.s + (c.asm.s - c.show.s) * a) * (0.6 + 0.4 * showIn));
+      o.scale.setScalar((c.show.s + (c.asm.s - c.show.s) * a) * (0.6 + 0.4 * showIn) * (live ? 1.06 : 1));
       c.a = a;
     }
-    // doors: shown beside the cabin, slide into the car, open at the floors
-    const da = ease(seg(t, doorWin[0], doorWin[1])) * (1 - out);
+    // doors
+    const da = ease(seg(t, STEP.doors[0] + HOLD, STEP.doors[1] - 0.2)) * (1 - out);
     doors.position.copy(doorShow).multiplyScalar(1 - da);
-    doors.rotation.y = -0.6 * (1 - da);
-    const open = Math.max(seg(t, 13.4, 14.0) * (1 - seg(t, 15.0, 15.6)), seg(t, 19.0, 19.6) * (1 - seg(t, 20.0, 20.4)));
-    const o2 = ease(open) * 0.56; doorL.position.x = -0.31 - o2; doorR.position.x = 0.31 + o2;
+    doors.rotation.y = -0.6 * (1 - da) + (cur === "doors" && da === 0 ? (t - STEP.doors[0]) * 0.9 : 0) * (1 - da);
+    const open = Math.max(1 - seg(t, ...R.close1), seg(t, ...R.open1) * (1 - seg(t, ...R.close2)), seg(t, ...R.open2) * (1 - seg(t, OUT[0] - 0.9, OUT[0])));
+    const o2 = ease(open) * 0.56 * da; doorL.position.x = -0.31 - o2; doorR.position.x = 0.31 + o2;
     sheave.rotation.x = carY * 2.4; govSheave.rotation.x = carY * 4; pulley.rotation.x = carY * 6;
-    const ca = comps.cable.a || 0; cableMat.opacity = 1 - ca; coilG.visible = ca < 0.98; hangCable(carY, ca);
-    // the shaft builds with a scan beam
-    const built = ease(seg(t, 5.2, 6.9)) * (1 - out);
+    // shaft builds with a scan beam
+    const [s0, s1] = STEP.shaft;
+    const built = ease(seg(t, s0 + 0.4, s1 - 0.3)) * (1 - out);
     structure.visible = built > 0.01;
     structMats.forEach(m => m.opacity = built); glassMat.opacity = 0.08 * built;
     structEdges.forEach(m => m.opacity = m.userData.base * built);
-    scan.visible = t > 5.1 && t < 7.2; scan.position.y = TOP * ease(seg(t, 5.2, 6.9)); scan.material.opacity = 0.55 * (1 - seg(t, 6.7, 7.2));
-    // ropes
-    const ropeOn = ease(seg(t, 8.0, 8.8)) * (1 - out);
+    scan.visible = t > s0 + 0.3 && t < s1; scan.position.y = TOP * ease(seg(t, s0 + 0.4, s1 - 0.3)); scan.material.opacity = 0.55 * (1 - seg(t, s1 - 0.5, s1));
+    // governor rope
+    const gOn = (comps.governor.a > 0.98 ? 1 : 0) * (1 - out);
+    govRope.material.opacity = 0.8 * gOn; govRope.visible = pulley.visible = gOn > 0.01;
+    // travelling cable
+    const ca = comps.cable.a || 0; cableMat.opacity = 1 - ca; coilG.visible = ca < 0.98; hangCable(carY, ca);
+    // hoisting ropes: tube arrives from far, wraps the sheave, drops to car & counterweight, then hands over to live lines
+    const [q0, q1] = STEP.ropes, qd = q1 - q0;
+    const p1 = ease(seg(t, q0 + 0.5, q0 + qd * 0.72)), p2 = ease(seg(t, q0 + qd * 0.55, q0 + qd * 0.85));
+    const hand = seg(t, q1 - 0.6, q1);
+    rope1.visible = p1 > 0 && hand < 1 && out === 0; rope2.visible = p2 > 0 && hand < 1 && out === 0;
+    rope1.geometry.setDrawRange(0, Math.floor(p1 * rCount1 / 36) * 36); rope2.geometry.setDrawRange(0, Math.floor(p2 * rCount2 / 36) * 36);
+    ropeMat.opacity = 1 - hand;
+    const ropeOn = hand * (1 - out) * (t >= q1 - 0.6 ? 1 : 0);
     ropes.material.opacity = 0.85 * ropeOn; ropes.visible = ropeOn > 0.01;
-    govRope.material.opacity = 0.8 * ropeOn; govRope.visible = pulley.visible = ropeOn > 0.01;
-    const sy = TOP + 0.38, sz = -0.35, cwy = comps.cw.obj.position.y;
+    const cwy = comps.cw.obj.position.y;
     let i = 0; const put = (a, b) => { ropePts.set([...a, ...b], i); i += 6; };
-    for (const dx of [-0.05, 0, 0.05]) { put([dx, carY + 2.67, 0], [dx + 0.12, sy, sz + 0.2]); put([dx + 0.12, sy, sz - 0.2], [dx, cwy + 0.55, -D / 2 + 0.16]); }
+    for (const dx of [-0.05, 0, 0.05]) { put([dx, carY + 2.67, 0], [dx + SX, SY, SZ + SR]); put([dx + SX, SY, SZ - SR], [dx, cwy + 0.55, -D / 2 + 0.16]); }
     ropeGeo.attributes.position.needsUpdate = true;
-    // labels follow their part on screen
+
+    // camera focus
+    let wantD, ropeHead = null;
+    if (t < INTRO || t >= OUT[0]) { focus.set(0, 4.2, 0); wantD = dShow; }
+    else if (cur === "shaft") { focus.set(0, 5.0, 0); wantD = fit(10.6, 5); }
+    else if (cur === "doors") { doors.getWorldPosition(focus); focus.y += 1.0 * car.scale.x; wantD = fit(3.0, 3.0); }
+    else if (cur === "ropes") {
+      const u = clamp(p1 * 1.0); ropeHead = headCurve.getPointAt(Math.min(0.999, u));
+      if (u < 0.5) { focus.copy(ropeHead).lerp(new THREE.Vector3(SX, SY, SZ), seg(u, 0.25, 0.5)); wantD = fit(3.2, 3.2); }
+      else { focus.set(SX, SY, SZ).lerp(new THREE.Vector3(0, 5.2, 0), ease(seg(t, q0 + qd * 0.6, q1))); wantD = fit(2.6 + 8 * ease(seg(t, q0 + qd * 0.6, q1)), 3.0); }
+    }
+    else if (cur && FOCUS[cur]) { const c = comps[cur], f = FOCUS[cur]; focus.set(f[0], f[1], f[2]).multiplyScalar(c.obj.scale.x).add(c.obj.position); wantD = fit(f[3] * c.obj.scale.x / (cur === "rails" ? 1 : 1) + 0.6, f[3] * c.obj.scale.x + 0.6); }
+    else if (t < R.up[0]) { focus.set(0, 5.2, 0); wantD = fit(10.6, 5); }
+    else { focus.set(0, carY + 1.6, 0); wantD = dRide; }
+
+    // labels: everything during the intro, then only the part in focus
     const L = document.documentElement.lang === "ar" ? 1 : 0;
-    const labVis = ease(seg(t, 0.6, 1.6)) * (1 - ease(seg(t, 4.8, 5.5)));
+    const introVis = ease(seg(t, 0.8, 1.8)) * (1 - ease(seg(t, INTRO - 0.6, INTRO)));
     const W2 = host.clientWidth, H2 = host.clientHeight;
     for (const kname in lab) {
       const el = lab[kname];
       if (L !== langNow) el.textContent = LABELS[kname][L];
       if (kname === "doors") { doors.getWorldPosition(v); v.y += 2.3 * car.scale.x; }
       else { const c = comps[kname]; v.copy(c.labelOff).multiplyScalar(c.obj.scale.x).add(c.obj.position); }
+      const st = STEP[kname], mine = st && t >= st[0] && t < st[1] ? Math.min(seg(t, st[0], st[0] + 0.4), 1 - seg(t, st[1] - 0.5, st[1])) : 0;
+      const vis = Math.max(introVis, mine);
       v.project(camera);
-      el.style.opacity = (labVis * (v.z < 1 ? 1 : 0)).toFixed(2);
+      el.style.opacity = (vis * (v.z < 1 ? 1 : 0)).toFixed(2);
+      el.classList.toggle("big", mine > 0);
       el.style.transform = `translate(-50%,-100%) translate(${((v.x + 1) / 2 * W2).toFixed(1)}px,${((1 - v.y) / 2 * H2).toFixed(1)}px)`;
     }
     langNow = L;
     if (ind) {
-      const f = Math.round((carY - B) / 2.8), dir = t > 10 && t < 13.4 ? "▲" : t > 15.6 && t < 19 ? "▼" : "•";
+      const f = Math.round((carY - B) / 2.8), dir = t > R.up[0] && t < R.up[1] ? "▲" : t > R.down[0] && t < R.down[1] ? "▼" : "•";
       const txt = dir + " " + ["G", "1", "2"][clamp(f, 0, 2)];
       if (txt !== lastInd) { ind.textContent = txt; lastInd = txt; }
-      ind.classList.toggle("on", t > 9 && t < 20.4);
+      ind.classList.toggle("on", t > R.close1[0] && t < OUT[0]);
     }
     ring.material.opacity = 0.35 + 0.35 * Math.sin(T * 2.2) ** 2;
-    return { k, carY };
+    return wantD;
   }
 
   /* ---------- camera & loop ---------- */
-  const fit = (H, Wd) => { const f = THREE.MathUtils.degToRad(camera.fov) / 2; return Math.max((H / 2) / Math.tan(f), (Wd / 2) / (Math.tan(f) * camera.aspect)) * 1.06; };
+  function fit(H, Wd) { const f = THREE.MathUtils.degToRad(camera.fov) / 2; return Math.max((H / 2) / Math.tan(f), (Wd / 2) / (Math.tan(f) * camera.aspect)) * 1.08; }
   let dShow = 20, dRide = 14;
   function resize() {
     const w = host.clientWidth, h = host.clientHeight; if (!w || !h) return;
     renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
-    dShow = fit(9.2, 8.0); dRide = fit(6.6, 4.2);
+    dShow = fit(9.2, 9.6); dRide = fit(6.6, 4.2);
   }
   new ResizeObserver(resize).observe(host); resize();
 
-  let visible = true, t0 = performance.now(), last = t0, camY = 4.2, camD = dShow;
+  const FIX = (q => q === null ? null : +q)(new URLSearchParams(location.search).get("t3d"));
+  let visible = true, t0 = performance.now(), last = t0, camD = dShow;
   new IntersectionObserver(es => { visible = es[0].isIntersecting; }).observe(host);
   function frame(now) {
     requestAnimationFrame(frame);
     if (!visible || document.hidden) { last = now; return; }
     const dt = Math.min(0.1, (now - last) / 1000); last = now;
-    const T = reduce ? 9.0 : (now - t0) / 1000;
-    const { k, carY } = apply(T);
-    const wantY = 4.2 + (carY + 1.6 - 4.2) * k, wantD = dShow + (dRide - dShow) * k;
-    const s = 1 - Math.exp(-dt * 3); camY += (wantY - camY) * s; camD += (wantD - camD) * s;
-    const a = -0.5 + (reduce ? 0 : Math.sin(T * 0.12) * 0.3) * (0.3 + 0.7 * k);
-    camera.position.set(Math.sin(a) * camD, camY + 1.6, Math.cos(a) * camD);
-    camera.lookAt(0, camY, 0);
+    const T = FIX != null ? FIX : reduce ? BUILT + 1 : (now - t0) / 1000;
+    const wantD = apply(T);
+    const s = FIX != null ? 1 : 1 - Math.exp(-dt * 2.2);
+    camT.lerp(focus, s); camD += (wantD - camD) * s;
+    const a = -0.5 + (reduce ? 0 : Math.sin(T * 0.08) * 0.35);
+    camera.position.set(camT.x + Math.sin(a) * camD, camT.y + camD * 0.12, camT.z + Math.cos(a) * camD);
+    camera.lookAt(camT);
     renderer.render(scene, camera);
   }
   requestAnimationFrame(frame);
