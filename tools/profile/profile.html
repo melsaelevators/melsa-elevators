@@ -1,0 +1,301 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Melsa Elevators — Company Profile</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Melsa company profile — print to A4 (rendered to PDF by tools/profile/build.mjs) */
+@page{size:A4;margin:0}
+:root{--navy:#0B1D35;--deep:#172A40;--silver:#AEB5BE;--gold:#C5AD87;--red:#A82935;--ivory:#F5F4F0;--ink:#0B1D35;--muted:#5E6670;--line:#DDDCD5}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#888}
+body{font-family:Inter,'IBM Plex Sans Arabic',sans-serif;color:var(--ink);-webkit-print-color-adjust:exact;print-color-adjust:exact;letter-spacing:-.01em}
+[dir=rtl] body,[dir=rtl]{font-family:'IBM Plex Sans Arabic',Inter,sans-serif;letter-spacing:0}
+.pg{width:210mm;height:297mm;position:relative;overflow:hidden;background:var(--ivory);page-break-after:always;break-after:page;margin:0 auto}
+@media screen{.pg{margin:10mm auto;box-shadow:0 10px 40px #0005}}
+.pad{position:absolute;inset:22mm 18mm 20mm}
+img{display:block;max-width:100%}
+.cover-img,.full{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+h1,h2,h3{font-weight:700;letter-spacing:-.035em;line-height:1.04}
+[dir=rtl] h1,[dir=rtl] h2,[dir=rtl] h3{letter-spacing:0;line-height:1.3}
+h2{font-size:40pt;color:var(--navy)}
+h3{font-size:14pt;color:var(--navy);letter-spacing:-.02em}
+p{font-size:10.5pt;line-height:1.6;color:var(--muted)}
+.eyebrow{font-size:10pt;font-weight:600;color:var(--red);margin-bottom:5mm;display:flex;align-items:center;gap:3mm}
+.eyebrow b{font-weight:600;color:var(--gold)}
+.lead{font-size:13pt;line-height:1.55;color:var(--muted);max-width:150mm}
+.dark{background:var(--navy);color:#fff}.dark h2,.dark h3{color:#fff}.dark p,.dark .lead{color:#C9CED5}
+.deep{background:var(--deep)}
+/* running header/footer */
+.run{position:absolute;left:18mm;right:18mm;top:10mm;display:flex;justify-content:space-between;align-items:center;font-size:8pt;color:var(--muted);z-index:3}
+.run img{height:11mm}
+.foot{position:absolute;left:18mm;right:18mm;bottom:9mm;display:flex;justify-content:space-between;font-size:8pt;color:var(--muted);border-top:.3mm solid var(--line);padding-top:3mm;z-index:3}
+.dark .foot,.dark .run{color:var(--silver)}.dark .foot{border-color:#ffffff22}
+.hair{height:.4mm;width:22mm;background:var(--gold);margin:6mm 0}
+/* cover */
+.cover .shade{position:absolute;inset:0;background:linear-gradient(180deg,#0b1d35b3 0%,#0b1d3500 22%,#0b1d3500 34%,#0b1d35d9 66%,#0b1d35 100%)}
+.cover .top{position:absolute;top:16mm;left:18mm;right:18mm;display:flex;justify-content:space-between;align-items:flex-start;color:#fff;font-size:9pt;letter-spacing:.2em;text-transform:uppercase}
+[dir=rtl] .cover .top{letter-spacing:0}
+.cover .top img{height:30mm}
+.cover .txt{position:absolute;left:18mm;right:18mm;bottom:24mm;color:#fff}
+.cover h1{font-size:58pt;color:#fff}
+.cover .sub{font-size:14pt;color:#E6E4DE;margin-top:6mm;max-width:140mm;line-height:1.5}
+.cover .since{display:flex;gap:10mm;margin-top:12mm;font-size:9pt;color:var(--silver)}
+.cover .since b{display:block;direction:ltr;unicode-bidi:isolate;color:#fff;font-size:20pt;font-weight:700;letter-spacing:-.03em;margin-bottom:1mm}
+/* contents */
+.toc{margin-top:14mm;display:grid;gap:0}
+.toc div{display:flex;align-items:baseline;gap:6mm;padding:4.2mm 0;border-bottom:.3mm solid var(--line)}
+.toc span{font-size:10pt;color:var(--gold);font-weight:600;width:10mm}
+.toc b{font-size:15pt;font-weight:600;flex:1;letter-spacing:-.02em}
+.toc i{font-style:normal;font-size:10pt;color:var(--muted)}
+/* numbers */
+.nums{display:grid;grid-template-columns:repeat(4,1fr);gap:4mm;margin-top:10mm}
+.nums div{background:#fff;border-radius:5mm;padding:7mm 5mm;text-align:center}
+.nums b{display:block;font-size:26pt;font-weight:800;letter-spacing:-.04em;background:linear-gradient(120deg,var(--navy) 30%,var(--red));-webkit-background-clip:text;background-clip:text;color:transparent;direction:ltr}
+.nums span{display:block;font-size:8.5pt;color:var(--muted);margin-top:2mm}
+.photo{border-radius:6mm;overflow:hidden;position:relative}
+.photo img{width:100%;height:100%;object-fit:cover}
+.cap{position:absolute;bottom:4mm;left:4mm;background:#0b1d35b3;color:#fff;font-size:8pt;padding:1.5mm 3.5mm;border-radius:10mm}
+[dir=rtl] .cap{left:auto;right:4mm}
+/* founder */
+.founder{display:grid;grid-template-columns:68mm 1fr;gap:12mm;align-items:start}
+.founder .photo{height:92mm;background:#fff}
+.founder .photo img{object-position:top}
+.quote{font-size:30pt;color:var(--gold);line-height:.4;font-family:Georgia,serif;display:block;height:9mm}
+.sig{margin-top:7mm;padding-top:5mm;border-top:.3mm solid #ffffff22}
+.sig b{display:block;color:#fff;font-size:12pt}.sig span{font-size:9pt;color:var(--silver)}
+/* cards */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:5mm}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm}
+.card{background:#fff;border-radius:5mm;padding:7mm 6mm}
+.card .n{font-size:20pt;font-weight:300;color:var(--gold);letter-spacing:-.02em;margin-bottom:3mm;direction:ltr;display:block}
+[dir=rtl] .card .n{text-align:right}
+.card p{font-size:9.5pt;margin-top:2mm}
+.dark .card{background:#ffffff0d;border:.3mm solid #ffffff1a}
+.svc{display:grid;grid-template-columns:1fr 1fr;gap:5mm;margin-top:9mm}
+.svc .card{padding:0;overflow:hidden}
+.svc .card img{height:62mm;width:100%;object-fit:cover}
+.svc .card div{padding:5mm 6mm 6mm}
+.types{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm;margin-top:9mm}
+.types .card{padding:0;overflow:hidden;text-align:center}
+.types .card img{height:62mm;width:100%;object-fit:contain;background:#fff;padding:3mm}
+.types .card img.cov{object-fit:cover;padding:0}
+.types .card div{padding:4mm 4mm 5mm}
+.types .card p{font-size:8.5pt}
+/* finishes */
+.fin h3{margin:7mm 0 3mm;font-size:12pt}
+.fin .row{display:grid;grid-template-columns:repeat(4,1fr);gap:3mm}
+.fin .row div{background:#fff;border-radius:3.5mm;overflow:hidden}
+.fin .row img{height:34mm;width:100%;object-fit:contain;padding:2mm;mix-blend-mode:multiply}
+.fin .row img.cov{object-fit:cover;padding:0;mix-blend-mode:normal}
+.fin .row span{display:block;font-size:7.5pt;color:var(--muted);padding:0 3mm 2.5mm;line-height:1.3}
+/* process */
+.steps{margin-top:10mm;position:relative}
+.steps::before{content:"";position:absolute;top:4mm;bottom:4mm;inset-inline-start:6mm;width:.4mm;background:linear-gradient(var(--gold),var(--red))}
+.step{display:flex;gap:9mm;align-items:flex-start;padding:5.2mm 0;position:relative}
+.step i{flex:none;width:12.5mm;height:12.5mm;border-radius:50%;background:var(--navy);color:#fff;font-style:normal;font-weight:600;font-size:10pt;display:grid;place-items:center;position:relative;z-index:1;border:.6mm solid var(--ivory);direction:ltr}
+.step h3{font-size:13pt;margin-top:1.5mm}
+.step p{font-size:9.5pt;margin-top:1mm;max-width:140mm}
+/* projects */
+.proj{display:grid;grid-template-columns:1fr 1fr;gap:4mm;height:120mm;margin-top:8mm}
+.proj .photo{height:100%}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:3mm;margin-top:5mm}
+.facts div{border-top:.4mm solid var(--gold);padding-top:2.5mm}
+.facts small{display:block;font-size:7.5pt;color:var(--muted)}
+.facts b{font-size:10pt;font-weight:600}
+.mini{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm;margin-top:7mm}
+.mini .photo{height:62mm}
+.logos{display:grid;grid-template-columns:repeat(5,1fr);gap:3mm;margin-top:8mm}
+.logos div{background:#fff;border-radius:3.5mm;height:22mm;display:grid;place-items:center;padding:3mm}
+.logos img{max-height:15mm;max-width:100%;object-fit:contain}
+/* team */
+.team{display:grid;grid-template-columns:repeat(3,1fr);gap:5mm;margin-top:10mm}
+.team .photo{height:72mm;background:#fff}
+.team .photo img{object-position:top}
+.team b{display:block;font-size:12pt;margin-top:4mm}.team span{font-size:9pt;color:var(--muted)}
+/* contact */
+.contact{position:absolute;left:18mm;right:18mm;bottom:30mm}
+.contact h2{font-size:46pt}
+.clist{display:grid;grid-template-columns:1fr 1fr;gap:6mm 10mm;margin-top:12mm}
+.clist div small{display:block;font-size:8pt;color:var(--silver);margin-bottom:1mm}
+.clist div b{font-size:12pt;font-weight:500;color:#fff;direction:ltr;unicode-bidi:isolate}
+.clist div b.rtl{direction:inherit}
+</style>
+</head>
+<body>
+<div id="doc"></div>
+<script>
+const lang=new URLSearchParams(location.search).get("lang")==="ar"?"ar":"en";
+document.documentElement.lang=lang; document.documentElement.dir=lang==="ar"?"rtl":"ltr";
+const A=new URLSearchParams(location.search).has("cache")?"cache/":"../../assets/", L="img/";
+const T={
+en:{
+ profile:"Company Profile",year:"2026",web:"melsaelevators.com",
+ coverH:"Elevators crafted<br>to match your vision.",coverSub:"Design, supply, installation and maintenance of elevators for homes, buildings and businesses across Egypt.",
+ since:"Since",years:"Years of experience",clients:"Clients",
+ tocEye:"Inside",tocH:"Contents",
+ toc:["About Melsa","Founder's message","Vision, mission & values","Our services","Elevator solutions","Materials & finishes","How we work","Why Melsa","Selected projects","Our clients","Our team","Contact us"],
+ aboutEye:"About Melsa",aboutH:"Quality. Safety.<br>Reliability.",
+ about1:"Melsa Elevators has been part of the elevator industry since 1997, serving residential, commercial, administrative, healthcare and industrial buildings.",
+ about2:"We believe an elevator is more than a means of transport. It is a central part of a building's accessibility, function and everyday experience. Every project starts with understanding its requirements and ends with a lift that is safe, reliable and beautifully finished.",
+ n1:"Founded",n2:"Years of founder's experience",n3:"Clients who trust us",n4:"Designs in our catalog",
+ capAbout:"Panoramic glass cabin, installed by Melsa",
+ fEye:"Founder's message",fH:"A word from<br>our founder",
+ f1:"After more than 40 years of experience in the elevator industry, I have learned that success is not measured only by completing a project. It is measured by the trust we earn, the quality we deliver, and the responsibility we take for every detail.",
+ f2:"At Melsa Elevators, we approach every project with a clear understanding of our clients' needs and the practical challenges involved. Our commitment is to provide reliable elevator solutions, maintain professional standards, and remain involved throughout every stage — from initial consultation and coordination to installation and after-sales support.",
+ f3:"Over the years, we have built lasting relationships with clients, consultants, contractors and partners. These relationships are among our greatest achievements, and they continue to guide the way we work.",
+ f4:"Thank you for your trust in Melsa Elevators.",
+ fName:"Adel Abdelkawy",fRole:"Founder, Melsa Elevators",
+ vEye:"Vision, mission & values",vH:"What drives us",
+ vision:"Vision",visionT:"To be a trusted name in the elevator industry, recognised for dependable solutions, quality workmanship and lasting client relationships.",
+ mission:"Mission",missionT:"To deliver elevator solutions tailored to each project's requirements through professional coordination, attention to detail, and a commitment to safety, quality and customer satisfaction.",
+ values:[["Safety first","Every installation and every visit follows strict safety checks."],["Quality","Selected components and careful finishing, inside and out."],["Reliability","Elevators that keep running, backed by responsive service."],["Partnership","We stay involved from the first meeting to after-sales."]],
+ capTech:"A Melsa technician at work",
+ sEye:"Our services",sH:"One partner,<br>from shaft to service.",
+ svc:[["Elevator installation","Planning, supply and installation according to the approved project requirements, then testing and handover.","hero/03.jpg"],["Maintenance & support","Preventive visits, fast breakdown response and safety inspections, for any elevator brand.","projects/ccc/2.jpg"],["Modernization","New machines, controllers, doors and cabins for existing elevators, after a technical assessment.","projects/ccc/3.jpg"],["Consultation & coordination","We work with owners, contractors and consultants to choose the right specifications and shaft design.","LANDING"]],
+ tEye:"Elevator solutions",tH:"An elevator for<br>every building.",
+ types:[["Passenger elevators","Residential and office buildings, in any capacity and speed.","cabin_designs_04.jpg",0],["Home & villa lifts","Compact, quiet lifts for private homes and villas.","hero/06.jpg",1],["Panoramic elevators","Glass cabins and shafts for atriums, malls and facades.","hero/02.jpg",1],["Hospital elevators","Bed and stretcher lifts with smooth, precise levelling.","cabin_designs_03.jpg",0],["Goods elevators","Heavy-duty cabins for warehouses, factories and retail.","cabin_designs_05.jpg",0],["Electric & hydraulic","Machine-room, machine-room-less and hydraulic drives.","projects/ccc/2.jpg",1]],
+ mEye:"Materials & finishes",mH:"Your cabin.<br>Your finishes.",mLead:"Choose every detail from our catalog of more than 40 designs, many available in several colours.",
+ mCab:"Cabins",mDoor:"Landing doors",mPanel:"Call & control panels",mFloor:"Floors",
+ pEye:"How we work",pH:"Six clear steps.",
+ steps:[["Consultation","We listen to your needs, the building type and your budget."],["Site survey","Our engineers measure the shaft, pit and headroom on site."],["Design & specifications","We propose the drive, capacity, speed, doors and finishes, and send a detailed quotation."],["Supply","Components are prepared and delivered according to the approved specifications."],["Installation & testing","Our team installs the elevator and tests every safety system before use."],["Handover & after-sales","We hand over the elevator, train the users and stay available for maintenance."]],
+ wEye:"Why Melsa",wH:"Why clients<br>choose Melsa.",
+ why:[["Since 1997","Decades of experience across homes, hospitals, factories and government buildings."],["One team, start to finish","Consultation, supply, installation and maintenance under one roof."],["Finishes that fit your space","Dozens of cabin, door, panel and floor options to match any interior."],["Any brand, maintained","Our maintenance team services elevators from all major brands."],["Professional coordination","We work closely with consultants and contractors to keep projects on schedule."],["Responsive support","A direct line to our team for breakdowns and questions."]],
+ prEye:"Selected projects",prH:"Work we are proud of.",
+ p1:"Residential compound, New Cairo",p1t:"Panoramic gold-finished passenger elevator in a marble atrium.",
+ p2:"ACROW Misr, Helwan",p2t:"Panoramic and service elevators for an industrial company.",
+ loc:"Location",type:"Building",scope:"Scope",lift:"Elevators",
+ p1f:["New Cairo","Residential","Installation","Passenger, panoramic"],p2f:["Helwan","Industrial","Installation","Panoramic & service"],
+ more:"More projects",mp:[["Consolidated Contractors (CCC)","projects/ccc/1.jpg"],["Ahmed El Sallab","projects/ahmed-el-sallab/1.jpg"],["Al Seddik Association","projects/al-seddik/1.jpg"]],
+ cEye:"Our clients",cH:"Trusted across Egypt.",cLead:"Hospitals, universities, government bodies, contractors and industry leaders rely on Melsa.",
+ tmEye:"Our team",tmH:"The people behind Melsa.",
+ team:[["Adel Abdelkawy","Founder","adel-abdelkawy.jpg"],["Mohamed Adel","CEO","mohamed-adel.jpg"],["Youssef Adel","Business Partner & Marketing Director","youssef-adel.jpg"]],
+ ctEye:"Contact us",ctH:"Let's talk about<br>your project.",ctLead:"For enquiries, quotations, site surveys and maintenance, our team is ready to help.",
+ cPhone:"Phone",cMobile:"Mobile",cWa:"WhatsApp",cMail:"Email",cAddr:"Address",cWeb:"Website",
+ addr:"2 Ayoub Buildings, Hassan Aflaton St., next to the UAE Embassy, Ard El-Golf, Nasr City, Cairo",hours:"Saturday – Thursday, 9:00 am – 5:00 pm"
+},
+ar:{
+ profile:"ملف الشركة",year:"2026",web:"melsaelevators.com",
+ coverH:"مصاعد مصممة<br>لتناسب رؤيتك.",coverSub:"تصميم وتوريد وتركيب وصيانة المصاعد للمنازل والمباني والشركات في جميع أنحاء مصر.",
+ since:"منذ",years:"سنة خبرة",clients:"عميل",
+ tocEye:"المحتويات",tocH:"في هذا الملف",
+ toc:["عن ميلسا","كلمة المؤسس","الرؤية والرسالة والقيم","خدماتنا","حلول المصاعد","الخامات والتشطيبات","خطوات العمل","لماذا ميلسا","مشاريع مختارة","عملاؤنا","فريقنا","تواصل معنا"],
+ aboutEye:"عن ميلسا",aboutH:"جودة. أمان.<br>اعتمادية.",
+ about1:"تعمل إلكتروميلسا في مجال المصاعد منذ عام 1997، وتخدم المباني السكنية والتجارية والإدارية والمستشفيات والمنشآت الصناعية.",
+ about2:"نؤمن بأن المصعد أكثر من وسيلة انتقال؛ فهو جزء أساسي من سهولة الوصول داخل المبنى ومن تجربة مستخدميه اليومية. يبدأ كل مشروع لدينا بفهم متطلباته، وينتهي بمصعد آمن وموثوق وبتشطيب راقٍ.",
+ n1:"سنة التأسيس",n2:"سنة خبرة للمؤسس",n3:"عميل يثق بنا",n4:"تصميم في الكتالوج",
+ capAbout:"كابينة زجاج بانوراما من تركيب ميلسا",
+ fEye:"كلمة المؤسس",fH:"كلمة من<br>مؤسس الشركة",
+ f1:"بعد أكثر من أربعين عامًا في مجال المصاعد، تعلّمت أن النجاح لا يُقاس بإنهاء المشروع فقط، بل بالثقة التي نكسبها، والجودة التي نقدمها، والمسؤولية التي نتحملها في كل تفصيلة.",
+ f2:"في إلكتروميلسا نتعامل مع كل مشروع بفهم واضح لاحتياجات عملائنا والتحديات العملية فيه. التزامنا هو تقديم حلول مصاعد يُعتمد عليها، والحفاظ على معايير مهنية عالية، والبقاء حاضرين في كل مرحلة — من الاستشارة والتنسيق الأولي حتى التركيب وخدمة ما بعد البيع.",
+ f3:"على مدار السنين بنينا علاقات طويلة مع العملاء والاستشاريين والمقاولين والشركاء، وهي من أهم إنجازاتنا، وما زالت توجّه طريقة عملنا حتى اليوم.",
+ f4:"شكرًا لثقتكم في إلكتروميلسا.",
+ fName:"عادل عبد القوي",fRole:"مؤسس إلكتروميلسا",
+ vEye:"الرؤية والرسالة والقيم",vH:"ما يحركنا",
+ vision:"رؤيتنا",visionT:"أن نكون اسمًا موثوقًا في صناعة المصاعد، معروفًا بالحلول التي يُعتمد عليها وجودة التنفيذ والعلاقات الدائمة مع العملاء.",
+ mission:"رسالتنا",missionT:"تقديم حلول مصاعد مصممة حسب متطلبات كل مشروع، من خلال تنسيق احترافي واهتمام بالتفاصيل والتزام بالأمان والجودة ورضا العملاء.",
+ values:[["الأمان أولًا","كل تركيب وكل زيارة تخضع لفحوصات أمان دقيقة."],["الجودة","مكونات مختارة وتشطيب متقن من الداخل والخارج."],["الاعتمادية","مصاعد تعمل باستمرار، تدعمها خدمة سريعة الاستجابة."],["الشراكة","نبقى معك من أول اجتماع حتى خدمة ما بعد البيع."]],
+ capTech:"أحد فنيي ميلسا أثناء العمل",
+ sEye:"خدماتنا",sH:"شريك واحد،<br>من البئر حتى الصيانة.",
+ svc:[["تركيب المصاعد","تخطيط وتوريد وتركيب وفق متطلبات المشروع المعتمدة، ثم الاختبار والتسليم.","hero/03.jpg"],["الصيانة والدعم","زيارات دورية، واستجابة سريعة للأعطال، وفحوصات أمان، لجميع ماركات المصاعد.","projects/ccc/2.jpg"],["التحديث","ماكينات ولوحات تحكم وأبواب وكبائن جديدة للمصاعد القائمة بعد تقييم فني.","projects/ccc/3.jpg"],["الاستشارات والتنسيق","نعمل مع الملاك والمقاولين والاستشاريين لاختيار المواصفات وتصميم البئر المناسب.","LANDING"]],
+ tEye:"حلول المصاعد",tH:"مصعد لكل<br>نوع من المباني.",
+ types:[["مصاعد الركاب","للعمارات السكنية والمباني الإدارية، بأي حمولة وسرعة.","cabin_designs_04.jpg",0],["مصاعد المنازل والفيلات","مصاعد هادئة وموفرة للمساحة للمنازل والفيلات.","hero/06.jpg",1],["المصاعد البانوراما","كبائن وآبار زجاجية للأتريوم والمولات والواجهات.","hero/02.jpg",1],["مصاعد المستشفيات","مصاعد أسرّة ونقالات بحركة ناعمة ووقوف دقيق.","cabin_designs_03.jpg",0],["مصاعد البضائع","كبائن قوية للمخازن والمصانع والمحلات.","cabin_designs_05.jpg",0],["كهرباء وهيدروليك","بغرفة ماكينات أو بدونها، أو بنظام هيدروليك.","projects/ccc/2.jpg",1]],
+ mEye:"الخامات والتشطيبات",mH:"كابينتك.<br>بتشطيباتك.",mLead:"اختر كل تفصيلة من كتالوجنا الذي يضم أكثر من 40 تصميمًا، والكثير منها متاح بأكثر من لون.",
+ mCab:"الكبائن",mDoor:"الأبواب الخارجية",mPanel:"لوحات الطلب والتحكم",mFloor:"الأرضيات",
+ pEye:"خطوات العمل",pH:"ست خطوات واضحة.",
+ steps:[["الاستشارة","نستمع لاحتياجاتك ونوع المبنى والميزانية."],["معاينة الموقع","يقيس مهندسونا البئر والحفرة والارتفاع العلوي في الموقع."],["التصميم والمواصفات","نقترح نوع التشغيل والحمولة والسرعة والأبواب والتشطيبات، ونرسل عرض سعر تفصيليًا."],["التوريد","تُجهَّز المكونات وتُورَّد وفق المواصفات المعتمدة."],["التركيب والاختبار","يركّب فريقنا المصعد ويختبر كل أنظمة الأمان قبل التشغيل."],["التسليم وما بعد البيع","نسلّم المصعد وندرّب المستخدمين ونبقى متاحين للصيانة."]],
+ wEye:"لماذا ميلسا",wH:"لماذا يختارنا<br>عملاؤنا.",
+ why:[["منذ 1997","خبرة طويلة في المنازل والمستشفيات والمصانع والمباني الحكومية."],["فريق واحد من البداية للنهاية","الاستشارة والتوريد والتركيب والصيانة تحت سقف واحد."],["تشطيبات تناسب مساحتك","عشرات الخيارات للكبائن والأبواب واللوحات والأرضيات."],["صيانة لكل الماركات","فريق الصيانة لدينا يخدم مصاعد جميع الماركات الكبرى."],["تنسيق احترافي","نعمل عن قرب مع الاستشاريين والمقاولين للالتزام بالجدول الزمني."],["دعم سريع","خط مباشر مع فريقنا للأعطال والاستفسارات."]],
+ prEye:"مشاريع مختارة",prH:"أعمال نفخر بها.",
+ p1:"كمبوند سكني، القاهرة الجديدة",p1t:"مصعد ركاب بانوراما بتشطيب ذهبي في أتريوم من الرخام.",
+ p2:"أكرو مصر، حلوان",p2t:"مصاعد بانوراما وخدمة لشركة صناعية.",
+ loc:"الموقع",type:"نوع المبنى",scope:"نطاق العمل",lift:"المصاعد",
+ p1f:["القاهرة الجديدة","سكني","تركيب","ركاب، بانوراما"],p2f:["حلوان","صناعي","تركيب","بانوراما وخدمة"],
+ more:"مشاريع أخرى",mp:[["شركة اتحاد المقاولين (CCC)","projects/ccc/1.jpg"],["أحمد السلاب","projects/ahmed-el-sallab/1.jpg"],["جمعية الصديق","projects/al-seddik/1.jpg"]],
+ cEye:"عملاؤنا",cH:"ثقة في كل مصر.",cLead:"مستشفيات وجامعات وجهات حكومية ومقاولون وشركات صناعية كبرى يعتمدون على ميلسا.",
+ tmEye:"فريقنا",tmH:"الفريق وراء ميلسا.",
+ team:[["عادل عبد القوي","المؤسس","adel-abdelkawy.jpg"],["محمد عادل","الرئيس التنفيذي (CEO)","mohamed-adel.jpg"],["يوسف عادل","شريك ومدير التسويق","youssef-adel.jpg"]],
+ ctEye:"تواصل معنا",ctH:"لنتحدث عن<br>مشروعك.",ctLead:"للاستفسارات وعروض الأسعار ومعاينات المواقع والصيانة، فريقنا جاهز لمساعدتك.",
+ cPhone:"تليفون",cMobile:"موبايل",cWa:"واتساب",cMail:"البريد الإلكتروني",cAddr:"العنوان",cWeb:"الموقع الإلكتروني",
+ addr:"٢ عمارات أيوب، شارع حسن أفلاطون، بجوار سفارة الإمارات، أرض الجولف، مدينة نصر، القاهرة",hours:"السبت – الخميس، ٩ صباحًا – ٥ مساءً"
+}}[lang];
+const CLIENT_LOGOS=["sonesta","aca","rehab-city-hall","al-maadi","salam-hospital","zaitoun-hospital","el-nasr-mining","heliopolis-chemical","meg","united-glass","pil","geek-campus","al-seddik","italian-hospital","ain-shams-university","al-azhar-university","cic","arab-contractors","ccc","acrow","abb","ahmed-el-sallab","farm-cheese","applied-professions-syndicate","commercial-professions-syndicate"];
+const src=s=>s==="LANDING"?L+"landing-door.jpg":A+s;
+let page=0;
+const run=(dark)=>`<div class="run"><img src="${A}${dark?"logo-light.png":"logo.png"}" alt=""><span>${T.profile} · ${T.year}</span></div>`;
+const foot=()=>`<div class="foot"><span>${T.web}</span><span>${String(page).padStart(2,"0")}</span></div>`;
+const P=(cls,inner,dark)=>{page++;return `<section class="pg ${cls||""}">${page>1?run(dark):""}${inner}${page>1?foot():""}</section>`;};
+const eye=(n,t)=>`<div class="eyebrow"><b>${n}</b>${t}</div>`;
+const pages=[];
+// 1 cover
+pages.push(P("cover dark",`<img class="cover-img" src="${A}hero/02.jpg" alt=""><div class="shade"></div>
+ <div class="top"><img src="${A}logo-light.png" alt=""><span>${T.profile} · ${T.year}</span></div>
+ <div class="txt"><h1>${T.coverH}</h1><div class="sub">${T.coverSub}</div>
+ <div class="since"><div><b>1997</b>${T.since}</div><div><b>40+</b>${T.years}</div><div><b>25+</b>${T.clients}</div></div></div>`,true));
+// 2 contents
+pages.push(P("",`<div class="pad">${eye("",T.tocEye)}<h2>${T.tocH}</h2><div class="toc">${T.toc.map((x,i)=>`<div><span>${String(i+1).padStart(2,"0")}</span><b>${x}</b><i>${String(i+3).padStart(2,"0")}</i></div>`).join("")}</div></div>`));
+// 3 about
+pages.push(P("",`<div class="pad">${eye("01",T.aboutEye)}<h2>${T.aboutH}</h2><div class="hair"></div>
+ <p class="lead">${T.about1}</p><p class="lead" style="margin-top:4mm">${T.about2}</p>
+ <div class="nums"><div><b>1997</b><span>${T.n1}</span></div><div><b>40+</b><span>${T.n2}</span></div><div><b>25+</b><span>${T.n3}</span></div><div><b>40+</b><span>${T.n4}</span></div></div>
+ <div class="photo" style="height:86mm;margin-top:8mm"><img src="${L}glass-cabin.jpg" alt="" style="object-position:center 40%"><span class="cap">${T.capAbout}</span></div></div>`));
+// 4 founder
+pages.push(P("dark",`<div class="pad">${eye("02",T.fEye)}<div class="founder" style="margin-top:4mm"><div class="photo"><img src="${A}team/adel-abdelkawy.jpg" alt=""></div>
+ <div><h2>${T.fH}</h2><div class="hair"></div><span class="quote">“</span></div></div>
+ <div style="margin-top:9mm;columns:2;column-gap:10mm"><p>${T.f1}</p><p style="margin-top:3mm">${T.f2}</p><p style="margin-top:3mm">${T.f3}</p><p style="margin-top:3mm;color:#fff">${T.f4}</p>
+ <div class="sig"><b>${T.fName}</b><span>${T.fRole}</span></div></div></div>`,true));
+// 5 vision
+pages.push(P("",`<div class="pad">${eye("03",T.vEye)}<h2>${T.vH}</h2><div class="hair"></div>
+ <div class="grid2"><div class="card"><h3>${T.vision}</h3><p>${T.visionT}</p></div><div class="card"><h3>${T.mission}</h3><p>${T.missionT}</p></div></div>
+ <div class="grid2" style="margin-top:5mm;grid-template-columns:1fr 1fr 1fr 1fr">${T.values.map((v,i)=>`<div class="card" style="padding:6mm 5mm"><span class="n">0${i+1}</span><h3 style="font-size:11pt">${v[0]}</h3><p>${v[1]}</p></div>`).join("")}</div>
+ <div class="photo" style="height:104mm;margin-top:6mm"><img src="${L}technician.jpg" alt="" style="object-position:center 35%"><span class="cap">${T.capTech}</span></div></div>`));
+// 6 services
+pages.push(P("",`<div class="pad">${eye("04",T.sEye)}<h2>${T.sH}</h2>
+ <div class="svc">${T.svc.map(s=>`<div class="card"><img src="${src(s[2])}" alt=""><div><h3>${s[0]}</h3><p>${s[1]}</p></div></div>`).join("")}</div></div>`));
+// 7 types
+pages.push(P("",`<div class="pad">${eye("05",T.tEye)}<h2>${T.tH}</h2>
+ <div class="types">${T.types.map(s=>`<div class="card"><img class="${s[3]?"cov":""}" src="${A}${s[2]}" alt=""><div><h3 style="font-size:11.5pt">${s[0]}</h3><p>${s[1]}</p></div></div>`).join("")}</div></div>`));
+// 8 finishes
+const th=id=>`${A}thumbs-lg/${id}.jpg`;
+const row=(ids,cov)=>`<div class="row">${ids.map(id=>`<div><img class="${cov?"cov":""}" src="${th(id)}" alt=""></div>`).join("")}</div>`;
+pages.push(P("fin",`<div class="pad">${eye("06",T.mEye)}<h2>${T.mH}</h2><p class="lead" style="margin-top:4mm">${T.mLead}</p>
+ <h3>${T.mCab}</h3>${row(["cabin_designs_01","cabin_designs_02","cabin_designs_03","cabin_designs_06"])}
+ <h3>${T.mDoor}</h3>${row(["semi_automatic_doors_03","semi_automatic_doors_05","automatic_doors_04","automatic_doors_07"])}
+ <h3>${T.mPanel}</h3>${row(["control_panels_01","control_panels_05","panel_buttons_01","control_panels_03"])}
+ <h3>${T.mFloor}</h3>${row(["flooring_samples_10","flooring_samples_02","flooring_samples_05","flooring_samples_03"],1)}</div>`));
+// 9 process
+pages.push(P("",`<div class="pad">${eye("07",T.pEye)}<h2>${T.pH}</h2>
+ <div class="steps">${T.steps.map((s,i)=>`<div class="step"><i>0${i+1}</i><div><h3>${s[0]}</h3><p>${s[1]}</p></div></div>`).join("")}</div>
+ <div class="grid2" style="margin-top:6mm;height:66mm"><div class="photo"><img src="${A}projects/ccc/1.jpg" alt=""></div><div class="photo"><img src="${A}hero/10.jpg" alt=""></div></div></div>`));
+// 10 why
+pages.push(P("dark",`<div class="pad">${eye("08",T.wEye)}<h2>${T.wH}</h2><div class="hair"></div>
+ <div class="grid2" style="margin-top:8mm">${T.why.map((s,i)=>`<div class="card"><span class="n">0${i+1}</span><h3>${s[0]}</h3><p>${s[1]}</p></div>`).join("")}</div>
+ <div class="photo" style="height:62mm;margin-top:6mm"><img src="${A}hero/09.jpg" alt="" style="object-position:center 40%"></div></div>`,true));
+// 11 projects
+const facts=f=>`<div class="facts">${[T.loc,T.type,T.scope,T.lift].map((k,i)=>`<div><small>${k}</small><b>${f[i]}</b></div>`).join("")}</div>`;
+pages.push(P("",`<div class="pad">${eye("09",T.prEye)}<h2>${T.prH}</h2>
+ <div class="proj" style="height:78mm;margin-top:7mm"><div class="photo"><img src="${A}hero/03.jpg" alt=""></div><div class="photo"><img src="${A}hero/02.jpg" alt=""></div></div>
+ <h3 style="margin-top:5mm">${T.p1}</h3><p>${T.p1t}</p>${facts(T.p1f)}
+ <div class="proj" style="height:78mm;margin-top:8mm"><div class="photo"><img src="${A}projects/acrow/1.jpg" alt=""></div><div class="photo"><img src="${A}projects/acrow/2.jpg" alt=""></div></div>
+ <h3 style="margin-top:5mm">${T.p2}</h3><p>${T.p2t}</p>${facts(T.p2f)}</div>`));
+// 12 clients + more projects
+pages.push(P("",`<div class="pad">${eye("10",T.cEye)}<h2>${T.cH}</h2><p class="lead" style="margin-top:4mm">${T.cLead}</p>
+ <div class="logos">${CLIENT_LOGOS.map(c=>`<div><img src="${A}clients/${c}.png" alt=""></div>`).join("")}</div>
+ <h3 style="margin-top:9mm">${T.more}</h3>
+ <div class="mini">${T.mp.map(m=>`<div><div class="photo"><img src="${A}${m[1]}" alt=""></div><p style="margin-top:2mm;font-size:9pt;color:var(--ink);font-weight:600">${m[0]}</p></div>`).join("")}</div></div>`));
+// 13 team
+pages.push(P("",`<div class="pad">${eye("11",T.tmEye)}<h2>${T.tmH}</h2>
+ <div class="team">${T.team.map(m=>`<div><div class="photo"><img src="${A}team/${m[2]}" alt=""></div><b>${m[0]}</b><span>${m[1]}</span></div>`).join("")}</div>
+ <div class="photo" style="height:74mm;margin-top:9mm"><img src="${A}hero/07.jpg" alt="" style="object-position:center 30%"></div></div>`));
+// 14 contact
+pages.push(P("cover dark",`<img class="cover-img" src="${A}hero/08.jpg" alt="" style="opacity:.35"><div class="shade" style="background:linear-gradient(180deg,#0b1d35aa,#0b1d35 70%)"></div>
+ <div class="contact">${eye("12",T.ctEye)}<h2>${T.ctH}</h2><p class="lead" style="margin-top:5mm">${T.ctLead}</p>
+ <div class="clist"><div><small>${T.cPhone}</small><b>02 2414 9833</b></div><div><small>${T.cMobile}</small><b>0100 525 2664</b></div>
+ <div><small>${T.cWa}</small><b>0101 776 5778</b></div><div><small>${T.cMail}</small><b>Milsalift@hotmail.com</b></div>
+ <div style="grid-column:1/-1"><small>${T.cAddr}</small><b class="rtl">${T.addr}</b><p style="font-size:9pt;margin-top:1mm">${T.hours}</p></div>
+ <div><small>${T.cWeb}</small><b>melsaelevators.com</b></div></div></div>`,true));
+document.getElementById("doc").innerHTML=pages.join("");
+</script>
+</body>
+</html>

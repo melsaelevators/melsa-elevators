@@ -39,7 +39,7 @@ const footer=document.createElement("footer"); footer.className="site-footer"; d
 function renderFooter(){
  const items=contactItems();
  footer.innerHTML=`<div class="fwrap"><div><span class="flogo"><img src="assets/logo-light.png" alt="Melsa Elevators"></span><p style="margin:12px 0 0">${esc(t("f.about"))}</p>${C.facebook||C.instagram?`<div class="fsocial">${C.facebook?`<a href="${esc(C.facebook)}" target="_blank" rel="noopener" aria-label="Facebook">${FB_ICON}</a>`:""}${C.instagram?`<a href="${esc(C.instagram)}" target="_blank" rel="noopener" aria-label="Instagram">${IG_ICON}</a>`:""}</div>`:""}${C.reviewUrl||C.mapsUrl?`<a class="frev" href="review.html" target="_blank" rel="noopener">${G_ICON}<span>${esc(t("review"))}</span><b aria-hidden="true">★★★★★</b></a>`:""}</div>
- <div><h4>${esc(t("f.links"))}</h4><ul>${NAV.map(([k,h])=>`<li><a href="${h}">${esc(t("nav."+k))}</a></li>`).join("")}<li><a href="assets/docs/melsa-company-profile.pdf" target="_blank" rel="noopener">${esc(t("f.profile"))}</a></li></ul></div>
+ <div><h4>${esc(t("f.links"))}</h4><ul>${NAV.map(([k,h])=>`<li><a href="${h}">${esc(t("nav."+k))}</a></li>`).join("")}<li><a href="assets/docs/melsa-company-profile${lang==="ar"?"-ar":""}.pdf" target="_blank" rel="noopener" data-profile>${esc(t("f.profile"))}</a></li></ul></div>
  <div><h4>${esc(t("f.contact"))}</h4>${items.length?`<ul>${items.map(i=>`<li>${i.icon} ${i.href?`<a href="${esc(i.href)}" ${i.ext?'target="_blank" rel="noopener"':""}><bdi ${i.ltr?'dir="ltr"':""}>${esc(i.text)}</bdi></a>`:esc(i.text)}</li>`).join("")}</ul>`:`<p style="margin:0">${esc(t("f.soon"))}</p>`}</div></div>
  <div class="fbottom">${esc(t("f.rights",{y:new Date().getFullYear()}))}</div>`;
 }
@@ -129,4 +129,9 @@ if("serviceWorker" in navigator) window.addEventListener("load",()=>navigator.se
  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}}),{rootMargin:"0px 0px -8% 0px"});
  const go=()=>document.querySelectorAll("main section:not(.hero) .wrap>*, .card").forEach(el=>{if(el.getBoundingClientRect().top>innerHeight*0.9){el.classList.add("reveal");io.observe(el);}});
  document.readyState==="loading"?document.addEventListener("DOMContentLoaded",go):go();
+})();
+/* company profile links follow the page language */
+(function(){
+ const fix=()=>document.querySelectorAll("a[data-profile]").forEach(a=>a.href="assets/docs/melsa-company-profile"+(document.documentElement.lang==="ar"?"-ar":"")+".pdf");
+ document.readyState==="loading"?document.addEventListener("DOMContentLoaded",fix):fix(); window.addEventListener("melsa:lang",()=>setTimeout(fix,0));
 })();
