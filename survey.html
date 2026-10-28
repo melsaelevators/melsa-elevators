@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="icon" type="image/png" href="assets/logo-mark.png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#023584"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Melsa">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#0b1d35"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Melsa">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
 <title>Melsa Elevators | Site Survey</title>
 <style>
-:root{--navy:#023584;--navy-dark:#01245c;--red:#d8031a;--paper:#f3f6fb;--ink:#0f1f3a;--muted:#34405a;--line:#d6deeb;--tint:#eaf0fa;--ok:#1d7a46;--warn:#b45309}
+:root{--navy:#0b1d35;--navy-dark:#172a40;--red:#a82935;--paper:#f5f4f0;--ink:#0b1d35;--muted:#34405a;--line:#dddcd5;--tint:#eceae3;--ok:#1d7a46;--warn:#b45309}
 *{box-sizing:border-box}
-body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.45 Inter,Arial,sans-serif}
-[dir=rtl] body,[dir=rtl] button,[dir=rtl] input,[dir=rtl] select,[dir=rtl] textarea{font-family:'Cairo',Tahoma,Arial,sans-serif}
+body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.45 'Cormorant Garamond','Amiri',Georgia,serif}
+[dir=rtl] body,[dir=rtl] button,[dir=rtl] input,[dir=rtl] select,[dir=rtl] textarea{font-family:'Cormorant Garamond','Amiri',Georgia,serif}
 [dir=rtl] *{letter-spacing:0!important}
 header{background:#fff;padding:12px clamp(16px,4vw,54px);display:flex;justify-content:space-between;align-items:center;gap:14px;box-shadow:0 4px 0 var(--navy),0 8px 0 var(--red);margin-bottom:8px}
 .brand{display:flex;align-items:center;gap:14px;text-decoration:none}.brand img{height:60px;width:auto;display:block}
@@ -18,8 +18,8 @@ header{background:#fff;padding:12px clamp(16px,4vw,54px);display:flex;justify-co
 .header-right{display:flex;align-items:center;gap:8px}
 .navlink{border:1px solid var(--navy);color:var(--navy);background:#fff;border-radius:999px;padding:7px 13px;font-size:12px;font-weight:700;text-decoration:none;white-space:nowrap}
 .navlink:hover{background:var(--tint)}
-.lang-btn{border:0;background:var(--red);color:#fff;border-radius:999px;padding:8px 14px;font:700 13px 'Cairo',Inter,Arial,sans-serif;cursor:pointer}
-[dir=rtl] .lang-btn{font-family:Inter,Arial,sans-serif}
+.lang-btn{border:0;background:var(--red);color:#fff;border-radius:999px;padding:8px 14px;font:700 13px 'Cormorant Garamond','Amiri',Georgia,serif;cursor:pointer}
+[dir=rtl] .lang-btn{font-family:'Cormorant Garamond','Amiri',Georgia,serif}
 main{max-width:1100px;margin:auto;padding:26px clamp(14px,3vw,32px) 50px}
 .eyebrow{font-size:11px;letter-spacing:.2em;color:var(--red);font-weight:800}
 h1{font-size:clamp(26px,4vw,40px);line-height:1.1;letter-spacing:-.03em;margin:8px 0 8px;color:var(--navy)}
@@ -37,14 +37,14 @@ h1{font-size:clamp(26px,4vw,40px);line-height:1.1;letter-spacing:-.03em;margin:8
 .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
 .f label{display:block;font-size:11.5px;font-weight:700;color:var(--navy);margin-bottom:5px}
 .f input,.f select,.f textarea,.crow input{width:100%;border:1px solid var(--line);border-radius:9px;padding:9px 10px;font:inherit;font-size:13.5px;color:var(--ink);background:#fff}
-.f input:focus,.f select:focus,.f textarea:focus,.crow input:focus,.pin input:focus{outline:2px solid #9fb6e0;border-color:var(--navy)}
+.f input:focus,.f select:focus,.f textarea:focus,.crow input:focus,.pin input:focus{outline:2px solid #c5ad87;border-color:var(--navy)}
 .f .unit{font-weight:700;color:var(--muted)}
 .f.wide{grid-column:span 2}.f.full{grid-column:1/-1}
 .inline{display:flex;gap:6px}.inline input{flex:1}
 textarea{min-height:110px;resize:vertical}
 /* shaft plan */
 .plan-wrap{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:18px;align-items:start}
-.plan{position:relative;padding:62px 96px;background:var(--tint);border-radius:14px;border:1px dashed #b9c7e0}
+.plan{position:relative;padding:62px 96px;background:var(--tint);border-radius:14px;border:1px dashed #aeb5be}
 .plan svg{display:block;width:100%;height:auto}
 .pin{position:absolute;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10.5px;font-weight:700;color:var(--navy);text-align:center;line-height:1.15}
 .pin input{width:84px;border:2px solid var(--navy);border-radius:8px;padding:6px 4px;text-align:center;font:inherit;font-size:13.5px;background:#fff;color:var(--ink)}
@@ -53,7 +53,7 @@ textarea{min-height:110px;resize:vertical}
 .pin.bottom input{border-color:var(--red)}
 .elev-wrap{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:18px;align-items:start}
 .elev-in .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-.elev{background:var(--tint);border:1px dashed #b9c7e0;border-radius:14px;padding:12px}
+.elev{background:var(--tint);border:1px dashed #aeb5be;border-radius:14px;padding:12px}
 .elev svg{display:block;width:100%;height:auto;max-height:640px}
 .plan-note{font-size:13px;font-weight:700;color:var(--muted);margin:8px 2px 0}
 .warns{margin-top:10px;display:grid;gap:6px}
@@ -67,7 +67,7 @@ textarea{min-height:110px;resize:vertical}
 .crow{padding:8px 0;border-bottom:1px solid #edf1f7}
 .crow .cname{font-weight:700;font-size:13px;color:var(--ink)}
 .crow .qty{text-align:center;font-weight:700}
-.crow .del{border:0;background:#fdecee;color:var(--red);border-radius:8px;height:34px;cursor:pointer;font-size:18px;line-height:1}
+.crow .del{border:0;background:#f4e6e7;color:var(--red);border-radius:8px;height:34px;cursor:pointer;font-size:18px;line-height:1}
 .crow.sug .qty{background:#fffbeb}
 .cfoot{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:center}
 .hint{font-size:13px;font-weight:700;color:var(--muted)}
@@ -80,15 +80,15 @@ textarea{min-height:110px;resize:vertical}
 .ph{position:relative;aspect-ratio:1;border-radius:10px;overflow:hidden;border:1px solid var(--line);background:#f5f6f8}
 .ph img{width:100%;height:100%;object-fit:cover;display:block}
 .ph button{position:absolute;top:4px;inset-inline-end:4px;border:0;border-radius:50%;width:24px;height:24px;background:var(--red);color:#fff;cursor:pointer}
-.addph{display:grid;place-items:center;aspect-ratio:1;border:2px dashed #b9c7e0;border-radius:10px;color:var(--navy);font-weight:700;font-size:12px;cursor:pointer;text-align:center;padding:6px;background:var(--tint)}
+.addph{display:grid;place-items:center;aspect-ratio:1;border:2px dashed #aeb5be;border-radius:10px;color:var(--navy);font-weight:700;font-size:12px;cursor:pointer;text-align:center;padding:6px;background:var(--tint)}
 /* saved */
 .saved-list{display:grid;gap:8px}
 .sitem{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:10px 12px}
 .sitem.cur{border-color:var(--navy);background:var(--tint)}
 .sitem .meta{flex:1;min-width:0}.sitem strong{display:block;font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.sitem span{font-size:11.5px;color:var(--muted)}
-footer{background:var(--navy);border-top:4px solid var(--red);color:#c7d4ec;padding:20px max(18px,calc((100% - 1100px)/2 + 28px));font-size:11px;display:flex;justify-content:space-between;gap:12px;letter-spacing:.06em;margin-top:30px}
+footer{background:var(--navy);border-top:4px solid var(--red);color:#c9ced5;padding:20px max(18px,calc((100% - 1100px)/2 + 28px));font-size:11px;display:flex;justify-content:space-between;gap:12px;letter-spacing:.06em;margin-top:30px}
 footer a{color:#fff}
-.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:90;background:var(--navy);color:#fff;padding:12px 18px;border-radius:12px;font-size:13px;max-width:calc(100% - 32px);box-shadow:0 8px 24px #0a173055;border-bottom:3px solid var(--red)}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:90;background:var(--navy);color:#fff;padding:12px 18px;border-radius:12px;font-size:13px;max-width:calc(100% - 32px);box-shadow:0 8px 24px #0b1d3555;border-bottom:3px solid var(--red)}
 .print-head{display:none}
 body.locked{background:#fff}
 body.locked>*:not(#lock):not(.toast){display:none!important}
@@ -411,20 +411,20 @@ function drawPlan(){
  const ds=x0+dLeft*sc, de=ds+dW*sc, fy=(x)=>FL[1]+(FR[1]-FL[1])*((x-FL[0])/(FR[0]-FL[0]||1));
  const cw=num(S.car.w), cd=num(S.car.d);
  const P=a=>a.join(",");
- let svg=`<defs><pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#9fb1d1" stroke-width="2"/></pattern></defs>`;
+ let svg=`<defs><pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#aeb5be" stroke-width="2"/></pattern></defs>`;
  svg+=`<polygon points="${P(FL)} ${P(FR)} ${P(BR)} ${P(BL)}" fill="#fff"/>`;
  if(num(sh.diag1)||num(sh.diag2)) svg+=`<line x1="${FL[0]}" y1="${FL[1]}" x2="${BR[0]}" y2="${BR[1]}" stroke="#9aa6b8" stroke-dasharray="4 4"/><line x1="${FR[0]}" y1="${FR[1]}" x2="${BL[0]}" y2="${BL[1]}" stroke="#9aa6b8" stroke-dasharray="4 4"/>`;
- if(cw&&cd){const cwS=cw*sc, cdS=cd*sc; svg+=`<rect x="${cx-cwS/2}" y="${y0+(Math.min(dl,dr)-cdS)/2+4}" width="${cwS}" height="${cdS}" fill="#eaf0fa" stroke="#023584" stroke-dasharray="5 3" rx="3"/>`;}
- const wallStroke=`stroke="#023584" stroke-width="7" stroke-linecap="square"`;
+ if(cw&&cd){const cwS=cw*sc, cdS=cd*sc; svg+=`<rect x="${cx-cwS/2}" y="${y0+(Math.min(dl,dr)-cdS)/2+4}" width="${cwS}" height="${cdS}" fill="#eceae3" stroke="#0b1d35" stroke-dasharray="5 3" rx="3"/>`;}
+ const wallStroke=`stroke="#0b1d35" stroke-width="7" stroke-linecap="square"`;
  svg+=`<line x1="${BL[0]}" y1="${BL[1]}" x2="${BR[0]}" y2="${BR[1]}" ${wallStroke}/>`;
  svg+=`<line x1="${BL[0]}" y1="${BL[1]}" x2="${FL[0]}" y2="${FL[1]}" ${wallStroke}/>`;
  svg+=`<line x1="${BR[0]}" y1="${BR[1]}" x2="${FR[0]}" y2="${FR[1]}" ${wallStroke}/>`;
  svg+=`<line x1="${FL[0]}" y1="${FL[1]}" x2="${ds}" y2="${fy(ds)}" ${wallStroke}/>`;
  svg+=`<line x1="${de}" y1="${fy(de)}" x2="${FR[0]}" y2="${FR[1]}" ${wallStroke}/>`;
- svg+=`<line x1="${ds}" y1="${fy(ds)+7}" x2="${de}" y2="${fy(de)+7}" stroke="#d8031a" stroke-width="3"/>`;
- svg+=`<text x="${(ds+de)/2}" y="${Math.min(246,fy((ds+de)/2)+24)}" text-anchor="middle" font-size="12" fill="#d8031a" font-weight="700">${num(sh.doorW)?num(sh.doorW)+" "+t("mm"):"DOOR"}</text>`;
- {const ax=(ds+de)/2, ay=fy(ax)-6; svg+=`<g fill="#d8031a" stroke="#d8031a"><line x1="${ax}" y1="${ay}" x2="${ax}" y2="${ay-30}" stroke-width="3"/><polygon points="${ax-7},${ay-26} ${ax+7},${ay-26} ${ax},${ay-38}" stroke="none"/></g><text x="${ax}" y="${ay-44}" text-anchor="middle" font-size="10.5" fill="#d8031a" font-weight="800">${t("el.door")}</text>`;}
- svg+=`<text x="${cx}" y="${y0+Math.min(dl,dr)/2+4}" text-anchor="middle" font-size="13" fill="#5d6a80" font-weight="700">${cw&&cd?cw+" × "+cd:(lang==="ar"?"البئر":"SHAFT")}</text>`;
+ svg+=`<line x1="${ds}" y1="${fy(ds)+7}" x2="${de}" y2="${fy(de)+7}" stroke="#a82935" stroke-width="3"/>`;
+ svg+=`<text x="${(ds+de)/2}" y="${Math.min(246,fy((ds+de)/2)+24)}" text-anchor="middle" font-size="12" fill="#a82935" font-weight="700">${num(sh.doorW)?num(sh.doorW)+" "+t("mm"):"DOOR"}</text>`;
+ {const ax=(ds+de)/2, ay=fy(ax)-6; svg+=`<g fill="#a82935" stroke="#a82935"><line x1="${ax}" y1="${ay}" x2="${ax}" y2="${ay-30}" stroke-width="3"/><polygon points="${ax-7},${ay-26} ${ax+7},${ay-26} ${ax},${ay-38}" stroke="none"/></g><text x="${ax}" y="${ay-44}" text-anchor="middle" font-size="10.5" fill="#a82935" font-weight="800">${t("el.door")}</text>`;}
+ svg+=`<text x="${cx}" y="${y0+Math.min(dl,dr)/2+4}" text-anchor="middle" font-size="13" fill="#5e6670" font-weight="700">${cw&&cd?cw+" × "+cd:(lang==="ar"?"البئر":"SHAFT")}</text>`;
  document.getElementById("planSvg").innerHTML=svg;
  // warnings
  const warns=[], tol=2; const r1=x=>Math.round(x*10)/10;
@@ -443,10 +443,10 @@ function drawElev(){
  const V=S.vertical, n=Math.max(2,Math.min(30,parseInt(S.project.stops)||4)), hasMR=S.project.drive==="Electric"&&S.project.machineRoom==="Top";
  const gap=n>12?26:36, sx=92, sw=62, top=hasMR?84:24, ohH=46, pitH=40;
  const yTop=top+ohH, yBot=yTop+(n-1)*gap, H=yBot+pitH+34;
- const navy="#023584", red="#d8031a", mut="#5d6a80", f=v=>{const x=num(v);return x===null?"—":x+" "+t("mm");};
+ const navy="#0b1d35", red="#a82935", mut="#5e6670", f=v=>{const x=num(v);return x===null?"—":x+" "+t("mm");};
  const esc=v=>v.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
  const txt=(x,y,s,o={})=>`<text x="${x}" y="${y}" font-size="${o.fs||11}" fill="${o.c||mut}" font-weight="${o.w||700}" direction="${lang==="ar"?"rtl":"ltr"}" text-anchor="${o.a==="start"?(lang==="ar"?"end":"start"):(o.a||"middle")}">${esc(String(s))}</text>`;
- let g=`<defs><pattern id="eh" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#9fb1d1" stroke-width="2"/></pattern></defs>`;
+ let g=`<defs><pattern id="eh" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#aeb5be" stroke-width="2"/></pattern></defs>`;
  // machine room
  if(hasMR){const mw=sw+70, mx=sx+sw/2-mw/2, d=[V.mrW,V.mrD,V.mrH].map(num);
   g+=`<rect x="${mx}" y="${top-60}" width="${mw}" height="56" fill="#fff" stroke="${navy}" stroke-width="4"/>`;
@@ -468,14 +468,14 @@ function drawElev(){
   g+=txt(sx-30,fy-6,t("el.stop",{n:i+1}),{fs:10,c:navy});}
  g+=`<line x1="${sx}" y1="${yBot}" x2="${sx}" y2="${yBot+pitH}" stroke="${navy}" stroke-width="5"/>`;
  // car at lowest stop
- g+=`<rect x="${sx+12}" y="${yBot-doorH-2}" width="${sw-24}" height="${doorH+2}" rx="2" fill="#eaf0fa" stroke="${navy}" stroke-width="1.5"/>`;
+ g+=`<rect x="${sx+12}" y="${yBot-doorH-2}" width="${sw-24}" height="${doorH+2}" rx="2" fill="#eceae3" stroke="${navy}" stroke-width="1.5"/>`;
  // dimensions on the right
  const dx=sx+sw+16, dim=(y1,y2,label,c)=>`<line x1="${dx}" y1="${y1}" x2="${dx}" y2="${y2}" stroke="${c||mut}" stroke-width="1.2"/><line x1="${dx-4}" y1="${y1}" x2="${dx+4}" y2="${y1}" stroke="${c||mut}"/><line x1="${dx-4}" y1="${y2}" x2="${dx+4}" y2="${y2}" stroke="${c||mut}"/>`+txt(dx+8,(y1+y2)/2+4,label,{a:"start",fs:10.5,c:c||mut});
  g+=dim(top,yTop,t("el.oh")+": "+f(V.overhead),navy);
  for(let i=0;i<n-1;i++){const y1=yTop+(n-2-i)*gap, y2=y1+gap; g+=dim(y1,y2,f(V.floors[i]));}
  g+=dim(yBot,yBot+pitH,t("el.pit")+": "+f(V.pit),red);
  const tr=travel();
- g+=`<line x1="${sx-62}" y1="${yBot+pitH+14}" x2="${sx+sw+150}" y2="${yBot+pitH+14}" stroke="#c4d0e4" stroke-width="1"/>`;
+ g+=`<line x1="${sx-62}" y1="${yBot+pitH+14}" x2="${sx+sw+150}" y2="${yBot+pitH+14}" stroke="#aeb5be" stroke-width="1"/>`;
  if(tr)g+=txt(165,yBot+pitH+28,t("v.travel").split("(")[0].trim()+": "+tr+" "+t("mm"),{fs:10.5,c:navy});
  svgEl.setAttribute("viewBox",`0 0 330 ${H}`); svgEl.innerHTML=g;
 }
@@ -559,7 +559,7 @@ function renderSaved(){
  document.getElementById("savedLink").textContent=t("saved")+" ("+list.length+")";
  list.forEach(sv=>{const d=document.createElement("div");d.className="sitem"+(sv.id===S.id?" cur":"");
   const name=sv.project.name||sv.project.client||t("untitled"), date=new Date(sv.updated).toLocaleString(lang==="ar"?"ar-EG":"en-GB",{dateStyle:"medium",timeStyle:"short"});
-  d.innerHTML=`<div class="meta"><strong></strong><span>${date}${sv.project.address?" · ":""}</span><span class="addr"></span></div>`+(sv.id===S.id?`<span class="hint">${t("current")}</span>`:`<button type="button" class="btn ghost small" data-open="${sv.id}">${t("open")}</button>`)+`<button type="button" class="btn small" style="background:#fdecee;color:var(--red)" data-del="${sv.id}">${t("del")}</button>`;
+  d.innerHTML=`<div class="meta"><strong></strong><span>${date}${sv.project.address?" · ":""}</span><span class="addr"></span></div>`+(sv.id===S.id?`<span class="hint">${t("current")}</span>`:`<button type="button" class="btn ghost small" data-open="${sv.id}">${t("open")}</button>`)+`<button type="button" class="btn small" style="background:#f4e6e7;color:var(--red)" data-del="${sv.id}">${t("del")}</button>`;
   d.querySelector("strong").textContent=name; d.querySelector(".addr").textContent=sv.project.address||""; box.append(d);});
 }
 document.getElementById("savedList").addEventListener("click",e=>{

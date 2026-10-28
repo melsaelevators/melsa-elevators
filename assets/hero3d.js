@@ -32,19 +32,19 @@ function start() {
   scene.environment = pm.fromScene(new RoomEnvironment(), 0.04).texture;
   scene.environmentIntensity = 1.5;
   const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100);
-  scene.add(new THREE.HemisphereLight(0xbfd6ff, 0x0a1730, 0.6));
+  scene.add(new THREE.HemisphereLight(0xe6e4de, 0x0b1d35, 0.6));
   const key = new THREE.DirectionalLight(0xffffff, 2.2); key.position.set(4, 10, 6); scene.add(key);
-  const rim = new THREE.PointLight(0x3aa0ff, 30, 30); rim.position.set(-4, 6, -3); scene.add(rim);
-  const redL = new THREE.PointLight(0xff2a3d, 3, 8); redL.position.set(3, 1, 3); scene.add(redL);
+  const rim = new THREE.PointLight(0xc5ad87, 30, 30); rim.position.set(-4, 6, -3); scene.add(rim);
+  const redL = new THREE.PointLight(0xa82935, 3, 8); redL.position.set(3, 1, 3); scene.add(redL);
 
-  const CYAN = 0x7cc8ff, NAVY = 0x023584, RED = 0xd8031a;
+  const CYAN = 0xc5ad87, NAVY = 0x0b1d35, RED = 0xa82935;
   const B = 0.4, FLOORS = [B, B + 2.8, B + 5.6], TOP = B + 9.2, W = 2.3, D = 2.0, DZ = D / 2 - 0.28; // DZ = landing door line
 
   /* ---------- realistic look: shadows, generated metal textures, catalog photos ---------- */
   renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   key.castShadow = true; key.shadow.mapSize.set(1024, 1024);
   Object.assign(key.shadow.camera, { left: -6, right: 6, top: 12, bottom: -2, near: 1, far: 30 }); key.shadow.bias = -0.0008;
-  const fill = new THREE.DirectionalLight(0xdfe8ff, 0.8); fill.position.set(-6, 5, 4); scene.add(fill);
+  const fill = new THREE.DirectionalLight(0xf5f4f0, 0.8); fill.position.set(-6, 5, 4); scene.add(fill);
   function brushed(base, vertical = false, strength = 0.18) {
     const c = document.createElement("canvas"); c.width = c.height = 512; const g = c.getContext("2d");
     g.fillStyle = base; g.fillRect(0, 0, 512, 512);
@@ -93,7 +93,7 @@ function start() {
   const at = (o, x, y, z) => { o.position.set(x, y, z); return o; };
 
   /* ---------- ground ---------- */
-  const grid = new THREE.GridHelper(16, 32, 0x3a7bd5, 0x1d3f7a);
+  const grid = new THREE.GridHelper(16, 32, 0x8a9bb0, 0x1d3f7a);
   grid.material.transparent = true; grid.material.opacity = 0.3; scene.add(grid);
   const catcher = new THREE.Mesh(new THREE.PlaneGeometry(20, 20), new THREE.ShadowMaterial({ opacity: 0.35 }));
   catcher.rotation.x = -Math.PI / 2; catcher.position.y = 0.002; catcher.receiveShadow = true; scene.add(catcher);
@@ -111,7 +111,7 @@ function start() {
   for (let y = 1.4; y < TOP; y += 2.8) {   // horizontal steel ring beams
     structure.add(at(box(W, 0.06, 0.06, postMat), 0, y, -D / 2), at(box(0.06, 0.06, D, postMat), -W / 2, y, 0), at(box(0.06, 0.06, D, postMat), W / 2, y, 0));
   }
-  const glassMat = new THREE.MeshPhysicalMaterial({ color: 0xbfe3ff, metalness: 0, roughness: 0.02, transparent: true, opacity: 0.1, side: THREE.DoubleSide, depthWrite: false, clearcoat: 1 });
+  const glassMat = new THREE.MeshPhysicalMaterial({ color: 0xe8dcc4, metalness: 0, roughness: 0.02, transparent: true, opacity: 0.1, side: THREE.DoubleSide, depthWrite: false, clearcoat: 1 });
   for (const [w, x, z, ry] of [[W, 0, -D / 2, 0], [D, -W / 2, 0, Math.PI / 2], [D, W / 2, 0, Math.PI / 2]]) {
     const g = new THREE.Mesh(new THREE.PlaneGeometry(w, TOP), glassMat); g.position.set(x, TOP / 2, z); g.rotation.y = ry; structure.add(g);
   }
@@ -133,11 +133,11 @@ function start() {
     g.add(at(edges(box(1.1, 0.12, 0.1, M.stainless), CYAN, 0.4), 0, 2.36, 0));
     g.add(at(box(1.1, 0.03, 0.16, M.machined), 0, 0.015, 0.02));                                  // sill
     const disp = at(box(0.26, 0.08, 0.02, M.glassPanel), 0, 2.56, 0.05); g.add(disp);
-    disp.add(at(new THREE.Mesh(new THREE.PlaneGeometry(0.08, 0.05), ledM(0xff2a3d)), 0, 0, 0.011));
+    disp.add(at(new THREE.Mesh(new THREE.PlaneGeometry(0.08, 0.05), ledM(0xa82935)), 0, 0, 0.011));
     const hinge = new THREE.Group(); hinge.position.set(-0.45, 0, 0.03); g.add(hinge);        // the leaf swings on its left hinge
     const leaf = new THREE.Group(); leaf.position.x = 0.45; hinge.add(leaf);
     leaf.add(at(edges(box(0.9, 2.26, 0.045, leafM), CYAN, 0.4), 0, 1.15, 0));
-    leaf.add(at(box(0.12, 0.98, 0.05, new THREE.MeshPhysicalMaterial({ color: 0xbfe3ff, roughness: 0.05, transmission: 0.6, transparent: true, opacity: 0.55 })), -0.12, 1.42, 0));
+    leaf.add(at(box(0.12, 0.98, 0.05, new THREE.MeshPhysicalMaterial({ color: 0xe8dcc4, roughness: 0.05, transmission: 0.6, transparent: true, opacity: 0.55 })), -0.12, 1.42, 0));
     for (const [w, h, x, y] of [[0.16, 0.03, -0.12, 1.92], [0.16, 0.03, -0.12, 0.92], [0.03, 1.0, -0.2, 1.42], [0.03, 1.0, -0.04, 1.42]]) leaf.add(at(box(w, h, 0.052, M.stainless), x, y, 0));
     leaf.add(at(box(0.04, 0.2, 0.06, M.machined), 0.34, 1.05, 0.04));                          // handle
     landing.add(g);
@@ -225,7 +225,7 @@ function start() {
   for (const x of [-0.5, 0.5]) { const br = at(cyl(0.008, 0.06, M.gold, 8), x, 0.95, -0.59); br.rotation.x = Math.PI / 2; car.add(br); }
   const cop = add(box(0.13, 0.74, 0.02, M.stainless), 0.56, 1.25, 0.6, RED);
   for (let k = 0; k < 6; k++) cop.add(at(new THREE.Mesh(new THREE.CircleGeometry(0.016, 16), ledM(k ? 0xdfe6ee : RED)), 0, 0.22 - k * 0.07, 0.011));
-  cop.add(at(new THREE.Mesh(new THREE.PlaneGeometry(0.08, 0.05), ledM(0xff2a3d)), 0, 0.31, 0.011));
+  cop.add(at(new THREE.Mesh(new THREE.PlaneGeometry(0.08, 0.05), ledM(0xa82935)), 0, 0.31, 0.011));
   for (const x of [-0.4, 0.4]) { const led = at(new THREE.Mesh(new THREE.PlaneGeometry(0.06, 1.0), ledM(0xfff1c8)), x, 2.225, 0); led.rotation.x = Math.PI / 2; car.add(led); }
   car.add(at(box(1.4, 0.1, 0.02, M.machined), 0, 0.05, 0.665));                                        // car sill
   for (const [x, z] of [[-0.68, -0.6], [0.68, -0.6], [-0.68, 0.45], [0.68, 0.45]]) car.add(at(cyl(0.012, 0.5, M.paintGrey, 8), x, 2.55, z)); // top balustrade posts
@@ -247,10 +247,10 @@ function start() {
   const lop = new THREE.Group();
   lop.add(edges(box(0.16, 0.44, 0.02, M.stainless), CYAN, 0.4));
   for (const y of [0.07, -0.07]) {
-    lop.add(at(new THREE.Mesh(new THREE.RingGeometry(0.03, 0.038, 24), ledM(0x7cc8ff)), 0, y, 0.0105));
+    lop.add(at(new THREE.Mesh(new THREE.RingGeometry(0.03, 0.038, 24), ledM(0xc5ad87)), 0, y, 0.0105));
     lop.add(at(new THREE.Mesh(new THREE.CircleGeometry(0.028, 24), M.machined), 0, y, 0.011));
   }
-  lop.add(at(new THREE.Mesh(new THREE.PlaneGeometry(0.08, 0.04), ledM(0xff2a3d)), 0, 0.17, 0.011));
+  lop.add(at(new THREE.Mesh(new THREE.PlaneGeometry(0.08, 0.04), ledM(0xa82935)), 0, 0.17, 0.011));
   const lc = comp("lop", lop, { p: [3.5, 1.7, 2.6], r: [0, -0.4, 0], s: 2.4 }, [7.4, 8.4], [0, 0.4, 0]);
   lc.asm.p.set(0.8, B + 1.15, DZ + 0.06);
 
@@ -281,9 +281,9 @@ function start() {
   const cab2 = comp("cable", coilG, { p: [-2.5, 1.4, 1.2], r: [0.5, 0.3, 0], s: 1.6 }, [7.6, 8.6], [0, 0.42, 0]);
   const CA = new THREE.Vector3(1.0, B + 2.8 + 1.2, -0.45), CL = 4.4;
   cab2.asm.p.set(0.72, B - 0.2, -0.45); cab2.asm.s = 0.55;   // the coil is brought under the cabin first
-  const hangMat = cableMat.clone(); hangMat.color.set(0x2a2f38); hangMat.emissive = new THREE.Color(0x3aa0ff); hangMat.emissiveIntensity = 0.25; let hang = null;
-  const tip = new THREE.Mesh(new THREE.SphereGeometry(0.05, 16, 12), new THREE.MeshBasicMaterial({ color: 0x9fe0ff, transparent: true })); tip.visible = false; scene.add(tip);
-  const tipGlow = new THREE.PointLight(0x7cc8ff, 0, 1.6); tip.add(tipGlow);
+  const hangMat = cableMat.clone(); hangMat.color.set(0x2a2f38); hangMat.emissive = new THREE.Color(0xc5ad87); hangMat.emissiveIntensity = 0.25; let hang = null;
+  const tip = new THREE.Mesh(new THREE.SphereGeometry(0.05, 16, 12), new THREE.MeshBasicMaterial({ color: 0xe8dcc4, transparent: true })); tip.visible = false; scene.add(tip);
+  const tipGlow = new THREE.PointLight(0xc5ad87, 0, 1.6); tip.add(tipGlow);
   let hangCurve = null;
   function hangCable(carY, draw, op) {   // draw: 0..1 how much is installed, starting from the cabin end
     if (hang) { scene.remove(hang); hang.geometry.dispose(); hang = null; }
@@ -305,7 +305,7 @@ function start() {
   ropeGeo.setAttribute("position", new THREE.BufferAttribute(ropePts, 3));
   const ropes = new THREE.LineSegments(ropeGeo, new THREE.LineBasicMaterial({ color: 0xdfe6ee, transparent: true, opacity: 0.85 })); scene.add(ropes);
   const SX = 0.12, SY = TOP + 0.38, SZ = -0.35, SR = 0.28;
-  const ropeMat = new THREE.MeshStandardMaterial({ color: 0xe6edf5, metalness: 0.9, roughness: 0.25, emissive: new THREE.Color(0x7cc8ff), emissiveIntensity: 0.35, transparent: true });
+  const ropeMat = new THREE.MeshStandardMaterial({ color: 0xe6edf5, metalness: 0.9, roughness: 0.25, emissive: new THREE.Color(0xc5ad87), emissiveIntensity: 0.35, transparent: true });
   const r1 = [new THREE.Vector3(3.6, TOP + 2.4, 3.2), new THREE.Vector3(2.2, TOP + 1.5, 1.8), new THREE.Vector3(0.9, SY + 0.7, 0.5), new THREE.Vector3(SX + 0.1, SY + SR + 0.05, SZ + 0.15)];
   for (let k = 0; k <= 60; k++) { const th = Math.PI / 2 + k / 60 * Math.PI * 2 * 1.5; r1.push(new THREE.Vector3(SX + 0.06 - k / 60 * 0.08, SY + Math.sin(th) * SR, SZ + Math.cos(th) * SR)); }
   r1.push(new THREE.Vector3(SX - 0.04, SY - 0.6, SZ + SR - 0.02), new THREE.Vector3(0, B + 2.96, 0));

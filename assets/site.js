@@ -122,3 +122,11 @@ setLang(lang);
 })();
 if("serviceWorker" in navigator) window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 })();
+
+/* gentle fade-in of sections as they scroll into view */
+(function(){
+ if(!("IntersectionObserver" in window)||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+ const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}}),{rootMargin:"0px 0px -8% 0px"});
+ const go=()=>document.querySelectorAll("main section:not(.hero) .wrap>*, .card").forEach(el=>{if(el.getBoundingClientRect().top>innerHeight*0.9){el.classList.add("reveal");io.observe(el);}});
+ document.readyState==="loading"?document.addEventListener("DOMContentLoaded",go):go();
+})();
