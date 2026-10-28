@@ -4,13 +4,13 @@ const SITE=window.MELSA_SITE||{company:{},clients:[],projects:[]}, C=SITE.compan
 const T={
  en:{"nav.home":"Home","nav.about":"About us","nav.projects":"Projects","nav.catalog":"Catalog","nav.clients":"Clients","nav.maint":"Maintenance","nav.consult":"Consulting","nav.contact":"Contact us","nav.eng":"🔒 Engineers",
   "f.about":"Melsa Elevators designs, supplies, installs and maintains elevators for homes, buildings and businesses.","f.links":"Pages","f.contact":"Contact",
-  "f.rights":"© {y} Melsa Elevators. All rights reserved.","f.soon":"Contact details coming soon.","f.engineers":"Engineers' area",
+  "f.rights":"© {y} Melsa Elevators. All rights reserved.","f.soon":"Contact details coming soon.","f.engineers":"Engineers' area","f.profile":"Company profile (PDF)",
   notSet:"Our contact details are being added. Please check back soon.",sent:"Opening WhatsApp…",required:"Please fill in your name and phone number.",
   "ci.phone":"Phone","ci.mobile":"Mobile","ci.whatsapp":"WhatsApp","ci.email":"Email","ci.address":"Address","ci.hours":"Working hours","ci.facebook":"Facebook","review":"Rate us on Google","reviewSub":"Happy with our work? Your review helps others find us.","ci.instagram":"Instagram",close:"Close",
   "t.Residential":"Residential","t.Villa":"Villa","t.Factory":"Factory","t.Hospital":"Hospital","t.Mall":"Mall","t.Office":"Office","t.Hotel":"Hotel"},
  ar:{"nav.home":"الرئيسية","nav.about":"من نحن","nav.projects":"مشاريعنا","nav.catalog":"الكتالوج","nav.clients":"عملاؤنا","nav.maint":"الصيانة","nav.consult":"استشارات","nav.contact":"تواصل معنا","nav.eng":"🔒 المهندسين",
   "f.about":"إلكتروميلسا لتصميم وتركيب وتوريد وصيانة المصاعد — للمنازل والمباني والشركات.","f.links":"الصفحات","f.contact":"تواصل",
-  "f.rights":"© {y} إلكتروميلسا لتصميم وتركيب وتوريد وصيانة المصاعد. جميع الحقوق محفوظة.","f.soon":"بيانات التواصل قريبًا.","f.engineers":"منطقة المهندسين",
+  "f.rights":"© {y} إلكتروميلسا لتصميم وتركيب وتوريد وصيانة المصاعد. جميع الحقوق محفوظة.","f.soon":"بيانات التواصل قريبًا.","f.engineers":"منطقة المهندسين","f.profile":"بروفايل الشركة (PDF)",
   notSet:"بيانات التواصل قيد الإضافة. برجاء المحاولة لاحقًا.",sent:"جارٍ فتح واتساب…",required:"برجاء كتابة الاسم ورقم التليفون.",
   "review":"قيّمنا على Google","reviewSub":"عجبك شغلنا؟ تقييمك بيساعد غيرك يلاقينا.","ci.phone":"التليفون الأرضي","ci.mobile":"الموبايل","ci.whatsapp":"واتساب","ci.email":"البريد الإلكتروني","ci.address":"العنوان","ci.hours":"مواعيد العمل","ci.facebook":"فيسبوك","ci.instagram":"إنستجرام",close:"إغلاق",
   "t.Residential":"سكني","t.Villa":"فيلا","t.Factory":"مصنع","t.Hospital":"مستشفى","t.Mall":"مول","t.Office":"إداري","t.Hotel":"فندق"}
@@ -39,7 +39,7 @@ const footer=document.createElement("footer"); footer.className="site-footer"; d
 function renderFooter(){
  const items=contactItems();
  footer.innerHTML=`<div class="fwrap"><div><span class="flogo"><img src="assets/logo-light.png" alt="Melsa Elevators"></span><p style="margin:12px 0 0">${esc(t("f.about"))}</p>${C.facebook||C.instagram?`<div class="fsocial">${C.facebook?`<a href="${esc(C.facebook)}" target="_blank" rel="noopener" aria-label="Facebook">${FB_ICON}</a>`:""}${C.instagram?`<a href="${esc(C.instagram)}" target="_blank" rel="noopener" aria-label="Instagram">${IG_ICON}</a>`:""}</div>`:""}${C.reviewUrl||C.mapsUrl?`<a class="frev" href="review.html" target="_blank" rel="noopener">${G_ICON}<span>${esc(t("review"))}</span><b aria-hidden="true">★★★★★</b></a>`:""}</div>
- <div><h4>${esc(t("f.links"))}</h4><ul>${NAV.map(([k,h])=>`<li><a href="${h}">${esc(t("nav."+k))}</a></li>`).join("")}</ul></div>
+ <div><h4>${esc(t("f.links"))}</h4><ul>${NAV.map(([k,h])=>`<li><a href="${h}">${esc(t("nav."+k))}</a></li>`).join("")}<li><a href="assets/docs/melsa-company-profile.pdf" target="_blank" rel="noopener">${esc(t("f.profile"))}</a></li></ul></div>
  <div><h4>${esc(t("f.contact"))}</h4>${items.length?`<ul>${items.map(i=>`<li>${i.icon} ${i.href?`<a href="${esc(i.href)}" ${i.ext?'target="_blank" rel="noopener"':""}><bdi ${i.ltr?'dir="ltr"':""}>${esc(i.text)}</bdi></a>`:esc(i.text)}</li>`).join("")}</ul>`:`<p style="margin:0">${esc(t("f.soon"))}</p>`}</div></div>
  <div class="fbottom">${esc(t("f.rights",{y:new Date().getFullYear()}))}</div>`;
 }
