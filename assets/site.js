@@ -58,7 +58,7 @@ function contactItems(){
 }
 {const n=C.callFloat||C.whatsapp&&C.whatsapp.replace(/^20/,"0")||C.mobile;if(n){const c=document.createElement("a");c.className="call-float";c.href="tel:+20"+n.replace(/\D/g,"").replace(/^0/,"");c.setAttribute("aria-label","Call");
  c.innerHTML='<svg viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z"/></svg>';
- c.addEventListener("click",()=>{try{window.gtag&&gtag("event","call_click",{method:"float"})}catch(e){}});document.body.appendChild(c);}}
+ document.body.appendChild(c);}}
 if(C.whatsapp){const a=document.createElement("a");a.className="wa-float";a.href="https://wa.me/"+C.whatsapp;a.target="_blank";a.rel="noopener";a.setAttribute("aria-label","WhatsApp");
  a.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.3z"/></svg>';document.body.append(a);}
 
@@ -81,7 +81,13 @@ function setLang(L){
 let tm; function toast(m){let el=document.querySelector(".toast");if(!el){el=document.createElement("div");el.className="toast";el.setAttribute("role","status");document.body.append(el);}el.textContent=m;el.hidden=false;clearTimeout(tm);tm=setTimeout(()=>el.hidden=true,4500);}
 /* copy each request into the company CRM (fire-and-forget; WhatsApp/email still opens as before) */
 function crmLead(d){try{fetch("https://help.melsaelevators.com/public/lead",{method:"POST",mode:"no-cors",keepalive:true,headers:{"Content-Type":"text/plain"},body:JSON.stringify(Object.assign({page:location.pathname},d))});}catch(e){}}
+/* Google Ads conversions: add each conversion label here once created in Google Ads */
+const ADS={id:"AW-18534844415",labels:{call:"",whatsapp:"",lead:""}};
+function adsEvent(kind,extra){try{if(!window.gtag)return;const l=ADS.labels[kind];gtag("event",l?"conversion":kind+"_click",Object.assign(l?{send_to:ADS.id+"/"+l}:{},extra||{}));}catch(e){}}
+document.addEventListener("click",e=>{const a=e.target.closest&&e.target.closest("a[href]");if(!a)return;const h=a.getAttribute("href")||"";
+ if(h.startsWith("tel:"))adsEvent("call");else if(/wa\.me\//.test(h))adsEvent("whatsapp");},true);
 function send(subject,text){
+ adsEvent("lead");
  if(C.whatsapp){toast(t("sent"));window.open("https://wa.me/"+C.whatsapp+"?text="+encodeURIComponent(text),"_blank","noopener");return true;}
  if(C.email){location.href="mailto:"+C.email+"?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(text);return true;}
  toast(t("notSet")); return false;
