@@ -248,7 +248,7 @@ async function init() {
     // gentle turntable: sway around the front, plus a scroll-linked turn and the user's drag
     dragYaw *= drag ? 1 : 0.985; yawVel = 0;
     const sway = reduce ? 0 : Math.sin(t * 0.32) * 0.5;
-    turntable.rotation.y = 0.38 + sway - (1 - m) * 1.1 + dragYaw;
+    turntable.rotation.y = 0.38 + sway - (1 - m) * 0.6 + dragYaw;
     // a small "pop" when the finish changes
     pop = Math.max(0, pop - dt * 2.4);
     const s = 1 + Math.sin(pop * Math.PI) * 0.025; cabin.scale.setScalar(s);
