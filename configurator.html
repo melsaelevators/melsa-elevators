@@ -6,11 +6,11 @@
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','AW-18534844415');</script>
 <meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="icon" type="image/png" href="assets/logo-mark.png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="manifest" href="manifest.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Melsa"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="theme-color" content="#0b1d35">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <title>Melsa Elevators | Cabin Configurator</title>
 <style>
 :root{--navy:#0b1d35;--navy-dark:#172a40;--red:#a82935;--paper:#f5f4f0;--ink:#0b1d35;--muted:#5e6670;--line:#dddcd5;--tint:#eceae3;--gold:#c5ad87}
-*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.45 'Cormorant Garamond','Amiri',Georgia,serif}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.45 'Inter','IBM Plex Sans Arabic',system-ui,sans-serif}
 header{background:#fff;color:var(--navy);padding:14px clamp(18px,4vw,54px);display:flex;justify-content:space-between;align-items:center;gap:20px;box-shadow:0 4px 0 var(--navy),0 8px 0 var(--red);margin-bottom:8px;position:relative;z-index:2}
 .brand{display:flex;align-items:center;gap:16px}.brand img{height:68px;width:auto;display:block}.brand small{font-size:10px;letter-spacing:.28em;color:var(--muted);font-weight:700;border-inline-start:2px solid var(--red);padding-inline-start:14px}
 .tag{border:1px solid var(--navy);border-radius:999px;padding:7px 12px;font-size:11px;letter-spacing:.08em;color:var(--navy);font-weight:700}
@@ -95,14 +95,14 @@ footer a{color:#fff;font-weight:700;text-decoration:none;border-bottom:1px solid
 .view-btn:disabled{opacity:.55;cursor:default}
 @media(max-width:760px){.view-ctrls{bottom:30px}.view-btn{padding:7px 13px;font-size:11px}}
 .header-right{display:flex;align-items:center;gap:10px}
-.lang-btn{border:0;background:var(--red);color:#fff;border-radius:999px;padding:8px 14px;font:700 13px 'Cormorant Garamond','Amiri',Georgia,serif;cursor:pointer}
+.lang-btn{border:0;background:var(--red);color:#fff;border-radius:999px;padding:8px 14px;font:700 13px 'Inter','IBM Plex Sans Arabic',system-ui,sans-serif;cursor:pointer}
 .lang-btn:hover{background:#8c1f2a}
 .install-btn{border:1px solid var(--navy);background:#fff;color:var(--navy);border-radius:999px;padding:7px 13px;font-weight:700;font-size:12px;font-family:inherit;cursor:pointer}
 .install-btn:hover{background:var(--tint)}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:90;background:var(--navy);color:#fff;padding:13px 18px;border-radius:12px;font-size:13px;max-width:min(420px,calc(100% - 32px));box-shadow:0 8px 24px #0b1d3555;text-align:center;border-bottom:3px solid var(--red)}
-[dir=rtl] body,[dir=rtl] button,[dir=rtl] input{font-family:'Cormorant Garamond','Amiri',Georgia,serif}
+[dir=rtl] body,[dir=rtl] button,[dir=rtl] input{font-family:'Inter','IBM Plex Sans Arabic',system-ui,sans-serif}
 [dir=rtl] *{letter-spacing:0!important}
-[dir=rtl] .lang-btn{font-family:'Cormorant Garamond','Amiri',Georgia,serif}
+[dir=rtl] .lang-btn{font-family:'Inter','IBM Plex Sans Arabic',system-ui,sans-serif}
 .welcome{position:fixed;inset:0;z-index:100;background:#fff;display:flex;flex-direction:column;overflow:auto;transition:opacity .45s ease,visibility .45s}
 .welcome.hide{opacity:0;visibility:hidden}
 .welcome-bar{height:10px;background:var(--navy);box-shadow:0 5px 0 var(--red);flex:0 0 auto}
@@ -112,12 +112,12 @@ footer a{color:#fff;font-weight:700;text-decoration:none;border-bottom:1px solid
 .welcome-logo{width:min(300px,64vw);height:auto;margin-bottom:10px}
 .welcome-tagline{font-size:11px;letter-spacing:.32em;color:var(--muted);font-weight:700;margin-bottom:26px}
 .welcome-title{font-size:clamp(24px,5vw,34px);color:var(--navy);margin:0;line-height:1.2;letter-spacing:-.02em;font-weight:800}
-.welcome-title.ar{font-family:'Cormorant Garamond','Amiri',Georgia,serif;color:var(--red);margin-top:6px;letter-spacing:0}
+.welcome-title.ar{font-family:'Inter','IBM Plex Sans Arabic',system-ui,sans-serif;color:var(--red);margin-top:6px;letter-spacing:0}
 .welcome-text{color:var(--muted);font-size:14.5px;margin:16px 0 0;max-width:520px}
-.welcome-text.ar{font-family:'Cormorant Garamond','Amiri',Georgia,serif;margin-top:8px;font-size:15px}
+.welcome-text.ar{font-family:'Inter','IBM Plex Sans Arabic',system-ui,sans-serif;margin-top:8px;font-size:15px}
 .welcome-btns{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap;justify-content:center}
-.wbtn{border:0;border-radius:12px;padding:15px 26px;font:700 15px 'Cormorant Garamond','Amiri',Georgia,serif;cursor:pointer;min-width:190px}
-.wbtn.en{background:var(--navy);color:#fff}.wbtn.ar{background:var(--red);color:#fff;font-family:'Cormorant Garamond','Amiri',Georgia,serif;font-size:16px}
+.wbtn{border:0;border-radius:12px;padding:15px 26px;font:700 15px 'Inter','IBM Plex Sans Arabic',system-ui,sans-serif;cursor:pointer;min-width:190px}
+.wbtn.en{background:var(--navy);color:#fff}.wbtn.ar{background:var(--red);color:#fff;font-family:'Inter','IBM Plex Sans Arabic',system-ui,sans-serif;font-size:16px}
 .wbtn:hover{filter:brightness(1.08)}
 body.locked{background:#fff}
 body.locked>*:not(#lock):not(.toast){display:none!important}
