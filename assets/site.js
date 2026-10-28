@@ -82,7 +82,7 @@ let tm; function toast(m){let el=document.querySelector(".toast");if(!el){el=doc
 /* copy each request into the company CRM (fire-and-forget; WhatsApp/email still opens as before) */
 function crmLead(d){try{fetch("https://help.melsaelevators.com/public/lead",{method:"POST",mode:"no-cors",keepalive:true,headers:{"Content-Type":"text/plain"},body:JSON.stringify(Object.assign({page:location.pathname},d))});}catch(e){}}
 /* Google Ads conversions: add each conversion label here once created in Google Ads */
-const ADS={id:"AW-18534844415",labels:{call:"",whatsapp:"",lead:""}};
+const ADS={id:"AW-18534844415",labels:{call:"PRCdCI2I4KwdEP-PjYZF",whatsapp:"PRCdCI2I4KwdEP-PjYZF",lead:"PRCdCI2I4KwdEP-PjYZF"}};
 function adsEvent(kind,extra){try{if(!window.gtag)return;const l=ADS.labels[kind];gtag("event",l?"conversion":kind+"_click",Object.assign(l?{send_to:ADS.id+"/"+l}:{},extra||{}));}catch(e){}}
 document.addEventListener("click",e=>{const a=e.target.closest&&e.target.closest("a[href]");if(!a)return;const h=a.getAttribute("href")||"";
  if(h.startsWith("tel:"))adsEvent("call");else if(/wa\.me\//.test(h))adsEvent("whatsapp");},true);
