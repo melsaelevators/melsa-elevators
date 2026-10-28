@@ -161,8 +161,8 @@ body.locked #lock{display:flex;min-height:100vh;flex-direction:column}
  <div class="lock-bar"></div>
  <div class="lock-inner">
   <img src="assets/logo.png" alt="Melsa Elevators" width="400" height="308">
-  <h1 id="lockTitle" data-i18n="lockTitle">Engineers only</h1>
-  <p data-i18n="lockText">Enter the engineers' password to open the Melsa design tools.</p>
+  <h1 id="lockTitle" data-i18n="lockTitle">Private</h1>
+  <p data-i18n="lockText">Enter your password to open the Melsa design tools.</p>
   <form class="lock-form" id="lockForm">
    <input type="password" id="lockPw" autocomplete="current-password" required data-i18n-ph="lockPh" placeholder="Password">
    <button type="submit" class="btn primary lock-go" data-i18n="unlock">Unlock</button>
@@ -262,7 +262,7 @@ const T={
   h1:"Design your <em>own cabin.</em>",intro:"Explore finishes and build a look that feels right for your project. Choose the cabin style, flooring, metal finish, ceiling, control panels and door type/design.",
   step:"REAL MELSA PRODUCTS",preview:"LIVE 3D DESIGN PREVIEW",hint3d:"3D PREVIEW",customize:"Customize your cabin",sub:"Pick real Melsa products — the 3D preview updates instantly.",
   aiOnly:"Used for the AI image",spec:"Your design specification",note:"Concept preview only. Final finishes must be confirmed against available materials and real product samples.",
-  navSurvey:"Site survey",lockTitle:"Engineers only",lockText:"Enter the engineers' password to open the Melsa design tools.",lockPh:"Password",unlock:"Unlock",lockWrong:"Wrong password. Try again.",lock:"🔒 Lock",install:"Install app",iosHint:"To install: tap the Share button, then “Add to Home Screen”.",copy:"Copy design brief",copied:"Copied!",reset:"Reset",aiBtn:"Generate realistic image (AI)",aiNote:"Uses your selected Melsa products. Takes about 10–30 seconds.",
+  navSurvey:"Site survey",lockTitle:"Private",lockText:"Enter your password to open the Melsa design tools.",lockPh:"Password",unlock:"Unlock",lockWrong:"Wrong password. Try again.",lock:"🔒 Lock",install:"Install app",iosHint:"To install: tap the Share button, then “Add to Home Screen”.",copy:"Copy design brief",copied:"Copied!",reset:"Reset",aiBtn:"Generate realistic image (AI)",aiNote:"Uses your selected Melsa products. Takes about 10–30 seconds.",
   aiTitle:"AI REALISTIC PREVIEW",aiRegen:"Generate another",aiDownload:"Download image",aiDisclaimer:"AI-generated concept image for inspiration only. Final finishes, dimensions and details must be confirmed with Melsa Elevators.",
   aiLoading:"Creating your elevator design…",aiError:"Could not create the image. Please try again.",aiConn:"Connection problem. Please try again.",aiLimit:"You've reached the hourly limit. Please try again later.",
   surveyLink:"Site survey →",foot1:"MELSA ELEVATORS · DESIGN COLLECTION",foot2:"Concept configurator — not an engineering drawing",brief:"MELSA ELEVATORS — CABIN DESIGN BRIEF",
@@ -286,7 +286,7 @@ const T={
   h1:"صمّم <em>كابينتك بنفسك.</em>",intro:"استكشف الخامات واصنع الشكل المناسب لمشروعك. اختر طراز الكابينة والأرضية ولون المعدن والسقف ولوحة التحكم ونوع الباب وتصميمه.",
   step:"منتجات ميلسا الحقيقية",preview:"معاينة ثلاثية الأبعاد مباشرة",hint3d:"معاينة 3D",customize:"خصّص كابينتك",sub:"اختر من منتجات ميلسا الحقيقية — تتحدث المعاينة فورًا.",
   aiOnly:"يُستخدم لصورة الذكاء الاصطناعي",spec:"مواصفات تصميمك",note:"معاينة تصورية فقط. يجب تأكيد الخامات النهائية مع الخامات المتاحة وعينات المنتجات الحقيقية.",
-  navSurvey:"معاينة الموقع",lockTitle:"للمهندسين فقط",lockText:"اكتب كلمة سر المهندسين لفتح أدوات ميلسا للتصميم.",lockPh:"كلمة السر",unlock:"فتح",lockWrong:"كلمة السر غير صحيحة. حاول مرة أخرى.",lock:"🔒 قفل",install:"ثبّت التطبيق",iosHint:"للتثبيت: اضغط زر المشاركة ثم «إضافة إلى الشاشة الرئيسية».",copy:"نسخ ملخص التصميم",copied:"تم النسخ!",reset:"إعادة ضبط",aiBtn:"إنشاء صورة واقعية بالذكاء الاصطناعي",aiNote:"تستخدم منتجات ميلسا التي اخترتها. تستغرق حوالي ١٠–٣٠ ثانية.",
+  navSurvey:"معاينة الموقع",lockTitle:"خاص",lockText:"اكتب كلمة السر لفتح أدوات ميلسا للتصميم.",lockPh:"كلمة السر",unlock:"فتح",lockWrong:"كلمة السر غير صحيحة. حاول مرة أخرى.",lock:"🔒 قفل",install:"ثبّت التطبيق",iosHint:"للتثبيت: اضغط زر المشاركة ثم «إضافة إلى الشاشة الرئيسية».",copy:"نسخ ملخص التصميم",copied:"تم النسخ!",reset:"إعادة ضبط",aiBtn:"إنشاء صورة واقعية بالذكاء الاصطناعي",aiNote:"تستخدم منتجات ميلسا التي اخترتها. تستغرق حوالي ١٠–٣٠ ثانية.",
   aiTitle:"معاينة واقعية بالذكاء الاصطناعي",aiRegen:"إنشاء صورة أخرى",aiDownload:"تحميل الصورة",aiDisclaimer:"صورة تصورية بالذكاء الاصطناعي للإلهام فقط. يجب تأكيد الخامات والمقاسات والتفاصيل النهائية مع إلكتروميلسا لتصميم وتركيب وتوريد وصيانة المصاعد.",
   aiLoading:"جارٍ إنشاء تصميم مصعدك…",aiError:"تعذر إنشاء الصورة. حاول مرة أخرى.",aiConn:"مشكلة في الاتصال. حاول مرة أخرى.",aiLimit:"وصلت للحد المسموح في الساعة. حاول مرة أخرى لاحقًا.",
   surveyLink:"معاينة الموقع ←",foot1:"إلكتروميلسا لتصميم وتركيب وتوريد وصيانة المصاعد · مجموعة التصميم",foot2:"أداة تصميم تصورية — ليست رسمًا هندسيًا",brief:"إلكتروميلسا لتصميم وتركيب وتوريد وصيانة المصاعد — ملخص تصميم الكابينة",
@@ -343,8 +343,8 @@ if("serviceWorker" in navigator) window.addEventListener("load",()=>navigator.se
   toast.textContent=t("iosHint");toast.hidden=false;clearTimeout(tm);tm=setTimeout(()=>toast.hidden=true,7000);
  });
 })();
-// Engineers' password (same as the site survey page; only a salted hash is stored)
-const LOCK={salt:"186f61d54c8efec36171f41507c2dbd0",hash:"37bcf36379b662ce9b593233277aaad24976dc04214fbdb053e901893569cf61",iter:150000,key:"melsaSurveyKey"};
+// Owner-only password (only a salted hash is stored)
+const LOCK={salt:"ea86b21adca7a7ad596354e76c533eff",hash:"07cb7015011605f5ddf65359e771316e2f92391fc85398cf4d70afd0f559b081",iter:150000,key:"melsaOwnerKey"};
 async function derive(pw){
  const enc=new TextEncoder(), k=await crypto.subtle.importKey("raw",enc.encode(pw),"PBKDF2",false,["deriveBits"]);
  const salt=new Uint8Array(LOCK.salt.match(/../g).map(h=>parseInt(h,16)));
