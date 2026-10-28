@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Melsa | Owner dashboard</title>
+<link rel="icon" type="image/png" href="assets/logo-mark.png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="theme-color" content="#023584">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#023584;--red:#d8031a;--paper:#f3f6fb;--ink:#0f1f3a;--muted:#5d6a80;--line:#d6deeb;--tint:#eaf0fa;--ok:#0a8a4a;--warn:#b26a00}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 Cairo,system-ui,Arial,sans-serif}
+a{color:inherit}
+header{background:#fff;padding:12px clamp(16px,4vw,48px);display:flex;justify-content:space-between;align-items:center;gap:12px;box-shadow:0 4px 0 var(--navy),0 8px 0 var(--red);margin-bottom:8px}
+header img{height:52px;display:block}
+header .who{font-size:12px;color:var(--muted);text-align:end}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:0;border-radius:10px;padding:10px 16px;font:inherit;font-weight:700;cursor:pointer;text-decoration:none;background:var(--navy);color:#fff}
+.btn.ghost{background:#fff;color:var(--navy);border:1px solid var(--line)}
+main{max-width:1100px;margin:0 auto;padding:22px clamp(16px,3vw,32px) 48px}
+h1{color:var(--navy);margin:6px 0 2px;font-size:clamp(24px,3vw,32px)}
+.sub{color:var(--muted);margin:0 0 20px}
+h2{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin:28px 0 10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;text-decoration:none;display:flex;gap:12px;align-items:flex-start;transition:border-color .15s,transform .15s}
+a.card:hover{border-color:var(--navy);transform:translateY(-1px)}
+.card .ic{flex:none;width:42px;height:42px;border-radius:12px;background:var(--tint);display:grid;place-items:center;font-size:21px}
+.card b{display:block;color:var(--navy);font-size:15.5px}
+.card span{display:block;color:var(--muted);font-size:13px;line-height:1.45}
+.card .ext{font-size:11px;color:var(--muted);margin-top:4px}
+.ads{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;border-bottom:4px solid var(--navy)}
+.ads-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.ads h3{margin:0;color:var(--navy);font-size:18px}
+.ads .meta{color:var(--muted);font-size:13px}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:16px 0}
+.kpi{background:var(--paper);border-radius:12px;padding:12px}
+.kpi small{display:block;color:var(--muted);font-size:12px}
+.kpi strong{font-size:20px;color:var(--ink)}
+.bar{height:12px;background:var(--tint);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--navy);border-radius:99px;width:0;transition:width .4s}
+.status{margin-top:10px;font-weight:700;font-size:14px}
+.status.ok{color:var(--ok)}.status.warn{color:var(--warn)}.status.bad{color:var(--red)}
+.spend{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:14px}
+.spend input{font:inherit;font-size:16px;padding:9px 12px;border:1px solid var(--line);border-radius:10px;width:150px}
+.spend label{font-size:13px;color:var(--muted)}
+.note{font-size:12.5px;color:var(--muted);margin-top:8px}
+.todo{background:#fff;border:1px solid var(--line);border-radius:16px;padding:6px 16px}
+.todo label{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.todo label:last-child{border-bottom:0}
+.todo input{width:19px;height:19px;margin-top:3px;flex:none}
+.todo input:checked+span{color:var(--muted);text-decoration:line-through}
+.todo small{display:block;color:var(--muted);font-size:12px}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
+/* lock */
+body.locked>*:not(#lock){display:none!important}
+#lock{display:none}
+body.locked #lock{display:flex;min-height:100vh;flex-direction:column}
+.lock-bar{height:10px;background:var(--navy);box-shadow:0 5px 0 var(--red)}
+.lock-inner{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px 20px;max-width:400px;margin:0 auto;width:100%}
+.lock-inner img{width:min(220px,60vw);margin-bottom:16px}
+.lock-inner h1{margin:0 0 4px}
+.lock-inner p{color:var(--muted);font-size:13.5px;margin:0 0 16px}
+.lock-form{display:flex;flex-direction:column;gap:10px;width:100%}
+.lock-form input{border:2px solid var(--navy);border-radius:10px;padding:13px 14px;font:inherit;font-size:16px;text-align:center}
+.lock-err{color:var(--red);font-size:12.5px;min-height:18px}
+@media(max-width:700px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}header img{height:42px}}
+</style>
+</head>
+<body class="locked">
+<div id="lock" role="dialog" aria-modal="true" aria-labelledby="lockTitle">
+ <div class="lock-bar"></div>
+ <div class="lock-inner">
+  <img src="assets/logo.png" alt="Melsa Elevators" width="400" height="308">
+  <h1 id="lockTitle">Private</h1>
+  <p>Enter your password to open the owner dashboard.</p>
+  <form class="lock-form" id="lockForm">
+   <input type="password" id="lockPw" autocomplete="current-password" required placeholder="Password">
+   <button type="submit" class="btn">Unlock</button>
+   <div class="lock-err" id="lockErr" role="alert"></div>
+  </form>
+ </div>
+</div>
+
+<header>
+ <a href="index.html"><img src="assets/logo.png" alt="Melsa Elevators"></a>
+ <div style="display:flex;gap:10px;align-items:center">
+  <div class="who">Owner dashboard<br><span id="today"></span></div>
+  <button class="btn ghost" id="lockBtn" type="button">🔒 Lock</button>
+ </div>
+</header>
+
+<main>
+ <h1>Welcome back</h1>
+ <p class="sub">Everything you need to run Melsa in one place. Only you can open this page.</p>
+
+ <h2>Google Ads offer</h2>
+ <section class="ads">
+  <div class="ads-top">
+   <div><h3>Spend 12,000 EGP → get 12,000 EGP credit</h3>
+   <div class="meta">Account 899-281-6852 · Deadline <b>27 December 2026</b></div></div>
+   <a class="btn" href="https://ads.google.com/" target="_blank" rel="noopener">Open Google Ads ↗</a>
+  </div>
+  <div class="kpis">
+   <div class="kpi"><small>Spent so far</small><strong id="kSpent">—</strong></div>
+   <div class="kpi"><small>Still to spend</small><strong id="kLeft">—</strong></div>
+   <div class="kpi"><small>Days left</small><strong id="kDays">—</strong></div>
+   <div class="kpi"><small>Needed per day</small><strong id="kNeed">—</strong></div>
+  </div>
+  <div class="bar"><i id="kBar"></i></div>
+  <div class="status" id="kStatus"></div>
+  <div class="spend">
+   <label for="spentIn">Total cost from Google Ads (EGP):</label>
+   <input id="spentIn" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 1450">
+   <button class="btn" id="spentSave" type="button">Update</button>
+  </div>
+  <div class="note">Copy the <b>Cost</b> number from Google Ads (Campaigns, date range "All time") and press Update. It's saved on this device. Pause the campaign once you pass 12,000.</div>
+ </section>
+
+ <h2>My tools</h2>
+ <div class="grid">
+  <a class="card" href="configurator.html"><div class="ic">🛗</div><div><b>Cabin configurator</b><span>Design a cabin, pick finishes, make 3D and AI images for clients.</span></div></a>
+  <a class="card" href="survey.html"><div class="ic">📐</div><div><b>Site survey</b><span>Shaft measurements and parts list. Engineers use it with their own password.</span></div></a>
+  <a class="card" href="quote.html"><div class="ic">📝</div><div><b>Quote request form</b><span>The form customers fill in. Requests arrive on WhatsApp.</span></div></a>
+  <a class="card" href="review.html"><div class="ic">⭐</div><div><b>Google review page</b><span>Send this link to happy customers to collect reviews.</span></div></a>
+ </div>
+
+ <h2>Customers &amp; leads</h2>
+ <div class="grid">
+  <a class="card" href="https://web.whatsapp.com/" target="_blank" rel="noopener"><div class="ic">💬</div><div><b>WhatsApp</b><span>Quote and maintenance requests from the site land here (01017765778).</span><div class="ext">web.whatsapp.com ↗</div></div></a>
+  <a class="card" id="crmCard" href="#" target="_blank" rel="noopener"><div class="ic">📇</div><div><b>Company CRM</b><span id="crmText">Every site request is also copied to the CRM.</span><div class="ext" id="crmExt">Tap to add the CRM link</div></div></a>
+  <a class="card" href="https://business.google.com/" target="_blank" rel="noopener"><div class="ic">📍</div><div><b>Google Business Profile</b><span>Your Maps listing: reviews, photos, address and hours.</span><div class="ext">business.google.com ↗</div></div></a>
+ </div>
+
+ <h2>Marketing</h2>
+ <div class="grid">
+  <a class="card" href="https://ads.google.com/" target="_blank" rel="noopener"><div class="ic">📈</div><div><b>Google Ads</b><span>Campaign #1 (Search). Check ads, keywords and cost.</span><div class="ext">ads.google.com ↗</div></div></a>
+  <a class="card" href="https://www.facebook.com/Madelmelsa" target="_blank" rel="noopener"><div class="ic">👍</div><div><b>Facebook page</b><span>Posts and messages.</span><div class="ext">facebook.com ↗</div></div></a>
+  <a class="card" href="https://search.google.com/search-console" target="_blank" rel="noopener"><div class="ic">🔎</div><div><b>Search Console</b><span>How the site appears in Google search.</span><div class="ext">search.google.com ↗</div></div></a>
+ </div>
+
+ <h2>Website</h2>
+ <div class="grid">
+  <a class="card" href="index.html"><div class="ic">🌐</div><div><b>Public site</b><span>melsaelevators.com, as customers see it.</span></div></a>
+  <a class="card" href="https://github.com/melsaelevators/melsa-elevators" target="_blank" rel="noopener"><div class="ic">🗂️</div><div><b>Site code (GitHub)</b><span>Where the website files live.</span><div class="ext">github.com ↗</div></div></a>
+  <a class="card" href="https://dash.cloudflare.com/" target="_blank" rel="noopener"><div class="ic">☁️</div><div><b>Cloudflare</b><span>AI image worker and its secret keys.</span><div class="ext">dash.cloudflare.com ↗</div></div></a>
+ </div>
+
+ <h2>To do</h2>
+ <div class="todo" id="todo">
+  <label><input type="checkbox" data-id="sitelink"><span>Remove the "صمم اسانسيرك بنفسك" sitelink in Google Ads<small>It points to the private configurator.</small></span></label>
+  <label><input type="checkbox" data-id="keywords"><span>Check keywords are Phrase match<small>Google Ads → Search keywords.</small></span></label>
+  <label><input type="checkbox" data-id="week1"><span>Week 1 check: cost, clicks and conversions<small>Raise the click limit to 30 EGP if spending under 200/day.</small></span></label>
+  <label><input type="checkbox" data-id="gbp"><span>Make sure the Google Maps address says Nasr City<small>The ad text mentioned "Ossim".</small></span></label>
+  <label><input type="checkbox" data-id="pause"><span>Pause the campaign when cost passes 12,000 EGP<small>Credit arrives within about 35 days.</small></span></label>
+ </div>
+</main>
+<footer>Melsa Elevators · private page, not linked from the public site</footer>
+
+<script>
+const LOCK={salt:"ea86b21adca7a7ad596354e76c533eff",hash:"07cb7015011605f5ddf65359e771316e2f92391fc85398cf4d70afd0f559b081",iter:150000,key:"melsaOwnerKey"};
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+async function derive(pw){
+ const enc=new TextEncoder(),k=await crypto.subtle.importKey("raw",enc.encode(pw),"PBKDF2",false,["deriveBits"]);
+ const salt=new Uint8Array(LOCK.salt.match(/../g).map(h=>parseInt(h,16)));
+ const bits=await crypto.subtle.deriveBits({name:"PBKDF2",hash:"SHA-256",salt,iterations:LOCK.iter},k,256);
+ return [...new Uint8Array(bits)].map(b=>b.toString(16).padStart(2,"0")).join("");
+}
+if(store.get(LOCK.key)===LOCK.hash)document.body.classList.remove("locked");
+document.getElementById("lockForm").addEventListener("submit",async e=>{
+ e.preventDefault();const inp=document.getElementById("lockPw"),err=document.getElementById("lockErr");err.textContent="";
+ if(await derive(inp.value.trim())===LOCK.hash){store.set(LOCK.key,LOCK.hash);inp.value="";document.body.classList.remove("locked");scrollTo(0,0);}
+ else{err.textContent="Wrong password. Try again.";inp.select();}
+});
+document.getElementById("lockBtn").addEventListener("click",()=>{try{localStorage.removeItem(LOCK.key)}catch(e){}location.reload();});
+document.getElementById("today").textContent=new Date().toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short",year:"numeric"});
+
+/* Google Ads offer tracker */
+const TARGET=12000,DEADLINE=new Date("2026-12-27T23:59:59+02:00");
+const fmt=n=>Math.round(n).toLocaleString("en-US")+" EGP";
+function renderAds(){
+ const spent=parseFloat(store.get("melsaAdsSpent")||"0")||0;
+ const left=Math.max(0,TARGET-spent), days=Math.max(0,Math.ceil((DEADLINE-new Date())/864e5));
+ const need=days?left/days:left;
+ document.getElementById("kSpent").textContent=fmt(spent);
+ document.getElementById("kLeft").textContent=fmt(left);
+ document.getElementById("kDays").textContent=days;
+ document.getElementById("kNeed").textContent=left?fmt(need):"Done";
+ document.getElementById("kBar").style.width=Math.min(100,spent/TARGET*100)+"%";
+ const s=document.getElementById("kStatus");
+ if(left===0){s.className="status ok";s.textContent="✅ Target reached. Pause the campaign now; the credit arrives within about 35 days.";}
+ else if(!days){s.className="status bad";s.textContent="Deadline passed.";}
+ else if(need<=250){s.className="status ok";s.textContent="On track: the 250 EGP/day budget covers what's left.";}
+ else if(need<=320){s.className="status warn";s.textContent="Slightly behind: raise the daily budget to about "+Math.ceil(need/10)*10+" EGP.";}
+ else{s.className="status bad";s.textContent="Behind: raise the budget to "+Math.ceil(need/10)*10+" EGP/day, add locations or raise the click limit.";}
+ const inp=document.getElementById("spentIn"); if(spent&&!inp.value)inp.placeholder=String(spent);
+}
+document.getElementById("spentSave").addEventListener("click",()=>{const v=parseFloat(document.getElementById("spentIn").value);if(!isNaN(v)&&v>=0){store.set("melsaAdsSpent",String(v));document.getElementById("spentIn").value="";renderAds();}});
+renderAds();
+
+/* CRM link: set once on this device */
+const crm=document.getElementById("crmCard");
+function renderCrm(){const u=store.get("melsaCrmUrl");if(u){crm.href=u;document.getElementById("crmExt").textContent=u.replace(/^https?:\/\//,"")+" ↗";}}
+crm.addEventListener("click",e=>{if(store.get("melsaCrmUrl"))return;e.preventDefault();const u=prompt("Paste the CRM web address:");if(u&&/^https?:\/\//.test(u.trim())){store.set("melsaCrmUrl",u.trim());renderCrm();}});
+crm.addEventListener("contextmenu",e=>{e.preventDefault();const u=prompt("Change the CRM web address:",store.get("melsaCrmUrl")||"");if(u!==null){store.set("melsaCrmUrl",u.trim());renderCrm();}});
+renderCrm();
+
+/* To-do ticks remembered on this device */
+let done={};try{done=JSON.parse(store.get("melsaTodo")||"{}")}catch(e){}
+document.querySelectorAll("#todo input").forEach(c=>{c.checked=!!done[c.dataset.id];c.addEventListener("change",()=>{done[c.dataset.id]=c.checked;store.set("melsaTodo",JSON.stringify(done));});});
+</script>
+</body>
+</html>
