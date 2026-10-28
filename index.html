@@ -98,10 +98,16 @@
 .chap-media.one img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(calc(1.3 - .3 * var(--m,1)))}
 .chap-media.wipe{transform:none;opacity:1;clip-path:inset(0 calc((1 - var(--m,1)) * 46%) round 24px)}
 .chap-media.trio{width:min(1000px,94vw);height:min(48vh,520px)}
-.trio img{position:absolute;top:0;left:33%;width:34%;height:100%;object-fit:contain;mix-blend-mode:multiply}
+.trio{perspective:1400px}
+.trio .cab{position:absolute;top:0;left:33%;width:34%;height:100%;transform-style:preserve-3d}
+.trio .cab::after{content:"";position:absolute;left:12%;right:12%;bottom:-2%;height:7%;border-radius:50%;background:radial-gradient(closest-side,#0b1d3552,transparent);filter:blur(4px);z-index:-1}
+.trio .spin{width:100%;height:100%;transform-style:preserve-3d;animation:sway 7s ease-in-out infinite alternate}
+.trio .spin img{width:100%;height:100%;object-fit:contain;display:block;filter:drop-shadow(0 26px 22px #0b1d3533)}
 .trio .c{z-index:2;transform:scale(calc(.8 + .2 * var(--m,1)))}
-.trio .l{transform:translateX(calc(var(--m,1) * -100%)) scale(.9);opacity:var(--m,1)}
-.trio .r{transform:translateX(calc(var(--m,1) * 100%)) scale(.9);opacity:var(--m,1)}
+.trio .l{transform:translateX(calc(var(--m,1) * -100%)) scale(.88);opacity:var(--m,1)}
+.trio .r{transform:translateX(calc(var(--m,1) * 100%)) scale(.88);opacity:var(--m,1)}
+.trio .l .spin{animation-delay:-2.3s}.trio .r .spin{animation-delay:-4.6s;animation-direction:alternate-reverse}
+@keyframes sway{0%{transform:rotateY(-24deg) translateY(0)}50%{transform:rotateY(0deg) translateY(-8px)}100%{transform:rotateY(24deg) translateY(0)}}
 .feats{position:absolute;left:0;right:0;bottom:22px;display:flex;justify-content:center;gap:10px;flex-wrap:wrap;padding:0 14px}
 .feats span{background:#0b1d35b3;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);color:#fff;border:1px solid #ffffff2e;border-radius:980px;padding:9px 18px;font-size:15px;font-weight:500;opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
 .feats.on span{opacity:1;transform:none}.feats.on span:nth-child(2){transition-delay:.15s}.feats.on span:nth-child(3){transition-delay:.3s}
@@ -137,16 +143,16 @@
  .chap{height:200vh}.statement{padding:16vh 0}
  .chap-media.one{height:40vh;width:94vw}
  .chap-media.trio{height:36vh}
- .trio img{left:30%;width:40%}
- .trio .l{transform:translateX(calc(var(--m,1) * -72%)) scale(.82)}
- .trio .r{transform:translateX(calc(var(--m,1) * 72%)) scale(.82)}
+ .trio .cab{left:30%;width:40%}
+ .trio .l{transform:translateX(calc(var(--m,1) * -72%)) scale(.8)}
+ .trio .r{transform:translateX(calc(var(--m,1) * 72%)) scale(.8)}
  .numgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
  .feats span{font-size:13px;padding:7px 13px}
  .nums,.lineup,.trust{padding:80px 0}.finale{padding:100px 0}
 }
 @media(prefers-reduced-motion:reduce){
  .chap{height:auto}.stick{position:relative;height:auto;min-height:0;padding:90px 16px}
- .words span{opacity:1}.track{animation:none;flex-wrap:wrap;justify-content:center;width:auto}
+ .words span{opacity:1}.trio .spin{animation:none}.track{animation:none;flex-wrap:wrap;justify-content:center;width:auto}
 }
 </style>
 <script>
@@ -219,7 +225,9 @@ window.PAGE_T={
   <div class="stick">
    <div class="chap-text"><div class="eyebrow" data-i18n="s2"></div><h2 data-i18n-html="c2h"></h2><p data-i18n="c2p"></p><a class="more" href="catalog.html" data-i18n="c2a"></a></div>
    <div class="chap-media trio">
-    <img class="l" src="assets/cabin_designs_01.jpg" alt="" loading="lazy"><img class="r" src="assets/cabin_designs_06.jpg" alt="" loading="lazy"><img class="c" src="assets/cabin_designs_02.jpg" alt="" loading="lazy">
+    <div class="cab l"><div class="spin"><img src="assets/cutouts/cabin_01.webp" alt="" loading="lazy"></div></div>
+    <div class="cab r"><div class="spin"><img src="assets/cutouts/cabin_03.webp" alt="" loading="lazy"></div></div>
+    <div class="cab c"><div class="spin"><img src="assets/cutouts/cabin_02.webp" alt="" loading="lazy"></div></div>
    </div>
   </div>
  </section>
