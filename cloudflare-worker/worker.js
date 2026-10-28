@@ -60,19 +60,20 @@ function same(a, b) {
 
 // Google Ads numbers: the Ads script pushes them hourly, the owner dashboard reads them.
 async function adsRoute(request, env, origin, path) {
-  if (!env.ADS) return json({ error: "Server is missing the ADS storage." }, 500, origin);
+  const kv = env.ADS || env.Ads; // binding name, either spelling
+  if (!kv) return json({ error: "Server is missing the ADS storage." }, 500, origin);
   if (path === "/ads/push" && request.method === "POST") {
     if (!same(request.headers.get("X-Push-Key"), env.ADS_PUSH_KEY)) return json({ error: "Not allowed" }, 403, origin);
     const text = await request.text();
     if (text.length > 200_000) return json({ error: "Too large" }, 413, origin);
     try { JSON.parse(text); } catch { return json({ error: "Bad request" }, 400, origin); }
-    await env.ADS.put("latest", text);
+    await kv.put("latest", text);
     return json({ ok: true }, 200, origin);
   }
   if (path === "/ads/stats" && request.method === "GET") {
     if (!ALLOWED_ORIGINS.includes(origin)) return json({ error: "Not allowed" }, 403, origin);
     if (!same(request.headers.get("X-Owner-Token"), env.OWNER_TOKEN)) return json({ error: "Not allowed" }, 403, origin);
-    const latest = await env.ADS.get("latest");
+    const latest = await kv.get("latest");
     return new Response(latest || "{}", { headers: { "Content-Type": "application/json", "Cache-Control": "no-store", ...cors(origin) } });
   }
   return json({ error: "Not found" }, 404, origin);
