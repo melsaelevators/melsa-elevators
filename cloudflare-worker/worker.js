@@ -6,6 +6,11 @@
  * Gemini as references, and returns the generated image.
  *
  * Setup: add a secret named GEMINI_API_KEY in the worker's Settings → Variables.
+ *
+ * Google Ads stats for the owner dashboard (admin.html):
+ *  - KV namespace bound as ADS
+ *  - secret ADS_PUSH_KEY: the Google Ads script sends it when it pushes numbers
+ *  - secret OWNER_TOKEN: the dashboard sends it (derived from the owner password)
  */
 
 const ALLOWED_ORIGINS = ["https://melsaelevators.com", "https://www.melsaelevators.com", "https://melsaelevators.github.io"];
@@ -23,8 +28,8 @@ const hits = new Map();
 function cors(origin) {
   return {
     "Access-Control-Allow-Origin": ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0],
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, X-Owner-Token",
     "Vary": "Origin",
   };
 }
@@ -45,6 +50,34 @@ function toBase64(buffer) {
   return btoa(binary);
 }
 
+function same(a, b) {
+  a = String(a || ""); b = String(b || "");
+  if (!a || !b || a.length !== b.length) return false;
+  let d = 0;
+  for (let i = 0; i < a.length; i++) d |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return d === 0;
+}
+
+// Google Ads numbers: the Ads script pushes them hourly, the owner dashboard reads them.
+async function adsRoute(request, env, origin, path) {
+  if (!env.ADS) return json({ error: "Server is missing the ADS storage." }, 500, origin);
+  if (path === "/ads/push" && request.method === "POST") {
+    if (!same(request.headers.get("X-Push-Key"), env.ADS_PUSH_KEY)) return json({ error: "Not allowed" }, 403, origin);
+    const text = await request.text();
+    if (text.length > 200_000) return json({ error: "Too large" }, 413, origin);
+    try { JSON.parse(text); } catch { return json({ error: "Bad request" }, 400, origin); }
+    await env.ADS.put("latest", text);
+    return json({ ok: true }, 200, origin);
+  }
+  if (path === "/ads/stats" && request.method === "GET") {
+    if (!ALLOWED_ORIGINS.includes(origin)) return json({ error: "Not allowed" }, 403, origin);
+    if (!same(request.headers.get("X-Owner-Token"), env.OWNER_TOKEN)) return json({ error: "Not allowed" }, 403, origin);
+    const latest = await env.ADS.get("latest");
+    return new Response(latest || "{}", { headers: { "Content-Type": "application/json", "Cache-Control": "no-store", ...cors(origin) } });
+  }
+  return json({ error: "Not found" }, 404, origin);
+}
+
 function tooMany(ip) {
   const now = Date.now();
   const list = (hits.get(ip) || []).filter((t) => now - t < 3600_000);
@@ -58,6 +91,8 @@ export default {
   async fetch(request, env) {
     const origin = request.headers.get("Origin") || "";
     if (request.method === "OPTIONS") return new Response(null, { headers: cors(origin) });
+    const path = new URL(request.url).pathname;
+    if (path.startsWith("/ads/")) return adsRoute(request, env, origin, path);
     if (request.method !== "POST") return json({ error: "Not found" }, 404, origin);
     if (!ALLOWED_ORIGINS.includes(origin)) return json({ error: "Not allowed" }, 403, origin);
     if (!env.GEMINI_API_KEY) return json({ error: "Server is missing GEMINI_API_KEY." }, 500, origin);

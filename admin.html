@@ -62,6 +62,32 @@ body.locked #lock{display:flex;min-height:100vh;flex-direction:column}
 .lock-form{display:flex;flex-direction:column;gap:10px;width:100%}
 .lock-form input{border:2px solid var(--navy);border-radius:10px;padding:13px 14px;font:inherit;font-size:16px;text-align:center}
 .lock-err{color:var(--red);font-size:12.5px;min-height:18px}
+.live{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);margin-top:6px}
+.live i{width:9px;height:9px;border-radius:50%;background:#aab4c4;flex:none}
+.live.on i{background:var(--ok);box-shadow:0 0 0 4px #0a8a4a22}
+.live.old i{background:var(--warn)}
+.perf{display:none}.perf.show{display:block}
+.periods{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.period{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px}
+.period h4{margin:0 0 6px;font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+.period strong{display:block;font-size:19px;color:var(--navy)}
+.period span{font-size:12.5px;color:var(--muted)}
+.box{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin-top:12px}
+.box h3{margin:0 0 10px;font-size:15px;color:var(--navy)}
+.chart{display:flex;align-items:flex-end;gap:3px;height:120px;border-bottom:1px solid var(--line);padding-top:6px}
+.chart div{flex:1;background:var(--navy);border-radius:4px 4px 0 0;min-height:2px;position:relative}
+.chart div:hover::after{content:attr(data-t);position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:11px;padding:3px 6px;border-radius:6px;white-space:nowrap;margin-bottom:4px}
+.axis{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:4px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:start;color:var(--muted);font-weight:700;font-size:11.5px;padding:6px 6px;border-bottom:1px solid var(--line)}
+td{padding:7px 6px;border-bottom:1px solid var(--line)}
+td.n,th.n{text-align:end;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.pill{display:inline-block;border-radius:99px;padding:1px 9px;font-size:11.5px;font-weight:700;background:var(--tint);color:var(--navy)}
+.pill.ok{background:#e3f5ec;color:var(--ok)}.pill.bad{background:#fde7ea;color:var(--red)}.pill.warn{background:#fff2dc;color:var(--warn)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.empty{color:var(--muted);font-size:13px}
+@media(max-width:700px){.periods{grid-template-columns:repeat(2,minmax(0,1fr))}.two{grid-template-columns:1fr}}
 @media(max-width:700px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}header img{height:42px}}
 </style>
 </head>
@@ -99,6 +125,7 @@ body.locked #lock{display:flex;min-height:100vh;flex-direction:column}
    <div class="meta">Account 899-281-6852 · Deadline <b>27 December 2026</b></div></div>
    <a class="btn" href="https://ads.google.com/" target="_blank" rel="noopener">Open Google Ads ↗</a>
   </div>
+  <div class="live" id="live"><i></i><span id="liveText">Not connected yet: numbers below are typed in by hand.</span></div>
   <div class="kpis">
    <div class="kpi"><small>Spent so far</small><strong id="kSpent">—</strong></div>
    <div class="kpi"><small>Still to spend</small><strong id="kLeft">—</strong></div>
@@ -107,12 +134,24 @@ body.locked #lock{display:flex;min-height:100vh;flex-direction:column}
   </div>
   <div class="bar"><i id="kBar"></i></div>
   <div class="status" id="kStatus"></div>
-  <div class="spend">
+  <div class="spend" id="manual">
    <label for="spentIn">Total cost from Google Ads (EGP):</label>
    <input id="spentIn" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 1450">
    <button class="btn" id="spentSave" type="button">Update</button>
   </div>
-  <div class="note">Copy the <b>Cost</b> number from Google Ads (Campaigns, date range "All time") and press Update. It's saved on this device. Pause the campaign once you pass 12,000.</div>
+  <div class="note" id="manualNote">Copy the <b>Cost</b> number from Google Ads (Campaigns, date range "All time") and press Update. It's saved on this device. Pause the campaign once you pass 12,000.</div>
+ </section>
+
+ <section class="perf" id="perf">
+  <h2>Google Ads performance</h2>
+  <div class="periods" id="periods"></div>
+  <div class="box"><h3>Daily cost</h3><div class="chart" id="chart"></div><div class="axis"><span id="axFrom"></span><span id="axTo"></span></div></div>
+  <div class="two">
+   <div class="box"><h3>Campaigns</h3><div id="camps"></div></div>
+   <div class="box"><h3>Ads status</h3><div id="adsSt"></div></div>
+  </div>
+  <div class="box"><h3>Top keywords</h3><div id="kws"></div></div>
+  <div class="box"><h3>What people searched</h3><div id="terms"></div><div class="note">If you see searches unrelated to elevators sales or maintenance (jobs, parts, courses…), add them as negative keywords in Google Ads.</div></div>
  </section>
 
  <h2>My tools</h2>
@@ -146,6 +185,7 @@ body.locked #lock{display:flex;min-height:100vh;flex-direction:column}
 
  <h2>To do</h2>
  <div class="todo" id="todo">
+  <label><input type="checkbox" data-id="live"><span>Connect live Google Ads numbers<small>Cloudflare: storage + 2 secrets + new worker code. Google Ads: paste the script and run it hourly.</small></span></label>
   <label><input type="checkbox" data-id="sitelink"><span>Remove the "صمم اسانسيرك بنفسك" sitelink in Google Ads<small>It points to the private configurator.</small></span></label>
   <label><input type="checkbox" data-id="keywords"><span>Check keywords are Phrase match<small>Google Ads → Search keywords.</small></span></label>
   <label><input type="checkbox" data-id="week1"><span>Week 1 check: cost, clicks and conversions<small>Raise the click limit to 30 EGP if spending under 200/day.</small></span></label>
@@ -167,7 +207,7 @@ async function derive(pw){
 if(store.get(LOCK.key)===LOCK.hash)document.body.classList.remove("locked");
 document.getElementById("lockForm").addEventListener("submit",async e=>{
  e.preventDefault();const inp=document.getElementById("lockPw"),err=document.getElementById("lockErr");err.textContent="";
- if(await derive(inp.value.trim())===LOCK.hash){store.set(LOCK.key,LOCK.hash);inp.value="";document.body.classList.remove("locked");scrollTo(0,0);}
+ if(await derive(inp.value.trim())===LOCK.hash){store.set(LOCK.key,LOCK.hash);const pw=inp.value.trim();inp.value="";document.body.classList.remove("locked");scrollTo(0,0);ownerToken(pw).then(t=>{store.set("melsaOwnerToken",t);loadLive();});}
  else{err.textContent="Wrong password. Try again.";inp.select();}
 });
 document.getElementById("lockBtn").addEventListener("click",()=>{try{localStorage.removeItem(LOCK.key)}catch(e){}location.reload();});
@@ -177,7 +217,7 @@ document.getElementById("today").textContent=new Date().toLocaleDateString("en-G
 const TARGET=12000,DEADLINE=new Date("2026-12-27T23:59:59+02:00");
 const fmt=n=>Math.round(n).toLocaleString("en-US")+" EGP";
 function renderAds(){
- const spent=parseFloat(store.get("melsaAdsSpent")||"0")||0;
+ const spent=LIVE&&LIVE.total?LIVE.total.cost:(parseFloat(store.get("melsaAdsSpent")||"0")||0);
  const left=Math.max(0,TARGET-spent), days=Math.max(0,Math.ceil((DEADLINE-new Date())/864e5));
  const need=days?left/days:left;
  document.getElementById("kSpent").textContent=fmt(spent);
@@ -194,7 +234,61 @@ function renderAds(){
  const inp=document.getElementById("spentIn"); if(spent&&!inp.value)inp.placeholder=String(spent);
 }
 document.getElementById("spentSave").addEventListener("click",()=>{const v=parseFloat(document.getElementById("spentIn").value);if(!isNaN(v)&&v>=0){store.set("melsaAdsSpent",String(v));document.getElementById("spentIn").value="";renderAds();}});
+let LIVE=null;
 renderAds();
+
+/* Live Google Ads numbers (pushed hourly by a Google Ads script to the worker) */
+const STATS_URL="https://melsa-ai.joeadel755.workers.dev/ads/stats";
+async function ownerToken(pw){
+ const enc=new TextEncoder(),k=await crypto.subtle.importKey("raw",enc.encode(pw),"PBKDF2",false,["deriveBits"]);
+ const bits=await crypto.subtle.deriveBits({name:"PBKDF2",hash:"SHA-256",salt:enc.encode("melsa-owner-ads-v1"),iterations:150000},k,256);
+ return [...new Uint8Array(bits)].map(b=>b.toString(16).padStart(2,"0")).join("");
+}
+const esc=x=>String(x??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const egp=n=>Math.round(n||0).toLocaleString("en-US")+" EGP";
+const num=n=>Math.round(n||0).toLocaleString("en-US");
+const nice=s=>String(s||"").toLowerCase().replace(/_/g," ").replace(/^./,c=>c.toUpperCase());
+function ago(iso){const m=Math.round((Date.now()-new Date(iso))/6e4);if(m<1)return"just now";if(m<60)return m+" min ago";const h=Math.round(m/60);return h<48?h+" h ago":Math.round(h/24)+" days ago";}
+function setLive(cls,text){const l=document.getElementById("live");l.className="live "+cls;document.getElementById("liveText").textContent=text;}
+async function loadLive(){
+ if(document.body.classList.contains("locked"))return;
+ const tok=store.get("melsaOwnerToken");
+ if(!tok){setLive("",'Not connected on this device. Lock and unlock once to connect.');return;}
+ try{
+  const r=await fetch(STATS_URL,{headers:{"X-Owner-Token":tok},cache:"no-store"});
+  if(r.status===403){setLive("","Couldn't connect: lock and unlock again with your password.");return;}
+  if(!r.ok)throw 0;
+  const d=await r.json();
+  if(!d||!d.updated){setLive("","Connected. Waiting for the first update from Google Ads (it runs every hour).");return;}
+  LIVE=d;renderAds();renderPerf(d);
+  const old=Date.now()-new Date(d.updated)>3*36e5;
+  setLive(old?"old":"on",(old?"Last update ":"Live from Google Ads · updated ")+ago(d.updated)+(old?": check the Google Ads script is still running.":""));
+  document.getElementById("manual").style.display="none";document.getElementById("manualNote").textContent="Numbers update by themselves every hour. Pause the campaign once you pass 12,000.";
+ }catch(e){setLive("","Couldn't reach the live numbers right now. Showing the last typed-in figure.");}
+}
+function table(rows,cols){if(!rows||!rows.length)return'<div class="empty">No data yet.</div>';
+ return"<table><tr>"+cols.map(c=>`<th class="${c.n?"n":""}">${c.h}</th>`).join("")+"</tr>"+rows.map(r=>"<tr>"+cols.map(c=>`<td class="${c.n?"n":""}">${c.f(r)}</td>`).join("")+"</tr>").join("")+"</table>";}
+function renderPerf(d){
+ document.getElementById("perf").classList.add("show");
+ const P=[["Today",d.today],["Yesterday",d.yesterday],["Last 7 days",d.last7],["Since "+new Date(d.start).toLocaleDateString("en-GB",{day:"numeric",month:"short"}),d.total]];
+ document.getElementById("periods").innerHTML=P.map(([t,x])=>{x=x||{};const cpc=x.clicks?x.cost/x.clicks:0;
+  return`<div class="period"><h4>${esc(t)}</h4><strong>${egp(x.cost)}</strong><span>${num(x.clicks)} clicks · ${num(x.impr)} views<br>${num(x.conv)} leads${cpc?" · "+Math.round(cpc)+" EGP/click":""}</span></div>`;}).join("");
+ const days=(d.daily||[]).slice(-30),max=Math.max(1,...days.map(x=>x.cost));
+ document.getElementById("chart").innerHTML=days.map(x=>`<div style="height:${Math.max(2,x.cost/max*100)}%" data-t="${esc(x.date)}: ${egp(x.cost)}, ${num(x.clicks)} clicks"></div>`).join("")||'<span class="empty">No days yet.</span>';
+ document.getElementById("axFrom").textContent=days[0]?days[0].date:"";document.getElementById("axTo").textContent=days.length?days[days.length-1].date:"";
+ document.getElementById("camps").innerHTML=table(d.campaigns,[
+  {h:"Campaign",f:r=>esc(r.name)+`<br><span class="pill ${r.status==="ENABLED"?"ok":"warn"}">${esc(nice(r.status))}</span>`},
+  {h:"Budget/day",n:1,f:r=>egp(r.budget)},{h:"Cost",n:1,f:r=>egp(r.cost)},{h:"Leads",n:1,f:r=>num(r.conv)}]);
+ const ads=d.ads||[],cnt={};ads.forEach(a=>{const k=a.approval||a.review||"UNKNOWN";cnt[k]=(cnt[k]||0)+1;});
+ const cls=k=>/APPROVED$/.test(k)&&!/DIS/.test(k)?"ok":/DISAPPROVED/.test(k)?"bad":"warn";
+ document.getElementById("adsSt").innerHTML=ads.length?Object.entries(cnt).map(([k,v])=>`<div style="margin:4px 0"><span class="pill ${cls(k)}">${esc(nice(k))}</span> ${v} ad${v>1?"s":""}</div>`).join("")+(cnt.DISAPPROVED?'<div class="note">Open Google Ads → Ads to see why an ad was disapproved.</div>':""):'<div class="empty">No ads found.</div>';
+ document.getElementById("kws").innerHTML=table(d.keywords,[
+  {h:"Keyword",f:r=>esc(r.text)+` <span class="pill">${esc(nice(r.match))}</span>`},{h:"Clicks",n:1,f:r=>num(r.clicks)},{h:"Cost",n:1,f:r=>egp(r.cost)},{h:"Leads",n:1,f:r=>num(r.conv)}]);
+ document.getElementById("terms").innerHTML=table(d.terms,[
+  {h:"Search",f:r=>esc(r.text)},{h:"Clicks",n:1,f:r=>num(r.clicks)},{h:"Cost",n:1,f:r=>egp(r.cost)},{h:"Leads",n:1,f:r=>num(r.conv)}]);
+}
+loadLive();setInterval(loadLive,5*6e4);
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)loadLive();});
 
 /* CRM link: set once on this device */
 const crm=document.getElementById("crmCard");
