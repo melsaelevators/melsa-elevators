@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      :root { --ground: #050b16; --navy: #0b1d35; --champagne: #c5ad87; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: var(--ground); }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: var(--ground); }
+      #bg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 55% at 50% 46%, #1a3256 0%, #0b1d35 45%, #050b16 100%); }
+      #spot { position: absolute; left: 460px; top: 120px; width: 1000px; height: 700px; border-radius: 50%; background: radial-gradient(closest-side, rgba(197,173,135,0.22), rgba(197,173,135,0)); }
+      #floor { position: absolute; left: 260px; top: 830px; width: 1400px; height: 150px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,0.75), rgba(0,0,0,0)); }
+      #rig { position: absolute; left: 73px; top: 104px; width: 1774px; height: 887px; }
+      .part { position: absolute; }
+      .part img { display: block; width: 100%; height: 100%; }
+      .glint { position: absolute; inset: 0; -webkit-mask-size: 100% 100%; mask-size: 100% 100%; mix-blend-mode: screen;
+        background: linear-gradient(105deg, rgba(255,255,255,0) 42%, rgba(255,250,240,0.55) 50%, rgba(255,255,255,0) 58%);
+        background-size: 400% 100%; background-position: 120% 0; }
+      #flash { position: absolute; inset: 0; background: radial-gradient(ellipse 30% 30% at 50% 50%, rgba(255,245,225,0.25), rgba(255,245,225,0)); opacity: 0; mix-blend-mode: screen; }
+      #vign { position: absolute; inset: 0; background: radial-gradient(ellipse 75% 70% at 50% 50%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.55) 100%); pointer-events: none; }
+      #fade { position: absolute; inset: 0; background: #050b16; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="16" data-width="1920" data-height="1080">
+      <div id="bg" class="clip" data-start="0" data-duration="16" data-track-index="0"></div>
+      <div id="spot" class="clip" data-start="0" data-duration="16" data-track-index="0"></div>
+      <div id="floor" class="clip" data-start="0" data-duration="16" data-track-index="1"></div>
+      <div id="rig" class="clip" data-start="0" data-duration="16" data-track-index="2" data-layout-allow-overlap data-layout-allow-overflow>
+        <div id="pt-sheaveS" class="part clip" data-start="0" data-duration="16" data-track-index="2" style="left:27px;top:392px;width:179px;height:260px;z-index:2">
+          <img id="img-sheaveS" src="assets/p-sheaveS.png" alt="" />
+          <div id="gl-sheaveS" class="glint" style="-webkit-mask-image:url(assets/p-sheaveS.png);mask-image:url(assets/p-sheaveS.png)"></div>
+        </div>
+        <div id="pt-brake" class="part clip" data-start="0" data-duration="16" data-track-index="2" style="left:205px;top:336px;width:171px;height:264px;z-index:3">
+          <img id="img-brake" src="assets/p-brake.png" alt="" />
+          <div id="gl-brake" class="glint" style="-webkit-mask-image:url(assets/p-brake.png);mask-image:url(assets/p-brake.png)"></div>
+        </div>
+        <div id="pt-motor" class="part clip" data-start="0" data-duration="16" data-track-index="2" style="left:375px;top:220px;width:361px;height:371px;z-index:4">
+          <img id="img-motor" src="assets/p-motor.png" alt="" />
+          <div id="gl-motor" class="glint" style="-webkit-mask-image:url(assets/p-motor.png);mask-image:url(assets/p-motor.png)"></div>
+        </div>
+        <div id="pt-flangeL" class="part clip" data-start="0" data-duration="16" data-track-index="2" style="left:735px;top:114px;width:146px;height:623px;z-index:5">
+          <img id="img-flangeL" src="assets/p-flangeL.png" alt="" />
+          <div id="gl-flangeL" class="glint" style="-webkit-mask-image:url(assets/p-flangeL.png);mask-image:url(assets/p-flangeL.png)"></div>
+        </div>
+        <div id="pt-cover" class="part clip" data-start="0" data-duration="16" data-track-index="2" style="left:814px;top:113px;width:285px;height:150px;z-index:8">
+          <img id="img-cover" src="assets/p-cover.png" alt="" />
+          <div id="gl-cover" class="glint" style="-webkit-mask-image:url(assets/p-cover.png);mask-image:url(assets/p-cover.png)"></div>
+        </div>
+        <div id="pt-body" class="part clip" data-start="0" data-duration="16" data-track-index="2" style="left:880px;top:88px;width:421px;height:478px;z-index:6">
+          <img id="img-body" src="assets/p-body.png" alt="" />
+          <div id="gl-body" class="glint" style="-webkit-mask-image:url(assets/p-body.png);mask-image:url(assets/p-body.png)"></div>
+        </div>
+        <div id="pt-base" class="part clip" data-start="0" data-duration="16" data-track-index="2" style="left:837px;top:565px;width:415px;height:239px;z-index:3">
+          <img id="img-base" src="assets/p-base.png" alt="" />
+          <div id="gl-base" class="glint" style="-webkit-mask-image:url(assets/p-base.png);mask-image:url(assets/p-base.png)"></div>
+        </div>
+        <div id="pt-flangeR" class="part clip" data-start="0" data-duration="16" data-track-index="2" style="left:1300px;top:224px;width:141px;height:349px;z-index:5">
+          <img id="img-flangeR" src="assets/p-flangeR.png" alt="" />
+          <div id="gl-flangeR" class="glint" style="-webkit-mask-image:url(assets/p-flangeR.png);mask-image:url(assets/p-flangeR.png)"></div>
+        </div>
+        <div id="pt-sheaveL" class="part clip" data-start="0" data-duration="16" data-track-index="2" style="left:1440px;top:222px;width:319px;height:446px;z-index:2">
+          <img id="img-sheaveL" src="assets/p-sheaveL.png" alt="" />
+          <div id="gl-sheaveL" class="glint" style="-webkit-mask-image:url(assets/p-sheaveL.png);mask-image:url(assets/p-sheaveL.png)"></div>
+        </div>
+      </div>
+      <div id="flash" class="clip" data-start="0" data-duration="16" data-track-index="3"></div>
+      <div id="vign" class="clip" data-start="0" data-duration="16" data-track-index="4"></div>
+      <div id="fade" class="clip" data-start="0" data-duration="16" data-track-index="5"></div>
+    </div>
+    <script>
+      const P = {"sheaveS": {"x": 27, "y": 392, "w": 179, "h": 260, "dx": 150, "dy": 0, "z": 2}, "brake": {"x": 205, "y": 336, "w": 171, "h": 264, "dx": 112, "dy": 0, "z": 3}, "motor": {"x": 375, "y": 220, "w": 361, "h": 371, "dx": 72, "dy": 0, "z": 4}, "flangeL": {"x": 735, "y": 114, "w": 146, "h": 623, "dx": 34, "dy": 0, "z": 5}, "cover": {"x": 814, "y": 113, "w": 285, "h": 150, "dx": 0, "dy": 46, "z": 8}, "body": {"x": 880, "y": 88, "w": 421, "h": 478, "dx": 0, "dy": 0, "z": 6}, "base": {"x": 837, "y": 565, "w": 415, "h": 239, "dx": 0, "dy": -58, "z": 3}, "flangeR": {"x": 1300, "y": 224, "w": 141, "h": 349, "dx": -28, "dy": 0, "z": 5}, "sheaveL": {"x": 1440, "y": 222, "w": 319, "h": 446, "dx": -72, "dy": 0, "z": 2}};
+      const ORDER = [["base", 3.0], ["cover", 3.55], ["flangeR", 4.1], ["flangeL", 4.6], ["motor", 5.15], ["brake", 5.75], ["sheaveS", 6.3], ["sheaveL", 6.85]];
+      const tl = gsap.timeline({ paused: true });
+      const ids = Object.keys(P);
+      const CX = 887, CY = 420;                       // centre of the machine in image px
+      // far = pushed further out from the centre than the exploded photo, faded and soft
+      const far = (k) => { const v = P[k], cx = v.x + v.w / 2 - CX, cy = v.y + v.h / 2 - CY; return { x: cx * 0.35, y: cy * 0.35 }; };
+
+      // 0) start: dark, parts far apart and soft
+      gsap.set("#fade", { opacity: 1 });
+      ids.forEach((k) => gsap.set("#pt-" + k, { x: far(k).x, y: far(k).y, opacity: 0, filter: "blur(10px)", scale: 0.96 }));
+      gsap.set("#rig", { scale: 0.9, x: 0, y: 10, transformOrigin: "50% 50%" });
+      gsap.set("#floor", { opacity: 0.4, scaleX: 1.1 });
+      gsap.set("#spot", { opacity: 0 });
+
+      // 1) fade in, parts float into the exploded view (0 - 2.2 s)
+      tl.to("#fade", { opacity: 0, duration: 1.0, ease: "power1.out" }, 0);
+      tl.to("#spot", { opacity: 1, duration: 2.0, ease: "power1.out" }, 0.2);
+      ids.forEach((k, i) => tl.to("#pt-" + k, { x: 0, y: 0, opacity: 1, filter: "blur(0px)", scale: 1, duration: 2.0, ease: "power3.out" }, 0.1 + i * 0.04));
+      tl.to("#rig", { scale: 0.94, duration: 2.6, ease: "power2.out" }, 0);
+      // glint across the exploded parts
+      ids.forEach((k, i) => tl.fromTo("#gl-" + k, { backgroundPosition: "120% 0" }, { backgroundPosition: "-20% 0", duration: 1.4, ease: "power2.inOut" }, 1.4 + i * 0.07));
+
+      // 2) assembly: parts fly together one by one and lock (3.0 - 7.8 s)
+      ORDER.forEach(([k, t]) => {
+        const v = P[k];
+        tl.to("#pt-" + k, { x: v.dx, y: v.dy, duration: 0.85, ease: "power3.inOut" }, t);
+        tl.fromTo("#pt-" + k, { scale: 1 }, { scale: 1.025, duration: 0.09, ease: "power1.out", yoyo: true, repeat: 1 }, t + 0.82);
+        tl.fromTo("#flash", { opacity: 0 }, { opacity: 0.6, duration: 0.08, yoyo: true, repeat: 1, ease: "power1.out" }, t + 0.82);
+      });
+      tl.to("#rig", { x: -40, scale: 1.04, duration: 4.8, ease: "power1.inOut" }, 3.0);
+      tl.to("#floor", { scaleX: 0.85, opacity: 0.7, duration: 4.8, ease: "power1.inOut" }, 3.0);
+
+      // 3) assembled hero: slow push, light sweep across the whole machine (7.8 - 11.4 s)
+      tl.to("#rig", { scale: 1.12, x: -60, y: 0, duration: 3.6, ease: "sine.inOut" }, 7.8);
+      ids.forEach((k) => { const v = P[k]; tl.fromTo("#gl-" + k, { backgroundPosition: "120% 0" }, { backgroundPosition: "-20% 0", duration: 1.6, ease: "power2.inOut" }, 8.4 + (v.x / 1774) * 0.9); });
+
+      // 4) open into the exploded view again (11.4 - 13.6 s)
+      ids.forEach((k, i) => tl.to("#pt-" + k, { x: 0, y: 0, duration: 2.0, ease: "power3.inOut" }, 11.4 + Math.abs(P[k].x + P[k].w / 2 - CX) / 900 * 0.25));
+      tl.to("#rig", { scale: 0.96, x: 0, y: 6, duration: 2.4, ease: "power2.inOut" }, 11.4);
+      tl.to("#floor", { scaleX: 1.1, opacity: 0.4, duration: 2.0, ease: "power2.inOut" }, 11.4);
+
+      // 5) drift apart, soften and fade so the loop restarts cleanly (14.4 - 16 s)
+      ids.forEach((k) => tl.to("#pt-" + k, { x: far(k).x, y: far(k).y, opacity: 0, filter: "blur(10px)", scale: 0.96, duration: 1.5, ease: "power2.in" }, 14.45));
+      tl.to("#rig", { scale: 0.9, y: 10, duration: 1.55, ease: "power2.in" }, 14.45);
+      tl.to("#spot", { opacity: 0, duration: 1.3, ease: "power1.in" }, 14.6);
+      tl.to("#fade", { opacity: 1, duration: 0.9, ease: "power1.in" }, 15.05);
+
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
