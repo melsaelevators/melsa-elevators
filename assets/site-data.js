@@ -3,7 +3,7 @@
 window.MELSA_SITE = {
   company: {
     phone: "02 2414 9833",   // landline
-    mobile: "0100 525 2664",
+    mobile: "0101 776 5778",
     whatsapp: "201017765778", // international format, digits only (01017765778)
     email: "info@melsaelevators.com",
     address_en: "2 Ayoub Buildings, Hassan Aflaton St., next to the UAE Embassy, Ard El-Golf, Nasr City, Cairo",
