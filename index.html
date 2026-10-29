@@ -14,6 +14,7 @@
 <link rel="icon" type="image/png" href="assets/logo-mark.png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0b1d35">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/apple.css">
 <style>
 .hero{position:relative;overflow:hidden;min-height:clamp(520px,78vh,760px);display:flex;align-items:center;color:#fff;background:#0b1d35}
 .hero .slides{position:absolute;inset:0}
@@ -180,11 +181,11 @@ window.PAGE_T={
   ctaTitle:"Need a new elevator or a repair?",ctaText:"Tell us about your building and we will get back to you.",ctaBtn:"Contact us",profile:"Company profile (PDF)",
   "b.Residential":"Residential buildings","b.Villa":"Villas","b.Hospital":"Hospitals","b.Mall":"Malls","b.Office":"Offices","b.Hotel":"Hotels","b.Factory":"Factories",
   stmt:"Since 1997, we have designed, supplied, installed and maintained elevators across Egypt. Quietly reliable. Beautifully finished. Built around your building.",
-  c1h:"From empty shaft<br>to first ride.",c1p:"Passenger, home, hospital and goods elevators, electric or hydraulic. Our engineers plan, install and hand over every lift.",c1a:"Request a quote ›",
-  c2h:"Your cabin.<br>Your finishes.",c2p:"Pick the cabin, doors, call panels and floor from our collection, or design your own.",c2a:"Explore the catalog ›",
-  c3h:"Always running.<br>Always safe.",c3p:"Scheduled maintenance, fast breakdown response and full safety inspections, for any elevator brand.",c3a:"Book maintenance ›",
+  c1h:"From empty shaft<br><span class='soft'>to first ride.</span>",c1p:"Passenger, home, hospital and goods elevators, electric or hydraulic. Our engineers plan, install and hand over every lift.",c1a:"Request a quote ›",
+  c2h:"Your cabin.<br><span class='soft'>Your finishes.</span>",c2p:"Pick the cabin, doors, call panels and floor from our collection, or design your own.",c2a:"Explore the catalog ›",
+  c3h:"Always running.<br><span class='soft'>Always safe.</span>",c3p:"Scheduled maintenance, fast breakdown response and full safety inspections, for any elevator brand.",c3a:"Book maintenance ›",
   f1:"Preventive visits",f2:"Fast repairs",f3:"Safety inspections",
-  c4h:"Old elevator.<br>New life.",c4p:"Upgrade machines, controllers, doors and cabins without replacing the whole elevator.",c4a:"Ask our engineers ›",
+  c4h:"Old elevator.<br><span class='soft'>New life.</span>",c4p:"Upgrade machines, controllers, doors and cabins without replacing the whole elevator.",c4a:"Ask our engineers ›",
   numsTitle:"Melsa in numbers.",n1:"Founded",n2:"Years of founder's experience",n3:"Clients who trust us",n4:"Products in our catalog"},
  ar:{title:"إلكتروميلسا لتصميم وتركيب وتوريد وصيانة المصاعد | شركة مصاعد في القاهرة",eyebrow:"هندسة الأناقة",h1:"مصممة لتناسب <em>رؤيتك.</em>",
   lead:"من الفيلا إلى المستشفيات والمولات، إلكتروميلسا لتصميم وتركيب وتوريد وصيانة المصاعد بالتشطيبات التي تختارها.",
@@ -199,17 +200,17 @@ window.PAGE_T={
   ctaTitle:"محتاج مصعد جديد أو صيانة؟",ctaText:"قولنا عن مبناك وهنتواصل معاك.",ctaBtn:"تواصل معنا",profile:"بروفايل الشركة (PDF)",
   "b.Residential":"العمارات السكنية","b.Villa":"الفيلا","b.Hospital":"المستشفيات","b.Mall":"المولات","b.Office":"المباني الإدارية","b.Hotel":"الفنادق","b.Factory":"المصانع",
   stmt:"منذ 1997 نصمم ونورد ونركب ونصون المصاعد في كل أنحاء مصر. اعتمادية هادئة. تشطيب راقٍ. ومصمم خصيصًا لمبناك.",
-  c1h:"من بئر فاضي<br>لأول رحلة.",c1p:"مصاعد ركاب ومنازل ومستشفيات وبضائع، كهرباء أو هيدروليك. مهندسينا بيخططوا ويركبوا ويسلموا كل مصعد.",c1a:"اطلب عرض سعر ›",
-  c2h:"كابينتك.<br>بتشطيباتك.",c2p:"اختار الكابينة والأبواب ولوحات الطلب والأرضية من مجموعتنا، أو صمم بنفسك.",c2a:"تصفح الكتالوج ›",
-  c3h:"شغال دايمًا.<br>آمن دايمًا.",c3p:"صيانة دورية، واستجابة سريعة للأعطال، وفحوصات أمان كاملة لأي ماركة مصعد.",c3a:"احجز صيانة ›",
+  c1h:"من بئر فاضي<br><span class='soft'>لأول رحلة.</span>",c1p:"مصاعد ركاب ومنازل ومستشفيات وبضائع، كهرباء أو هيدروليك. مهندسينا بيخططوا ويركبوا ويسلموا كل مصعد.",c1a:"اطلب عرض سعر ›",
+  c2h:"كابينتك.<br><span class='soft'>بتشطيباتك.</span>",c2p:"اختار الكابينة والأبواب ولوحات الطلب والأرضية من مجموعتنا، أو صمم بنفسك.",c2a:"تصفح الكتالوج ›",
+  c3h:"شغال دايمًا.<br><span class='soft'>آمن دايمًا.</span>",c3p:"صيانة دورية، واستجابة سريعة للأعطال، وفحوصات أمان كاملة لأي ماركة مصعد.",c3a:"احجز صيانة ›",
   f1:"زيارات دورية",f2:"إصلاح سريع",f3:"فحص أمان",
-  c4h:"مصعد قديم.<br>حياة جديدة.",c4p:"طوّر الماكينة ولوحة التحكم والأبواب والكابينة من غير ما تغيّر المصعد كله.",c4a:"اسأل مهندسينا ›",
+  c4h:"مصعد قديم.<br><span class='soft'>حياة جديدة.</span>",c4p:"طوّر الماكينة ولوحة التحكم والأبواب والكابينة من غير ما تغيّر المصعد كله.",c4a:"اسأل مهندسينا ›",
   numsTitle:"ميلسا بالأرقام.",n1:"سنة التأسيس",n2:"سنة خبرة للمؤسس",n3:"عميل بيثقوا فينا",n4:"منتج في الكتالوج"}
 };
 </script>
 </head>
 <body data-page="home">
-<main>
+<main id="top">
  <div class="hero">
   <div class="slides" id="slides" aria-hidden="true"></div>
   <div class="wrap"><div class="txt">
@@ -221,6 +222,12 @@ window.PAGE_T={
   <div class="hero3d" id="hero3d" aria-hidden="true"><span class="lift-ind" id="liftInd">• G</span></div>
   <div class="dots" id="dots"></div>
  </div>
+
+ <nav class="lnav" id="lnav" aria-label="Page"></nav>
+ <section class="apl hl" id="hl"><div class="wrap"><h2 class="ah"></h2></div>
+  <div class="hl-track" id="hlTrack"></div>
+  <div class="hl-ctl"><div class="hl-dots" id="hlDots"></div><button type="button" id="hlPlay"></button></div>
+ </section>
 
  <section class="statement" id="statement"><div class="wrap"><p class="words" id="stmt" data-i18n="stmt"></p></div></section>
 
@@ -258,6 +265,15 @@ window.PAGE_T={
   </div>
  </section>
 
+ <section class="apl closer" id="closer"><div class="wrap"><h2 class="ah"></h2>
+  <div class="cl-box"><div class="cl-list" id="clList"></div><div class="cl-media" id="clMedia"></div></div>
+ </div></section>
+
+ <section class="apl svcg" id="svcg"><div class="wrap"><h2 class="ah"></h2></div>
+  <div class="g-track" id="gTrack"></div>
+  <div class="wrap g-nav"><button type="button" id="gPrev" aria-label="Previous">‹</button><button type="button" id="gNext" aria-label="Next">›</button></div>
+ </section>
+
  <section class="nums" id="nums"><div class="wrap">
   <h2 class="center" data-i18n="numsTitle"></h2>
   <div class="numgrid">
@@ -280,6 +296,8 @@ window.PAGE_T={
  </div>
   <div class="marquee"><div class="track" id="logos"></div></div>
  </section>
+ <section class="apl faq" id="faq"><div class="wrap"><h2 class="ah"></h2><div class="faq-list" id="faqList"></div></div></section>
+
  <section class="finale"><div class="wrap center">
   <h2 data-i18n="ctaTitle"></h2><p class="sub" data-i18n="ctaText"></p>
   <div class="btns" style="justify-content:center"><a class="btn red" href="quote.html" data-i18n="cta1"></a><a class="btn ghost" href="contact.html" data-i18n="ctaBtn"></a></div>
@@ -287,12 +305,14 @@ window.PAGE_T={
   <a class="consult" href="consulting.html"><span class="ic">✦</span><span><b data-i18n="consT"></b><small data-i18n="consS"></small></span><span class="go" data-i18n="consB"></span></a>
  </div></section>
 </main>
+<div class="mdl" id="mdl" hidden role="dialog" aria-modal="true"><div class="mdl-card"><button type="button" class="mdl-x" aria-label="Close">×</button><div class="mdl-body"></div></div></div>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"}}</script>
 <script type="module" src="assets/hero3d.js"></script>
 <script type="module" src="assets/cabin3d.js"></script>
 <script src="assets/site-data.js"></script>
 <script src="assets/products.js"></script>
 <script src="assets/site.js"></script>
+<script src="assets/apple.js" defer></script>
 <script>
 (function(){
  const {t,esc,lang,site}=Melsa, P=window.MELSA_PRODUCTS;
