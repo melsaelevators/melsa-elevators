@@ -5,7 +5,7 @@ window.MELSA_SITE = {
     phone: "02 2414 9833",   // landline
     mobile: "0100 525 2664",
     whatsapp: "201017765778", // international format, digits only (01017765778)
-    email: "Milsalift@hotmail.com",
+    email: "info@melsaelevators.com",
     address_en: "2 Ayoub Buildings, Hassan Aflaton St., next to the UAE Embassy, Ard El-Golf, Nasr City, Cairo",
     address_ar: "٢ عمارات أيوب، شارع حسن أفلاطون، بجوار سفارة الإمارات، أرض الجولف، مدينة نصر، القاهرة",
     reviewUrl: "https://g.page/r/CfWrXcL5ygzKECE/review",       // direct "write a review" link from Google Business Profile (Ask for reviews). Empty = open the profile.
