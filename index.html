@@ -16,11 +16,11 @@
 <link rel="stylesheet" href="assets/site.css">
 <link rel="stylesheet" href="assets/apple.css">
 <style>
-.hero{position:relative;overflow:hidden;min-height:clamp(520px,78vh,760px);display:flex;align-items:center;color:#fff;background:#0b1d35}
+.hero{position:relative;overflow:hidden;min-height:clamp(560px,92vh,900px);display:flex;align-items:center;color:#fff;background:#0b1d35}
 .hero .slides{position:absolute;inset:0}
-.hero .slides img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 45%;opacity:0;transform:scale(1.04);transition:opacity 1.4s ease,transform 7s ease}
-.hero .slides img.on{opacity:1;transform:scale(1.12)}
-.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#0b1d35e0 0%,#0b1d3580 42%,#0b1d3500 72%)}
+.hero .slides img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 45%;opacity:0;transform:scale(1.02) translate3d(0,0,0);transition:opacity 1.8s ease,transform 9s cubic-bezier(.25,.1,.25,1);will-change:transform,opacity}
+.hero .slides img.on{opacity:1;transform:scale(1.14) translate3d(var(--px,0),var(--py,0),0)}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#0b1d35e6 0%,#0b1d3599 38%,#0b1d3510 72%),linear-gradient(0deg,#0b1d35cc 0%,#0b1d3500 30%)}
 [dir=rtl] .hero::after{background:linear-gradient(270deg,#0b1d35e0 0%,#0b1d3580 42%,#0b1d3500 72%)}
 .hero .wrap{position:relative;z-index:2;width:100%;padding-top:56px;padding-bottom:72px}
 .hero .txt{max-width:640px}
@@ -166,6 +166,11 @@
  .chap{height:auto}.stick{position:relative;height:auto;min-height:0;padding:90px 16px}
  .words span{opacity:1}.trio .spin{animation:none}.track{animation:none;flex-wrap:wrap;justify-content:center;width:auto}
 }
+.trustbar{background:#0b1d35;color:#c9ced5;border-top:1px solid #ffffff14}
+.trustbar .wrap{display:flex;justify-content:space-around;flex-wrap:wrap;gap:10px 24px;padding-top:18px;padding-bottom:18px}
+.trustbar span{font-size:14px;white-space:nowrap}.trustbar b{color:#fff;font-size:20px;font-weight:700;margin-inline-end:4px;direction:ltr;display:inline-block}.trustbar i{font-style:normal}
+[dir=rtl] .trustbar span{display:inline-flex;flex-direction:row-reverse;gap:6px}
+@media(max-width:600px){.trustbar .wrap{display:grid;grid-template-columns:1fr 1fr;text-align:center}.trustbar b{font-size:18px}}
 </style>
 <script>
 window.PAGE_T={
@@ -180,7 +185,7 @@ window.PAGE_T={
   projEyebrow:"Our work",projTitle:"Recent projects",projAll:"All projects →",
   trustEyebrow:"Our clients",trustTitle:"Trusted across Egypt.",trustAll:"See all clients ›",
   ctaTitle:"Need a new elevator or a repair?",ctaText:"Tell us about your building and we will get back to you.",ctaBtn:"Contact us",profile:"Company profile (PDF)",
-  "b.Residential":"Residential buildings","b.Villa":"Villas","b.Hospital":"Hospitals","b.Mall":"Malls","b.Office":"Offices","b.Hotel":"Hotels","b.Factory":"Factories",
+  "b.Residential":"Residential buildings","b.Villa":"Villas","b.Hospital":"Hospitals","b.Mall":"Malls","b.Office":"Offices","b.Hotel":"Hotels","b.Factory":"Factories",tb1:"Since",tb2:"years of experience",tb3:"major clients",tb4:"cabin & door designs",
   stmt:"Since 1997, we have designed, supplied, installed and maintained elevators across Egypt. Quietly reliable. Beautifully finished. Built around your building.",
   c1h:"From empty shaft<br><span class='soft'>to first ride.</span>",c1p:"Passenger, home, hospital and goods elevators, electric or hydraulic. Our engineers plan, install and hand over every lift.",c1a:"Request a quote ›",
   c2h:"Your cabin.<br><span class='soft'>Your finishes.</span>",c2p:"Pick the cabin, doors, call panels and floor from our collection, or design your own.",c2a:"Explore the catalog ›",
@@ -199,7 +204,7 @@ window.PAGE_T={
   projEyebrow:"أعمالنا",projTitle:"أحدث المشاريع",projAll:"كل المشاريع ←",
   trustEyebrow:"عملاؤنا",trustTitle:"ثقة في كل مصر.",trustAll:"كل العملاء ›",
   ctaTitle:"محتاج مصعد جديد أو صيانة؟",ctaText:"قولنا عن مبناك وهنتواصل معاك.",ctaBtn:"تواصل معنا",profile:"بروفايل الشركة (PDF)",
-  "b.Residential":"العمارات السكنية","b.Villa":"الفيلا","b.Hospital":"المستشفيات","b.Mall":"المولات","b.Office":"المباني الإدارية","b.Hotel":"الفنادق","b.Factory":"المصانع",
+  "b.Residential":"العمارات السكنية","b.Villa":"الفيلا","b.Hospital":"المستشفيات","b.Mall":"المولات","b.Office":"المباني الإدارية","b.Hotel":"الفنادق","b.Factory":"المصانع",tb1:"منذ",tb2:"سنة خبرة",tb3:"عميل كبير",tb4:"تصميم كابينة وباب",
   stmt:"منذ 1997 نصمم ونورد ونركب ونصون المصاعد في كل أنحاء مصر. اعتمادية هادئة. تشطيب راقٍ. ومصمم خصيصًا لمبناك.",
   c1h:"من بئر فاضي<br><span class='soft'>لأول رحلة.</span>",c1p:"مصاعد ركاب ومنازل ومستشفيات وبضائع، كهرباء أو هيدروليك. مهندسينا بيخططوا ويركبوا ويسلموا كل مصعد.",c1a:"اطلب عرض سعر ›",
   c2h:"كابينتك.<br><span class='soft'>بتشطيباتك.</span>",c2p:"اختار الكابينة والأبواب ولوحات الطلب والأرضية من مجموعتنا، أو صمم بنفسك.",c2a:"تصفح الكتالوج ›",
@@ -220,10 +225,10 @@ window.PAGE_T={
    <p class="lead" data-i18n="lead"></p>
    <div class="btns"><a class="btn red" href="quote.html" data-i18n="cta1">Request a quote</a><a class="btn navy" href="maintenance.html" data-i18n="cta2">Book maintenance</a><a class="btn ghost" href="catalog.html" data-i18n="cta3">View catalog</a></div>
   </div></div>
-  <div class="hero3d" id="hero3d" aria-hidden="true"><span class="lift-ind" id="liftInd">• G</span></div>
   <div class="dots" id="dots"></div>
  </div>
 
+ <div class="trustbar"><div class="wrap"><span><b>1997</b> <i data-i18n="tb1"></i></span><span><b>40+</b> <i data-i18n="tb2"></i></span><span><b>25+</b> <i data-i18n="tb3"></i></span><span><b>40+</b> <i data-i18n="tb4"></i></span></div></div>
  <nav class="lnav" id="lnav" aria-label="Page"></nav>
  <section class="apl hl" id="hl"><div class="wrap"><h2 class="ah"></h2></div>
   <div class="hl-track" id="hlTrack"></div>
@@ -308,7 +313,6 @@ window.PAGE_T={
 </main>
 <div class="mdl" id="mdl" hidden role="dialog" aria-modal="true"><div class="mdl-card"><button type="button" class="mdl-x" aria-label="Close">×</button><div class="mdl-body"></div></div></div>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"}}</script>
-<script type="module" src="assets/machine3d.js"></script>
 <script type="module" src="assets/cabin3d.js"></script>
 <script src="assets/site-data.js"></script>
 <script src="assets/products.js"></script>
@@ -321,12 +325,13 @@ window.PAGE_T={
  // hero slideshow
  const HERO=[1,2,3,4,5,6,7,8,9,10].map(n=>`assets/hero/${String(n).padStart(2,"0")}.jpg`);
  const sl=document.getElementById("slides"), dots=document.getElementById("dots");
- sl.innerHTML=HERO.map((src,i)=>`<img ${i?`data-src="${src}"`:`src="${src}" class="on"`} alt="">`).join("");
+ const PAN=[["-2%","-1%"],["2%","-1.5%"],["-1.5%","1%"],["1.5%","1%"],["0%","-2%"]];
+ sl.innerHTML=HERO.map((src,i)=>`<img ${i?`data-src="${src}"`:`src="${src}" class="on"`} alt="" style="--px:${PAN[i%5][0]};--py:${PAN[i%5][1]}">`).join("");
  dots.innerHTML=HERO.map((_,i)=>`<button type="button" aria-label="${i+1}" class="${i?"":"on"}"></button>`).join("");
  const imgs=[...sl.children], dbs=[...dots.children]; let cur=0, timer;
  const load=i=>{const im=imgs[i];if(im&&im.dataset.src){im.src=im.dataset.src;delete im.dataset.src;}};
  function show(i){load(i);load((i+1)%imgs.length);imgs[cur].classList.remove("on");dbs[cur].classList.remove("on");cur=i;imgs[cur].classList.add("on");dbs[cur].classList.add("on");}
- const next=()=>show((cur+1)%imgs.length), start=()=>{clearInterval(timer);timer=setInterval(()=>{if(!document.hidden)next();},5000);};
+ const next=()=>show((cur+1)%imgs.length), start=()=>{clearInterval(timer);timer=setInterval(()=>{if(!document.hidden)next();},6500);};
  dbs.forEach((b,i)=>b.addEventListener("click",()=>{show(i);start();}));
  window.addEventListener("load",()=>load(1)); start();
  function render(){
