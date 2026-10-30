@@ -13,6 +13,7 @@
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "LocalBusiness", "name": "Melsa Elevators", "alternateName": ["Electro Melsa", "إلكتروميلسا لتصميم وتركيب وتوريد وصيانة المصاعد"], "url": "https://melsaelevators.com/", "logo": "https://melsaelevators.com/assets/logo.png", "image": "https://melsaelevators.com/assets/og.jpg", "foundingDate": "1997", "telephone": "+20224149833", "email": "info@melsaelevators.com", "address": {"@type": "PostalAddress", "streetAddress": "2 Ayoub Buildings, Hassan Aflaton St., next to the UAE Embassy, Ard El-Golf", "addressLocality": "Nasr City", "addressRegion": "Cairo", "postalCode": "11757", "addressCountry": "EG"}, "geo": {"@type": "GeoCoordinates", "latitude": 30.0804633, "longitude": 31.3453222}, "areaServed": "Egypt", "description": "Melsa Elevators (إلكتروميلسا لتصميم وتركيب وتوريد وصيانة المصاعد) — elevator installation, maintenance and modernization in Cairo, Egypt since 1997. شركة مصاعد في القاهرة: تركيب وصيانة وتحديث المصاعد الكهرباء والهيدروليك.", "sameAs": ["https://www.facebook.com/Madelmelsa", "https://www.instagram.com/melsaelevators"], "openingHoursSpecification": [{"@type": "OpeningHoursSpecification", "dayOfWeek": ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"], "opens": "09:00", "closes": "17:00"}], "hasMap": "https://share.google/0ERQkUUM1roe2bvt5"}</script>
 <link rel="icon" type="image/png" href="assets/logo-mark.png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0b1d35">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/hero/01.webp" fetchpriority="high">
 <link rel="stylesheet" href="assets/site.css">
 <link rel="stylesheet" href="assets/apple.css">
 <style>
@@ -240,7 +241,7 @@ window.PAGE_T={
  <section class="chap dark" data-chap>
   <div class="stick">
    <div class="chap-text"><div class="eyebrow" data-i18n="s1"></div><h2 data-i18n-html="c1h"></h2><p data-i18n="c1p"></p><a class="more" href="quote.html" data-i18n="c1a"></a></div>
-   <div class="chap-media one"><img src="assets/hero/03.jpg" alt="" loading="lazy"></div>
+   <div class="chap-media one"><img src="assets/hero/03.webp" alt="" loading="lazy"></div>
   </div>
  </section>
 
@@ -258,7 +259,7 @@ window.PAGE_T={
  <section class="chap deep" data-chap>
   <div class="stick">
    <div class="chap-text"><div class="eyebrow" data-i18n="s3"></div><h2 data-i18n-html="c3h"></h2><p data-i18n="c3p"></p><a class="more" href="maintenance.html" data-i18n="c3a"></a></div>
-   <div class="chap-media one"><img src="assets/hero/05.jpg" alt="" loading="lazy">
+   <div class="chap-media one"><img src="assets/hero/05.webp" alt="" loading="lazy">
     <div class="feats"><span data-i18n="f1"></span><span data-i18n="f2"></span><span data-i18n="f3"></span></div>
    </div>
   </div>
@@ -267,7 +268,7 @@ window.PAGE_T={
  <section class="chap light" data-chap>
   <div class="stick">
    <div class="chap-text"><div class="eyebrow" data-i18n="s4"></div><h2 data-i18n-html="c4h"></h2><p data-i18n="c4p"></p><a class="more" href="consulting.html" data-i18n="c4a"></a></div>
-   <div class="chap-media one"><img src="assets/hero/08.jpg" alt="" loading="lazy"></div>
+   <div class="chap-media one"><img src="assets/hero/08.webp" alt="" loading="lazy"></div>
   </div>
  </section>
 
@@ -312,8 +313,12 @@ window.PAGE_T={
  </div></section>
 </main>
 <div class="mdl" id="mdl" hidden role="dialog" aria-modal="true"><div class="mdl-card"><button type="button" class="mdl-x" aria-label="Close">×</button><div class="mdl-body"></div></div></div>
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"}}</script>
-<script type="module" src="assets/cabin3d.js"></script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"}}</script>
+<script type="module">
+// load the 3D cabin (and the 3D engine) only when its section comes near the screen
+const h=document.getElementById("cab3d");
+if(h){const io=new IntersectionObserver(es=>{if(es[0].isIntersecting){io.disconnect();import("./assets/cabin3d.js");}},{rootMargin:"600px 0px"});io.observe(h);}
+</script>
 <script src="assets/site-data.js"></script>
 <script src="assets/products.js"></script>
 <script src="assets/site.js"></script>
@@ -323,7 +328,7 @@ window.PAGE_T={
  const {t,esc,lang,site}=Melsa, P=window.MELSA_PRODUCTS;
  const all=Object.values(P).flat(), byId=Object.fromEntries(all.map(p=>[p.id,p]));
  // hero slideshow
- const HERO=[1,2,3,4,5,6,7,8,9,10].map(n=>`assets/hero/${String(n).padStart(2,"0")}.jpg`);
+ const HERO=[1,2,3,4,5,6,7,8,9,10].map(n=>`assets/hero/${String(n).padStart(2,"0")}.webp`);
  const sl=document.getElementById("slides"), dots=document.getElementById("dots");
  const PAN=[["-2%","-1%"],["2%","-1.5%"],["-1.5%","1%"],["1.5%","1%"],["0%","-2%"]];
  sl.innerHTML=HERO.map((src,i)=>`<img ${i?`data-src="${src}"`:`src="${src}" class="on"`} alt="" style="--px:${PAN[i%5][0]};--py:${PAN[i%5][1]}">`).join("");

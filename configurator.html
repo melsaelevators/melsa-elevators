@@ -553,7 +553,7 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape"&&aiModal.classList.c
 document.getElementById("aiDownload").addEventListener("click",()=>{if(!aiUrl)return;const a=document.createElement("a");a.href=aiUrl;a.download="melsa-elevator-design.jpg";document.body.append(a);a.click();a.remove()});
 </script>
 
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"}}</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"}}</script>
 <script type="module">
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
