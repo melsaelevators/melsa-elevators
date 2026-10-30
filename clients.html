@@ -40,24 +40,35 @@ button.cl:hover,button.cl:focus-visible{transform:translateY(-3px);box-shadow:0 
 .jump{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px}
 .jump a{background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 14px;font-weight:700;font-size:13px;text-decoration:none;color:var(--navy)}
 .jump a:hover{background:var(--tint)}
+.priv{background:#fff;border-top:1px solid var(--line)}
+.pv{padding:0;overflow:hidden}.pv img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}.pv h3{margin:16px 20px 4px}.pv p{margin:0 20px 20px;color:var(--muted);font-size:15px}
 </style>
 <script>
 window.PAGE_T={
  en:{title:"Clients | Melsa Elevators",eyebrow:"Clients",h1:"Who we work with",lead:"Developers, building owners, hospitals and businesses who trust Melsa Elevators. Tap a logo to see the elevators we installed for them.",
   viewPhotos:"View project →",photosN:"{n} photos",noPhotos:"Project photos coming soon.",close:"Close",
   emptyTitle:"Our client list is being updated",emptyText:"Want to be one of them?",cta:"Contact us",
-  "c.hospitals":"Hospitals","c.education":"Universities & education","c.industry":"Factories & industry","c.construction":"Construction & real estate","c.gov":"Government, syndicates & associations","c.business":"Hotels & companies","c.other":"Other clients"},
+  "c.hospitals":"Hospitals","c.education":"Universities & education","c.industry":"Factories & industry","c.construction":"Construction & real estate","c.gov":"Government, syndicates & associations","c.business":"Hotels & companies","c.other":"Other clients",corpEyebrow:"Companies & organisations",corpTitle:"Major clients",privEyebrow:"Private clients",privTitle:"Villas, residences and private buildings",privText:"Beyond the organisations above, we have designed, installed and maintained elevators for a large number of private villas, residential buildings and homes of well-known families across Cairo, Giza and other cities. Out of respect for their privacy, we do not publish their names.",priv1:"Private villas",priv1t:"Home lifts and panoramic elevators designed around the interior.",priv2:"Residential buildings",priv2t:"Passenger elevators for apartment buildings, with maintenance contracts.",priv3:"Luxury residences",priv3t:"Custom cabins in gold, glass, wood and marble.",privCta:"Ask for references"},
  ar:{title:"عملاؤنا | إلكتروميلسا لتصميم وتركيب وتوريد وصيانة المصاعد",eyebrow:"عملاؤنا",h1:"بنشتغل مع مين",lead:"مطورين وملاك مباني ومستشفيات وشركات بيثقوا في إلكتروميلسا لتصميم وتركيب وتوريد وصيانة المصاعد. اضغط على أي لوجو تشوف المصاعد اللي ركبناها عندهم.",
   viewPhotos:"شوف المشروع ←",photosN:"{n} صورة",noPhotos:"صور المشروع قريبًا.",close:"إغلاق",
   emptyTitle:"قائمة العملاء قيد التحديث",emptyText:"عايز تكون واحد منهم؟",cta:"تواصل معنا",
-  "c.hospitals":"المستشفيات","c.education":"الجامعات والتعليم","c.industry":"المصانع والصناعة","c.construction":"المقاولات والتطوير العقاري","c.gov":"جهات حكومية ونقابات وجمعيات","c.business":"فنادق وشركات","c.other":"عملاء آخرون"}
+  "c.hospitals":"المستشفيات","c.education":"الجامعات والتعليم","c.industry":"المصانع والصناعة","c.construction":"المقاولات والتطوير العقاري","c.gov":"جهات حكومية ونقابات وجمعيات","c.business":"فنادق وشركات","c.other":"عملاء آخرون",corpEyebrow:"الشركات والجهات",corpTitle:"عملاؤنا الكبار",privEyebrow:"العملاء الخاصين",privTitle:"فيلات وقصور وعمارات خاصة",privText:"بالإضافة للجهات اللي فوق، صممنا وركبنا وبنعمل صيانة لمصاعد عدد كبير من الفيلات والعمارات السكنية وبيوت عائلات معروفة في القاهرة والجيزة ومدن تانية. واحترامًا لخصوصيتهم، مش بننشر أساميهم.",priv1:"فيلات خاصة",priv1t:"مصاعد منزلية وبانوراما متصممة على ديكور البيت.",priv2:"عمارات سكنية",priv2t:"مصاعد ركاب للعمارات مع عقود صيانة.",priv3:"قصور وبيوت فاخرة",priv3t:"كبائن خاصة ذهبي وزجاج وخشب ورخام.",privCta:"اطلب أمثلة من شغلنا"}
 };
 </script>
 </head>
 <body data-page="clients">
 <main>
  <div class="page-head"><div class="wrap"><div class="eyebrow" data-i18n="eyebrow"></div><h1 data-i18n="h1"></h1><p class="lead" data-i18n="lead"></p></div></div>
- <section><div class="wrap"><div id="list"></div></div></section>
+ <section><div class="wrap"><div class="eyebrow" data-i18n="corpEyebrow"></div><h2 data-i18n="corpTitle"></h2><div id="list" style="margin-top:18px"></div></div></section>
+ <section class="priv"><div class="wrap">
+  <div class="eyebrow" data-i18n="privEyebrow"></div><h2 data-i18n="privTitle"></h2><p class="lead" data-i18n="privText"></p>
+  <div class="grid3" style="margin-top:24px">
+   <div class="card pv"><img src="assets/hero/06.jpg" alt="" loading="lazy"><h3 data-i18n="priv1"></h3><p data-i18n="priv1t"></p></div>
+   <div class="card pv"><img src="assets/hero/03.jpg" alt="" loading="lazy"><h3 data-i18n="priv2"></h3><p data-i18n="priv2t"></p></div>
+   <div class="card pv"><img src="assets/hero/02.jpg" alt="" loading="lazy"><h3 data-i18n="priv3"></h3><p data-i18n="priv3t"></p></div>
+  </div>
+  <div class="btns"><a class="btn red" href="contact.html" data-i18n="privCta"></a></div>
+ </div></section>
  <div class="pm" id="pm" hidden role="dialog" aria-modal="true" aria-labelledby="pmTitle">
   <div class="pm-box"><div class="pm-head"><img id="pmLogo" alt=""><h2 id="pmTitle"></h2><button type="button" class="pm-close" id="pmClose" aria-label="Close">×</button></div>
   <div class="pm-body"><p class="pm-text" id="pmText"></p><div class="pm-grid" id="pmGrid"></div></div></div>
