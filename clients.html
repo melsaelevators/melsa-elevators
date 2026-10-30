@@ -73,7 +73,7 @@ window.PAGE_T={
    <div class="card pv"><img src="assets/hero/02.jpg" alt="" loading="lazy"><h3 data-i18n="priv3"></h3><p data-i18n="priv3t"></p></div>
   </div>
   <h3 style="margin-top:34px" data-i18n="privGal"></h3>
-  <div class="pgal" id="pgal"><button type="button" class="pg-i" data-i="0"><img src="assets/private/01-s.webp" alt="" loading="lazy"></button><button type="button" class="pg-i" data-i="1"><img src="assets/private/02-s.webp" alt="" loading="lazy"></button><button type="button" class="pg-i" data-i="2"><img src="assets/private/03-s.webp" alt="" loading="lazy"></button><button type="button" class="pg-i" data-i="3"><img src="assets/private/04-s.webp" alt="" loading="lazy"></button><button type="button" class="pg-i" data-i="4"><img src="assets/private/05-s.webp" alt="" loading="lazy"></button><button type="button" class="pg-i" data-i="5"><img src="assets/private/06-s.webp" alt="" loading="lazy"></button><button type="button" class="pg-i" data-i="6"><img src="assets/private/07-s.webp" alt="" loading="lazy"></button><button type="button" class="pg-i" data-i="7"><img src="assets/private/08-s.webp" alt="" loading="lazy"></button><button type="button" class="pg-i" data-i="8"><img src="assets/private/09-s.webp" alt="" loading="lazy"></button></div>
+  <div class="pgal" id="pgal"><button type="button" class="pg-i" data-i="0"><img src="assets/private/01-s.webp" alt="" loading="lazy"></button><button type="button" class="pg-i" data-i="1"><img src="assets/private/02-s.webp" alt="" loading="lazy"></button><button type="button" class="pg-i" data-i="2"><img src="assets/private/03-s.webp" alt="" loading="lazy"></button><button type="button" class="pg-i" data-i="3"><img src="assets/private/04-s.webp" alt="" loading="lazy"></button><button type="button" class="pg-i" data-i="4"><img src="assets/private/05-s.webp" alt="" loading="lazy"></button><button type="button" class="pg-i" data-i="5"><img src="assets/private/06-s.webp" alt="" loading="lazy"></button><button type="button" class="pg-i" data-i="6"><img src="assets/private/07-s.webp" alt="" loading="lazy"></button><button type="button" class="pg-i" data-i="7"><img src="assets/private/08-s.webp" alt="" loading="lazy"></button><button type="button" class="pg-i" data-i="8"><img src="assets/private/09-s.webp" alt="" loading="lazy"></button><button type="button" class="pg-i" data-i="9"><img src="assets/private/10-s.webp" alt="" loading="lazy"></button><button type="button" class="pg-i" data-i="10"><img src="assets/private/11-s.webp" alt="" loading="lazy"></button><button type="button" class="pg-i" data-i="11"><img src="assets/private/12-s.webp" alt="" loading="lazy"></button><button type="button" class="pg-i" data-i="12"><img src="assets/private/13-s.webp" alt="" loading="lazy"></button><button type="button" class="pg-i" data-i="13"><img src="assets/private/14-s.webp" alt="" loading="lazy"></button></div>
   <div class="btns"><a class="btn red" href="contact.html" data-i18n="privCta"></a></div>
  </div></section>
  <div class="pm" id="pm" hidden role="dialog" aria-modal="true" aria-labelledby="pmTitle">
@@ -118,7 +118,7 @@ window.PAGE_T={
 })();
 </script>
 <script>
-(function(){const L=[1,2,3,4,5,6,7,8,9].map(n=>"assets/private/0"+n+".webp");
+(function(){const L=Array.from({length:14},(_,i)=>"assets/private/"+String(i+1).padStart(2,"0")+".webp");
 document.querySelectorAll("#pgal .pg-i").forEach(b=>b.addEventListener("click",()=>Melsa.lightbox(L,+b.dataset.i,Melsa.t("privGal"))));})();
 </script>
 </body>
