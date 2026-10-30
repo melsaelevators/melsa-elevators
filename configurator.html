@@ -5,9 +5,9 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18534844415"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','AW-18534844415');</script>
 <meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="icon" type="image/png" href="assets/logo-mark.png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="manifest" href="manifest.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Melsa"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="theme-color" content="#0b1d35">
+<link rel="icon" type="image/png" href="icons/configurator-64.png"><link rel="apple-touch-icon" href="icons/configurator-180.png"><link rel="manifest" href="configurator.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Melsa 3D"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="theme-color" content="#0b1d35">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<title>Melsa Elevators | Cabin Configurator</title>
+<title>Melsa 3D | Cabin Designer</title>
 <style>
 :root{--navy:#0b1d35;--navy-dark:#172a40;--red:#a82935;--paper:#f5f4f0;--ink:#0b1d35;--muted:#5e6670;--line:#dddcd5;--tint:#eceae3;--gold:#c5ad87}
 *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.45 'Inter','IBM Plex Sans Arabic',system-ui,sans-serif}
@@ -154,6 +154,7 @@ body.locked #lock{display:flex;min-height:100vh;flex-direction:column}
 .ai-actions{display:flex;gap:8px;padding:14px 18px}.ai-actions .btn{flex:1}
 .ai-disclaimer{font-size:10.5px;color:var(--muted);padding:0 18px 16px;margin:0}
 
+.d3{background:#a82935;color:#fff;font-weight:800;font-size:13px;letter-spacing:.06em;border-radius:980px;padding:4px 10px;line-height:1}
 </style>
 </head>
 <body class="locked">
@@ -184,7 +185,7 @@ body.locked #lock{display:flex;min-height:100vh;flex-direction:column}
  </div>
  <div class="welcome-bar bottom"></div>
 </div>
-<header><div class="brand"><a href="./" style="display:block"><img src="assets/logo.png" alt="Melsa Elevators" width="400" height="308"></a><small data-i18n="tagline">ENGINEERED FOR ELEGANCE</small></div><div class="header-right"><a class="navlink" href="survey.html" data-i18n="navSurvey">Site survey</a><div class="tag" data-i18n="tag">CABIN CONFIGURATOR · CONCEPT DEMO</div><button type="button" class="install-btn" id="installBtn" data-i18n="install" hidden>Install app</button><button type="button" class="lang-btn" id="langBtn" lang="ar">عربي</button></div></header>
+<header><div class="brand"><a href="./" style="display:block"><img src="assets/logo.png" alt="Melsa Elevators" width="400" height="308"></a><span class="d3">3D</span><small data-i18n="tagline">ENGINEERED FOR ELEGANCE</small></div><div class="header-right"><a class="navlink" href="survey.html" data-i18n="navSurvey">Site survey</a><div class="tag" data-i18n="tag">CABIN CONFIGURATOR · CONCEPT DEMO</div><button type="button" class="install-btn" id="installBtn" data-i18n="install" hidden>Install app</button><button type="button" class="lang-btn" id="langBtn" lang="ar">عربي</button></div></header>
 <div class="toast" id="toast" role="status" hidden></div>
 <main>
 <section class="intro"><div><div class="eyebrow" data-i18n="eyebrow">YOUR DESIGN, YOUR CHOICE</div><h1 data-i18n-html="h1">Design your <em>own cabin.</em></h1><p data-i18n="intro">Explore finishes and build a look that feels right for your project. Choose the cabin style, flooring, metal finish, ceiling, control panels and door type/design.</p></div><div class="step" data-i18n="step">REAL MELSA PRODUCTS</div></section>
@@ -258,7 +259,7 @@ body.locked #lock{display:flex;min-height:100vh;flex-direction:column}
 <script>
 /* ---------- Language (English / Arabic) ---------- */
 const T={
- en:{title:"Melsa Elevators | Cabin Configurator",tagline:"ENGINEERED FOR ELEGANCE",tag:"CABIN CONFIGURATOR · CONCEPT DEMO",eyebrow:"YOUR DESIGN, YOUR CHOICE",
+ en:{title:"Melsa 3D | Cabin Designer",tagline:"ENGINEERED FOR ELEGANCE",tag:"CABIN CONFIGURATOR · CONCEPT DEMO",eyebrow:"YOUR DESIGN, YOUR CHOICE",
   h1:"Design your <em>own cabin.</em>",intro:"Explore finishes and build a look that feels right for your project. Choose the cabin style, flooring, metal finish, ceiling, control panels and door type/design.",
   step:"REAL MELSA PRODUCTS",preview:"LIVE 3D DESIGN PREVIEW",hint3d:"3D PREVIEW",customize:"Customize your cabin",sub:"Pick real Melsa products — the 3D preview updates instantly.",
   aiOnly:"Used for the AI image",spec:"Your design specification",note:"Concept preview only. Final finishes must be confirmed against available materials and real product samples.",
@@ -282,7 +283,7 @@ const T={
   "h.machineRoom.Top":"Motor and controller in a room on the roof, above the shaft.","h.machineRoom.MRL":"Compact motor at the top of the shaft. No machine room needed.",
   "h.machine.Geared":"Motor drives the ropes through a gearbox. Lower cost.","h.machine.Gearless":"Motor drives the ropes directly. Quieter, smoother and more energy-efficient.",
   "h.hydUnit.Beside":"Pump and oil tank in a small room next to the shaft, at the lowest floor.","h.hydUnit.Pit":"Pump and oil tank inside the shaft. Saves space."},
- ar:{title:"إلكتروميلسا لتصميم وتركيب وتوريد وصيانة المصاعد | صمّم كابينتك",tagline:"هندسة الأناقة",tag:"مصمم الكابينة · نسخة تجريبية",eyebrow:"تصميمك، اختيارك",
+ ar:{title:"ميلسا 3D | تصميم الكابينة",tagline:"هندسة الأناقة",tag:"مصمم الكابينة · نسخة تجريبية",eyebrow:"تصميمك، اختيارك",
   h1:"صمّم <em>كابينتك بنفسك.</em>",intro:"استكشف الخامات واصنع الشكل المناسب لمشروعك. اختر طراز الكابينة والأرضية ولون المعدن والسقف ولوحة التحكم ونوع الباب وتصميمه.",
   step:"منتجات ميلسا الحقيقية",preview:"معاينة ثلاثية الأبعاد مباشرة",hint3d:"معاينة 3D",customize:"خصّص كابينتك",sub:"اختر من منتجات ميلسا الحقيقية — تتحدث المعاينة فورًا.",
   aiOnly:"يُستخدم لصورة الذكاء الاصطناعي",spec:"مواصفات تصميمك",note:"معاينة تصورية فقط. يجب تأكيد الخامات النهائية مع الخامات المتاحة وعينات المنتجات الحقيقية.",

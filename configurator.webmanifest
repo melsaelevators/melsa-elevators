@@ -1,0 +1,31 @@
+{
+ "name": "Melsa 3D – Cabin Designer",
+ "short_name": "Melsa 3D",
+ "description": "Design your elevator cabin with real Melsa products, explore it in 3D and create a realistic AI image.",
+ "start_url": "configurator.html",
+ "scope": "./",
+ "display": "standalone",
+ "orientation": "any",
+ "background_color": "#ffffff",
+ "theme_color": "#0b1d35",
+ "lang": "en",
+ "icons": [
+  {
+   "src": "icons/configurator-192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  },
+  {
+   "src": "icons/configurator-512.png",
+   "sizes": "512x512",
+   "type": "image/png"
+  },
+  {
+   "src": "icons/configurator-maskable-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ],
+ "id": "configurator.html"
+}
