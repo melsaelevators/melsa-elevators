@@ -19,11 +19,14 @@
 .svc h3{font-size:16px;margin:0 0 2px}.svc p{margin:0;color:var(--muted);font-size:13.5px}
 .alert{background:#f4e6e7;border:1px solid #f5a3ab;color:#9b0213;border-radius:3px;padding:12px 14px;font-weight:700;font-size:14px}
 @media(max-width:860px){.mgrid{grid-template-columns:1fr}}
+.tech{margin:0 0 6px;position:relative;border-radius:20px;overflow:hidden}.tech img{width:100%;height:380px;object-fit:cover;object-position:center 35%;display:block}
+.tech figcaption{position:absolute;left:0;right:0;bottom:0;padding:40px 18px 16px;color:#fff;font-weight:600;font-size:15px;background:linear-gradient(0deg,#0b1d35e6,#0b1d3500)}
+@media(max-width:860px){.tech img{height:300px}}
 </style>
 <script>
 window.PAGE_T={
  en:{title:"Elevator maintenance | Melsa Elevators",eyebrow:"Maintenance",h1:"Keep your elevator safe and running",lead:"Book a maintenance visit or report a problem. Our team will contact you to arrange the visit.",
-  servTitle:"Maintenance services",m1:"Preventive maintenance contracts",m1t:"Regular visits to inspect, clean, lubricate and adjust your elevator.",
+  techCap:"A Melsa technician servicing a villa elevator",servTitle:"Maintenance services",m1:"Preventive maintenance contracts",m1t:"Regular visits to inspect, clean, lubricate and adjust your elevator.",
   m2:"Breakdown repairs",m2t:"Fast response when your elevator stops or behaves abnormally.",m3:"Safety inspections",m3t:"Checks of brakes, ropes, doors, safety gear and emergency systems.",
   m4:"Spare parts",m4t:"Doors, panels, buttons, controllers and machine parts.",m5:"Modernization",m5t:"Upgrade older elevators for better safety, comfort and efficiency.",
   formTitle:"Request a maintenance visit",name:"Your name",phone:"Phone number",area:"Address / area",building:"Building type",drive:"Elevator type",brand:"Elevator brand (if known)",
@@ -34,7 +37,7 @@ window.PAGE_T={
   "i.Stopped":"Elevator stopped","i.Trapped":"Person trapped","i.Door":"Door problem","i.Noise":"Noise or vibration","i.Buttons":"Buttons or display","i.Periodic":"Periodic maintenance","i.Other":"Other",
   "u.Urgent":"Urgent — today","u.Week":"This week","u.Schedule":"Schedule a visit",msgHead:"Maintenance request from the Melsa website"},
  ar:{title:"الصيانة | إلكتروميلسا لتصميم وتركيب وتوريد وصيانة المصاعد",eyebrow:"الصيانة",h1:"حافظ على مصعدك آمن وشغال",lead:"احجز زيارة صيانة أو بلّغ عن مشكلة، وفريقنا هيتواصل معاك لتحديد الزيارة.",
-  servTitle:"خدمات الصيانة",m1:"عقود الصيانة الدورية",m1t:"زيارات منتظمة للفحص والتنظيف والتشحيم وضبط المصعد.",
+  techCap:"فني من فريق ميلسا أثناء صيانة مصعد فيلا",servTitle:"خدمات الصيانة",m1:"عقود الصيانة الدورية",m1t:"زيارات منتظمة للفحص والتنظيف والتشحيم وضبط المصعد.",
   m2:"إصلاح الأعطال",m2t:"استجابة سريعة لما المصعد يقف أو يشتغل بشكل غير طبيعي.",m3:"فحوصات الأمان",m3t:"فحص الفرامل والحبال والأبواب وأجهزة الأمان وأنظمة الطوارئ.",
   m4:"قطع الغيار",m4t:"أبواب ولوحات وأزرار ولوحات كنترول وقطع ماكينات.",m5:"التحديث",m5t:"تطوير المصاعد القديمة لأمان وراحة وكفاءة أعلى.",
   formTitle:"اطلب زيارة صيانة",name:"الاسم",phone:"رقم التليفون",area:"العنوان / المنطقة",building:"نوع المبنى",drive:"نوع المصعد",brand:"ماركة المصعد (لو معروفة)",
@@ -52,6 +55,7 @@ window.PAGE_T={
  <div class="page-head"><div class="wrap"><div class="eyebrow" data-i18n="eyebrow"></div><h1 data-i18n="h1"></h1><p class="lead" data-i18n="lead"></p></div></div>
  <section><div class="wrap mgrid">
   <div style="display:grid;gap:10px">
+   <figure class="tech"><img src="assets/private/08.webp" alt="Melsa Elevators technician" loading="eager" width="1024" height="1536"><figcaption data-i18n="techCap"></figcaption></figure>
    <h2 style="margin:0 0 4px;font-size:22px" data-i18n="servTitle"></h2>
    <div class="svc"><span class="ic">🗓️</span><div><h3 data-i18n="m1"></h3><p data-i18n="m1t"></p></div></div>
    <div class="svc"><span class="ic">🚨</span><div><h3 data-i18n="m2"></h3><p data-i18n="m2t"></p></div></div>
