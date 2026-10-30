@@ -2,20 +2,20 @@
 (function(){
 const SITE=window.MELSA_SITE||{company:{},clients:[],projects:[]}, C=SITE.company||{};
 const T={
- en:{"nav.home":"Home","nav.about":"About us","nav.projects":"Projects","nav.catalog":"Catalog","nav.clients":"Clients","nav.maint":"Maintenance","nav.consult":"Consulting","nav.contact":"Contact us","nav.eng":"🔒 Engineers",
+ en:{"nav.elev":"Elevators","sub.maintReq":"Book maintenance","sub.mNewCairo":"Maintenance in New Cairo","sub.mNasr":"Maintenance in Nasr City","sub.mCairo":"Maintenance in Cairo","sub.repair":"Breakdown repairs","sub.modern":"Modernization","sub.villa":"Villa & home elevators","sub.pano":"Panoramic elevators","sub.bldg":"Residential building elevators","sub.prices":"Elevator prices in Egypt","sub.iNewCairo":"Installation in New Cairo","sub.iNasr":"Installation in Nasr City","f.services":"Our services","nav.home":"Home","nav.about":"About us","nav.projects":"Projects","nav.catalog":"Catalog","nav.clients":"Clients","nav.maint":"Maintenance","nav.consult":"Consulting","nav.contact":"Contact us","nav.eng":"🔒 Engineers",
   "f.about":"Melsa Elevators designs, supplies, installs and maintains elevators for homes, buildings and businesses.","f.links":"Pages","f.contact":"Contact",
   "f.rights":"© {y} Melsa Elevators. All rights reserved.","f.soon":"Contact details coming soon.","f.engineers":"Engineers' area","f.profile":"Company profile (PDF)",
   notSet:"Our contact details are being added. Please check back soon.",sent:"Opening WhatsApp…",required:"Please fill in your name and phone number.",
   "ci.phone":"Phone","ci.mobile":"Mobile","ci.whatsapp":"WhatsApp","ci.email":"Email","ci.address":"Address","ci.hours":"Working hours","ci.facebook":"Facebook","review":"Rate us on Google","reviewSub":"Happy with our work? Your review helps others find us.","ci.instagram":"Instagram",close:"Close",
   "t.Residential":"Residential","t.Villa":"Villa","t.Factory":"Factory","t.Hospital":"Hospital","t.Mall":"Mall","t.Office":"Office","t.Hotel":"Hotel"},
- ar:{"nav.home":"الرئيسية","nav.about":"من نحن","nav.projects":"مشاريعنا","nav.catalog":"الكتالوج","nav.clients":"عملاؤنا","nav.maint":"الصيانة","nav.consult":"استشارات","nav.contact":"تواصل معنا","nav.eng":"🔒 المهندسين",
+ ar:{"nav.elev":"المصاعد","sub.maintReq":"احجز صيانة","sub.mNewCairo":"صيانة في التجمع والقاهرة الجديدة","sub.mNasr":"صيانة في مدينة نصر","sub.mCairo":"صيانة في القاهرة","sub.repair":"إصلاح الأعطال","sub.modern":"تحديث المصاعد القديمة","sub.villa":"مصاعد الفيلات والمنازل","sub.pano":"مصاعد بانوراما","sub.bldg":"مصاعد العمارات السكنية","sub.prices":"أسعار المصاعد في مصر","sub.iNewCairo":"تركيب مصاعد في التجمع","sub.iNasr":"تركيب مصاعد في مدينة نصر","f.services":"خدماتنا","nav.home":"الرئيسية","nav.about":"من نحن","nav.projects":"مشاريعنا","nav.catalog":"الكتالوج","nav.clients":"عملاؤنا","nav.maint":"الصيانة","nav.consult":"استشارات","nav.contact":"تواصل معنا","nav.eng":"🔒 المهندسين",
   "f.about":"إلكتروميلسا لتصميم وتركيب وتوريد وصيانة المصاعد — للمنازل والمباني والشركات.","f.links":"الصفحات","f.contact":"تواصل",
   "f.rights":"© {y} إلكتروميلسا لتصميم وتركيب وتوريد وصيانة المصاعد. جميع الحقوق محفوظة.","f.soon":"بيانات التواصل قريبًا.","f.engineers":"منطقة المهندسين","f.profile":"بروفايل الشركة (PDF)",
   notSet:"بيانات التواصل قيد الإضافة. برجاء المحاولة لاحقًا.",sent:"جارٍ فتح واتساب…",required:"برجاء كتابة الاسم ورقم التليفون.",
   "review":"قيّمنا على Google","reviewSub":"عجبك شغلنا؟ تقييمك بيساعد غيرك يلاقينا.","ci.phone":"التليفون الأرضي","ci.mobile":"الموبايل","ci.whatsapp":"واتساب","ci.email":"البريد الإلكتروني","ci.address":"العنوان","ci.hours":"مواعيد العمل","ci.facebook":"فيسبوك","ci.instagram":"إنستجرام",close:"إغلاق",
   "t.Residential":"سكني","t.Villa":"فيلا","t.Factory":"مصنع","t.Hospital":"مستشفى","t.Mall":"مول","t.Office":"إداري","t.Hotel":"فندق"}
 };
-let lang="en"; try{const s=localStorage.getItem("melsaLang");if(s==="ar"||s==="en")lang=s;}catch(e){}
+let lang=document.body&&document.body.dataset.lang==="ar"?"ar":"en"; try{const s=localStorage.getItem("melsaLang");if(s==="ar"||s==="en")lang=s;}catch(e){}
 const PAGE_T=window.PAGE_T||{en:{},ar:{}};
 function t(k,v){let s=(PAGE_T[lang]&&PAGE_T[lang][k])??(T[lang]&&T[lang][k])??PAGE_T.en?.[k]??T.en[k]??k; if(v)for(const x in v)s=s.split("{"+x+"}").join(v[x]); return s;}
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -26,20 +26,33 @@ const WA_ICON='<svg viewBox="0 0 24 24" width="1.25em" height="1.25em" style="ve
 
 /* header & footer */
 const NAV=[["home","./"],["about","about.html"],["catalog","catalog.html"],["clients","clients.html"],["maint","maintenance.html"],["consult","consulting.html"],["contact","contact.html"]];
+const SUB={
+ elev:[["villa","villa-elevators.html"],["pano","panoramic-elevators.html"],["bldg","building-elevators.html"],["prices","elevator-prices.html"],["iNewCairo","elevator-installation-new-cairo.html"],["iNasr","elevator-installation-nasr-city.html"]],
+ maint:[["maintReq","maintenance.html"],["mNewCairo","elevator-maintenance-new-cairo.html"],["mNasr","elevator-maintenance-nasr-city.html"],["mCairo","elevator-maintenance-cairo.html"],["repair","elevator-repair.html"],["modern","elevator-modernization.html"]]};
+const TOPNAV=[["home","./"],["about","about.html"],["elev",null],["maint",null],["catalog","catalog.html"],["clients","clients.html"],["consult","consulting.html"],["contact","contact.html"]];
+const here=location.pathname.split("/").pop()||"";
+const navItem=([k,h])=>{
+ if(!SUB[k])return `<a href="${h}" data-k="${k}" class="${k===page?"on":""}"></a>`;
+ const on=k===page||SUB[k].some(([,u])=>u===here);
+ return `<div class="dd${on?" on":""}"><button type="button" class="dd-t" data-k="${k}" aria-expanded="false"></button><div class="dd-m">${SUB[k].map(([sk,u])=>`<a href="${u}" data-sk="${sk}" class="${u===here?"on":""}"></a>`).join("")}</div></div>`;
+};
 const header=document.createElement("header"); header.className="site-header";
 header.innerHTML=`<div class="hwrap"><a class="logo" href="./"><img src="assets/logo.png" alt="Melsa Elevators" width="400" height="308"></a>
  <button class="menu-btn" type="button" aria-label="Menu" aria-expanded="false">☰</button>
- <nav class="nav">${NAV.map(([k,h])=>`<a href="${h}" data-k="${k}" class="${k===page?"on":""}"></a>`).join("")}<button type="button" class="lang-btn"></button></nav></div>`;
+ <nav class="nav">${TOPNAV.map(navItem).join("")}<button type="button" class="lang-btn"></button></nav></div>`;
 document.body.prepend(header);
 const nav=header.querySelector(".nav"), mb=header.querySelector(".menu-btn");
 mb.addEventListener("click",()=>{const o=nav.classList.toggle("open");mb.setAttribute("aria-expanded",o);mb.textContent=o?"✕":"☰";});
 header.querySelector(".lang-btn").addEventListener("click",()=>setLang(lang==="ar"?"en":"ar"));
+header.querySelectorAll(".dd-t").forEach(b=>b.addEventListener("click",e=>{e.stopPropagation();const d=b.parentElement,o=!d.classList.contains("open");header.querySelectorAll(".dd.open").forEach(x=>{x.classList.remove("open");x.firstElementChild.setAttribute("aria-expanded","false");});if(o){d.classList.add("open");b.setAttribute("aria-expanded","true");}}));
+document.addEventListener("click",e=>{if(!e.target.closest(".dd"))header.querySelectorAll(".dd.open").forEach(x=>{x.classList.remove("open");x.firstElementChild.setAttribute("aria-expanded","false");});});
 
 const footer=document.createElement("footer"); footer.className="site-footer"; document.body.append(footer);
 function renderFooter(){
  const items=contactItems();
  footer.innerHTML=`<div class="fwrap"><div><span class="flogo"><img src="assets/logo-light.png" alt="Melsa Elevators"></span><p style="margin:12px 0 0">${esc(t("f.about"))}</p>${C.facebook||C.instagram?`<div class="fsocial">${C.facebook?`<a href="${esc(C.facebook)}" target="_blank" rel="noopener" aria-label="Facebook">${FB_ICON}</a>`:""}${C.instagram?`<a href="${esc(C.instagram)}" target="_blank" rel="noopener" aria-label="Instagram">${IG_ICON}</a>`:""}</div>`:""}${C.reviewUrl||C.mapsUrl?`<a class="frev" href="review.html" target="_blank" rel="noopener">${G_ICON}<span>${esc(t("review"))}</span><b aria-hidden="true">★★★★★</b></a>`:""}</div>
  <div><h4>${esc(t("f.links"))}</h4><ul>${NAV.map(([k,h])=>`<li><a href="${h}">${esc(t("nav."+k))}</a></li>`).join("")}<li><a href="assets/docs/melsa-company-profile${lang==="ar"?"-ar":""}.pdf" target="_blank" rel="noopener" data-profile>${esc(t("f.profile"))}</a></li></ul></div>
+ <div><h4>${esc(t("f.services"))}</h4><ul>${[...SUB.elev,...SUB.maint.slice(1)].map(([sk,u])=>`<li><a href="${u}">${esc(t("sub."+sk))}</a></li>`).join("")}</ul></div>
  <div><h4>${esc(t("f.contact"))}</h4>${items.length?`<ul>${items.map(i=>`<li>${i.icon} ${i.href?`<a href="${esc(i.href)}" ${i.ext?'target="_blank" rel="noopener"':""}><bdi ${i.ltr?'dir="ltr"':""}>${esc(i.text)}</bdi></a>`:esc(i.text)}</li>`).join("")}</ul>`:`<p style="margin:0">${esc(t("f.soon"))}</p>`}</div></div>
  <div class="fbottom">${esc(t("f.rights",{y:new Date().getFullYear()}))}</div>`;
 }
@@ -67,12 +80,13 @@ function setLang(L){
  lang=L; try{localStorage.setItem("melsaLang",L)}catch(e){}
  document.documentElement.lang=L; document.documentElement.dir=L==="ar"?"rtl":"ltr";
  header.querySelectorAll("[data-k]").forEach(a=>a.textContent=t("nav."+a.dataset.k));
+ header.querySelectorAll("[data-sk]").forEach(a=>a.textContent=t("sub."+a.dataset.sk));
  header.querySelector(".lang-btn").textContent=L==="ar"?"English":"عربي";
  document.querySelectorAll("[data-i18n]").forEach(el=>el.textContent=t(el.dataset.i18n));
  document.querySelectorAll("[data-i18n-html]").forEach(el=>el.innerHTML=t(el.dataset.i18nHtml));
  document.querySelectorAll("[data-i18n-ph]").forEach(el=>el.placeholder=t(el.dataset.i18nPh));
  document.querySelectorAll("select[data-opts]").forEach(sel=>{const v=sel.value;[...sel.options].forEach(o=>o.textContent=t(sel.dataset.opts+"."+o.value));sel.value=v;});
- if(PAGE_T.title)document.title=t("title");
+ if(PAGE_T.title||(PAGE_T.en&&PAGE_T.en.title))document.title=t("title");
  renderFooter();
  window.dispatchEvent(new Event("melsa:lang"));
 }
