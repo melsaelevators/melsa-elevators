@@ -105,10 +105,16 @@ p{font-size:10.5pt;line-height:1.6;color:var(--muted)}
 .facts small{display:block;font-size:7.5pt;color:var(--muted)}
 .facts b{font-size:10pt;font-weight:600}
 .mini{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm;margin-top:7mm}
-.mini .photo{height:62mm}
-.logos{display:grid;grid-template-columns:repeat(5,1fr);gap:3mm;margin-top:8mm}
-.logos div{background:#fff;border-radius:3.5mm;height:22mm;display:grid;place-items:center;padding:3mm}
-.logos img{max-height:15mm;max-width:100%;object-fit:contain}
+.mini .photo{height:44mm}
+.logos{display:grid;grid-template-columns:repeat(5,1fr);gap:2.5mm;margin-top:6mm}
+.logos div{background:#fff;border-radius:3.5mm;height:27mm;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5mm;padding:2mm 2mm}
+.logos img{max-height:12mm;max-width:100%;object-fit:contain}
+.logos span{font-size:6.6pt;line-height:1.2;text-align:center;color:var(--ink);font-weight:600;letter-spacing:0}
+.pgal{display:grid;grid-template-columns:repeat(4,1fr);gap:3mm}
+.pgal .photo{height:52mm;border-radius:4mm}
+.pgal.big .photo,.pgal.big .cta{height:72mm}
+.pgal .cta{background:var(--navy);border-radius:4mm;color:#fff;display:flex;flex-direction:column;justify-content:flex-end;padding:5mm;gap:1mm}
+.pgal .cta b{font-size:13pt;line-height:1.25;margin-bottom:2mm}.pgal .cta span{font-size:8pt;color:var(--silver);direction:ltr;unicode-bidi:isolate}
 /* team */
 .team{display:grid;grid-template-columns:repeat(3,1fr);gap:5mm;margin-top:10mm}
 .team .photo{height:72mm;background:#fff}
@@ -135,7 +141,7 @@ en:{
  coverH:"Elevators crafted<br>to match your vision.",coverSub:"Design, supply, installation and maintenance of elevators for homes, buildings and businesses across Egypt.",
  since:"Since",years:"Years of experience",clients:"Major clients",
  tocEye:"Inside",tocH:"Contents",
- toc:["About Melsa","Founder's message","Vision, mission & values","Our services","Elevator solutions","Materials & finishes","How we work","Why Melsa","Selected projects","Our clients","Our team","Contact us"],
+ toc:["Our clients","Private clients","About Melsa","Founder's message","Vision, mission & values","Our services","Elevator solutions","Materials & finishes","How we work","Why Melsa","Selected projects","Our team","Contact us"],
  aboutEye:"About Melsa",aboutH:"Quality. Safety.<br>Reliability.",
  about1:"Melsa Elevators has been part of the elevator industry since 1997, serving residential, commercial, administrative, healthcare and industrial buildings.",
  about2:"We believe an elevator is more than a means of transport. It is a central part of a building's accessibility, function and everyday experience. Every project starts with understanding its requirements and ends with a lift that is safe, reliable and beautifully finished.",
@@ -168,7 +174,8 @@ en:{
  loc:"Location",type:"Building",scope:"Scope",lift:"Elevators",
  p1f:["New Cairo","Residential","Installation","Passenger, panoramic"],p2f:["Helwan","Industrial","Installation","Panoramic & service"],
  more:"More projects",mp:[["Consolidated Contractors (CCC)","projects/ccc/1.jpg"],["Ahmed El Sallab","projects/ahmed-el-sallab/1.jpg"],["Al Seddik Association","projects/al-seddik/1.jpg"]],
- cEye:"Our clients",cH:"Trusted across Egypt.",cLead:"Hospitals, universities, government bodies, contractors and industry leaders rely on Melsa, as do many private villas and residential buildings whose names we keep private.",
+ cEye:"Our clients",cH:"Trusted across Egypt.",cLead:"Hospitals, universities, government bodies, contractors and industry leaders who rely on Melsa.",
+ pvEye:"Private clients",pvH:"Villas, residences<br>and private buildings.",pvLead:"Beyond the organisations we work with, we have designed, installed and maintained elevators for a large number of private villas, residential buildings and homes of well-known families across Cairo, Giza and other cities. Out of respect for their privacy, we do not publish their names.",pv:[["Private villas","Home lifts and panoramic elevators designed around the interior."],["Residential buildings","Passenger elevators for apartment buildings, with maintenance contracts."],["Luxury residences","Custom cabins in gold, glass, wood and marble."]],pvGal:"From our private projects",pvCta:"Ask for references",
  tmEye:"Our team",tmH:"The people behind Melsa.",
  team:[["Adel Abdelkawy","Founder","adel-abdelkawy.jpg"],["Mohamed Adel","CEO","mohamed-adel.jpg"],["Youssef Adel","Business Partner & Marketing Director","youssef-adel.jpg"]],
  ctEye:"Contact us",ctH:"Let's talk about<br>your project.",ctLead:"For enquiries, quotations, site surveys and maintenance, our team is ready to help.",
@@ -180,7 +187,7 @@ ar:{
  coverH:"مصاعد مصممة<br>لتناسب رؤيتك.",coverSub:"تصميم وتوريد وتركيب وصيانة المصاعد للمنازل والمباني والشركات في جميع أنحاء مصر.",
  since:"منذ",years:"سنة خبرة",clients:"عميل كبير",
  tocEye:"المحتويات",tocH:"في هذا الملف",
- toc:["عن ميلسا","كلمة المؤسس","الرؤية والرسالة والقيم","خدماتنا","حلول المصاعد","الخامات والتشطيبات","خطوات العمل","لماذا ميلسا","مشاريع مختارة","عملاؤنا","فريقنا","تواصل معنا"],
+ toc:["عملاؤنا","العملاء الخاصون","عن ميلسا","كلمة المؤسس","الرؤية والرسالة والقيم","خدماتنا","حلول المصاعد","الخامات والتشطيبات","خطوات العمل","لماذا ميلسا","مشاريع مختارة","فريقنا","تواصل معنا"],
  aboutEye:"عن ميلسا",aboutH:"جودة. أمان.<br>اعتمادية.",
  about1:"تعمل إلكتروميلسا في مجال المصاعد منذ عام 1997، وتخدم المباني السكنية والتجارية والإدارية والمستشفيات والمنشآت الصناعية.",
  about2:"نؤمن بأن المصعد أكثر من وسيلة انتقال؛ فهو جزء أساسي من سهولة الوصول داخل المبنى ومن تجربة مستخدميه اليومية. يبدأ كل مشروع لدينا بفهم متطلباته، وينتهي بمصعد آمن وموثوق وبتشطيب راقٍ.",
@@ -213,84 +220,94 @@ ar:{
  loc:"الموقع",type:"نوع المبنى",scope:"نطاق العمل",lift:"المصاعد",
  p1f:["القاهرة الجديدة","سكني","تركيب","ركاب، بانوراما"],p2f:["حلوان","صناعي","تركيب","بانوراما وخدمة"],
  more:"مشاريع أخرى",mp:[["شركة اتحاد المقاولين (CCC)","projects/ccc/1.jpg"],["أحمد السلاب","projects/ahmed-el-sallab/1.jpg"],["جمعية الصديق","projects/al-seddik/1.jpg"]],
- cEye:"عملاؤنا",cH:"ثقة في كل مصر.",cLead:"مستشفيات وجامعات وجهات حكومية ومقاولون وشركات صناعية كبرى يعتمدون على ميلسا، بالإضافة لعدد كبير من الفيلات والعمارات الخاصة التي نحتفظ بخصوصية أسمائها.",
+ cEye:"عملاؤنا",cH:"ثقة في كل مصر.",cLead:"مستشفيات وجامعات وجهات حكومية ومقاولون وشركات صناعية كبرى يعتمدون على ميلسا.",
+ pvEye:"العملاء الخاصون",pvH:"فيلات وقصور<br>وعمارات خاصة.",pvLead:"بالإضافة إلى الجهات التي نعمل معها، صممنا وركّبنا ونقوم بصيانة مصاعد عدد كبير من الفيلات والعمارات السكنية وبيوت عائلات معروفة في القاهرة والجيزة ومدن أخرى. واحترامًا لخصوصيتهم، لا ننشر أسماءهم.",pv:[["فيلات خاصة","مصاعد منزلية وبانوراما مصممة على ديكور المنزل."],["عمارات سكنية","مصاعد ركاب للعمارات مع عقود صيانة."],["قصور وبيوت فاخرة","كبائن خاصة بتشطيبات ذهبية وزجاج وخشب ورخام."]],pvGal:"من مشاريعنا الخاصة",pvCta:"اطلب أمثلة من أعمالنا",
  tmEye:"فريقنا",tmH:"الفريق وراء ميلسا.",
  team:[["عادل عبد القوي","المؤسس","adel-abdelkawy.jpg"],["محمد عادل","الرئيس التنفيذي (CEO)","mohamed-adel.jpg"],["يوسف عادل","شريك ومدير التسويق","youssef-adel.jpg"]],
  ctEye:"تواصل معنا",ctH:"لنتحدث عن<br>مشروعك.",ctLead:"للاستفسارات وعروض الأسعار ومعاينات المواقع والصيانة، فريقنا جاهز لمساعدتك.",
  cPhone:"تليفون",cMobile:"موبايل",cWa:"واتساب",cMail:"البريد الإلكتروني",cAddr:"العنوان",cWeb:"الموقع الإلكتروني",
  addr:"٢ عمارات أيوب، شارع حسن أفلاطون، بجوار سفارة الإمارات، أرض الجولف، مدينة نصر، القاهرة",hours:"السبت – الخميس، ٩ صباحًا – ٥ مساءً"
 }}[lang];
-const CLIENT_LOGOS=["sonesta","aca","rehab-city-hall","al-maadi","salam-hospital","zaitoun-hospital","el-nasr-mining","heliopolis-chemical","meg","united-glass","pil","geek-campus","al-seddik","italian-hospital","ain-shams-university","al-azhar-university","cic","arab-contractors","ccc","acrow","abb","ahmed-el-sallab","farm-cheese","applied-professions-syndicate","commercial-professions-syndicate"];
+const CLIENTS=[["sonesta", "Sonesta Hotels & Resorts", "فنادق ومنتجعات سونستا"], ["aca", "Administrative Control Authority", "هيئة الرقابة الإدارية"], ["rehab-city-hall", "Al Rehab City Hall", "جهاز مدينة الرحاب"], ["al-maadi", "Al Maadi for Development & Construction", "المعادي للتنمية والتعمير"], ["salam-hospital", "Salam Specialized Hospital", "مستشفى السلام التخصصي"], ["zaitoun-hospital", "Al Zaitoun Specialized Hospital", "مستشفى الزيتون التخصصي"], ["el-nasr-mining", "El Nasr Mining Co.", "شركة النصر للتعدين"], ["heliopolis-chemical", "Heliopolis Co. for Chemical Industries", "شركة هليوبوليس للصناعات الكيماوية"], ["meg", "Middle East Glass (MEG)", "ميدل إيست للزجاج"], ["united-glass", "United Glass Company", "الشركة المتحدة للزجاج"], ["pil", "PIL", "PIL"], ["geek-campus", "The Greek Campus", "ذا جريك كامبس"], ["al-seddik", "Al Seddik Community Development Association", "جمعية الصديق لتنمية المجتمع"], ["italian-hospital", "Italian Hospital Umberto I, Cairo", "المستشفى الإيطالي أومبرتو الأول بالقاهرة"], ["ain-shams-university", "Ain Shams University", "جامعة عين شمس"], ["al-azhar-university", "Al-Azhar University", "جامعة الأزهر"], ["cic", "Canadian International College (CIC)", "الكلية الكندية الدولية"], ["arab-contractors", "The Arab Contractors", "المقاولون العرب"], ["ccc", "Consolidated Contractors Company (CCC)", "شركة اتحاد المقاولين (CCC)"], ["acrow", "ACROW Misr", "أكرو مصر"], ["abb", "ABB", "ABB"], ["ahmed-el-sallab", "Ahmed El Sallab", "أحمد السلاب"], ["farm-cheese", "Farm Cheese", "فارم تشيز"], ["applied-professions-syndicate", "Syndicate of Applied Professions", "نقابة التطبيقيين"], ["commercial-professions-syndicate", "Syndicate of Commercial Professions", "نقابة التجاريين"]]; // [logo, English name, Arabic name], same as assets/site-data.js
 const src=s=>s==="LANDING"?L+"landing-door.jpg":A+s;
 let page=0;
 const run=(dark)=>`<div class="run"><img src="${A}${dark?"logo-light.png":"logo.png"}" alt=""><span>${T.profile} · ${T.year}</span></div>`;
 const foot=()=>`<div class="foot"><span>${T.web}</span><span>${String(page).padStart(2,"0")}</span></div>`;
 const P=(cls,inner,dark)=>{page++;return `<section class="pg ${cls||""}">${page>1?run(dark):""}${inner}${page>1?foot():""}</section>`;};
-const eye=(n,t)=>`<div class="eyebrow"><b>${n}</b>${t}</div>`;
+let sec=0;
+const eye=(n,t)=>`<div class="eyebrow"><b>${n===""?"":String(++sec).padStart(2,"0")}</b>${t}</div>`;
 const pages=[];
-// 1 cover
+// cover
 pages.push(P("cover dark",`<img class="cover-img" src="${A}hero/02.jpg" alt=""><div class="shade"></div>
  <div class="top"><img src="${A}logo-light.png" alt=""><span>${T.profile} · ${T.year}</span></div>
  <div class="txt"><h1>${T.coverH}</h1><div class="sub">${T.coverSub}</div>
  <div class="since"><div><b>1997</b>${T.since}</div><div><b>40+</b>${T.years}</div><div><b>25+</b>${T.clients}</div></div></div>`,true));
-// 2 contents
-pages.push(P("",`<div class="pad">${eye("",T.tocEye)}<h2>${T.tocH}</h2><div class="toc">${T.toc.map((x,i)=>`<div><span>${String(i+1).padStart(2,"0")}</span><b>${x}</b><i>${String(i+3).padStart(2,"0")}</i></div>`).join("")}</div></div>`));
-// 3 about
-pages.push(P("",`<div class="pad">${eye("01",T.aboutEye)}<h2>${T.aboutH}</h2><div class="hair"></div>
+// contents
+pages.push(P("",`<div class="pad">${eye("",T.tocEye)}<h2>${T.tocH}</h2><div class="toc">${T.toc.map((x,i)=>`<div><span>${String(i+1).padStart(2,"0")}</span><b>${x}</b><i>${String(i<2?i+3:i+4).padStart(2,"0")}</i></div>`).join("")}</div></div>`));
+// clients (logos with names) + more projects
+const CN=c=>lang==="ar"?c[2]:c[1];
+pages.push(P("",`<div class="pad">${eye(1,T.cEye)}<h2>${T.cH}</h2><p class="lead" style="margin-top:3mm">${T.cLead}</p>
+ <div class="logos">${CLIENTS.map(c=>`<div><img src="${A}clients/${c[0]}.png" alt=""><span>${CN(c)}</span></div>`).join("")}</div>
+ <h3 style="margin-top:6mm">${T.more}</h3>
+ <div class="mini">${T.mp.map(m=>`<div><div class="photo"><img src="${A}${m[1]}" alt=""></div><p style="margin-top:1.5mm;font-size:8.5pt;color:var(--ink);font-weight:600">${m[0]}</p></div>`).join("")}</div></div>`));
+// private clients (photos, no names)
+const pimg=i=>`<div class="photo"><img src="${A}private/${String(i).padStart(2,"0")}.${A==="cache/"?"jpg":"webp"}" alt=""></div>`;
+pages.push(P("",`<div class="pad">${eye(1,T.pvEye)}<h2>${T.pvH}</h2><p class="lead" style="margin-top:4mm;font-size:11pt">${T.pvLead}</p>
+ <div class="grid3" style="margin-top:6mm">${T.pv.map(v=>`<div class="card" style="padding:5mm"><h3 style="font-size:11pt">${v[0]}</h3><p style="font-size:8.5pt">${v[1]}</p></div>`).join("")}</div>
+ <div class="pgal" style="margin-top:6mm">${[1,2,3,4,5,6,7,8].map(pimg).join("")}</div></div>`));
+pages.push(P("",`<div class="pad">${eye("",T.pvGal)}<div class="pgal big">${[9,10,11,12,13,14,15,16,17,18,19].map(pimg).join("")}
+ <div class="cta"><b>${T.pvCta}</b><span>0101 776 5778</span><span>info@melsaelevators.com</span></div></div></div>`));
+// about
+pages.push(P("",`<div class="pad">${eye(1,T.aboutEye)}<h2>${T.aboutH}</h2><div class="hair"></div>
  <p class="lead">${T.about1}</p><p class="lead" style="margin-top:4mm">${T.about2}</p>
  <div class="nums"><div><b>1997</b><span>${T.n1}</span></div><div><b>40+</b><span>${T.n2}</span></div><div><b>25+</b><span>${T.n3}</span></div><div><b>40+</b><span>${T.n4}</span></div></div>
  <div class="photo" style="height:86mm;margin-top:8mm"><img src="${L}glass-cabin.jpg" alt="" style="object-position:center 40%"><span class="cap">${T.capAbout}</span></div></div>`));
-// 4 founder
-pages.push(P("dark",`<div class="pad">${eye("02",T.fEye)}<div class="founder" style="margin-top:4mm"><div class="photo"><img src="${A}team/adel-abdelkawy.jpg" alt=""></div>
+// founder
+pages.push(P("dark",`<div class="pad">${eye(1,T.fEye)}<div class="founder" style="margin-top:4mm"><div class="photo"><img src="${A}team/adel-abdelkawy.jpg" alt=""></div>
  <div><h2>${T.fH}</h2><div class="hair"></div><span class="quote">“</span></div></div>
  <div style="margin-top:9mm;columns:2;column-gap:10mm"><p>${T.f1}</p><p style="margin-top:3mm">${T.f2}</p><p style="margin-top:3mm">${T.f3}</p><p style="margin-top:3mm;color:#fff">${T.f4}</p>
  <div class="sig"><b>${T.fName}</b><span>${T.fRole}</span></div></div></div>`,true));
-// 5 vision
-pages.push(P("",`<div class="pad">${eye("03",T.vEye)}<h2>${T.vH}</h2><div class="hair"></div>
+// vision
+pages.push(P("",`<div class="pad">${eye(1,T.vEye)}<h2>${T.vH}</h2><div class="hair"></div>
  <div class="grid2"><div class="card"><h3>${T.vision}</h3><p>${T.visionT}</p></div><div class="card"><h3>${T.mission}</h3><p>${T.missionT}</p></div></div>
  <div class="grid2" style="margin-top:5mm;grid-template-columns:1fr 1fr 1fr 1fr">${T.values.map((v,i)=>`<div class="card" style="padding:6mm 5mm"><span class="n">0${i+1}</span><h3 style="font-size:11pt">${v[0]}</h3><p>${v[1]}</p></div>`).join("")}</div>
  <div class="photo" style="height:104mm;margin-top:6mm"><img src="${L}technician.jpg" alt="" style="object-position:center 35%"><span class="cap">${T.capTech}</span></div></div>`));
-// 6 services
-pages.push(P("",`<div class="pad">${eye("04",T.sEye)}<h2>${T.sH}</h2>
+// services
+pages.push(P("",`<div class="pad">${eye(1,T.sEye)}<h2>${T.sH}</h2>
  <div class="svc">${T.svc.map(s=>`<div class="card"><img src="${src(s[2])}" alt=""><div><h3>${s[0]}</h3><p>${s[1]}</p></div></div>`).join("")}</div></div>`));
-// 7 types
-pages.push(P("",`<div class="pad">${eye("05",T.tEye)}<h2>${T.tH}</h2>
+// types
+pages.push(P("",`<div class="pad">${eye(1,T.tEye)}<h2>${T.tH}</h2>
  <div class="types">${T.types.map(s=>`<div class="card"><img class="${s[3]?"cov":""}" src="${A}${s[2]}" alt=""><div><h3 style="font-size:11.5pt">${s[0]}</h3><p>${s[1]}</p></div></div>`).join("")}</div></div>`));
-// 8 finishes
+// finishes
 const th=id=>`${A}thumbs-lg/${id}.jpg`;
 const row=(ids,cov)=>`<div class="row">${ids.map(id=>`<div><img class="${cov?"cov":""}" src="${th(id)}" alt=""></div>`).join("")}</div>`;
-pages.push(P("fin",`<div class="pad">${eye("06",T.mEye)}<h2>${T.mH}</h2><p class="lead" style="margin-top:4mm">${T.mLead}</p>
+pages.push(P("fin",`<div class="pad">${eye(1,T.mEye)}<h2>${T.mH}</h2><p class="lead" style="margin-top:4mm">${T.mLead}</p>
  <h3>${T.mCab}</h3>${row(["cabin_designs_01","cabin_designs_02","cabin_designs_03","cabin_designs_06"])}
  <h3>${T.mDoor}</h3>${row(["semi_automatic_doors_03","semi_automatic_doors_05","automatic_doors_04","automatic_doors_07"])}
  <h3>${T.mPanel}</h3>${row(["control_panels_01","control_panels_05","panel_buttons_01","control_panels_03"])}
  <h3>${T.mFloor}</h3>${row(["flooring_samples_10","flooring_samples_02","flooring_samples_05","flooring_samples_03"],1)}</div>`));
-// 9 process
-pages.push(P("",`<div class="pad">${eye("07",T.pEye)}<h2>${T.pH}</h2>
+// process
+pages.push(P("",`<div class="pad">${eye(1,T.pEye)}<h2>${T.pH}</h2>
  <div class="steps">${T.steps.map((s,i)=>`<div class="step"><i>0${i+1}</i><div><h3>${s[0]}</h3><p>${s[1]}</p></div></div>`).join("")}</div>
  <div class="grid2" style="margin-top:6mm;height:66mm"><div class="photo"><img src="${A}projects/ccc/1.jpg" alt=""></div><div class="photo"><img src="${A}hero/10.jpg" alt=""></div></div></div>`));
-// 10 why
-pages.push(P("dark",`<div class="pad">${eye("08",T.wEye)}<h2>${T.wH}</h2><div class="hair"></div>
+// why
+pages.push(P("dark",`<div class="pad">${eye(1,T.wEye)}<h2>${T.wH}</h2><div class="hair"></div>
  <div class="grid2" style="margin-top:8mm">${T.why.map((s,i)=>`<div class="card"><span class="n">0${i+1}</span><h3>${s[0]}</h3><p>${s[1]}</p></div>`).join("")}</div>
  <div class="photo" style="height:62mm;margin-top:6mm"><img src="${A}hero/09.jpg" alt="" style="object-position:center 40%"></div></div>`,true));
-// 11 projects
+// projects
 const facts=f=>`<div class="facts">${[T.loc,T.type,T.scope,T.lift].map((k,i)=>`<div><small>${k}</small><b>${f[i]}</b></div>`).join("")}</div>`;
-pages.push(P("",`<div class="pad">${eye("09",T.prEye)}<h2>${T.prH}</h2>
+pages.push(P("",`<div class="pad">${eye(1,T.prEye)}<h2>${T.prH}</h2>
  <div class="proj" style="height:78mm;margin-top:7mm"><div class="photo"><img src="${A}hero/03.jpg" alt=""></div><div class="photo"><img src="${A}hero/02.jpg" alt=""></div></div>
  <h3 style="margin-top:5mm">${T.p1}</h3><p>${T.p1t}</p>${facts(T.p1f)}
  <div class="proj" style="height:78mm;margin-top:8mm"><div class="photo"><img src="${A}projects/acrow/1.jpg" alt=""></div><div class="photo"><img src="${A}projects/acrow/2.jpg" alt=""></div></div>
  <h3 style="margin-top:5mm">${T.p2}</h3><p>${T.p2t}</p>${facts(T.p2f)}</div>`));
-// 12 clients + more projects
-pages.push(P("",`<div class="pad">${eye("10",T.cEye)}<h2>${T.cH}</h2><p class="lead" style="margin-top:4mm">${T.cLead}</p>
- <div class="logos">${CLIENT_LOGOS.map(c=>`<div><img src="${A}clients/${c}.png" alt=""></div>`).join("")}</div>
- <h3 style="margin-top:9mm">${T.more}</h3>
- <div class="mini">${T.mp.map(m=>`<div><div class="photo"><img src="${A}${m[1]}" alt=""></div><p style="margin-top:2mm;font-size:9pt;color:var(--ink);font-weight:600">${m[0]}</p></div>`).join("")}</div></div>`));
-// 13 team
-pages.push(P("",`<div class="pad">${eye("11",T.tmEye)}<h2>${T.tmH}</h2>
+// team
+pages.push(P("",`<div class="pad">${eye(1,T.tmEye)}<h2>${T.tmH}</h2>
  <div class="team">${T.team.map(m=>`<div><div class="photo"><img src="${A}team/${m[2]}" alt=""></div><b>${m[0]}</b><span>${m[1]}</span></div>`).join("")}</div>
  <div class="photo" style="height:74mm;margin-top:9mm"><img src="${A}hero/07.jpg" alt="" style="object-position:center 30%"></div></div>`));
-// 14 contact
+// contact
 pages.push(P("cover dark",`<img class="cover-img" src="${A}hero/08.jpg" alt="" style="opacity:.35"><div class="shade" style="background:linear-gradient(180deg,#0b1d35aa,#0b1d35 70%)"></div>
- <div class="contact">${eye("12",T.ctEye)}<h2>${T.ctH}</h2><p class="lead" style="margin-top:5mm">${T.ctLead}</p>
+ <div class="contact">${eye(1,T.ctEye)}<h2>${T.ctH}</h2><p class="lead" style="margin-top:5mm">${T.ctLead}</p>
  <div class="clist"><div><small>${T.cPhone}</small><b>02 2414 9833</b></div><div><small>${T.cMobile}</small><b>0101 776 5778</b></div>
  <div><small>${T.cWa}</small><b>0101 776 5778</b></div><div><small>${T.cMail}</small><b>info@melsaelevators.com</b></div>
  <div style="grid-column:1/-1"><small>${T.cAddr}</small><b class="rtl">${T.addr}</b><p style="font-size:9pt;margin-top:1mm">${T.hours}</p></div>
