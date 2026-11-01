@@ -149,3 +149,5 @@ if("serviceWorker" in navigator) window.addEventListener("load",()=>navigator.se
  const fix=()=>document.querySelectorAll("a[data-profile]").forEach(a=>a.href="assets/docs/melsa-company-profile"+(document.documentElement.lang==="ar"?"-ar":"")+".pdf");
  document.readyState==="loading"?document.addEventListener("DOMContentLoaded",fix):fix(); window.addEventListener("melsa:lang",()=>setTimeout(fix,0));
 })();
+/* site-wide motion: smooth scrolling + image reveals */
+(function(){const s=document.createElement("script");s.src="assets/motion.js?v=1";s.defer=true;document.head.appendChild(s);})();

@@ -158,3 +158,12 @@ img{border-radius:0}
 .reveal{opacity:0;transform:translateY(18px);transition:opacity .9s ease,transform .9s ease}
 .reveal.in{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+
+/* ---------- motion (assets/motion.js) ---------- */
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+.lenis.lenis-smooth [data-lenis-prevent]{overscroll-behavior:contain}
+.lenis.lenis-stopped{overflow:hidden}
+img.rv{clip-path:inset(14% 0 14% 0);transform:scale(1.12);opacity:.001;transition:clip-path 1.15s cubic-bezier(.22,.8,.22,1),transform 1.6s cubic-bezier(.22,.8,.22,1),opacity .5s ease}
+img.rv.rv-in{clip-path:inset(0 0 0 0);transform:none;opacity:1}
+@media(prefers-reduced-motion:reduce){img.rv{clip-path:none;transform:none;opacity:1}}
