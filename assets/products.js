@@ -86,7 +86,10 @@ window.MELSA_PRODUCTS={
   {id:"lop_panels_08",code:"052",ar:"لوحة استدعاء فضي رفيعة بشاشة حمراء",ext:"jpg",label:"Slim silver LOP with red floor display",trim:"Silver"},
   {id:"lop_panels_09",code:"053",ar:"لوحة استدعاء ذهبي رفيعة بشاشة زرقاء",ext:"jpg",label:"Slim gold LOP with blue floor display",trim:"Gold"},
   {id:"lop_panels_10",code:"054",ar:"لوحة استدعاء فضي بشباكين عرض",ext:"jpg",label:"Silver LOP with two display windows",trim:"Silver"},
-  {id:"lop_panels_11",code:"055",ar:"لوحة استدعاء زجاج أسود بشاشة زرقاء",ext:"jpg",label:"Black glass LOP with blue display",trim:"Silver"}],
+  {id:"lop_panels_11",code:"055",ar:"لوحة استدعاء زجاج أسود بشاشة زرقاء",ext:"jpg",label:"Black glass LOP with blue display",trim:"Silver"},
+  {id:"cop_panels_01",code:"056",kind:"COP",ar:"لوحة كابينة ستانلس بقارئ كارت وأزرار دائرية حمراء",ext:"jpg",label:"Stainless COP with card reader and red round buttons",trim:"Silver"},
+  {id:"cop_panels_02",code:"057",kind:"COP",ar:"لوحة كابينة ستانلس بشاشة فيديو وعرض الحمولة وتليفون طوارئ",ext:"jpg",label:"Stainless COP with video screen, load display and emergency phone",trim:"Silver"},
+  {id:"cop_panels_03",code:"058",kind:"COP",ar:"لوحة كابينة ستانلس بقارئ كارت وأزرار على عمودين",ext:"jpg",label:"Stainless COP with card reader and two-column buttons",trim:"Silver"}],
  cabin:[
   {id:"cabin_designs_01",code:"039",ar:"كابينة سوداء بألواح رخام بيج وسقف مخرّم",ext:"jpg",label:"Black cabin with beige stone panels and perforated ceiling"},
   {id:"cabin_designs_02",code:"040",ar:"كابينة ستانلس بخطوط ذهبية وسقف مزخرف",ext:"jpg",label:"Stainless cabin with gold strips and decorative ceiling"},
