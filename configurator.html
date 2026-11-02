@@ -345,7 +345,8 @@ if("serviceWorker" in navigator) window.addEventListener("load",()=>navigator.se
  });
 })();
 // Owner-only password (only a salted hash is stored)
-const LOCK={salt:"ea86b21adca7a7ad596354e76c533eff",hash:"07cb7015011605f5ddf65359e771316e2f92391fc85398cf4d70afd0f559b081",iter:150000,key:"melsaOwnerKey"};
+const LOCK={salt:"72e0b4840539471b4d810e2d74d00c73",hash:"ea46aa13879088a1f08f3ace49a7e1e6bec8d637b98323c60363607b5811c0b0",iter:150000,key:"melsaOwnerKey"};
+const normPw=v=>v.trim().replace(/\.+$/,""); // a trailing full stop is ignored
 async function derive(pw){
  const enc=new TextEncoder(), k=await crypto.subtle.importKey("raw",enc.encode(pw),"PBKDF2",false,["deriveBits"]);
  const salt=new Uint8Array(LOCK.salt.match(/../g).map(h=>parseInt(h,16)));
@@ -356,7 +357,7 @@ try{if(localStorage.getItem(LOCK.key)===LOCK.hash)document.body.classList.remove
 document.getElementById("lockLang").addEventListener("click",()=>applyLang(lang==="ar"?"en":"ar"));
 document.getElementById("lockForm").addEventListener("submit",async e=>{
  e.preventDefault(); const inp=document.getElementById("lockPw"), err=document.getElementById("lockErr"); err.textContent="";
- if(await derive(inp.value.trim())===LOCK.hash){
+ if(await derive(normPw(inp.value))===LOCK.hash){
   try{localStorage.setItem(LOCK.key,LOCK.hash);sessionStorage.setItem("melsaWelcomed","1")}catch(e){}
   inp.value=""; document.getElementById("welcome")?.remove(); document.body.style.overflow=""; document.body.classList.remove("locked"); scrollTo(0,0);
  } else {err.textContent=t("lockWrong"); inp.select();}

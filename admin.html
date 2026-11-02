@@ -238,7 +238,8 @@ body.locked #lock{background:transparent}
 <footer>Melsa Elevators · private page, not linked from the public site</footer>
 
 <script>
-const LOCK={salt:"ea86b21adca7a7ad596354e76c533eff",hash:"07cb7015011605f5ddf65359e771316e2f92391fc85398cf4d70afd0f559b081",iter:150000,key:"melsaOwnerKey"};
+const LOCK={salt:"72e0b4840539471b4d810e2d74d00c73",hash:"ea46aa13879088a1f08f3ace49a7e1e6bec8d637b98323c60363607b5811c0b0",iter:150000,key:"melsaOwnerKey"};
+const normPw=v=>v.trim().replace(/\.+$/,""); // a trailing full stop is ignored
 const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
 async function derive(pw){
  const enc=new TextEncoder(),k=await crypto.subtle.importKey("raw",enc.encode(pw),"PBKDF2",false,["deriveBits"]);
@@ -249,7 +250,7 @@ async function derive(pw){
 if(store.get(LOCK.key)===LOCK.hash)document.body.classList.remove("locked");
 document.getElementById("lockForm").addEventListener("submit",async e=>{
  e.preventDefault();const inp=document.getElementById("lockPw"),err=document.getElementById("lockErr");err.textContent="";
- if(await derive(inp.value.trim())===LOCK.hash){store.set(LOCK.key,LOCK.hash);const pw=inp.value.trim();inp.value="";document.body.classList.remove("locked");scrollTo(0,0);ownerToken(pw).then(t=>{store.set("melsaOwnerToken",t);loadLive();});}
+ if(await derive(normPw(inp.value))===LOCK.hash){store.set(LOCK.key,LOCK.hash);const pw=normPw(inp.value);inp.value="";document.body.classList.remove("locked");scrollTo(0,0);ownerToken(pw).then(t=>{store.set("melsaOwnerToken",t);loadLive();});}
  else{err.textContent="Wrong password. Try again.";inp.select();}
 });
 document.getElementById("lockBtn").addEventListener("click",()=>{try{localStorage.removeItem(LOCK.key)}catch(e){}location.reload();});
