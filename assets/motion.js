@@ -9,7 +9,7 @@
   s.src = "https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js";
   s.onload = () => {
     if (!window.Lenis) return;
-    const lenis = new window.Lenis({ lerp: 0.09, smoothWheel: true, wheelMultiplier: 0.95 });
+    const lenis = new window.Lenis({ lerp: 0.12, smoothWheel: true, wheelMultiplier: 1 });
     window.melsaLenis = lenis;
     // pause while a pop-up or lightbox is open
     const locked = () => document.documentElement.classList.contains("mdl-open") || document.body.style.overflow === "hidden" || document.querySelector(".lb");
@@ -33,7 +33,7 @@
   const prevent = () => document.querySelectorAll(".nav,.mdl,.pm,.lb,.dd-m").forEach((el) => el.setAttribute("data-lenis-prevent", ""));
 
   /* ---------- 2. image curtain reveal ---------- */
-  const SEL = ".chap-media.one img, .ph3 img, .pv img, .pg-i img, .rail img, .tech img, .mini .photo img, .g-card img, .pm-grid img";
+  const SEL = ".ph3 img, .pv img, .pg-i img, .rail img, .tech img, .mini .photo img, .g-card img, .pm-grid img";
   let io;
   function reveal() {
     prevent();

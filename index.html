@@ -87,7 +87,7 @@
 [dir=rtl] .words{letter-spacing:0;line-height:1.45}
 .words span{opacity:.14;transition:opacity .35s ease}
 .words span.on{opacity:1}
-.chap{position:relative;height:190vh}
+.chap{position:relative;height:130vh}
 .chap.dark{background:var(--navy)}.chap.deep{background:var(--navy-dark)}.chap.light{background:var(--paper)}
 .stick{position:sticky;top:0;height:100vh;height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(18px,4vh,44px);overflow:hidden;padding:76px 16px 28px;text-align:center}
 .chap-text{max-width:780px;opacity:var(--t,1);transform:translate3d(0,calc((1 - var(--t,1)) * 22px),0);will-change:transform,opacity}
@@ -152,7 +152,7 @@
 .finale h2{font-size:clamp(38px,6vw,76px)}
 .finale .consult{max-width:720px;margin:56px auto 0;text-align:start}
 @media(max-width:860px){
- .chap{height:170vh}.statement{padding:16vh 0}
+ .chap{height:125vh}.statement{padding:16vh 0}
  .chap-media.one img{height:auto;max-height:44vh;max-width:92vw}
  .chap-media.trio{height:36vh}
  .trio.has3d{height:52vh}
@@ -364,11 +364,11 @@ if(h){const io=new IntersectionObserver(es=>{if(es[0].isIntersecting){io.disconn
   chaps.forEach(c=>{
    const r=c.getBoundingClientRect(); if(r.bottom<-H||r.top>2*H)return;
    const p=reduce?1:clamp(-r.top/Math.max(1,r.height-H)), pre=reduce?1:clamp((H-r.top)/H);
-   const tt=ease(clamp(pre*1.25-.25)), tm=ease(clamp((pre-.3)/.7*.7+p*1.2));
-   const v=shown.get(c)||{t:tt,m:tm}; v.t+=(tt-v.t)*.14; v.m+=(tm-v.m)*.14; shown.set(c,v);
+   const tt=ease(clamp((pre-.05)/.5)), tm=ease(clamp((pre-.1)/.6+p));
+   const v=shown.get(c)||{t:tt,m:tm}; v.t+=(tt-v.t)*.22; v.m+=(tm-v.m)*.22; shown.set(c,v);
    if(Math.abs(tt-v.t)>.002||Math.abs(tm-v.m)>.002)moving=true;
    c.style.setProperty("--t",v.t.toFixed(4)); c.style.setProperty("--m",v.m.toFixed(4));
-   const f=c.querySelector(".feats"); if(f)f.classList.toggle("on",reduce||p>.3);
+   const f=c.querySelector(".feats"); if(f)f.classList.toggle("on",reduce||pre>.7);
   });
   const st=document.getElementById("stmt"); if(st){const r=st.getBoundingClientRect(),w=st.children;
    const q=reduce?1:clamp((H*.82-r.top)/(r.height+H*.45)); const n=Math.round(q*w.length);

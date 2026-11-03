@@ -20,9 +20,19 @@ const PAGE_T=window.PAGE_T||{en:{},ar:{}};
 function t(k,v){let s=(PAGE_T[lang]&&PAGE_T[lang][k])??(T[lang]&&T[lang][k])??PAGE_T.en?.[k]??T.en[k]??k; if(v)for(const x in v)s=s.split("{"+x+"}").join(v[x]); return s;}
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const page=document.body.dataset.page;
-const G_ICON='<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5a5.6 5.6 0 0 1-2.4 3.6v3h3.9c2.3-2.1 3.5-5.2 3.5-8.8z"/><path fill="#34A853" d="M12 24c3.2 0 6-1.1 8-2.9l-3.9-3c-1.1.7-2.5 1.2-4.1 1.2-3.1 0-5.8-2.1-6.7-5H1.3v3.1A12 12 0 0 0 12 24z"/><path fill="#FBBC05" d="M5.3 14.3a7.2 7.2 0 0 1 0-4.6V6.6h-4a12 12 0 0 0 0 10.8l4-3.1z"/><path fill="#EA4335" d="M12 4.8c1.8 0 3.4.6 4.6 1.8l3.4-3.4A12 12 0 0 0 1.3 6.6l4 3.1c.9-2.9 3.6-4.9 6.7-4.9z"/></svg>';
-const FB_ICON='<svg viewBox="0 0 24 24" width="1.25em" height="1.25em" style="vertical-align:-.25em" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#1877F2"/><path fill="#fff" d="M13.4 19.5v-6.1h2.1l.3-2.4h-2.4V9.5c0-.7.2-1.2 1.2-1.2h1.3V6.2c-.2 0-1-.1-1.9-.1-1.9 0-3.2 1.2-3.2 3.3V11H8.7v2.4h2.1v6.1h2.6z"/></svg>', IG_ICON='<svg viewBox="0 0 24 24" width="1.25em" height="1.25em" style="vertical-align:-.25em" aria-hidden="true"><defs><radialGradient id="igg" cx="30%" cy="107%" r="150%"><stop offset="0" stop-color="#fdf497"/><stop offset=".05" stop-color="#fdf497"/><stop offset=".45" stop-color="#fd5949"/><stop offset=".6" stop-color="#d6249f"/><stop offset=".9" stop-color="#285AEB"/></radialGradient></defs><rect width="24" height="24" rx="6" fill="url(#igg)"/><rect x="5.5" y="5.5" width="13" height="13" rx="4" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="12" cy="12" r="3.2" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="16.1" cy="7.9" r="1" fill="#fff"/></svg>';
-const WA_ICON='<svg viewBox="0 0 24 24" width="1.25em" height="1.25em" style="vertical-align:-.25em;fill:#25d366" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.3z"/></svg>';
+/* contact icons: one line style, one colour (they take the text colour) */
+const ic=(d,fill)=>`<svg class="ico" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" ${fill?'fill="currentColor"':'fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"'}>${d}</svg>`;
+const ICON={
+ phone:ic('<path d="M5 4h3.5l1.5 4-2 1.3a11 11 0 0 0 6.7 6.7L16 14l4 1.5V19a1.5 1.5 0 0 1-1.6 1.5A16 16 0 0 1 3.5 5.6 1.5 1.5 0 0 1 5 4z"/>'),
+ mobile:ic('<rect x="7" y="2.5" width="10" height="19" rx="2.2"/><path d="M11 18.5h2"/>'),
+ email:ic('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/>'),
+ address:ic('<path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/>'),
+ hours:ic('<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>'),
+ whatsapp:ic('<path d="M4.5 19.5l1.2-3.6A8 8 0 1 1 8.6 19z"/><path d="M9.2 8.6c.3-.5.8-.5 1-.1l.7 1.5c.1.3 0 .5-.2.7l-.4.4c.5 1 1.3 1.8 2.3 2.3l.4-.4c.2-.2.4-.3.7-.2l1.5.7c.4.2.4.7-.1 1-1.5 1-4.8-.5-6.1-3.6-.4-1-.3-1.8.2-2.3z" fill="currentColor" stroke="none"/>'),
+ facebook:ic('<path d="M14.5 8.5H13a1.5 1.5 0 0 0-1.5 1.5v11M9 13h5"/><rect x="3" y="3" width="18" height="18" rx="4"/>'),
+ instagram:ic('<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r=".6" fill="currentColor"/>'),
+ google:ic('<path d="M20 12.2c0-.6-.1-1.1-.2-1.7H12v3.2h4.5a4.5 4.5 0 0 1-1.9 2.8"/><path d="M18.4 6.6A8.5 8.5 0 1 0 20 12.2"/>')};
+const G_ICON=ICON.google, FB_ICON=ICON.facebook, IG_ICON=ICON.instagram, WA_ICON=ICON.whatsapp;
 
 /* header & footer */
 const NAV=[["home","./"],["about","about.html"],["catalog","catalog.html"],["clients","clients.html"],["maint","maintenance.html"],["consult","consulting.html"],["contact","contact.html"]];
@@ -53,18 +63,18 @@ function renderFooter(){
  footer.innerHTML=`<div class="fwrap"><div><span class="flogo"><img src="assets/logo-light.png" alt="Melsa Elevators"></span><p style="margin:12px 0 0">${esc(t("f.about"))}</p>${C.facebook||C.instagram?`<div class="fsocial">${C.facebook?`<a href="${esc(C.facebook)}" target="_blank" rel="noopener" aria-label="Facebook">${FB_ICON}</a>`:""}${C.instagram?`<a href="${esc(C.instagram)}" target="_blank" rel="noopener" aria-label="Instagram">${IG_ICON}</a>`:""}</div>`:""}${C.reviewUrl||C.mapsUrl?`<a class="frev" href="review.html" target="_blank" rel="noopener">${G_ICON}<span>${esc(t("review"))}</span><b aria-hidden="true">★★★★★</b></a>`:""}</div>
  <div><h4>${esc(t("f.links"))}</h4><ul>${NAV.map(([k,h])=>`<li><a href="${h}">${esc(t("nav."+k))}</a></li>`).join("")}<li><a href="assets/docs/melsa-company-profile${lang==="ar"?"-ar":""}.pdf" target="_blank" rel="noopener" data-profile>${esc(t("f.profile"))}</a></li></ul></div>
  <div><h4>${esc(t("f.services"))}</h4><ul>${[...SUB.elev,...SUB.maint.slice(1)].map(([sk,u])=>`<li><a href="${u}">${esc(t("sub."+sk))}</a></li>`).join("")}</ul></div>
- <div><h4>${esc(t("f.contact"))}</h4>${items.length?`<ul>${items.map(i=>`<li>${i.icon} ${i.href?`<a href="${esc(i.href)}" ${i.ext?'target="_blank" rel="noopener"':""}><bdi ${i.ltr?'dir="ltr"':""}>${esc(i.text)}</bdi></a>`:esc(i.text)}</li>`).join("")}</ul>`:`<p style="margin:0">${esc(t("f.soon"))}</p>`}</div></div>
+ <div><h4>${esc(t("f.contact"))}</h4>${items.length?`<ul>${items.map(i=>`<li><span class="fi">${i.icon}</span>${i.href?`<a href="${esc(i.href)}" ${i.ext?'target="_blank" rel="noopener"':""}><bdi ${i.ltr?'dir="ltr"':""}>${esc(i.text)}</bdi></a>`:esc(i.text)}</li>`).join("")}</ul>`:`<p style="margin:0">${esc(t("f.soon"))}</p>`}</div></div>
  <div class="fbottom">${esc(t("f.rights",{y:new Date().getFullYear()}))}</div>`;
 }
 function contactItems(){
  const L=[];
  const tel=n=>"tel:+20"+n.replace(/\D/g,"").replace(/^0/,"");
- if(C.phone)L.push({k:"phone",icon:"☎️",text:C.phone,href:tel(C.phone),ltr:1});
- if(C.mobile)L.push({k:"mobile",icon:"📱",text:C.mobile,href:tel(C.mobile),ltr:1});
- if(C.whatsapp)L.push({k:"whatsapp",icon:WA_ICON,text:C.whatsapp.replace(/^20/,"0"),href:"https://wa.me/"+C.whatsapp,ext:1,ltr:1});
- if(C.email)L.push({k:"email",icon:"✉️",text:C.email,href:"mailto:"+C.email,ltr:1});
- const addr=lang==="ar"?(C.address_ar||C.address_en):(C.address_en||C.address_ar); if(addr)L.push({k:"address",icon:"📍",text:addr,href:C.mapsUrl||(C.mapsQuery?"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(C.mapsQuery):""),ext:1});
- const hrs=lang==="ar"?(C.hours_ar||C.hours_en):(C.hours_en||C.hours_ar); if(hrs)L.push({k:"hours",icon:"🕘",text:hrs});
+ if(C.phone)L.push({k:"phone",icon:ICON.phone,text:C.phone,href:tel(C.phone),ltr:1});
+ if(C.mobile)L.push({k:"mobile",icon:ICON.mobile,text:C.mobile,href:tel(C.mobile),ltr:1});
+ if(C.whatsapp)L.push({k:"whatsapp",icon:WA_ICON,text:C.whatsapp.replace(/^20/,"0").replace(/^(\d{4})(\d{3})(\d{4})$/,"$1 $2 $3"),href:"https://wa.me/"+C.whatsapp,ext:1,ltr:1});
+ if(C.email)L.push({k:"email",icon:ICON.email,text:C.email,href:"mailto:"+C.email,ltr:1});
+ const addr=lang==="ar"?(C.address_ar||C.address_en):(C.address_en||C.address_ar); if(addr)L.push({k:"address",icon:ICON.address,text:addr,href:C.mapsUrl||(C.mapsQuery?"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(C.mapsQuery):""),ext:1});
+ const hrs=lang==="ar"?(C.hours_ar||C.hours_en):(C.hours_en||C.hours_ar); if(hrs)L.push({k:"hours",icon:ICON.hours,text:hrs});
  if(C.facebook)L.push({k:"facebook",icon:FB_ICON,text:"Melsa Elevators",href:C.facebook,ext:1});
  if(C.instagram)L.push({k:"instagram",icon:IG_ICON,text:"@"+C.instagram.replace(/\/+$/,"").split("/").pop(),href:C.instagram,ext:1,ltr:1});
  return L;
