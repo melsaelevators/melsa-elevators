@@ -7,6 +7,8 @@
  *
  * Setup: add a secret named GEMINI_API_KEY in the worker's Settings → Variables.
  *
+ * Product interest counters for the catalog: GET /pstats and POST /pstats/hit (same ADS KV).
+ *
  * Google Ads stats for the owner dashboard (admin.html):
  *  - KV namespace bound as ADS
  *  - secret ADS_PUSH_KEY: the Google Ads script sends it when it pushes numbers
@@ -79,6 +81,38 @@ async function adsRoute(request, env, origin, path) {
   return json({ error: "Not found" }, 404, origin);
 }
 
+// Product interest counters for the catalog: how many people opened a product and asked about it.
+// Stored in the same KV (key "pstats") as { "<product id>": { v: views, a: asks } }.
+const seen = new Map(); // best-effort: one count per visitor, product and kind per hour
+async function pstatsRoute(request, env, origin, path) {
+  const kv = env.ADS || env.Ads;
+  if (!kv) return json({ error: "Server is missing the ADS storage." }, 500, origin);
+  if (!ALLOWED_ORIGINS.includes(origin)) return json({ error: "Not allowed" }, 403, origin);
+  if (path === "/pstats" && request.method === "GET") {
+    const data = (await kv.get("pstats")) || "{}";
+    return new Response(data, { headers: { "Content-Type": "application/json", "Cache-Control": "public, max-age=120", ...cors(origin) } });
+  }
+  if (path === "/pstats/hit" && request.method === "POST") {
+    let body;
+    try { body = JSON.parse(await request.text()); } catch { return json({ error: "Bad request" }, 400, origin); }
+    const id = String(body.id || ""), k = body.k === "a" ? "a" : "v";
+    if (!/^[a-z0-9_]{3,40}$/.test(id)) return json({ error: "Bad request" }, 400, origin);
+    const ip = request.headers.get("CF-Connecting-IP") || "?", key = ip + "|" + id + "|" + k, now = Date.now();
+    if (now - (seen.get(key) || 0) < 3600_000) return json({ ok: true, counted: false }, 200, origin);
+    seen.set(key, now);
+    if (seen.size > 5000) seen.clear();
+    let all = {};
+    try { all = JSON.parse((await kv.get("pstats")) || "{}"); } catch { all = {}; }
+    if (!all[id] && Object.keys(all).length >= 400) return json({ ok: true, counted: false }, 200, origin);
+    const row = all[id] || { v: 0, a: 0 };
+    row[k] = (row[k] || 0) + 1;
+    all[id] = row;
+    await kv.put("pstats", JSON.stringify(all));
+    return json({ ok: true, counted: true }, 200, origin);
+  }
+  return json({ error: "Not found" }, 404, origin);
+}
+
 function tooMany(ip) {
   const now = Date.now();
   const list = (hits.get(ip) || []).filter((t) => now - t < 3600_000);
@@ -94,6 +128,7 @@ export default {
     if (request.method === "OPTIONS") return new Response(null, { headers: cors(origin) });
     const path = new URL(request.url).pathname;
     if (path.startsWith("/ads/")) return adsRoute(request, env, origin, path);
+    if (path === "/pstats" || path === "/pstats/hit") return pstatsRoute(request, env, origin, path);
     if (request.method !== "POST") return json({ error: "Not found" }, 404, origin);
     if (!ALLOWED_ORIGINS.includes(origin)) return json({ error: "Not allowed" }, 403, origin);
     if (!env.GEMINI_API_KEY) return json({ error: "Server is missing GEMINI_API_KEY." }, 500, origin);
