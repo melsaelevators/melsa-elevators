@@ -24,6 +24,7 @@
 .pc .cat{font-size:11px;font-weight:700;color:var(--red);letter-spacing:.08em;text-transform:uppercase}
 .pc .name{font-weight:700;font-size:14px;flex:1}
 .pc .name.code{font-size:20px;color:var(--navy);letter-spacing:.02em}
+.pc .desc{font-size:12.5px;line-height:1.45;color:var(--muted)}
 .pc .stat{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:11.5px;color:var(--muted)}.pc .stat span{display:inline-flex;align-items:center;gap:4px}.pc .stat svg{width:13px;height:13px;flex:none}
 .pc .img{position:relative}.pc .hot{position:absolute;top:8px;inset-inline-start:8px;background:var(--navy);color:#fff;font-size:11px;font-weight:700;border-radius:999px;padding:3px 9px;letter-spacing:.02em;z-index:1}
 .pc a.ask{font-size:12.5px;font-weight:700;text-decoration:none;color:var(--navy);border:1px solid var(--navy);border-radius:9px;padding:7px 10px;text-align:center}
@@ -38,10 +39,10 @@
 window.PAGE_T={
  en:{title:"Catalog | Melsa Elevators",eyebrow:"Catalog",h1:"Our product collection",lead:"Real Melsa cabins, doors, LOP and COP panels and floor finishes. Every product has a code — just tell us the code. Tap a photo to see it larger.",
   all:"All",cabin:"Cabins",semi:"Semi-automatic doors",auto:"Automatic doors",panel:"LOP",cop:"COP",floor:"Flooring",ask:"Ask about this product",items:"{n} products",code:"Code {c}",
-  askMsg:"Hello, I'd like to ask about this product from your catalog: {p}",colors:"Colours",colour:"colour",seen:"{n} people viewed",asked:"{n} asked about it",top:"Most requested"},
+  askMsg:"Hello, I'd like to ask about this product from your catalog: {p}",colors:"Colours",colour:"colour",w_slim:"Slim vision panel",w_pano:"Panoramic window",w_super:"Super panoramic window",w_deco:"Panoramic window with laser-cut decoration",wd_slim:"a slim vision panel",wd_pano:"a large panoramic window",wd_super:"a very large super panoramic window",wd_deco:"a large panoramic window with a laser-cut decorative insert",paint:"Electrostatic paint",paintD:"electrostatic paint, the cleanest and most durable finish",ss:"Stainless steel",ssD:"brushed stainless steel",semiD:"Semi-automatic landing door with {w}. Finish: {f}. Colour: {c}.",autoD:"Automatic doors. Colour and finish: {c}.",genD:"{c}",seen:"{n} people viewed",asked:"{n} asked about it",top:"Most requested"},
  ar:{title:"الكتالوج | إلكتروميلسا لتصميم وتركيب وتوريد وصيانة المصاعد",eyebrow:"الكتالوج",h1:"مجموعة منتجاتنا",lead:"كبائن وأبواب ولوحات LOP وCOP وأرضيات ميلسا الحقيقية. كل منتج ليه كود، قولنا الكود بس. اضغط على أي صورة لتكبيرها.",
   all:"الكل",cabin:"الكبائن",semi:"أبواب نصف أوتوماتيك",auto:"أبواب أوتوماتيك",panel:"LOP",cop:"COP",floor:"الأرضيات",ask:"استفسر عن المنتج",items:"{n} منتج",code:"كود {c}",
-  askMsg:"مرحبًا، عايز أستفسر عن المنتج ده من الكتالوج: {p}",colors:"الألوان المتاحة",colour:"لون",seen:"شافه {n} شخص",asked:"{n} سألوا عليه",top:"الأكثر طلبًا"}
+  askMsg:"مرحبًا، عايز أستفسر عن المنتج ده من الكتالوج: {p}",colors:"الألوان المتاحة",colour:"لون",w_slim:"شباك رفيع",w_pano:"شباك بانوراميك",w_super:"شباك سوبر بانوراميك",w_deco:"شباك بانوراميك بزخرفة ليزر",wd_slim:"شباك رفيع",wd_pano:"شباك بانوراميك كبير",wd_super:"شباك سوبر بانوراميك كبير جدًا",wd_deco:"شباك بانوراميك كبير بزخرفة ليزر كت",paint:"دهان إلكتروستاتيك",paintD:"دهان إلكتروستاتيك، أنضف أنواع الدهانات وأطولها عمرًا",ss:"ستانلس ستيل",ssD:"ستانلس ستيل",semiD:"باب نصف أوتوماتيك، {w}. التشطيب: {f}. اللون: {c}.",autoD:"أبواب أوتوماتيك. اللون والتشطيب: {c}.",genD:"{c}",seen:"شافه {n} شخص",asked:"{n} سألوا عليه",top:"الأكثر طلبًا"}
 };
 </script>
 </head>
@@ -71,6 +72,12 @@ window.PAGE_T={
  const vName=v=>lang()==="ar"?v.ar:v.label;
  const askName=p=>{const v=curV(p);return (p.code?t("code",{c:v?"\u2066"+p.code+"-"+v.v+"\u2069":p.code})+" — "+t(p.cat):name(p))+(v?" ("+t("colour")+": "+vName(v)+")":"");};
  const imgId=p=>{const v=curV(p);return v?v.id:p.id;};
+ const isSS=p=>{const v=curV(p);return /stainless/i.test(v?v.label:p.label);};
+ const colorOf=p=>{const v=curV(p);return v?vName(v):(lang()==="ar"?p.ar:p.label);};
+ const shortDesc=p=>p.cat==="semi"&&p.win?t("w_"+p.win)+" · "+(isSS(p)?t("ss"):t("paint")):"";
+ const allColors=p=>p.variants?p.variants.map(vName).join(lang()==="ar"?"، ":", "):colorOf(p);
+ const finishAll=p=>{if(!p.variants)return isSS(p)?t("ssD"):t("paintD");const ss=p.variants.some(v=>/stainless/i.test(v.label)),pt=p.variants.some(v=>!/stainless/i.test(v.label));return ss&&pt?t("paintD")+(lang()==="ar"?" أو ":" or ")+t("ssD"):ss?t("ssD"):t("paintD");};
+ const longDesc=p=>p.cat==="semi"&&p.win?t("semiD",{w:t("wd_"+p.win),f:finishAll(p),c:allColors(p)}):p.cat==="auto"?t("autoD",{c:colorOf(p)}):t("genD",{c:colorOf(p)});
  const API="https://melsa-ai.joeadel755.workers.dev", MIN_VIEWS=15;
  let ST={}, HOT=new Set();
  const EYE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="2.8"/></svg>';
@@ -85,11 +92,11 @@ window.PAGE_T={
   const list=items.filter(p=>cur==="all"||p.cat===cur);
   document.getElementById("count").textContent=t("items",{n:list.length});
   document.getElementById("grid").innerHTML=list.map((p,i)=>`<div class="pc ${p.cat==="floor"?"floor":""}"><button type="button" class="img" data-i="${items.indexOf(p)}" aria-label="${esc(name(p))}">${HOT.has(p.id)?`<span class="hot">${esc(t("top"))}</span>`:""}<img src="assets/thumbs-lg/${imgId(p)}.jpg" alt="${esc(name(p))}" loading="lazy" decoding="async"></button>
-   <div class="body"><span class="cat">${esc(t(p.cat))}</span><span class="name ${p.code?"code":""}"><bdi>${esc(curV(p)?t("code",{c:"\u2066"+p.code+"-"+curV(p).v+"\u2069"}):name(p))}</bdi></span>${p.variants?`<div class="vars" data-p="${p.id}"><span class="vl">${esc(t("colors"))}${curV(p)?": "+esc(vName(curV(p))):""}</span>${(dflt(p)>=0?p.variants.map((v,k)=>[v,k]):[[{id:p.id,ar:p.ar,label:p.label},-1],...p.variants.map((v,k)=>[v,k])]).map(([v,k])=>`<button type="button" data-k="${k}" aria-pressed="${vIdx(p)===k}" title="${esc(vName(v))}"><img src="assets/thumbs/${v.id}.jpg" alt="${esc(vName(v))}" loading="lazy"></button>`).join("")}</div>`:""}${statHtml(p)}<a class="ask" data-id="${p.id}" href="contact.html?subject=Quote&product=${encodeURIComponent(t("askMsg",{p:askName(p)}))}">${esc(t("ask"))}</a></div></div>`).join("");
+   <div class="body"><span class="cat">${esc(t(p.cat))}</span><span class="name ${p.code?"code":""}"><bdi>${esc(curV(p)?t("code",{c:"\u2066"+p.code+"-"+curV(p).v+"\u2069"}):name(p))}</bdi></span><span class="desc">${esc(shortDesc(p)||colorOf(p))}</span>${p.variants?`<div class="vars" data-p="${p.id}"><span class="vl">${esc(t("colors"))}${curV(p)?": "+esc(vName(curV(p))):""}</span>${(dflt(p)>=0?p.variants.map((v,k)=>[v,k]):[[{id:p.id,ar:p.ar,label:p.label},-1],...p.variants.map((v,k)=>[v,k])]).map(([v,k])=>`<button type="button" data-k="${k}" aria-pressed="${vIdx(p)===k}" title="${esc(vName(v))}"><img src="assets/thumbs/${v.id}.jpg" alt="${esc(vName(v))}" loading="lazy"></button>`).join("")}</div>`:""}${statHtml(p)}<a class="ask" data-id="${p.id}" href="contact.html?subject=Quote&product=${encodeURIComponent(t("askMsg",{p:askName(p)}))}">${esc(t("ask"))}</a></div></div>`).join("");
  }
  document.getElementById("tabs").addEventListener("click",e=>{const b=e.target.closest(".tab");if(!b)return;cur=b.dataset.k;history.replaceState(null,"","?cat="+cur);render();});
  document.getElementById("grid").addEventListener("click",e=>{const ak=e.target.closest("a.ask");if(ak){hit(ak.dataset.id,"a");return;}const vb=e.target.closest(".vars button");if(vb){const id=vb.closest(".vars").dataset.p,k=+vb.dataset.k;vsel[id]=k;render();return;}
-  const b=e.target.closest("button.img");if(!b)return;const p=items[+b.dataset.i];hit(p.id,"v");if(p.variants){const hasD=dflt(p)>=0;const all=[...(hasD?[]:[{id:p.id,ext:p.ext}]),...p.variants.map(v=>({id:v.id,ext:"jpg"}))];lightbox(all.map(x=>"assets/"+x.id+"."+x.ext),vIdx(p)+(hasD?0:1),name(p));return;}lightbox([p.src||("assets/"+p.id+"."+p.ext)],0,name(p));});
+  const b=e.target.closest("button.img");if(!b)return;const p=items[+b.dataset.i];hit(p.id,"v");if(p.variants){const hasD=dflt(p)>=0;const all=[...(hasD?[]:[{id:p.id,ext:p.ext}]),...p.variants.map(v=>({id:v.id,ext:"jpg"}))];lightbox(all.map(x=>"assets/"+x.id+"."+x.ext),vIdx(p)+(hasD?0:1),name(p)+" — "+longDesc(p));return;}lightbox([p.src||("assets/"+p.id+"."+p.ext)],0,name(p)+" — "+longDesc(p));});
  render(); window.addEventListener("melsa:lang",render);
 })();
 </script>
