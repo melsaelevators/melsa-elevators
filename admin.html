@@ -85,6 +85,7 @@ td.n,th.n{text-align:end;white-space:nowrap}
 tr:last-child td{border-bottom:0}
 .pill{display:inline-block;border-radius:99px;padding:1px 9px;font-size:11.5px;font-weight:700;background:var(--tint);color:var(--navy)}
 .pill.ok{background:#e3f5ec;color:var(--ok)}.pill.bad{background:#fde7ea;color:var(--red)}.pill.warn{background:#fff2dc;color:var(--warn)}
+.pthumb{width:34px;height:34px;object-fit:cover;border-radius:8px;vertical-align:middle;margin-inline-end:8px;background:#fff}.pint-tot{display:flex;gap:16px;font-size:13px;color:var(--muted);margin-bottom:8px}.pint-tot b{color:var(--navy)}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .empty{color:var(--muted);font-size:13px}
 @media(max-width:700px){.periods{grid-template-columns:repeat(2,minmax(0,1fr))}.two{grid-template-columns:1fr}}
@@ -105,7 +106,7 @@ body{background:transparent;color:var(--txt);min-height:100vh}
 .gl,header,.card,.ads,.todo,.period,.box,.kpi,#lock .lock-inner{background:var(--glass);-webkit-backdrop-filter:blur(22px) saturate(170%);backdrop-filter:blur(22px) saturate(170%);border:1px solid var(--gline);box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 20px 50px -25px rgba(0,0,0,.6)}
 header{position:sticky;top:12px;z-index:10;margin:12px clamp(12px,3vw,32px) 8px;border-radius:22px;box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 20px 50px -25px rgba(0,0,0,.6)}
 header .who{color:var(--muted)}
-h1,.card b,.ads h3,.box h3,.period strong,.kpi strong{color:#fff}
+h1,.card b,.ads h3,.box h3,.period strong,.kpi strong,.pint-tot b{color:#fff}
 h2{color:#c5ad87}
 .sub,.card span,.card .ext,.ads .meta,.note,.period span,.period h4,.kpi small,.todo small,th,.axis,footer,.empty{color:var(--muted)}
 .card,.ads,.todo,.box{border-radius:22px}
@@ -193,6 +194,11 @@ body.locked #lock{background:transparent}
   </div>
   <div class="box"><h3>Top keywords</h3><div id="kws"></div></div>
   <div class="box"><h3>What people searched</h3><div id="terms"></div><div class="note">If you see searches unrelated to elevators sales or maintenance (jobs, parts, courses…), add them as negative keywords in Google Ads.</div></div>
+ </section>
+
+ <section id="interest">
+  <h2>Catalog interest</h2>
+  <div class="box"><h3>What customers look at</h3><div id="pint"><div class="empty">Loading…</div></div><div class="note">Counted on the public catalog: a view when someone opens a product photo, an enquiry when they tap “Ask about this product”. One count per visitor per product per hour. Customers see the number once a product passes 15 views, and the top 3 get a “Most requested” badge.</div></div>
  </section>
 
  <h2>My tools</h2>
@@ -343,6 +349,23 @@ renderCrm();
 /* To-do ticks remembered on this device */
 let done={};try{done=JSON.parse(store.get("melsaTodo")||"{}")}catch(e){}
 document.querySelectorAll("#todo input").forEach(c=>{c.checked=!!done[c.dataset.id];c.addEventListener("change",()=>{done[c.dataset.id]=c.checked;store.set("melsaTodo",JSON.stringify(done));});});
+</script>
+<script src="assets/products.js"></script>
+<script>
+/* Catalog interest: views and enquiries per product, from the same worker the catalog uses */
+(function(){
+ const P=window.MELSA_PRODUCTS||{}, CAT={cabin:"Cabin",door:"Door",panel:"Panel",floor:"Flooring"};
+ const all=[];for(const k of ["cabin","door","panel","floor"])(P[k]||[]).forEach(p=>all.push({id:p.id,code:p.code,cat:p.kind==="COP"?"COP":(k==="door"?(p.type||"Door")+" door":CAT[k]),name:p.label}));
+ const box=document.getElementById("pint"), e=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+ fetch("https://melsa-ai.joeadel755.workers.dev/pstats").then(r=>r.ok?r.json():Promise.reject()).then(st=>{
+  const rows=all.map(p=>({...p,v:(st[p.id]||{}).v||0,a:(st[p.id]||{}).a||0})).filter(r=>r.v||r.a).sort((x,y)=>(y.a*5+y.v)-(x.a*5+x.v));
+  const hot=new Set(rows.filter(r=>r.v>=15).slice(0,3).map(r=>r.id));
+  const tv=rows.reduce((n,r)=>n+r.v,0), ta=rows.reduce((n,r)=>n+r.a,0);
+  if(!rows.length){box.innerHTML='<div class="empty">No views yet. Numbers appear as soon as visitors open products in the catalog.</div>';return;}
+  box.innerHTML=`<div class="pint-tot"><span><b>${tv}</b> views</span><span><b>${ta}</b> enquiries</span><span><b>${rows.length}</b> of ${all.length} products seen</span></div>
+  <table><thead><tr><th>#</th><th>Product</th><th class="n">Views</th><th class="n">Enquiries</th></tr></thead><tbody>${rows.map((r,i)=>`<tr><td>${i+1}</td><td><img class="pthumb" src="assets/thumbs/${e(r.id)}.jpg" alt="" loading="lazy"><b style="font-weight:700">Code ${e(r.code||"—")}</b> <span style="color:var(--muted);font-size:12px">${e(r.cat)} · ${e(r.name)}</span>${hot.has(r.id)?' <span class="pill ok">Most requested</span>':''}${r.v>=15?'':' <span class="pill">hidden on site</span>'}</td><td class="n">${r.v}</td><td class="n">${r.a}</td></tr>`).join("")}</tbody></table>`;
+ }).catch(()=>{box.innerHTML='<div class="empty">Could not load the numbers right now.</div>';});
+})();
 </script>
 </body>
 </html>
