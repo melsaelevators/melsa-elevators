@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /survey.html
+Disallow: /configurator.html
+Disallow: /review.html
+Disallow: /tools/
+
+Sitemap: https://melsaelevators.com/sitemap.xml

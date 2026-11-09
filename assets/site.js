@@ -4,13 +4,13 @@ const SITE=window.MELSA_SITE||{company:{},clients:[],projects:[]}, C=SITE.compan
 const T={
  en:{"nav.elev":"Elevators","sub.maintReq":"Book maintenance","sub.mNewCairo":"Maintenance in New Cairo","sub.mNasr":"Maintenance in Nasr City","sub.mCairo":"Maintenance in Cairo","sub.repair":"Breakdown repairs","sub.modern":"Modernization","sub.villa":"Villa & home elevators","sub.pano":"Panoramic elevators","sub.bldg":"Residential building elevators","sub.prices":"Elevator prices in Egypt","sub.iNewCairo":"Installation in New Cairo","sub.iNasr":"Installation in Nasr City","f.services":"Our services","nav.home":"Home","nav.about":"About us","nav.projects":"Projects","nav.catalog":"Catalog","nav.clients":"Clients","nav.maint":"Maintenance","nav.consult":"Consulting","nav.contact":"Contact us","nav.eng":"🔒 Engineers",
   "f.about":"Melsa Elevators designs, supplies, installs and maintains elevators for homes, buildings and businesses.","f.links":"Pages","f.contact":"Contact",
-  "f.rights":"© {y} Melsa Elevators. All rights reserved.","f.soon":"Contact details coming soon.","f.engineers":"Engineers' area","f.profile":"Company profile (PDF)",
+  "f.rights":"© {y} Melsa Elevators. All rights reserved.","f.soon":"Contact details coming soon.","f.engineers":"Engineers' area","f.profile":"Company profile (PDF)","f.privacy":"Privacy policy",
   notSet:"Our contact details are being added. Please check back soon.",sent:"Opening WhatsApp…",required:"Please fill in your name and phone number.",
   "ci.phone":"Phone","ci.mobile":"Mobile","ci.whatsapp":"WhatsApp","ci.email":"Email","ci.address":"Address","ci.hours":"Working hours","ci.facebook":"Facebook","review":"Rate us on Google","reviewSub":"Happy with our work? Your review helps others find us.","ci.instagram":"Instagram",close:"Close",
   "t.Residential":"Residential","t.Villa":"Villa","t.Factory":"Factory","t.Hospital":"Hospital","t.Mall":"Mall","t.Office":"Office","t.Hotel":"Hotel"},
  ar:{"nav.elev":"المصاعد","sub.maintReq":"احجز صيانة","sub.mNewCairo":"صيانة في التجمع والقاهرة الجديدة","sub.mNasr":"صيانة في مدينة نصر","sub.mCairo":"صيانة في القاهرة","sub.repair":"إصلاح الأعطال","sub.modern":"تحديث المصاعد القديمة","sub.villa":"مصاعد الفيلات والمنازل","sub.pano":"مصاعد بانوراما","sub.bldg":"مصاعد العمارات السكنية","sub.prices":"أسعار المصاعد في مصر","sub.iNewCairo":"تركيب مصاعد في التجمع","sub.iNasr":"تركيب مصاعد في مدينة نصر","f.services":"خدماتنا","nav.home":"الرئيسية","nav.about":"من نحن","nav.projects":"مشاريعنا","nav.catalog":"الكتالوج","nav.clients":"عملاؤنا","nav.maint":"الصيانة","nav.consult":"استشارات","nav.contact":"تواصل معنا","nav.eng":"🔒 المهندسين",
   "f.about":"إلكتروميلسا لتصميم وتركيب وتوريد وصيانة المصاعد — للمنازل والمباني والشركات.","f.links":"الصفحات","f.contact":"تواصل",
-  "f.rights":"© {y} إلكتروميلسا لتصميم وتركيب وتوريد وصيانة المصاعد. جميع الحقوق محفوظة.","f.soon":"بيانات التواصل قريبًا.","f.engineers":"منطقة المهندسين","f.profile":"بروفايل الشركة (PDF)",
+  "f.rights":"© {y} إلكتروميلسا لتصميم وتركيب وتوريد وصيانة المصاعد. جميع الحقوق محفوظة.","f.soon":"بيانات التواصل قريبًا.","f.engineers":"منطقة المهندسين","f.profile":"بروفايل الشركة (PDF)","f.privacy":"سياسة الخصوصية",
   notSet:"بيانات التواصل قيد الإضافة. برجاء المحاولة لاحقًا.",sent:"جارٍ فتح واتساب…",required:"برجاء كتابة الاسم ورقم التليفون.",
   "review":"قيّمنا على Google","reviewSub":"عجبك شغلنا؟ تقييمك بيساعد غيرك يلاقينا.","ci.phone":"التليفون الأرضي","ci.mobile":"الموبايل","ci.whatsapp":"واتساب","ci.email":"البريد الإلكتروني","ci.address":"العنوان","ci.hours":"مواعيد العمل","ci.facebook":"فيسبوك","ci.instagram":"إنستجرام",close:"إغلاق",
   "t.Residential":"سكني","t.Villa":"فيلا","t.Factory":"مصنع","t.Hospital":"مستشفى","t.Mall":"مول","t.Office":"إداري","t.Hotel":"فندق"}
@@ -64,7 +64,7 @@ function renderFooter(){
  <div><h4>${esc(t("f.links"))}</h4><ul>${NAV.map(([k,h])=>`<li><a href="${h}">${esc(t("nav."+k))}</a></li>`).join("")}<li><a href="assets/docs/melsa-company-profile${lang==="ar"?"-ar":""}.pdf" target="_blank" rel="noopener" data-profile>${esc(t("f.profile"))}</a></li></ul></div>
  <div><h4>${esc(t("f.services"))}</h4><ul>${[...SUB.elev,...SUB.maint.slice(1)].map(([sk,u])=>`<li><a href="${u}">${esc(t("sub."+sk))}</a></li>`).join("")}</ul></div>
  <div><h4>${esc(t("f.contact"))}</h4>${items.length?`<ul>${items.map(i=>`<li><span class="fi">${i.icon}</span>${i.href?`<a href="${esc(i.href)}" ${i.ext?'target="_blank" rel="noopener"':""}><bdi ${i.ltr?'dir="ltr"':""}>${esc(i.text)}</bdi></a>`:esc(i.text)}</li>`).join("")}</ul>`:`<p style="margin:0">${esc(t("f.soon"))}</p>`}</div></div>
- <div class="fbottom">${esc(t("f.rights",{y:new Date().getFullYear()}))}</div>`;
+ <div class="fbottom">${esc(t("f.rights",{y:new Date().getFullYear()}))} · <a href="privacy.html">${esc(t("f.privacy"))}</a></div>`;
 }
 function contactItems(){
  const L=[];
