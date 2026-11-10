@@ -144,7 +144,7 @@
  .tl::after{transform-origin:top!important;transform:scaleY(var(--p));background:linear-gradient(180deg,var(--gold),var(--red))!important}
  .tl li{display:flex;gap:18px;text-align:start;align-items:flex-start}.tl .dot{margin:0;flex:none}}
 @media(prefers-reduced-motion:reduce){.tl::after,.tl .dot,.tl li div{transition:none}}
-.numgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:40px}
+.numgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:40px}
 .numgrid div{background:#fff;border-radius:24px;padding:34px 22px;text-align:center}
 .numgrid b{display:block;font-size:clamp(44px,5.6vw,72px);font-weight:800;letter-spacing:-.04em;line-height:1;background:linear-gradient(120deg,var(--navy) 20%,var(--red));-webkit-background-clip:text;background-clip:text;color:transparent;direction:ltr}
 .numgrid span{display:block;margin-top:12px;color:var(--muted);font-size:16px}
@@ -179,7 +179,7 @@
  .trio .cab{left:30%;width:40%}
  .trio .l{transform:translateX(calc(var(--m,1) * -72%)) scale(.8)}
  .trio .r{transform:translateX(calc(var(--m,1) * 72%)) scale(.8)}
- .numgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .numgrid{grid-template-columns:1fr}
  .feats span{font-size:13px;padding:7px 13px}
  .nums,.lineup,.trust{padding:80px 0}.finale{padding:100px 0}
 }
@@ -304,7 +304,6 @@ window.PAGE_T={
  <section class="nums" id="nums"><div class="wrap">
   <h2 class="center" data-i18n="numsTitle"></h2>
   <div class="numgrid">
-   <div><b data-count="1997" data-from="1960">1997</b><span data-i18n="n1"></span></div>
    <div><b data-count="40" data-suffix="+">40+</b><span data-i18n="n2"></span></div>
    <div><b data-count="0" id="nClients">0</b><span data-i18n="n3"></span></div>
    <div><b data-count="0" id="nProducts">0</b><span data-i18n="n4"></span></div>
