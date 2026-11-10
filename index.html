@@ -124,6 +124,26 @@
 .feats span{background:#0b1d35b3;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);color:#fff;border:1px solid #ffffff2e;border-radius:980px;padding:9px 18px;font-size:15px;font-weight:500;opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
 .feats.on span{opacity:1;transform:none}.feats.on span:nth-child(2){transition-delay:.15s}.feats.on span:nth-child(3){transition-delay:.3s}
 .nums{background:var(--paper);padding:120px 0}
+.how{background:#fff;padding:110px 0}
+.tl{list-style:none;margin:56px 0 0;padding:0;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:18px;position:relative;--p:0}
+.tl::before,.tl::after{content:"";position:absolute;top:27px;inset-inline:calc(100%/12);height:2px;background:var(--line)}
+.tl::after{background:linear-gradient(90deg,var(--gold),var(--red));transform-origin:left;transform:scaleX(var(--p));transition:transform .25s linear}
+[dir=rtl] .tl::after{transform-origin:right;background:linear-gradient(270deg,var(--gold),var(--red))}
+.tl li{position:relative;z-index:1;text-align:center}
+.tl .dot{width:56px;height:56px;border-radius:50%;background:#fff;border:2px solid var(--line);color:var(--silver);display:grid;place-items:center;margin:0 auto 16px;transition:border-color .4s,color .4s,background .4s,transform .4s}
+.tl .dot svg{width:24px;height:24px}
+.tl small{display:block;font-size:12px;font-weight:700;color:var(--gold);letter-spacing:.1em}
+.tl b{display:block;font-size:17px;color:var(--navy);margin-top:4px}
+.tl p{margin:6px 0 0;font-size:14px;line-height:1.5;color:var(--muted)}
+.tl li div{opacity:.35;transform:translateY(8px);transition:opacity .5s,transform .5s}
+.tl li.on .dot{background:var(--navy);border-color:var(--navy);color:#fff;transform:scale(1.06)}
+.tl li.on div{opacity:1;transform:none}
+@media(max-width:860px){.how{padding:70px 0}
+ .tl{grid-template-columns:1fr;gap:26px;margin-top:36px}
+ .tl::before,.tl::after{top:28px;bottom:28px;height:auto;width:2px;inset-inline:auto;inset-inline-start:27px}
+ .tl::after{transform-origin:top!important;transform:scaleY(var(--p));background:linear-gradient(180deg,var(--gold),var(--red))!important}
+ .tl li{display:flex;gap:18px;text-align:start;align-items:flex-start}.tl .dot{margin:0;flex:none}}
+@media(prefers-reduced-motion:reduce){.tl::after,.tl .dot,.tl li div{transition:none}}
 .numgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:40px}
 .numgrid div{background:#fff;border-radius:24px;padding:34px 22px;text-align:center}
 .numgrid b{display:block;font-size:clamp(44px,5.6vw,72px);font-weight:800;letter-spacing:-.04em;line-height:1;background:linear-gradient(120deg,var(--navy) 20%,var(--red));-webkit-background-clip:text;background-clip:text;color:transparent;direction:ltr}
@@ -193,7 +213,7 @@ window.PAGE_T={
   c3h:"Always running.<br><span class='soft'>Always safe.</span>",c3p:"Scheduled maintenance, fast breakdown response and full safety inspections, for any elevator brand.",c3a:"Book maintenance ›",
   f1:"Preventive visits",f2:"Fast repairs",f3:"Safety inspections",
   c4h:"Old elevator.<br><span class='soft'>New life.</span>",c4p:"Upgrade machines, controllers, doors and cabins without replacing the whole elevator.",c4a:"Ask our engineers ›",
-  numsTitle:"Melsa in numbers.",n1:"Founded",n2:"Years of founder's experience",n3:"Major companies & organisations",n4:"Products in our catalog"},
+  howEye:"How we work",howH:"Six clear steps.",hw1:"Consultation",hw1t:"We listen to your needs, the building type and your budget.",hw2:"Site survey",hw2t:"Our engineers measure the shaft, pit and headroom on site.",hw3:"Design & quotation",hw3t:"We propose the drive, capacity, doors and finishes, and send a detailed quotation.",hw4:"Supply",hw4t:"Components are prepared and delivered to the approved specifications.",hw5:"Installation & testing",hw5t:"Our team installs the elevator and tests every safety system.",hw6:"Handover & maintenance",hw6t:"We hand over the elevator and stay available for maintenance.",numsTitle:"Melsa in numbers.",n1:"Founded",n2:"Years of founder's experience",n3:"Major companies & organisations",n4:"Products in our catalog"},
  ar:{title:"إلكتروميلسا لتصميم وتركيب وتوريد وصيانة المصاعد | شركة مصاعد في القاهرة",eyebrow:"هندسة الأناقة",h1:"مصممة لتناسب <em>رؤيتك.</em>",
   lead:"من الفيلا إلى المستشفيات والمولات، إلكتروميلسا لتصميم وتركيب وتوريد وصيانة المصاعد بالتشطيبات التي تختارها.",
   cta1:"اطلب عرض سعر",cta2:"احجز صيانة",cta3:"تصفح الكتالوج",svcEyebrow:"خدماتنا",svcTitle:"حلول متكاملة للمصاعد",
@@ -212,7 +232,7 @@ window.PAGE_T={
   c3h:"شغال دايمًا.<br><span class='soft'>آمن دايمًا.</span>",c3p:"صيانة دورية، واستجابة سريعة للأعطال، وفحوصات أمان كاملة لأي ماركة مصعد.",c3a:"احجز صيانة ›",
   f1:"زيارات دورية",f2:"إصلاح سريع",f3:"فحص أمان",
   c4h:"مصعد قديم.<br><span class='soft'>حياة جديدة.</span>",c4p:"طوّر الماكينة ولوحة التحكم والأبواب والكابينة من غير ما تغيّر المصعد كله.",c4a:"اسأل مهندسينا ›",
-  numsTitle:"ميلسا بالأرقام.",n1:"سنة التأسيس",n2:"سنة خبرة للمؤسس",n3:"شركة وجهة كبرى",n4:"منتج في الكتالوج"}
+  howEye:"خطوات العمل",howH:"ست خطوات واضحة.",hw1:"الاستشارة",hw1t:"بنسمع احتياجاتك ونوع المبنى والميزانية.",hw2:"معاينة الموقع",hw2t:"مهندسينا بيقيسوا البئر والحفرة والارتفاع في الموقع.",hw3:"التصميم وعرض السعر",hw3t:"بنقترح نوع التشغيل والحمولة والأبواب والتشطيبات، ونبعت عرض سعر تفصيلي.",hw4:"التوريد",hw4t:"بنجهّز المكونات ونورّدها حسب المواصفات المعتمدة.",hw5:"التركيب والاختبار",hw5t:"فريقنا بيركّب المصعد ويختبر كل أنظمة الأمان.",hw6:"التسليم والصيانة",hw6t:"بنسلّم المصعد ونفضل معاك في الصيانة.",numsTitle:"ميلسا بالأرقام.",n1:"سنة التأسيس",n2:"سنة خبرة للمؤسس",n3:"شركة وجهة كبرى",n4:"منتج في الكتالوج"}
 };
 </script>
 </head>
@@ -289,6 +309,11 @@ window.PAGE_T={
    <div><b data-count="0" id="nClients">0</b><span data-i18n="n3"></span></div>
    <div><b data-count="0" id="nProducts">0</b><span data-i18n="n4"></span></div>
   </div>
+ </div></section>
+
+ <section class="how" id="how"><div class="wrap">
+  <div class="eyebrow center" data-i18n="howEye"></div><h2 class="center" data-i18n="howH"></h2>
+  <ol class="tl"><li><span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/></svg></span><div><small>01</small><b data-i18n="hw1"></b><p data-i18n="hw1t"></p></div></li><li><span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17 17 3l4 4L7 21z"/><path d="m7 13 2 2m1-5 2 2m1-5 2 2"/></svg></span><div><small>02</small><b data-i18n="hw2"></b><p data-i18n="hw2t"></p></div></li><li><span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h4"/></svg></span><div><small>03</small><b data-i18n="hw3"></b><p data-i18n="hw3t"></p></div></li><li><span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8 12 3l9 5v8l-9 5-9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/></svg></span><div><small>04</small><b data-i18n="hw4"></b><p data-i18n="hw4t"></p></div></li><li><span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 6.5a4 4 0 0 0-5.3 5.3L3 18l3 3 6.2-6.2a4 4 0 0 0 5.3-5.3L15 12l-3-3z"/></svg></span><div><small>05</small><b data-i18n="hw5"></b><p data-i18n="hw5t"></p></div></li><li><span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg></span><div><small>06</small><b data-i18n="hw6"></b><p data-i18n="hw6t"></p></div></li></ol>
  </div></section>
 
  <section class="lineup"><div class="wrap">
@@ -381,6 +406,12 @@ if(h){const io=new IntersectionObserver(es=>{if(es[0].isIntersecting){io.disconn
  const railEl=document.getElementById("prods");
  const step=d=>{const a=railEl.querySelector("a");const w=a?a.getBoundingClientRect().width+20:300;railEl.scrollBy({left:(document.dir==="rtl"?-d:d)*w*2,behavior:"smooth"});};
  document.getElementById("railPrev").onclick=()=>step(-1); document.getElementById("railNext").onclick=()=>step(1);
+ /* process timeline: the line fills and the steps light up as you scroll */
+ const tl=document.querySelector(".tl"); if(tl){const li=[...tl.children];let tk=false;
+  const upd=()=>{tk=false;const r=tl.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight)return;
+   const col=matchMedia("(max-width:860px)").matches;const q=reduce?1:col?clamp((innerHeight*.72-r.top)/r.height):clamp((innerHeight*.9-r.top)/(innerHeight*.55));
+   tl.style.setProperty("--p",q.toFixed(3));li.forEach((x,i)=>x.classList.toggle("on",q>=i/(li.length-1)-.02));};
+  addEventListener("scroll",()=>{if(!tk){tk=true;requestAnimationFrame(upd);}},{passive:true});addEventListener("resize",upd);upd();}
  /* count-up numbers */
  const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;io.unobserve(e.target);
   e.target.querySelectorAll("b[data-count]").forEach(b=>{const to=+b.dataset.count,from=+(b.dataset.from||0),suf=b.dataset.suffix||"",t0=performance.now(),D=reduce?1:1600;
