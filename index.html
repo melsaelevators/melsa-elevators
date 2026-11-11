@@ -144,6 +144,16 @@
  .tl::after{transform-origin:top!important;transform:scaleY(var(--p));background:linear-gradient(180deg,var(--gold),var(--red))!important}
  .tl li{display:flex;gap:18px;text-align:start;align-items:flex-start}.tl .dot{margin:0;flex:none}}
 @media(prefers-reduced-motion:reduce){.tl::after,.tl .dot,.tl li div{transition:none}}
+.how{position:relative;overflow:hidden}.how .wrap{position:relative;z-index:1}
+.rib{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.5}
+.tl small{font-size:30px!important;font-weight:800!important;letter-spacing:-.02em!important;line-height:1;background:linear-gradient(120deg,var(--gold),var(--red));-webkit-background-clip:text;background-clip:text;color:transparent!important}
+.band{background:var(--navy);overflow:hidden;padding:22px 0}
+.band-t{display:flex;width:max-content;direction:ltr;animation:mq 60s linear infinite;will-change:transform}
+.band-t span{font-size:clamp(30px,5vw,60px);font-weight:800;letter-spacing:-.03em;color:#fff;white-space:nowrap;padding:0 .45em}
+.band-t span:nth-of-type(even){color:transparent;-webkit-text-stroke:1.5px var(--gold)}
+.band-t i{align-self:center;width:10px;height:10px;border-radius:50%;background:var(--red);flex:none}
+[dir=rtl] .band-t span{letter-spacing:0}
+@media(prefers-reduced-motion:reduce){.band-t{animation:none}}
 .numgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:40px}
 .numgrid div{background:#fff;border-radius:24px;padding:34px 22px;text-align:center}
 .numgrid b{display:block;font-size:clamp(44px,5.6vw,72px);font-weight:800;letter-spacing:-.04em;line-height:1;background:linear-gradient(120deg,var(--navy) 20%,var(--red));-webkit-background-clip:text;background-clip:text;color:transparent;direction:ltr}
@@ -213,7 +223,7 @@ window.PAGE_T={
   c3h:"Always running.<br><span class='soft'>Always safe.</span>",c3p:"Scheduled maintenance, fast breakdown response and full safety inspections, for any elevator brand.",c3a:"Book maintenance ›",
   f1:"Preventive visits",f2:"Fast repairs",f3:"Safety inspections",
   c4h:"Old elevator.<br><span class='soft'>New life.</span>",c4p:"Upgrade machines, controllers, doors and cabins without replacing the whole elevator.",c4a:"Ask our engineers ›",
-  howEye:"How we work",howH:"Six clear steps.",hw1:"Consultation",hw1t:"We listen to your needs, the building type and your budget.",hw2:"Site survey",hw2t:"Our engineers measure the shaft, pit and headroom on site.",hw3:"Design & quotation",hw3t:"We propose the drive, capacity, doors and finishes, and send a detailed quotation.",hw4:"Supply",hw4t:"Components are prepared and delivered to the approved specifications.",hw5:"Installation & testing",hw5t:"Our team installs the elevator and tests every safety system.",hw6:"Handover & maintenance",hw6t:"We hand over the elevator and stay available for maintenance.",numsTitle:"Melsa in numbers.",n1:"Founded",n2:"Years of founder's experience",n3:"Major companies & organisations",n4:"Products in our catalog"},
+  bandW:"Installation|Maintenance|Modernization|Consulting|Custom cabins|Since 1997",howEye:"How we work",howH:"Six clear steps.",hw1:"Consultation",hw1t:"We listen to your needs, the building type and your budget.",hw2:"Site survey",hw2t:"Our engineers measure the shaft, pit and headroom on site.",hw3:"Design & quotation",hw3t:"We propose the drive, capacity, doors and finishes, and send a detailed quotation.",hw4:"Supply",hw4t:"Components are prepared and delivered to the approved specifications.",hw5:"Installation & testing",hw5t:"Our team installs the elevator and tests every safety system.",hw6:"Handover & maintenance",hw6t:"We hand over the elevator and stay available for maintenance.",numsTitle:"Melsa in numbers.",n1:"Founded",n2:"Years of founder's experience",n3:"Major companies & organisations",n4:"Products in our catalog"},
  ar:{title:"إلكتروميلسا لتصميم وتركيب وتوريد وصيانة المصاعد | شركة مصاعد في القاهرة",eyebrow:"هندسة الأناقة",h1:"مصممة لتناسب <em>رؤيتك.</em>",
   lead:"من الفيلا إلى المستشفيات والمولات، إلكتروميلسا لتصميم وتركيب وتوريد وصيانة المصاعد بالتشطيبات التي تختارها.",
   cta1:"اطلب عرض سعر",cta2:"احجز صيانة",cta3:"تصفح الكتالوج",svcEyebrow:"خدماتنا",svcTitle:"حلول متكاملة للمصاعد",
@@ -232,7 +242,7 @@ window.PAGE_T={
   c3h:"شغال دايمًا.<br><span class='soft'>آمن دايمًا.</span>",c3p:"صيانة دورية، واستجابة سريعة للأعطال، وفحوصات أمان كاملة لأي ماركة مصعد.",c3a:"احجز صيانة ›",
   f1:"زيارات دورية",f2:"إصلاح سريع",f3:"فحص أمان",
   c4h:"مصعد قديم.<br><span class='soft'>حياة جديدة.</span>",c4p:"طوّر الماكينة ولوحة التحكم والأبواب والكابينة من غير ما تغيّر المصعد كله.",c4a:"اسأل مهندسينا ›",
-  howEye:"خطوات العمل",howH:"ست خطوات واضحة.",hw1:"الاستشارة",hw1t:"بنسمع احتياجاتك ونوع المبنى والميزانية.",hw2:"معاينة الموقع",hw2t:"مهندسينا بيقيسوا البئر والحفرة والارتفاع في الموقع.",hw3:"التصميم وعرض السعر",hw3t:"بنقترح نوع التشغيل والحمولة والأبواب والتشطيبات، ونبعت عرض سعر تفصيلي.",hw4:"التوريد",hw4t:"بنجهّز المكونات ونورّدها حسب المواصفات المعتمدة.",hw5:"التركيب والاختبار",hw5t:"فريقنا بيركّب المصعد ويختبر كل أنظمة الأمان.",hw6:"التسليم والصيانة",hw6t:"بنسلّم المصعد ونفضل معاك في الصيانة.",numsTitle:"إلكتروميلسا بالأرقام.",n1:"سنة التأسيس",n2:"سنة خبرة للمؤسس",n3:"شركة وجهة كبرى",n4:"منتج في الكتالوج"}
+  bandW:"تركيب|صيانة|تحديث|استشارات|كبائن حسب الطلب|منذ 1997",howEye:"خطوات العمل",howH:"ست خطوات واضحة.",hw1:"الاستشارة",hw1t:"بنسمع احتياجاتك ونوع المبنى والميزانية.",hw2:"معاينة الموقع",hw2t:"مهندسينا بيقيسوا البئر والحفرة والارتفاع في الموقع.",hw3:"التصميم وعرض السعر",hw3t:"بنقترح نوع التشغيل والحمولة والأبواب والتشطيبات، ونبعت عرض سعر تفصيلي.",hw4:"التوريد",hw4t:"بنجهّز المكونات ونورّدها حسب المواصفات المعتمدة.",hw5:"التركيب والاختبار",hw5t:"فريقنا بيركّب المصعد ويختبر كل أنظمة الأمان.",hw6:"التسليم والصيانة",hw6t:"بنسلّم المصعد ونفضل معاك في الصيانة.",numsTitle:"إلكتروميلسا بالأرقام.",n1:"سنة التأسيس",n2:"سنة خبرة للمؤسس",n3:"شركة وجهة كبرى",n4:"منتج في الكتالوج"}
 };
 </script>
 </head>
@@ -310,10 +320,11 @@ window.PAGE_T={
   </div>
  </div></section>
 
- <section class="how" id="how"><div class="wrap">
+ <section class="how" id="how"><svg class="rib" id="rib" aria-hidden="true"><defs><linearGradient id="ribG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#C5AD87"/><stop offset="1" stop-color="#A82935"/></linearGradient></defs><path fill="none" stroke="url(#ribG)" stroke-linecap="round"/></svg><div class="wrap">
   <div class="eyebrow center" data-i18n="howEye"></div><h2 class="center" data-i18n="howH"></h2>
   <ol class="tl"><li><span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/></svg></span><div><small>01</small><b data-i18n="hw1"></b><p data-i18n="hw1t"></p></div></li><li><span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17 17 3l4 4L7 21z"/><path d="m7 13 2 2m1-5 2 2m1-5 2 2"/></svg></span><div><small>02</small><b data-i18n="hw2"></b><p data-i18n="hw2t"></p></div></li><li><span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h4"/></svg></span><div><small>03</small><b data-i18n="hw3"></b><p data-i18n="hw3t"></p></div></li><li><span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8 12 3l9 5v8l-9 5-9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/></svg></span><div><small>04</small><b data-i18n="hw4"></b><p data-i18n="hw4t"></p></div></li><li><span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 6.5a4 4 0 0 0-5.3 5.3L3 18l3 3 6.2-6.2a4 4 0 0 0 5.3-5.3L15 12l-3-3z"/></svg></span><div><small>05</small><b data-i18n="hw5"></b><p data-i18n="hw5t"></p></div></li><li><span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg></span><div><small>06</small><b data-i18n="hw6"></b><p data-i18n="hw6t"></p></div></li></ol>
  </div></section>
+ <div class="band" aria-hidden="true"><div class="band-t" id="bandT"></div></div>
 
  <section class="lineup"><div class="wrap">
   <div class="secthead"><h2 data-i18n="prodTitle"></h2><a class="more" href="catalog.html" data-i18n="seeAll"></a></div>
@@ -370,6 +381,7 @@ if(h){const io=new IntersectionObserver(es=>{if(es[0].isIntersecting){io.disconn
   document.getElementById("prods").innerHTML=rail.map(id=>{const p=byId[id];const nm=L==="ar"?(p.ar||p.label):p.label;return `<a href="catalog.html"><img src="assets/thumbs-lg/${p.id}.jpg" alt="" loading="lazy"><span>${esc(p.code?t("code",{c:p.code}):nm)}<small>${esc(p.code?nm:"")}</small></span></a>`}).join("");
   const cl=(site.clients||[]).filter(c=>c.logo); document.getElementById("trust").hidden=!cl.length;
   const logo=c=>`<a href="clients.html" title="${esc(L==="ar"?c.name_ar:c.name_en)}"><img src="${esc(c.logo)}" alt="${esc(L==="ar"?c.name_ar:c.name_en)}" loading="lazy"></a>`;
+  {const bw=t("bandW").split("|").map(w=>`<span>${esc(w)}</span><i></i>`).join("");const bt=document.getElementById("bandT");bt.innerHTML=bw+bw+bw+bw;bt.style.direction="ltr";bt.querySelectorAll("span").forEach(x=>x.dir=lang()==="ar"?"rtl":"ltr");}
   document.getElementById("logos").innerHTML=cl.map(logo).join("")+cl.map(logo).join("").replace(/<a /g,'<a aria-hidden="true" tabindex="-1" ');
   document.getElementById("nClients").dataset.count=(site.clients||[]).length;
   document.getElementById("nProducts").dataset.count=(P.cabin||[]).length+(P.door||[]).filter(p=>p.type==="Semi-automatic"||p.type==="Automatic").length+(P.panel||[]).length+(P.floor||[]).length;
@@ -411,6 +423,15 @@ if(h){const io=new IntersectionObserver(es=>{if(es[0].isIntersecting){io.disconn
    const col=matchMedia("(max-width:860px)").matches;const q=reduce?1:col?clamp((innerHeight*.72-r.top)/r.height):clamp((innerHeight*.9-r.top)/(innerHeight*.55));
    tl.style.setProperty("--p",q.toFixed(3));li.forEach((x,i)=>x.classList.toggle("on",q>=i/(li.length-1)-.02));};
   addEventListener("scroll",()=>{if(!tk){tk=true;requestAnimationFrame(upd);}},{passive:true});addEventListener("resize",upd);upd();}
+ /* ribbon behind the steps: drawn as you scroll */
+ const rib=document.getElementById("rib"); if(rib){const rp=rib.querySelector("path"),host=rib.parentElement;let L=0,rk=false;
+  const build=()=>{const w=host.clientWidth,h=host.clientHeight;rib.setAttribute("viewBox",`0 0 ${w} ${h}`);rp.setAttribute("stroke-width",Math.max(18,Math.min(44,w*.03)));
+   const X=x=>(x*w).toFixed(0),Y=y=>(y*h).toFixed(0);
+   rp.setAttribute("d",`M ${X(-.06)} ${Y(.10)} C ${X(.22)} ${Y(-.04)}, ${X(.42)} ${Y(.26)}, ${X(.66)} ${Y(.15)} S ${X(1.04)} ${Y(.02)}, ${X(.94)} ${Y(.30)} S ${X(.60)} ${Y(.46)}, ${X(.36)} ${Y(.58)} S ${X(-.02)} ${Y(.74)}, ${X(.14)} ${Y(.90)} S ${X(.70)} ${Y(.86)}, ${X(1.06)} ${Y(.97)}`);
+   L=rp.getTotalLength();rp.style.strokeDasharray=L;draw();};
+  const draw=()=>{rk=false;const r=host.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight)return;
+   const q=reduce?1:clamp((innerHeight*.9-r.top)/(r.height+innerHeight*.35));rp.style.strokeDashoffset=(L*(1-q)).toFixed(1);};
+  addEventListener("scroll",()=>{if(!rk){rk=true;requestAnimationFrame(draw);}},{passive:true});addEventListener("resize",build);build();setTimeout(build,1200);}
  /* count-up numbers */
  const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;io.unobserve(e.target);
   e.target.querySelectorAll("b[data-count]").forEach(b=>{const to=+b.dataset.count,from=+(b.dataset.from||0),suf=b.dataset.suffix||"",t0=performance.now(),D=reduce?1:1600;
