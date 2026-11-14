@@ -153,6 +153,15 @@
 .band-t i{align-self:center;width:10px;height:10px;border-radius:50%;background:var(--red);flex:none}
 [dir=rtl] .band-t span{letter-spacing:0}
 @media(prefers-reduced-motion:reduce){.band-t{animation:none}}
+.pin{position:relative;background:var(--navy)}
+.pin-stage{position:relative;height:100vh;height:100svh;overflow:hidden}
+.pin .layer{position:absolute;inset:0;height:100%;will-change:transform}
+.pin .layer .stick{position:relative;height:100%}
+.pin .layer:not(:first-child){box-shadow:0 -30px 60px -20px #0b1d3566}
+.pin-dots{position:absolute;inset-inline-end:clamp(12px,2.4vw,32px);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:5}
+.pin-dots i{width:8px;height:8px;border-radius:50%;background:#aeb5be80;transition:height .35s,background .35s}
+.pin-dots i.on{height:26px;border-radius:4px;background:var(--gold)}
+.pin.off .pin-stage{height:auto;overflow:visible}.pin.off .layer{position:relative;inset:auto;height:auto}.pin.off .layer .stick{height:auto;min-height:100svh}.pin.off .pin-dots{display:none}
 .numgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:40px}
 .numgrid div{background:#fff;border-radius:24px;padding:34px 22px;text-align:center}
 .numgrid b{display:block;font-size:clamp(44px,5.6vw,72px);font-weight:800;letter-spacing:-.04em;line-height:1;background:linear-gradient(120deg,var(--navy) 20%,var(--red));-webkit-background-clip:text;background-clip:text;color:transparent;direction:ltr}
@@ -267,14 +276,15 @@ window.PAGE_T={
 
  <section class="statement" id="statement"><div class="wrap"><p class="words" id="stmt" data-i18n="stmt"></p></div></section>
 
- <section class="chap dark" data-chap>
+ <section class="pin" id="pin"><div class="pin-stage">
+ <div class="layer chap dark">
   <div class="stick">
    <div class="chap-text"><div class="eyebrow" data-i18n="s1"></div><h2 data-i18n-html="c1h"></h2><p data-i18n="c1p"></p><a class="more" href="quote.html" data-i18n="c1a"></a></div>
    <div class="chap-media one"><img src="assets/hero/03.webp" alt="" loading="lazy"></div>
   </div>
- </section>
+ </div>
 
- <section class="chap light" data-chap>
+ <div class="layer chap light">
   <div class="stick">
    <div class="chap-text"><div class="eyebrow" data-i18n="s2"></div><h2 data-i18n-html="c2h"></h2><p data-i18n="c2p"></p><a class="more" href="catalog.html" data-i18n="c2a"></a></div>
    <div class="chap-media trio" id="cab3d">
@@ -283,23 +293,25 @@ window.PAGE_T={
     <div class="cab c"><div class="spin"><img src="assets/cutouts/cabin_02.webp" alt="" loading="lazy"></div></div>
    </div>
   </div>
- </section>
+ </div>
 
- <section class="chap deep" data-chap>
+ <div class="layer chap deep">
   <div class="stick">
    <div class="chap-text"><div class="eyebrow" data-i18n="s3"></div><h2 data-i18n-html="c3h"></h2><p data-i18n="c3p"></p><a class="more" href="maintenance.html" data-i18n="c3a"></a></div>
    <div class="chap-media one"><img src="assets/hero/05.webp" alt="" loading="lazy">
     <div class="feats"><span data-i18n="f1"></span><span data-i18n="f2"></span><span data-i18n="f3"></span></div>
    </div>
   </div>
- </section>
+ </div>
 
- <section class="chap light" data-chap>
+ <div class="layer chap light">
   <div class="stick">
    <div class="chap-text"><div class="eyebrow" data-i18n="s4"></div><h2 data-i18n-html="c4h"></h2><p data-i18n="c4p"></p><a class="more" href="consulting.html" data-i18n="c4a"></a></div>
    <div class="chap-media one"><img src="assets/hero/08.webp" alt="" loading="lazy"></div>
   </div>
- </section>
+ </div>
+ <div class="pin-dots" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+ </div></section>
 
  <section class="apl closer" id="closer"><div class="wrap"><h2 class="ah"></h2>
   <div class="cl-box"><div class="cl-list" id="clList"></div><div class="cl-media" id="clMedia"></div></div>
@@ -422,6 +434,27 @@ if(h){const io=new IntersectionObserver(es=>{if(es[0].isIntersecting){io.disconn
    const col=matchMedia("(max-width:860px)").matches;const q=reduce?1:col?clamp((innerHeight*.72-r.top)/r.height):clamp((innerHeight*.9-r.top)/(innerHeight*.55));
    tl.style.setProperty("--p",q.toFixed(3));li.forEach((x,i)=>x.classList.toggle("on",q>=i/(li.length-1)-.02));};
   addEventListener("scroll",()=>{if(!tk){tk=true;requestAnimationFrame(upd);}},{passive:true});addEventListener("resize",upd);upd();}
+ /* pinned chapters: one stage, the four chapters slide over each other as you scroll (GSAP ScrollTrigger) */
+ (function(){const pin=document.getElementById("pin");if(!pin)return;const layers=[...pin.querySelectorAll(".layer")],dots=[...pin.querySelectorAll(".pin-dots i")];
+  const setDot=k=>{dots.forEach((d,i)=>d.classList.toggle("on",i===k));const f=pin.querySelector(".feats");if(f)f.classList.toggle("on",k>=2);};
+  const off=()=>{pin.classList.add("off");setDot(-1);const f=pin.querySelector(".feats");if(f)f.classList.add("on");};
+  if(reduce)return off();
+  const load=src=>new Promise((ok,no)=>{const x=document.createElement("script");x.src=src;x.onload=ok;x.onerror=no;document.head.appendChild(x);});
+  const V="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/";
+  load(V+"gsap.min.js").then(()=>load(V+"ScrollTrigger.min.js")).then(()=>{
+   const g=window.gsap,ST=window.ScrollTrigger;g.registerPlugin(ST);
+   layers.forEach((l,i)=>{if(i)g.set(l,{yPercent:100});});
+   const tl=g.timeline({defaults:{ease:"none"},scrollTrigger:{trigger:pin,start:"top top",end:()=>"+="+Math.round(innerHeight*.75*(layers.length-1)),pin:true,scrub:.6,anticipatePin:1,
+    snap:{snapTo:1/(layers.length-1),inertia:false,duration:{min:.2,max:.5},delay:.08,ease:"power1.inOut"},
+    onUpdate:self=>setDot(Math.round(self.progress*(layers.length-1)))}});
+   layers.forEach((l,i)=>{if(!i)return;
+    tl.to(l,{yPercent:0,duration:1},i-1).to(layers[i-1],{scale:.92,opacity:.35,duration:1},i-1)
+      .fromTo(l.querySelector(".chap-text"),{y:60,opacity:0},{y:0,opacity:1,duration:.6},i-.6);});
+   setDot(0);
+   const hook=()=>{const L=window.melsaLenis;if(L){L.on("scroll",ST.update);}else setTimeout(hook,300);};hook();
+   addEventListener("load",()=>ST.refresh());
+  }).catch(off);
+ })();
  /* count-up numbers */
  const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;io.unobserve(e.target);
   e.target.querySelectorAll("b[data-count]").forEach(b=>{const to=+b.dataset.count,from=+(b.dataset.from||0),suf=b.dataset.suffix||"",t0=performance.now(),D=reduce?1:1600;
