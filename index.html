@@ -25,6 +25,18 @@
 [dir=rtl] .hero::after{background:linear-gradient(270deg,#0b1d35e0 0%,#0b1d3580 42%,#0b1d3500 72%)}
 .hero .wrap{position:relative;z-index:2;width:100%;padding-top:56px;padding-bottom:72px}
 .hero .txt{max-width:640px}
+.proof{display:inline-flex;align-items:center;gap:14px;margin-top:26px;text-decoration:none;background:#0b1d3566;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid #ffffff26;border-radius:999px;padding:7px 18px 7px 8px}
+[dir=rtl] .proof{padding:7px 8px 7px 18px}
+.proof .stack{display:flex}
+.proof .stack i{width:38px;height:38px;border-radius:50%;background:#fff;border:2px solid #0b1d35;display:grid;place-items:center;overflow:hidden;margin-inline-start:-10px}
+.proof .stack i:first-child{margin-inline-start:0}
+.proof .stack i img{width:78%;height:78%;object-fit:contain}
+.proof .stack i.more{background:var(--gold);color:var(--navy);font:700 12px var(--serif)}
+.proof .ptxt b{display:block;color:#fff;font-size:14.5px;font-weight:600;line-height:1.3}
+.proof .ptxt small{display:block;color:#c9ced5;font-size:12.5px}
+.proof:hover{border-color:var(--gold)}
+@media(max-width:560px){.proof .stack i{width:32px;height:32px}.proof .ptxt b{font-size:13px}.proof .ptxt small{font-size:11.5px}}
+
 .hero .eyebrow{color:#c5ad87}
 .hero h1{color:#fff;text-shadow:0 2px 18px #0006}
 .hero h1 em{font-style:normal;color:#c5ad87}
@@ -224,7 +236,7 @@ window.PAGE_T={
   projEyebrow:"Our work",projTitle:"Recent projects",projAll:"All projects →",
   trustEyebrow:"Our clients",trustTitle:"Trusted across Egypt.",trustAll:"See all clients ›",trustSub:"Hospitals, universities, government bodies and industry leaders, plus many private villas and residential buildings across Egypt.",
   ctaTitle:"Need a new elevator or a repair?",ctaText:"Tell us about your building and we will get back to you.",ctaBtn:"Contact us",profile:"Company profile (PDF)",
-  "b.Residential":"Residential buildings","b.Villa":"Villas","b.Hospital":"Hospitals","b.Mall":"Malls","b.Office":"Offices","b.Hotel":"Hotels","b.Factory":"Factories",tb1:"Since",tb2:"years of experience",tb3:"major companies & organisations",tb4:"cabin & door designs",tb5:"Plus many private villas and residential buildings",
+  "b.Residential":"Residential buildings","b.Villa":"Villas","b.Hospital":"Hospitals","b.Mall":"Malls","b.Office":"Offices","b.Hotel":"Hotels","b.Factory":"Factories",pfB:"Trusted by 25+ major organisations",pfS:"Hospitals, universities, contractors and hotels",tb1:"Since",tb2:"years of experience",tb3:"major companies & organisations",tb4:"cabin & door designs",tb5:"Plus many private villas and residential buildings",
   stmt:"Since 1997, we have designed, supplied, installed and maintained elevators across Egypt. Quietly reliable. Beautifully finished. Built around your building.",
   c1h:"From empty shaft<br><span class='soft'>to first ride.</span>",c1p:"Passenger, home, hospital and goods elevators, electric or hydraulic. Our engineers plan, install and hand over every lift.",c1a:"Request a quote ›",
   c2h:"Your cabin.<br><span class='soft'>Your finishes.</span>",c2p:"Pick the cabin, doors, call panels and floor from our collection, or design your own.",c2a:"Explore the catalog ›",
@@ -243,7 +255,7 @@ window.PAGE_T={
   projEyebrow:"أعمالنا",projTitle:"أحدث المشاريع",projAll:"كل المشاريع ←",
   trustEyebrow:"عملاؤنا",trustTitle:"ثقة في كل مصر.",trustAll:"كل العملاء ›",trustSub:"مستشفيات وجامعات وجهات حكومية وشركات كبرى، بالإضافة لعدد كبير من الفيلات والعمارات الخاصة في كل مصر.",
   ctaTitle:"محتاج مصعد جديد أو صيانة؟",ctaText:"قولنا عن مبناك وهنتواصل معاك.",ctaBtn:"تواصل معنا",profile:"بروفايل الشركة (PDF)",
-  "b.Residential":"العمارات السكنية","b.Villa":"الفيلا","b.Hospital":"المستشفيات","b.Mall":"المولات","b.Office":"المباني الإدارية","b.Hotel":"الفنادق","b.Factory":"المصانع",tb1:"منذ",tb2:"سنة خبرة",tb3:"شركة وجهة كبرى",tb4:"تصميم كابينة وباب",tb5:"بالإضافة لعدد كبير من الفيلات والعمارات الخاصة",
+  "b.Residential":"العمارات السكنية","b.Villa":"الفيلا","b.Hospital":"المستشفيات","b.Mall":"المولات","b.Office":"المباني الإدارية","b.Hotel":"الفنادق","b.Factory":"المصانع",pfB:"بيثق فينا أكتر من 25 جهة كبرى",pfS:"مستشفيات وجامعات ومقاولين وفنادق",tb1:"منذ",tb2:"سنة خبرة",tb3:"شركة وجهة كبرى",tb4:"تصميم كابينة وباب",tb5:"بالإضافة لعدد كبير من الفيلات والعمارات الخاصة",
   stmt:"منذ 1997 نصمم ونركب ونورد وبنعمل صيانة للمصاعد في كل أنحاء مصر. اعتمادية هادئة. تشطيب راقٍ. ومصمم خصيصًا لمبناك.",
   c1h:"من بئر فاضي<br><span class='soft'>لأول رحلة.</span>",c1p:"مصاعد ركاب ومنازل ومستشفيات وبضائع، كهرباء أو هيدروليك. مهندسينا بيخططوا ويركبوا ويسلموا كل مصعد.",c1a:"اطلب عرض سعر ›",
   c2h:"كابينتك.<br><span class='soft'>بتشطيباتك.</span>",c2p:"اختار الكابينة والأبواب ولوحات الطلب والأرضية من مجموعتنا، أو صمم بنفسك.",c2a:"تصفح الكتالوج ›",
@@ -263,6 +275,7 @@ window.PAGE_T={
    <h1 data-i18n-html="h1">Crafted to Match <em>Your Vision.</em></h1>
    <p class="lead" data-i18n="lead"></p>
    <div class="btns"><a class="btn red" href="quote.html" data-i18n="cta1">Request a quote</a><a class="btn navy" href="maintenance.html" data-i18n="cta2">Book maintenance</a><a class="btn ghost" href="catalog.html" data-i18n="cta3">View catalog</a></div>
+   <a class="proof" href="clients.html"><span class="stack" id="proofStack"></span><span class="ptxt"><b data-i18n="pfB"></b><small data-i18n="pfS"></small></span></a>
   </div></div>
   <div class="dots" id="dots"></div>
  </div>
@@ -455,6 +468,9 @@ if(h){const io=new IntersectionObserver(es=>{if(es[0].isIntersecting){io.disconn
    addEventListener("load",()=>ST.refresh());
   }).catch(off);
  })();
+ /* social proof: a few real client logos stacked under the hero buttons */
+ (function(){const el=document.getElementById("proofStack");if(!el)return;const pick=["arab-contractors","ccc","sonesta","ain-shams-university","italian-hospital"];
+  el.innerHTML=pick.map(k=>`<i><img src="assets/clients/${k}.png" alt="" loading="lazy"></i>`).join("")+'<i class="more" dir="ltr">+20</i>';})();
  /* count-up numbers */
  const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;io.unobserve(e.target);
   e.target.querySelectorAll("b[data-count]").forEach(b=>{const to=+b.dataset.count,from=+(b.dataset.from||0),suf=b.dataset.suffix||"",t0=performance.now(),D=reduce?1:1600;

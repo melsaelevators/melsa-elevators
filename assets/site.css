@@ -169,3 +169,15 @@ html.lenis,html.lenis body{height:auto}
 img.rv{clip-path:inset(14% 0 14% 0);transform:scale(1.12);opacity:.001;transition:clip-path 1.15s cubic-bezier(.22,.8,.22,1),transform 1.6s cubic-bezier(.22,.8,.22,1),opacity .5s ease}
 img.rv.rv-in{clip-path:inset(0 0 0 0);transform:none;opacity:1}
 @media(prefers-reduced-motion:reduce){img.rv{clip-path:none;transform:none;opacity:1}}
+
+/* shiny sweep on quote buttons */
+a.btn.red[href^="quote.html"],.lnav-cta,a.hq{position:relative;overflow:hidden;isolation:isolate}
+a.btn.red[href^="quote.html"]::after,.lnav-cta::after,a.hq::after{content:"";position:absolute;top:-20%;bottom:-20%;left:-70%;width:55%;background:linear-gradient(100deg,transparent 0,#ffffff00 15%,#ffffffbf 50%,#ffffff00 85%,transparent 100%);transform:skewX(-20deg);animation:shine 3.6s ease-in-out infinite;pointer-events:none;z-index:1}
+@keyframes shine{0%,50%{left:-70%}85%,100%{left:130%}}
+@media(prefers-reduced-motion:reduce){a.btn.red[href^="quote.html"]::after,.lnav-cta::after,a.hq::after{animation:none;display:none}}
+/* electric border around the intro logo */
+#intro .ebox{position:absolute;inset:-26px -30px -20px;pointer-events:none;opacity:0}
+#intro.go .ebox{animation:iFade .6s ease-out .3s forwards}
+#intro .ebox svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+#intro .ebox .glow{filter:blur(6px);opacity:.75}
+@media(prefers-reduced-motion:reduce){#intro .ebox{display:none}}
