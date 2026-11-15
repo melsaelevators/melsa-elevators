@@ -15,7 +15,7 @@ async function init() {
   try {
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
   } catch (e) { return; }
-  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, innerWidth < 860 ? 1.5 : 2));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.3;
@@ -215,6 +215,9 @@ async function init() {
   window.addEventListener("melsa:lang", () => { label.textContent = AR() ? FIN[cur].ar : FIN[cur].en; });
   apply(0);
   host.classList.add("has3d");
+  // if the phone drops the 3D view (low memory), show the still picture instead of a blank box
+  renderer.domElement.addEventListener("webglcontextlost", (e) => { e.preventDefault(); host.classList.remove("has3d"); });
+  renderer.domElement.addEventListener("webglcontextrestored", () => host.classList.add("has3d"));
 
   /* ---------- drag to turn ---------- */
   let drag = null, dragYaw = 0, yawVel = 0;
@@ -244,7 +247,7 @@ async function init() {
     const dt = Math.min(clock.getDelta(), 0.05);
     if (!visible) return;
     t += dt;
-    const m = parseFloat(getComputedStyle(host.closest(".chap") || host).getPropertyValue("--m")) || 1;
+    const m = 1;
     // gentle turntable: sway around the front, plus a scroll-linked turn and the user's drag
     dragYaw *= drag ? 1 : 0.985; yawVel = 0;
     const sway = reduce ? 0 : Math.sin(t * 0.32) * 0.5;
