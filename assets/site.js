@@ -106,8 +106,13 @@ let tm; function toast(m){let el=document.querySelector(".toast");if(!el){el=doc
 /* copy each request into the company CRM (fire-and-forget; WhatsApp/email still opens as before) */
 function crmLead(d){try{fetch("https://help.melsaelevators.com/public/lead",{method:"POST",mode:"no-cors",keepalive:true,headers:{"Content-Type":"text/plain"},body:JSON.stringify(Object.assign({page:location.pathname},d))});}catch(e){}}
 /* Google Ads conversions: add each conversion label here once created in Google Ads */
+/* LinkedIn Insight Tag: put the Partner ID from Campaign Manager here (and the lead conversion ID when it exists) */
+const LI_TAG={partner:"",leadConversion:""};
+(function(){if(!LI_TAG.partner||location.hostname==="localhost")return;window._linkedin_partner_id=LI_TAG.partner;window._linkedin_data_partner_ids=[LI_TAG.partner];
+ if(!window.lintrk){window.lintrk=function(a,b){window.lintrk.q.push([a,b])};window.lintrk.q=[];}
+ const x=document.createElement("script");x.async=true;x.src="https://snap.licdn.com/li.lms-analytics/insight.min.js";document.head.appendChild(x);})();
 const ADS={id:"AW-18534844415",labels:{call:"PRCdCI2I4KwdEP-PjYZF",whatsapp:"PRCdCI2I4KwdEP-PjYZF",lead:"PRCdCI2I4KwdEP-PjYZF"}};
-function adsEvent(kind,extra){try{if(!window.gtag)return;gtag("event",kind==="lead"?"generate_lead":kind+"_click",Object.assign({send_to:"G-Y590JD5FM6",method:kind},extra||{}));const l=ADS.labels[kind];gtag("event",l?"conversion":kind+"_click",Object.assign(l?{send_to:ADS.id+"/"+l}:{},extra||{}));}catch(e){}}
+function adsEvent(kind,extra){try{if(kind==="lead"&&LI_TAG.leadConversion&&window.lintrk)lintrk("track",{conversion_id:+LI_TAG.leadConversion});}catch(e){}try{if(!window.gtag)return;gtag("event",kind==="lead"?"generate_lead":kind+"_click",Object.assign({send_to:"G-Y590JD5FM6",method:kind},extra||{}));const l=ADS.labels[kind];gtag("event",l?"conversion":kind+"_click",Object.assign(l?{send_to:ADS.id+"/"+l}:{},extra||{}));}catch(e){}}
 document.addEventListener("click",e=>{const a=e.target.closest&&e.target.closest("a[href]");if(!a)return;const h=a.getAttribute("href")||"";
  if(h.startsWith("tel:"))adsEvent("call");else if(/wa\.me\//.test(h))adsEvent("whatsapp");},true);
 function send(subject,text){
