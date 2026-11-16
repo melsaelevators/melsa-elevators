@@ -39,6 +39,8 @@ window.MELSA_SITE = {
       photos: ["assets/projects/al-seddik/1.jpg?v=3"] },
     { name_en: "Italian Hospital Umberto I, Cairo", name_ar: "المستشفى الإيطالي أومبرتو الأول بالقاهرة", logo: "assets/clients/italian-hospital.png", cat: "hospitals" },
     { name_en: "Ain Shams University", name_ar: "جامعة عين شمس", logo: "assets/clients/ain-shams-university.png", cat: "education" },
+    { name_en: "Suez Canal University", name_ar: "جامعة قناة السويس", logo: "assets/clients/suez-canal-university.png", cat: "education",
+      photos: ["assets/projects/suez-canal-university/1.jpg"] },
     { name_en: "Al-Azhar University", name_ar: "جامعة الأزهر", logo: "assets/clients/al-azhar-university.png", cat: "education" },
     { name_en: "Canadian International College (CIC)", name_ar: "الكلية الكندية الدولية", logo: "assets/clients/cic.png", cat: "education" },
     { name_en: "The Arab Contractors", name_ar: "المقاولون العرب", logo: "assets/clients/arab-contractors.png", cat: "construction" },
