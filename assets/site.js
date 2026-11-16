@@ -35,11 +35,11 @@ const ICON={
 const G_ICON=ICON.google, FB_ICON=ICON.facebook, IG_ICON=ICON.instagram, WA_ICON=ICON.whatsapp;
 
 /* header & footer */
-const NAV=[["home","./"],["about","about.html"],["catalog","catalog.html"],["clients","clients.html"],["maint","maintenance.html"],["consult","consulting.html"],["contact","contact.html"]];
+const NAV=[["home","./"],["about","about.html"],["catalog","catalog.html"],["projects","projects.html"],["clients","clients.html"],["maint","maintenance.html"],["consult","consulting.html"],["contact","contact.html"]];
 const SUB={
  elev:[["villa","villa-elevators.html"],["pano","panoramic-elevators.html"],["bldg","building-elevators.html"],["prices","elevator-prices.html"],["iNewCairo","elevator-installation-new-cairo.html"],["iNasr","elevator-installation-nasr-city.html"]],
  maint:[["maintReq","maintenance.html"],["mNewCairo","elevator-maintenance-new-cairo.html"],["mNasr","elevator-maintenance-nasr-city.html"],["mCairo","elevator-maintenance-cairo.html"],["repair","elevator-repair.html"],["modern","elevator-modernization.html"]]};
-const TOPNAV=[["home","./"],["about","about.html"],["elev",null],["maint",null],["catalog","catalog.html"],["clients","clients.html"],["consult","consulting.html"],["contact","contact.html"]];
+const TOPNAV=[["home","./"],["about","about.html"],["elev",null],["maint",null],["catalog","catalog.html"],["projects","projects.html"],["clients","clients.html"],["consult","consulting.html"],["contact","contact.html"]];
 const here=location.pathname.split("/").pop()||"";
 const navItem=([k,h])=>{
  if(!SUB[k])return `<a href="${h}" data-k="${k}" class="${k===page?"on":""}"></a>`;
