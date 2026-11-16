@@ -20,7 +20,7 @@
       play: "Play", pause: "Pause",
       clTitle: "Take a closer look.",
       cl: [
-        ["Machine", "Quiet, efficient traction machines sized for your load and speed, installed and aligned by our engineers.", "projects/ccc/2.jpg"],
+        ["Machine", "Quiet, efficient traction machines sized for your load and speed, installed and aligned by our engineers.", "hero/05.webp"],
         ["Control panel", "Modern controllers with smooth starts, precise levelling and clear fault reporting for faster service.", "projects/ccc/3.jpg"],
         ["Landing doors", "Automatic and semi-automatic doors in stainless steel, glass, wood and colour finishes.", "private/09.webp"],
         ["Cabin", "Walls, ceiling, handrails and floor chosen from our catalog, or designed around your interior.", "private/13.webp"],
@@ -60,7 +60,7 @@
       play: "تشغيل", pause: "إيقاف",
       clTitle: "نظرة أقرب.",
       cl: [
-        ["الماكينة", "ماكينات جر هادئة وموفرة مناسبة لحمولتك وسرعتك، يركبها ويضبطها مهندسونا.", "projects/ccc/2.jpg"],
+        ["الماكينة", "ماكينات جر هادئة وموفرة مناسبة لحمولتك وسرعتك، يركبها ويضبطها مهندسونا.", "hero/05.webp"],
         ["لوحة التحكم", "لوحات تحكم حديثة بقيام ناعم ووقوف دقيق وتقارير أعطال واضحة لصيانة أسرع.", "projects/ccc/3.jpg"],
         ["الأبواب الخارجية", "أبواب أوتوماتيك ونصف أوتوماتيك من الستانلس والزجاج والخشب والألوان.", "private/09.webp"],
         ["الكابينة", "حوائط وسقف وهاندريل وأرضية من كتالوجنا، أو تصميم يناسب ديكورك.", "private/13.webp"],

@@ -15,7 +15,7 @@ async function init() {
   try {
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
   } catch (e) { return; }
-  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, innerWidth < 860 ? 1.5 : 2));
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.3;
@@ -238,7 +238,9 @@ async function init() {
     const dist = w / h < 0.9 ? 8.0 : 5.9;
     camera.position.set(dist * 0.36, 1.9, dist * 0.93); camera.lookAt(target); camera.updateProjectionMatrix();
   }
-  new ResizeObserver(resize).observe(host); resize();
+  let lastW = 0, lastH = 0;
+  new ResizeObserver(() => { const w = host.clientWidth, h = host.clientHeight; if (Math.abs(w - lastW) < 2 && Math.abs(h - lastH) < 40 && lastW) return; lastW = w; lastH = h; resize(); }).observe(host); resize();
+  const PHONE = matchMedia("(max-width: 860px)").matches;
   let visible = true;
   new IntersectionObserver((es) => { visible = es[0].isIntersecting; }, { rootMargin: "100px" }).observe(host);
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -250,11 +252,11 @@ async function init() {
     const m = 1;
     // gentle turntable: sway around the front, plus a scroll-linked turn and the user's drag
     dragYaw *= drag ? 1 : 0.985; yawVel = 0;
-    const sway = reduce ? 0 : Math.sin(t * 0.32) * 0.5;
+    const sway = reduce ? 0 : Math.sin(t * (PHONE ? 0.18 : 0.32)) * (PHONE ? 0.3 : 0.5);
     turntable.rotation.y = 0.38 + sway - (1 - m) * 0.6 + dragYaw;
     // a small "pop" when the finish changes
     pop = Math.max(0, pop - dt * 2.4);
-    const s = 1 + Math.sin(pop * Math.PI) * 0.025; cabin.scale.setScalar(s);
+    const s = PHONE ? 1 : 1 + Math.sin(pop * Math.PI) * 0.025; cabin.scale.setScalar(s);
     // auto-cycle finishes every 4.5 s while nobody is interacting
     if (!reduce && performance.now() - userPicked > 9000 && t - lastSwap > 4.5) { lastSwap = t; apply((cur + 1) % FIN.length); }
     renderer.render(scene, camera);
