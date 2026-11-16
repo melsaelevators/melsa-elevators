@@ -107,7 +107,7 @@ let tm; function toast(m){let el=document.querySelector(".toast");if(!el){el=doc
 function crmLead(d){try{fetch("https://help.melsaelevators.com/public/lead",{method:"POST",mode:"no-cors",keepalive:true,headers:{"Content-Type":"text/plain"},body:JSON.stringify(Object.assign({page:location.pathname},d))});}catch(e){}}
 /* Google Ads conversions: add each conversion label here once created in Google Ads */
 /* LinkedIn Insight Tag: put the Partner ID from Campaign Manager here (and the lead conversion ID when it exists) */
-const LI_TAG={partner:"10095162",leadConversion:""};
+const LI_TAG={partner:"10095162",leadConversion:"32379714"};
 (function(){if(!LI_TAG.partner||location.hostname==="localhost")return;window._linkedin_partner_id=LI_TAG.partner;window._linkedin_data_partner_ids=[LI_TAG.partner];
  if(!window.lintrk){window.lintrk=function(a,b){window.lintrk.q.push([a,b])};window.lintrk.q=[];}
  const x=document.createElement("script");x.async=true;x.src="https://snap.licdn.com/li.lms-analytics/insight.min.js";document.head.appendChild(x);})();
