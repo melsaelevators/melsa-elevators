@@ -15,7 +15,8 @@ async function init() {
   try {
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
   } catch (e) { return; }
-  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+  renderer.setPixelRatio(Math.min(Math.max(devicePixelRatio || 1, 1.5) * 1.25, 2.5));
+  const MAXANI = renderer.capabilities.getMaxAnisotropy();
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.3;
@@ -47,24 +48,24 @@ async function init() {
     const c = document.createElement("canvas"); c.width = w; c.height = h;
     draw(c.getContext("2d"), w, h);
     const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace;
-    t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(...rep); t.anisotropy = 8; return t;
+    t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(...rep); t.anisotropy = MAXANI; t.generateMipmaps = true; t.minFilter = THREE.LinearMipmapLinearFilter; return t;
   };
-  const brushed = (base) => canvasTex(512, 512, (g, w, h) => {
+  const brushed = (base) => canvasTex(1024, 1024, (g, w, h) => {
     g.fillStyle = base; g.fillRect(0, 0, w, h);
-    for (let i = 0; i < 2600; i++) {
-      const y = Math.random() * h, a = Math.random() * 0.045;
+    for (let i = 0; i < 3200; i++) {
+      const y = Math.random() * h, a = Math.random() * 0.03;
       g.fillStyle = Math.random() < 0.5 ? `rgba(255,255,255,${a})` : `rgba(0,0,0,${a * 0.8})`;
-      g.fillRect(0, y, w, 0.6 + Math.random());
+      g.fillRect(0, y, w, 1 + Math.random() * 1.4);
     }
   });
-  const wood = canvasTex(512, 1024, (g, w, h) => {
+  const wood = canvasTex(1024, 2048, (g, w, h) => {
     const grd = g.createLinearGradient(0, 0, w, 0);
     grd.addColorStop(0, "#5a3620"); grd.addColorStop(0.5, "#6e4428"); grd.addColorStop(1, "#553219");
     g.fillStyle = grd; g.fillRect(0, 0, w, h);
-    for (let i = 0; i < 140; i++) {
+    for (let i = 0; i < 220; i++) {
       let x = Math.random() * w; g.strokeStyle = `rgba(${30 + Math.random() * 30},${15 + Math.random() * 15},5,${0.15 + Math.random() * 0.25})`;
-      g.lineWidth = 0.6 + Math.random() * 2.4; g.beginPath(); g.moveTo(x, 0);
-      for (let y = 0; y <= h; y += 32) { x += (Math.random() - 0.5) * 6; g.lineTo(x + Math.sin(y / 90 + i) * 4, y); }
+      g.lineWidth = 1.4 + Math.random() * 4; g.beginPath(); g.moveTo(x, 0);
+      for (let y = 0; y <= h; y += 48) { x += (Math.random() - 0.5) * 8; g.lineTo(x + Math.sin(y / 180 + i) * 8, y); }
       g.stroke();
     }
   });
@@ -72,7 +73,7 @@ async function init() {
   const photo = (src, rep = 1) => {
     const t = loader.load(src); t.colorSpace = THREE.SRGBColorSpace;
     // catalog thumbnails have a white margin, so only sample the middle of the photo
-    t.repeat.set(0.56 * rep, 0.56 * rep); t.offset.set(0.22, 0.22); t.anisotropy = 8; return t;
+    t.repeat.set(0.56 * rep, 0.56 * rep); t.offset.set(0.22, 0.22); t.anisotropy = MAXANI; return t;
   };
 
   /* ---------- materials ---------- */
@@ -91,10 +92,10 @@ async function init() {
     display: new THREE.MeshStandardMaterial({ color: 0x111111, emissive: 0xc5ad87, emissiveIntensity: 0.9 }),
   };
   const floors = {
-    granite: photo("assets/thumbs-lg/flooring_samples_05.jpg"),
-    blackMarble: photo("assets/thumbs-lg/flooring_samples_10.jpg"),
-    whiteMarble: photo("assets/thumbs-lg/flooring_samples_02.jpg"),
-    darkGranite: photo("assets/thumbs-lg/flooring_samples_08.jpg"),
+    granite: photo("assets/flooring_samples_05.webp"),
+    blackMarble: photo("assets/flooring_samples_10.jpeg"),
+    whiteMarble: photo("assets/flooring_samples_02.webp"),
+    darkGranite: photo("assets/flooring_samples_08.webp"),
   };
   const floorMat = new THREE.MeshPhysicalMaterial({ map: floors.granite, roughness: 0.32, metalness: 0, clearcoat: 0.35, clearcoatRoughness: 0.25 });
 

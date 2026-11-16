@@ -123,7 +123,7 @@
 .trio .r{transform:translateX(calc(var(--m,1) * 100%)) scale(.88);opacity:var(--m,1)}
 .trio .l .spin{animation-delay:-2.3s}.trio .r .spin{animation-delay:-4.6s;animation-direction:alternate-reverse}
 @keyframes sway{0%{transform:rotateY(-24deg) translateY(0)}50%{transform:rotateY(0deg) translateY(-8px)}100%{transform:rotateY(24deg) translateY(0)}}
-.trio.has3d{width:min(1100px,96vw);height:min(62vh,640px);transform:scale(calc(.94 + .06 * var(--m,1)));opacity:calc(.25 + .75 * var(--m,1))}
+.trio.has3d{width:min(1100px,96vw);height:min(62vh,640px);transform:none;opacity:1;will-change:auto}
 .trio.has3d .cab{display:none}
 .cab-poster{position:absolute;left:50%;top:0;height:calc(100% - 64px);width:auto;max-width:90%;object-fit:contain;transform:translateX(-50%);transition:opacity .5s;filter:drop-shadow(0 26px 22px #0b1d3533)}
 .trio.has3d .cab-poster{opacity:0;pointer-events:none}
